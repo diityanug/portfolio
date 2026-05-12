@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Telegraf Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Telegraf Regular'), url('TelegrafRegular_272984568a25d8528fe2de8b20b29011.woff') format('woff');
+    }
+
+@font-face {
+  font-family: 'Libre Franklin';
+  src: url('/fonts/LibreFranklin-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+}
+
+body {
+  background-color: white;
+  margin: 0;
+  overflow-x: hidden;
+}
