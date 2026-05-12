@@ -8,6 +8,7 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About Me', path: '/about' },
     { name: 'Experience', path: '/experience' },
+    { name: 'Education & Certifications', path: '/education' },
     { name: 'Projects', path: '/projects' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -25,9 +26,18 @@ const Navbar = () => {
               <Link 
                 key={link.path}
                 to={link.path} 
-                className={`${location.pathname === link.path ? 'opacity-100' : 'opacity-40'} hover:opacity-100 transition-all duration-300`}
+                className={`${
+                  location.pathname === link.path ? 'opacity-100' : 'opacity-40'
+                } hover:opacity-100 transition-all duration-300 flex items-center`}
               >
-                {link.name}
+                {link.name === 'Education & Certifications' ? (
+                  <span className="flex flex-col leading-[1.1] text-center">
+                    <span>Education &</span>
+                    <span>Certifications</span>
+                  </span>
+                ) : (
+                  link.name
+                )}
               </Link>
             ))}
           </div>

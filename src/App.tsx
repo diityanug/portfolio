@@ -7,7 +7,8 @@ import ExperiencePage from './components/ExperiencePage';
 import ProjectsPage from './components/ProjectsPage';
 import ContactPage from './components/ContactPage';
 import PageWrapper from './components/PageWrapper';
-import FloatingBackground from './components/FloatingBackground'; // Import baru
+import FloatingBackground from './components/FloatingBackground';
+import EduCertPage from './components/EduCertPage';
 
 // Komponen internal untuk menangani transisi halaman
 const AnimatedRoutes = () => {
@@ -19,6 +20,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
         <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
         <Route path="/experience" element={<PageWrapper><ExperiencePage /></PageWrapper>} />
+        <Route path="/education" element={<PageWrapper><EduCertPage /></PageWrapper>} />
         <Route path="/projects" element={<PageWrapper><ProjectsPage /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><ContactPage /></PageWrapper>} />
       </Routes>
