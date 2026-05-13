@@ -2,21 +2,158 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================
+   FONTS (UNCHANGED)
+========================= */
 @font-face {
     font-family: 'Telegraf Regular';
     font-style: normal;
     font-weight: normal;
     src: local('Telegraf Regular'), url('TelegrafRegular_272984568a25d8528fe2de8b20b29011.woff') format('woff');
-    }
-
-@font-face {
-  font-family: 'Libre Franklin';
-  src: url('/fonts/LibreFranklin-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
 }
 
-body {
+@font-face {
+  font-family: 'Poppins ExtraLight';
+  src: url('/fonts/Poppins-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Le Jour Serif';
+  src: url('/fonts/Le Jour Serif Personal Use Only.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'The Seasons Italic';
+  src: url('/fonts/TheSeasons-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* =========================
+   GLOBAL BASE
+========================= */
+html, body {
   background-color: white;
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: clip; 
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none; 
+}
+
+/* =========================
+   TEXTURE SYSTEM
+========================= */
+
+/* 🔹 Base helper (WAJIB dipakai di section) */
+.section-texture {
+  position: relative;
+  isolation: isolate;
+}
+
+.section-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* =========================
+   HOME → grain (clean premium)
+========================= */
+.texture-grain::before {
+  background-image: url("https://www.transparenttextures.com/patterns/noise.png");
+  opacity: 0.06;
+}
+
+/* =========================
+   ABOUT → continuous moving lines
+========================= */
+.texture-about {
+  position: relative;
+  isolation: isolate;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.texture-about::before {
+  content: "";
+  position: absolute;
+  inset: -50%; /* lebih besar biar gerakan ga kepotong */
+  z-index: -1;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.03) 0px,
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 18px
+  );
+
+  animation: moveLines 20s linear infinite;
+}
+
+/* 🔥 gerakan diagonal smooth */
+@keyframes moveLines {
+  from {
+    transform: translate(0%, 0%);
+  }
+  to {
+    transform: translate(-20%, 20%);
+  }
+}
+
+/* =========================
+   EXPERIENCE → lines (timeline feel)
+========================= */
+.texture-lines::before {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05),
+    rgba(0,0,0,0.05) 1px,
+    transparent 1px,
+    transparent 40px
+  );
+}
+
+/* =========================
+   PROJECTS → dots (creative)
+========================= */
+.texture-dots::before {
+  background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* =========================
+   CONTACT → soft fade (calm ending)
+========================= */
+.texture-fade::before {
+  background: radial-gradient(
+    circle at center,
+    rgba(0,0,0,0.05),
+    transparent 70%
+  );
+}
+
+/* =========================
+   OPTIONAL ENHANCEMENTS
+========================= */
+
+/* biar texture lebih halus blend */
+.texture-soft::before {
+  mix-blend-mode: multiply;
+}
+
+/* subtle gradient layer */
+.section-gradient {
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
 }

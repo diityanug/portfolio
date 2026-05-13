@@ -6,25 +6,24 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col px-8 md:px-16 pb-16 min-h-[calc(100vh-116px)] justify-end">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
-        <div className="lg:col-span-7 flex flex-col items-start">
-          <h1 className="font-telegraf font-bold text-[82.4px] leading-[0.95] tracking-tight mb-10">
-            {/* Nama Baris 1 */}
-            <Typewriter text="Aditya Nugraha" />
-            <br />
-            {/* Nama Baris 2 - Mulai setelah Baris 1 selesai (~1.2 detik) */}
-            <Typewriter text="Irwan" delay={1.2} />
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 items-end">
+        
+        {/* Kolom Kiri */}
+        <div className="xl:col-span-7 flex flex-col items-start mb-12 xl:mb-0">
+          <h1 className="font-lejour font-normal text-5xl md:text-7xl xl:text-[90px] leading-[0.9] tracking-tight mb-6 md:mb-7">
+            <div className="pb-4"><Typewriter text="Aditya Nugraha" /></div>
+            <div><Typewriter text="Irwan" delay={0.6} /></div>
           </h1>
           
           <div className="w-full max-w-[400px] border-t border-black/20 mb-6"></div>
           
-          <p className="font-libre text-3xl font-extralight tracking-tight">
-            {/* Job Title - Mulai paling terakhir */}
-            <Typewriter text="Software Engineer" delay={1.8} />
+          <p className="font-poppins text-base md:text-xl xl:text-[25px] leading-relaxed text-gray-800 font-extralight text-left">
+            <Typewriter text="Software Engineer | Frontend Engineer | Machine Learning" delay={1.8} />
           </p>
         </div>
 
-        <div className="lg:col-span-5 flex flex-col items-end w-full">
+        {/* Kolom Kanan: Foto dan Tombol */}
+        <div className="xl:col-span-5 flex flex-col items-end w-full">
           <div className="flex gap-4 mb-12 w-full justify-end">
             <div className="w-1/2 max-w-[240px] aspect-[3/4] overflow-hidden">
               <img src="/images/architecture-1.jpg" alt="1" className="w-full h-full object-cover grayscale contrast-125" />
@@ -41,6 +40,7 @@ const HomePage = () => {
             Get in touch
           </button>
         </div>
+        
       </div>
     </div>
   );
