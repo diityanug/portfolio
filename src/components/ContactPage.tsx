@@ -9,16 +9,13 @@ const ContactPage = () => {
           <Typewriter text="Let’s Build Something Great!" />
         </h1>
         
-        {/* FIX DI SINI: Pake div supaya container-nya nge-wrap, dan Typewriter dipisah biar aman */}
         <div className="mt-4 md:mt-6 font-poppins text-xl md:text-3xl font-extralight tracking-tight max-w-3xl text-gray-800 leading-snug">
           <div className="block md:hidden">
-            {/* Versi Mobile: Teks dipotong manual biar gak offside */}
             <Typewriter text="I’m always excited to work on" />
             <br />
             <Typewriter text="meaningful projects. Reach out anytime." delay={1.5} />
           </div>
           <div className="hidden md:block">
-            {/* Versi Desktop: Tetap satu baris manis */}
             <Typewriter text="I’m always excited to work on meaningful projects. Reach out anytime." />
           </div>
         </div>

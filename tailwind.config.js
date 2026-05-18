@@ -8,6 +8,7 @@ export default {
         telegraf: ['Telegraf', 'sans-serif'],
         poppins: ['"Poppins ExtraLight"', 'sans-serif'],
         seasons: ['"The Seasons Italic"', 'serif'],
+        google: ['"Google Sans"', 'sans-serif'],
       },
     },
   },

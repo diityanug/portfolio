@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const isAbout = location.pathname === '/about';
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
@@ -23,7 +24,9 @@ const Navbar = () => {
   } as any;
 
   return (
-    <nav className="w-full py-6 md:py-10 px-4 md:px-16 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+    <nav className={`w-full py-6 md:py-10 px-4 md:px-16 backdrop-blur-md sticky top-0 z-50 transition-colors duration-500 ${
+      isAbout ? 'navbar-about' : 'bg-white/80'
+    }`}>
       
       <div className="flex items-center w-full h-8 relative min-w-0">
         
@@ -31,7 +34,9 @@ const Navbar = () => {
         <motion.div 
           layout="size"
           transition={springTransition}
-          className="h-[1px] bg-black/20 flex-grow shrink min-w-[40px] md:min-w-[80px] origin-left will-change-transform"
+          className={`h-[1px] flex-grow shrink min-w-[40px] md:min-w-[80px] origin-left will-change-transform transition-colors duration-500 nav-line ${
+            isAbout ? 'bg-white/25' : 'bg-black/20'
+          }`}
         />
 
         {/* SPACER */}
@@ -41,7 +46,7 @@ const Navbar = () => {
           className="w-[clamp(8px,2vw,40px)] shrink-0"
         />
 
-        {/* 🔥 PENTING: Container kanan ikut layout */}
+        {/* Container kanan */}
         <motion.div 
           layout
           transition={springTransition}
@@ -55,9 +60,11 @@ const Navbar = () => {
                 key="welcome"
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 60 }} // 👉 keluar ke kanan
+                exit={{ opacity: 0, x: 60 }}
                 transition={springTransition}
-                className="font-google font-bold text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] uppercase whitespace-nowrap"
+                className={`nav-text font-google font-bold text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] uppercase whitespace-nowrap transition-colors duration-500 ${
+                  isAbout ? 'text-white/90' : 'text-black'
+                }`}
               >
                 Welcome
               </motion.div>
@@ -65,9 +72,9 @@ const Navbar = () => {
               <motion.div
                 layout
                 key="nav-links"
-                initial={{ opacity: 0, x: 60 }} // 👉 masuk dari kanan
+                initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 40 }} // 👉 keluar ke kanan juga (biar konsisten arah)
+                exit={{ opacity: 0, x: 40 }}
                 transition={springTransition}
                 className="flex items-center gap-5 lg:gap-8"
               >
@@ -76,9 +83,9 @@ const Navbar = () => {
                     <Link 
                       key={link.path}
                       to={link.path} 
-                      className={`${
+                      className={`nav-link transition-all duration-300 flex items-center shrink-0 ${
                         location.pathname === link.path ? 'opacity-100' : 'opacity-40'
-                      } hover:opacity-100 transition-all duration-300 flex items-center shrink-0`}
+                      } ${isAbout ? 'text-white' : 'text-black'} hover:opacity-100`}
                     >
                       {link.name}
                     </Link>
@@ -89,9 +96,15 @@ const Navbar = () => {
                   onClick={() => setIsOpen(!isOpen)}
                   className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 z-50 focus:outline-none"
                 >
-                  <span className={`w-6 h-[2px] bg-black transition-all duration-300 ${isOpen ? 'rotate-45 translate-y-[7px]' : ''}`}></span>
-                  <span className={`w-6 h-[2px] bg-black transition-all duration-300 ${isOpen ? 'opacity-0' : ''}`}></span>
-                  <span className={`w-6 h-[2px] bg-black transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-[7px]' : ''}`}></span>
+                  <span className={`hamburger-line w-6 h-[2px] transition-all duration-300 ${
+                    isAbout ? 'bg-white' : 'bg-black'
+                  } ${isOpen ? 'rotate-45 translate-y-[7px]' : ''}`}></span>
+                  <span className={`hamburger-line w-6 h-[2px] transition-all duration-300 ${
+                    isAbout ? 'bg-white' : 'bg-black'
+                  } ${isOpen ? 'opacity-0' : ''}`}></span>
+                  <span className={`hamburger-line w-6 h-[2px] transition-all duration-300 ${
+                    isAbout ? 'bg-white' : 'bg-black'
+                  } ${isOpen ? '-rotate-45 -translate-y-[7px]' : ''}`}></span>
                 </button>
               </motion.div>
             )}
@@ -100,6 +113,7 @@ const Navbar = () => {
         </motion.div>
       </div>
 
+      {/* Mobile dropdown */}
       <AnimatePresence>
         {!isHome && isOpen && (
           <motion.div
@@ -110,16 +124,20 @@ const Navbar = () => {
               ...springTransition,
               delay: 0.05
             }}
-            className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-md flex flex-col items-center pt-0 pb-9 gap-6 border-b border-black md:hidden shadow-sm"
+            className={`absolute top-full left-0 w-full backdrop-blur-md flex flex-col items-center pt-0 pb-9 gap-6 border-b md:hidden shadow-sm transition-colors duration-500 ${
+              isAbout 
+                ? 'bg-[#526B55]/95 border-white/20' 
+                : 'bg-white/90 border-black'
+            }`}
           >
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`font-google font-bold text-[11px] tracking-[0.2em] uppercase ${
+                className={`font-google font-bold text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${
                   location.pathname === link.path ? 'opacity-100' : 'opacity-40'
-                }`}
+                } ${isAbout ? 'text-white' : 'text-black'}`}
               >
                 {link.name}
               </Link>

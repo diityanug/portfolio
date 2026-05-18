@@ -33,6 +33,13 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans-VariableFont.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
 /* =========================
    GLOBAL BASE
 ========================= */
@@ -48,11 +55,8 @@ html, body {
   display: none; 
 }
 
-/* =========================
-   TEXTURE SYSTEM
-========================= */
+/* TEXTURE SYSTEM */
 
-/* 🔹 Base helper (WAJIB dipakai di section) */
 .section-texture {
   position: relative;
   isolation: isolate;
@@ -66,17 +70,35 @@ html, body {
   z-index: -1;
 }
 
-/* =========================
-   HOME → grain (clean premium)
-========================= */
-.texture-grain::before {
-  background-image: url("https://www.transparenttextures.com/patterns/noise.png");
-  opacity: 0.06;
+/* HOME Section */
+.texture-dots::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image: radial-gradient(rgba(0,0,0,0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+
+ animation: breatheDots 6s ease-in-out infinite;
+
+  mask-image: radial-gradient(circle, black 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle, black 70%, transparent 100%);
 }
 
-/* =========================
-   ABOUT → continuous moving lines
-========================= */
+@keyframes breatheDots {
+  0%, 100% {
+    opacity: 0.06;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1000;
+    transform: scale(1.05);
+  }
+}
+
+/* ABOUT Section */
 .texture-about {
   position: relative;
   isolation: isolate;
@@ -87,7 +109,7 @@ html, body {
 .texture-about::before {
   content: "";
   position: absolute;
-  inset: -50%; /* lebih besar biar gerakan ga kepotong */
+  inset: -50%;
   z-index: -1;
   pointer-events: none;
 
@@ -102,7 +124,6 @@ html, body {
   animation: moveLines 20s linear infinite;
 }
 
-/* 🔥 gerakan diagonal smooth */
 @keyframes moveLines {
   from {
     transform: translate(0%, 0%);
@@ -112,9 +133,7 @@ html, body {
   }
 }
 
-/* =========================
-   EXPERIENCE → lines (timeline feel)
-========================= */
+/* EXPERIENCE Section */
 .texture-lines::before {
   background-image: repeating-linear-gradient(
     to bottom,
@@ -125,17 +144,13 @@ html, body {
   );
 }
 
-/* =========================
-   PROJECTS → dots (creative)
-========================= */
+/* PROJECTS Section */
 .texture-dots::before {
   background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
   background-size: 30px 30px;
 }
 
-/* =========================
-   CONTACT → soft fade (calm ending)
-========================= */
+/* CONTACT Section */
 .texture-fade::before {
   background: radial-gradient(
     circle at center,
@@ -144,16 +159,11 @@ html, body {
   );
 }
 
-/* =========================
-   OPTIONAL ENHANCEMENTS
-========================= */
 
-/* biar texture lebih halus blend */
 .texture-soft::before {
   mix-blend-mode: multiply;
 }
 
-/* subtle gradient layer */
 .section-gradient {
   background: linear-gradient(to bottom, #ffffff, #f9fafb);
 }

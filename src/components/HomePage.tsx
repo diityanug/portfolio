@@ -5,10 +5,11 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col px-8 md:px-16 pb-16 min-h-[calc(100vh-116px)] justify-end">
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 items-end">
+    <div className="section-texture texture-dots relative flex flex-col px-8 md:px-16 pb-16 min-h-[calc(100vh-116px)] justify-end">
+      
+      <div className="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-12 items-end">
         
-        {/* Kolom Kiri */}
+        {/* Left Content */}
         <div className="xl:col-span-7 flex flex-col items-start mb-12 xl:mb-0">
           <h1 className="font-lejour font-normal text-5xl md:text-7xl xl:text-[90px] leading-[0.9] tracking-tight mb-6 md:mb-7">
             <div className="pb-4"><Typewriter text="Aditya Nugraha" /></div>
@@ -22,7 +23,7 @@ const HomePage = () => {
           </p>
         </div>
 
-        {/* Kolom Kanan: Foto dan Tombol */}
+        {/* Right Content */}
         <div className="xl:col-span-5 flex flex-col items-end w-full">
           <div className="flex gap-4 mb-12 w-full justify-end">
             <div className="w-1/2 max-w-[240px] aspect-[3/4] overflow-hidden">
