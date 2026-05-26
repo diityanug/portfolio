@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import Typewriter from './Typewriter';
 
 const AboutPage = () => {
@@ -41,110 +43,190 @@ const AboutPage = () => {
     }
   ];
 
+  // --- ANIMATION VARIANTS ---
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.33, 1, 0.68, 1] } }
+  };
+
+  const lineVariants: Variants = {
+    hidden: { scaleX: 0, originX: 0 },
+    show: { scaleX: 1, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }
+  };
+
+  const revealImage: Variants = {
+    hidden: { clipPath: "inset(100% 0 0 0)" },
+    show: { clipPath: "inset(0% 0 0 0)", transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }
+  };
+
   return (
-    <div className="texture-about flex flex-col px-8 md:px-16 pb-16 min-h-[calc(100vh-116px)] pt-4 md:pt-12">
-      
-      {/* SECTION: ABOUT ME */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-10 xl:gap-12 items-start mb-24">
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col pt-16 md:pt-20 px-8 md:px-16 pb-24 min-h-[calc(100vh-116px)] bg-white"
+    >
+      <div className="w-full max-w-[1400px] mx-auto">
         
-        {/* First Line : Title 'About Me' */}
-        <div className="xl:col-span-3 flex flex-col">
-          <h1 className="font-lejour font-normal text-6xl md:text-[82.4px] leading-[0.9] mb-4 tracking-tight">
-            <div className="pb-4"><Typewriter text="About" /></div>
-            <div><Typewriter text="Me" delay={0.3} /></div>
-          </h1>
-          <div className="w-16 border-t-2 border-black/30 mt-6 mb-8 xl:mb-0"></div>
+        {/* ================= SECTION: ABOUT ME ================= */}
+        <div className="flex flex-col-reverse xl:flex-row gap-12 xl:gap-20 items-center xl:items-start mb-24">
           
-        </div>
-        
-        {/* Sec. Line : Profile Picture Section */}
-        <div className="xl:col-span-4 flex w-full justify-center xl:justify-start xl:pl-10">
-          <div className="w-full max-w-[260px] xl:max-w-[280px] aspect-[4/5] overflow-hidden bg-gray-50 border border-black/5">
-            <img 
-              src="/images/ictures.jpg" 
-              alt="Aditya Nugraha Irwan" 
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-              onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            />
+          {/* KIRI: Interactive Profile Picture */}
+          <motion.div variants={itemVariants} className="w-full xl:w-4/12 flex justify-center xl:justify-start xl:pl-8">
+            <div className="relative z-10 group cursor-pointer w-full max-w-[220px] md:max-w-[260px] xl:max-w-[280px]">
+              
+              {/* Background Offset Box */}
+              <div className="absolute -bottom-4 -left-4 md:-bottom-5 md:-left-5 w-full h-full bg-[#5E7657] transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 -z-10" />
+              
+              <motion.div variants={revealImage} className="w-full aspect-[4/5] overflow-hidden bg-gray-50 border border-black/5 shadow-sm relative">
+                <img 
+                  src="/images/ictures.jpg" 
+                  alt="Aditya Nugraha Irwan" 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* KANAN: Text Content */}
+          <div className="w-full xl:w-8/12 flex flex-col pt-4">
+            {/* PERBAIKAN: Menghapus properti motion (variants={itemVariants}) agar Typewriter tampil utuh tanpa efek fade-up yang saling tubruk */}
+            <h1 className="font-lejour font-normal text-6xl md:text-[82px] leading-[0.9] tracking-tight text-[#2A2320] mb-8">
+              <div className="pb-3"><Typewriter text="About" /></div>
+              <div><Typewriter text="Me" delay={0.3} /></div>
+            </h1>
+            
+            <motion.div variants={lineVariants} className="w-24 border-t-2 border-black/30 mb-8" />
+            
+            {/* Membungkus paragraf dengan motion.div agar teks isinya tetap mengikuti alur stagger animasi */}
+            <motion.div variants={itemVariants} className="flex flex-col gap-6 w-full max-w-2xl">
+              <p className="font-poppins text-lg md:text-xl leading-relaxed text-gray-700 font-light text-justify">
+                aku adalah sipaling palah
+              </p>
+              <p className="font-poppins text-lg md:text-xl leading-relaxed text-gray-700 font-light text-justify">
+                nah ini gatau nih mau nulis apa.
+              </p>
+            </motion.div>
           </div>
         </div>
 
-        {/* Third Line : Deskripsi Profil (Rata Kiri-Kanan) */}
-        <div className="xl:col-span-5 flex flex-col gap-6">
-          <p className="font-poppins text-lg leading-relaxed text-gray-800 font-extralight text-justify mt-2 xl:mt-0">
-            aku adalah sipaling palah
-          </p>
-          <p className="font-poppins text-lg leading-relaxed text-gray-800 font-extralight text-justify">
-            nah ini gatau nih mau nulis apa.
-          </p>
-        </div>
-      </div>
+        {/* Divider Besar */}
+        <motion.div variants={lineVariants} className="w-full border-t border-black/10 mb-16" />
 
-      <div className="w-full border-t border-black/10 mb-20"></div>
+        {/* ================= SECTION: EDUCATION & CERTIFICATES ================= */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 xl:gap-24">
+          
+          {/* --- EDUCATION --- */}
+          <div className="flex flex-col items-start w-full">
+            <motion.h2 
+              variants={itemVariants}
+              style={{ fontFamily: "'The Seasons Italic', serif" }}
+              className="text-4xl md:text-5xl tracking-tight text-[#2A2320] mb-10"
+            >
+              Education
+            </motion.h2>
 
-      {/* Education and Certificates Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-        
-        {/* Education Section */}
-        <div className="flex flex-col">
-          <h2 className="font-lejour font-normal text-5xl mb-10 tracking-tight">
-            <Typewriter text="Education" />
-          </h2>
-          <div className="flex flex-col gap-10">
-            {education.map((edu, i) => (
-              <div key={i} className="group">
-                <span className="font-poppins text-sm text-gray-400 tracking-widest uppercase">{edu.period}</span>
-                <div className="mt-1">
-                  <a href={edu.link} target="_blank" rel="noopener noreferrer" className="inline-block">
-                    <h3 className="font-poppins font-bold text-2xl hover:text-gray-500 transition-colors cursor-pointer">
-                      {edu.degree} <span className="text-sm align-top opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span>
-                    </h3>
+            <div className="flex flex-col gap-6 w-full">
+              {education.map((edu, i) => (
+                <motion.div variants={itemVariants} key={i} className="w-full">
+                  <a 
+                    href={edu.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="block group bg-white border border-black/5 hover:border-black/20 p-6 md:p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
+                  >
+                    {/* Aksen Hijau yang muncul saat hover */}
+                    <div className="absolute top-0 left-0 w-1 h-full bg-[#5E7657] scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-out" />
+                    
+                    <span className="font-telegraf text-xs text-gray-400 tracking-widest uppercase mb-2 block">
+                      {edu.period}
+                    </span>
+                    
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="font-poppins font-bold text-xl md:text-2xl text-[#2A2320] group-hover:text-[#5E7657] transition-colors">
+                        {edu.degree}
+                      </h3>
+                      {/* Panah Interaktif */}
+                      <span className="text-xl text-gray-300 group-hover:text-[#5E7657] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300">
+                        ↗
+                      </span>
+                    </div>
+
+                    <p className="font-poppins text-sm md:text-base text-gray-500 font-medium uppercase tracking-wider mb-2">
+                      {edu.school}
+                    </p>
+                    
+                    <p className="font-google text-xs text-gray-500 uppercase tracking-wider mb-4">
+                      GPA: <span className="font-bold text-gray-700">{edu.gpa}</span> / 4.00
+                    </p>
+                    
+                    <div className="w-full border-t border-black/10 my-4" />
+                    
+                    <p className="font-poppins text-sm text-gray-500 font-light leading-relaxed">
+                      {edu.details}
+                    </p>
                   </a>
-                </div>
-                <div className="w-12 border-t border-black/20 my-2 group-hover:w-20 transition-all duration-500"></div>
-                <p className="font-poppins text-lg text-gray-600 font-extralight uppercase tracking-wider">{edu.school}</p>
-                <p className="font-google text-sm text-gray-600 font-extralight uppercase tracking-wider mt-0.5 mb-3">
-                  GPA: <span className="text-gray-600">{edu.gpa}</span> / 4.00
-                </p>
-                <p className="font-poppins text-md text-gray-500 font-extralight leading-relaxed">
-                  {edu.details}
-                </p>
-              </div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Certificates Section */}
-        <div className="flex flex-col">
-          <h2 className="font-lejour font-normal text-5xl mb-10 tracking-tight">
-            <Typewriter text="Certificates" />
-          </h2>
-          <div className="flex flex-col gap-2">
-            {certificates.map((cert, i) => (
-              <a 
-                key={i} 
-                href={cert.link} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="flex justify-between items-end border-b border-black/10 py-5 group hover:border-black transition-colors duration-500"
-              >
-                <div className="flex flex-col pr-4">
-                  <h3 className="font-poppins font-bold text-xl group-hover:text-gray-600 transition-colors">
-                    {cert.title}
-                  </h3>
-                  <p className="font-poppins text-sm text-gray-500 uppercase tracking-widest font-extralight mt-1">
-                    {cert.issuer} <span className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
-                  </p>
-                </div>
-                <span className="font-telegraf text-sm text-gray-400 whitespace-nowrap">{cert.year}</span>
-              </a>
-            ))}
+          {/* --- CERTIFICATES --- */}
+          <div className="flex flex-col items-start w-full">
+            <motion.h2 
+              variants={itemVariants}
+              style={{ fontFamily: "'The Seasons Italic', serif" }}
+              className="text-4xl md:text-5xl tracking-tight text-[#2A2320] mb-10"
+            >
+              Certificates
+            </motion.h2>
+
+            <div className="flex flex-col w-full">
+              {certificates.map((cert, i) => (
+                <motion.div variants={itemVariants} key={i}>
+                  <a 
+                    href={cert.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex justify-between items-center border-b border-black/10 py-5 group hover:border-black transition-colors duration-300"
+                  >
+                    {/* Teks sebelah Kiri - Efek Slide Kanan saat Hover */}
+                    <div className="flex flex-col pr-6 transform group-hover:translate-x-2 transition-transform duration-300 ease-out">
+                      <h3 className="font-poppins font-bold text-base md:text-lg text-[#2A2320] group-hover:text-[#5E7657] transition-colors mb-1">
+                        {cert.title}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        <p className="font-poppins text-xs text-gray-500 uppercase tracking-widest font-light">
+                          {cert.issuer}
+                        </p>
+                        <span className="text-gray-300 group-hover:text-[#5E7657] opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-sm">
+                          ↗
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Tahun sebelah Kanan */}
+                    <span className="font-telegraf text-xs md:text-sm text-gray-400 whitespace-nowrap">
+                      {cert.year}
+                    </span>
+                  </a>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
-
-    </div>
+    </motion.div>
   );
 };
 

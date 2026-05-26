@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =========================
-   FONTS (UNCHANGED)
-========================= */
+/* FONTS */
 @font-face {
     font-family: 'Telegraf Regular';
     font-style: normal;
@@ -40,9 +38,7 @@
   font-style: normal;
 }
 
-/* =========================
-   GLOBAL BASE
-========================= */
+/* GLOBAL BASE */
 html, body {
   background-color: white;
   margin: 0;
@@ -53,117 +49,4 @@ html, body {
 
 ::-webkit-scrollbar {
   display: none; 
-}
-
-/* TEXTURE SYSTEM */
-
-.section-texture {
-  position: relative;
-  isolation: isolate;
-}
-
-.section-texture::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* HOME Section */
-.texture-dots::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-
-  background-image: radial-gradient(rgba(0,0,0,0.12) 1px, transparent 1px);
-  background-size: 20px 20px;
-
- animation: breatheDots 6s ease-in-out infinite;
-
-  mask-image: radial-gradient(circle, black 70%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle, black 70%, transparent 100%);
-}
-
-@keyframes breatheDots {
-  0%, 100% {
-    opacity: 0.06;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1000;
-    transform: scale(1.05);
-  }
-}
-
-/* ABOUT Section */
-.texture-about {
-  position: relative;
-  isolation: isolate;
-  background-color: #ffffff;
-  overflow: hidden;
-}
-
-.texture-about::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  z-index: -1;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.03) 0px,
-    rgba(0, 0, 0, 0.03) 1px,
-    transparent 1px,
-    transparent 18px
-  );
-
-  animation: moveLines 20s linear infinite;
-}
-
-@keyframes moveLines {
-  from {
-    transform: translate(0%, 0%);
-  }
-  to {
-    transform: translate(-20%, 20%);
-  }
-}
-
-/* EXPERIENCE Section */
-.texture-lines::before {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.05),
-    rgba(0,0,0,0.05) 1px,
-    transparent 1px,
-    transparent 40px
-  );
-}
-
-/* PROJECTS Section */
-.texture-dots::before {
-  background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
-  background-size: 30px 30px;
-}
-
-/* CONTACT Section */
-.texture-fade::before {
-  background: radial-gradient(
-    circle at center,
-    rgba(0,0,0,0.05),
-    transparent 70%
-  );
-}
-
-
-.texture-soft::before {
-  mix-blend-mode: multiply;
-}
-
-.section-gradient {
-  background: linear-gradient(to bottom, #ffffff, #f9fafb);
 }

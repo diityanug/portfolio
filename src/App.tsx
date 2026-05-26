@@ -7,6 +7,7 @@ import ExperiencePage from './components/ExperiencePage';
 import ProjectsPage from './components/ProjectsPage';
 import ContactPage from './components/ContactPage';
 import PageWrapper from './components/PageWrapper';
+import ProjectDetail from './pages/projectDetail';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ const AnimatedRoutes = () => {
         <Route path="/experience" element={<PageWrapper><ExperiencePage /></PageWrapper>} />
         <Route path="/projects" element={<PageWrapper><ProjectsPage /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><ContactPage /></PageWrapper>} />
+        <Route path="/projects/:slug" element={<PageWrapper><ProjectDetail /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
   );
