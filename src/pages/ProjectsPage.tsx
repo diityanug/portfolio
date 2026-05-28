@@ -64,10 +64,10 @@ const ProjectsPage = () => {
 
         {/* PROJECTS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 xl:gap-16 w-full">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <motion.div
               variants={itemVariants}
-              key={index}
+              key={project.slug} // ✅ Diperbaiki menggunakan project.slug
               onClick={() => navigate(`/projects/${project.slug}`)}
               className="group cursor-pointer flex flex-col"
             >
