@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import Typewriter from './Typewriter';
+import Typewriter from '../components/Typewriter';
 
 const ProjectsPage = () => {
   const navigate = useNavigate();
@@ -14,10 +14,9 @@ const ProjectsPage = () => {
       image: "/images/project-apc.jpg",
       slug: "genre-game-classifier"
     }
-    // Kamu bisa tambahkan project lain di sini, gridnya sudah disiapkan untuk responsif
   ];
 
-  // --- ANIMATION VARIANTS ---
+  // ANIMATION VARIANTS
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -48,7 +47,7 @@ const ProjectsPage = () => {
         {/* HEADER SECTION */}
         <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
-            <h1 className="font-lejour font-normal text-6xl md:text-[82.4px] leading-[0.9] tracking-tight text-[#2A2320]">
+            <h1 className="pointer-events-none select-none font-lejour font-normal text-6xl md:text-[82.4px] leading-[0.9] tracking-tight text-[#2A2320]">
               <div className="pb-3"><Typewriter text="Personal" /></div>
               <div><Typewriter text="Projects" delay={0.3} /></div>
             </h1>
@@ -59,7 +58,7 @@ const ProjectsPage = () => {
             variants={itemVariants}
             className="font-poppins text-gray-400 uppercase tracking-widest text-xs font-light max-w-[200px] text-left md:text-right leading-relaxed"
           >
-            A collection of my recent works.
+            A collection of my project.
           </motion.p>
         </div>
 
@@ -75,10 +74,7 @@ const ProjectsPage = () => {
               
               {/* Image Card Container */}
               <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-50 mb-6 relative border border-black/5 shadow-sm">
-                
-                {/* Overlay gelap tipis saat di-hover biar tombolnya lebih menonjol */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 z-10" />
-
                 <img
                   src={project.image}
                   alt={project.title}
@@ -88,8 +84,6 @@ const ProjectsPage = () => {
                     e.currentTarget.parentElement!.style.backgroundColor = '#f3f4f6';
                   }}
                 />
-
-                {/* Hover Floating Button (Kapsul kecil yang muncul dari bawah) */}
                 <div className="absolute bottom-5 left-5 z-20 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                   <div className="bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full font-poppins text-xs font-medium uppercase tracking-widest text-[#2A2320] flex items-center gap-3 shadow-md">
                     View Project <span className="text-[#5E7657] text-base leading-none">↗</span>
@@ -108,7 +102,6 @@ const ProjectsPage = () => {
                   </span>
                 </div>
 
-                {/* Kategori menggunakan font The Seasons Italic */}
                 <p 
                   style={{ fontFamily: "'The Seasons Italic', serif" }} 
                   className="text-xl md:text-2xl text-gray-500 tracking-wide"

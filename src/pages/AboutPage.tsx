@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import Typewriter from './Typewriter';
+import Typewriter from '../components/Typewriter';
 
 const AboutPage = () => {
   const education = [
@@ -99,8 +99,9 @@ const AboutPage = () => {
 
           {/* KANAN: Text Content */}
           <div className="w-full xl:w-8/12 flex flex-col pt-4">
-            {/* PERBAIKAN: Menghapus properti motion (variants={itemVariants}) agar Typewriter tampil utuh tanpa efek fade-up yang saling tubruk */}
-            <h1 className="font-lejour font-normal text-6xl md:text-[82px] leading-[0.9] tracking-tight text-[#2A2320] mb-8">
+            
+            {/* PERBAIKAN: Menambahkan pointer-events-none select-none di sini agar Typewriter kebal klik */}
+            <h1 className="pointer-events-none select-none font-lejour font-normal text-6xl md:text-[82px] leading-[0.9] tracking-tight text-[#2A2320] mb-8">
               <div className="pb-3"><Typewriter text="About" /></div>
               <div><Typewriter text="Me" delay={0.3} /></div>
             </h1>

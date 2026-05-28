@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
-import HomePage from './components/HomePage';
-import AboutPage from './components/AboutPage';
-import ExperiencePage from './components/ExperiencePage';
-import ProjectsPage from './components/ProjectsPage';
-import ContactPage from './components/ContactPage';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ExperiencePage from './pages/ExperiencePage';
+import ProjectsPage from './pages/ProjectsPage';
+import ContactPage from './pages/ContactPage';
 import PageWrapper from './components/PageWrapper';
 import ProjectDetail from './pages/projectDetail';
 

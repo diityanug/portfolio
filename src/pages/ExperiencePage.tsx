@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import Typewriter from './Typewriter';
+import Typewriter from '../components/Typewriter';
 
 const ExperiencePage = () => {
   const [openExpId, setOpenExpId] = useState<number | null>(null);
@@ -86,7 +86,8 @@ const ExperiencePage = () => {
       {/* Header Section */}
       <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
         <div>
-          <h1 className="font-lejour font-normal text-6xl md:text-[82.4px] leading-[0.9] tracking-tight text-[#2A2320]">
+          {/* PERBAIKAN: Menambahkan pointer-events-none dan select-none agar Typewriter kebal klik */}
+          <h1 className="pointer-events-none select-none font-lejour font-normal text-6xl md:text-[82.4px] leading-[0.9] tracking-tight text-[#2A2320]">
             <div className="pb-3"><Typewriter text="Work" /></div>
             <div><Typewriter text="Experience" delay={0.4} /></div>
           </h1>
@@ -125,7 +126,7 @@ const ExperiencePage = () => {
                   />
                 </motion.div>
                 
-                {/* PERBAIKAN: Role / Jabatan dengan Font The Seasons Italic */}
+                {/* Role / Jabatan dengan Font The Seasons Italic */}
                 <motion.h2 
                   variants={fadeUpVariants}
                   style={{ fontFamily: "'The Seasons Italic', serif" }}
@@ -176,7 +177,7 @@ const ExperiencePage = () => {
                   onClick={() => setOpenExpId(openExpId === exp.id ? null : exp.id)}
                   className="self-start flex items-center gap-3 border border-black/20 px-6 py-3 font-poppins text-xs uppercase tracking-widest text-[#2A2320] hover:bg-[#5E7657] hover:text-white hover:border-[#5E7657] transition-all duration-300 rounded-full"
                 >
-                  {openExpId === exp.id ? "Close Projects" : "View Key Projects"}
+                  {openExpId === exp.id ? "Side Activities" : "Side Activities"}
                   <motion.span 
                     animate={{ rotate: openExpId === exp.id ? 180 : 0 }}
                     className="inline-block"
