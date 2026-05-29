@@ -54,18 +54,6 @@ const HomePage = () => {
     },
   };
 
-  const lineGrowVertical: Variants = {
-    hidden: { scaleY: 0, originY: 0 },
-    show: {
-      scaleY: 1,
-      transition: {
-        duration: 1.4,
-        ease: [0.22, 1, 0.36, 1],
-        delay: 0.2,
-      },
-    },
-  };
-
   const ctaDelay = 0.82;
 
   return (
@@ -105,11 +93,6 @@ const HomePage = () => {
       <motion.div
         variants={lineGrowHorizontal}
         className="absolute top-0 left-0 w-full h-[1px] bg-black/[0.07] pointer-events-none"
-      />
-
-      <motion.div
-        variants={lineGrowVertical}
-        className="hidden lg:block absolute top-0 left-16 w-[1px] h-full bg-black/[0.07] pointer-events-none"
       />
 
       {/* ========================================== */}
@@ -191,85 +174,71 @@ const HomePage = () => {
         </div>
 
         {/* RIGHT COLUMN (MISSION CARD & CTA AREA) */}
-        <div className="flex flex-col items-center lg:items-end justify-center w-full lg:w-[40%] relative mt-2 lg:mt-0 gap-16 pointer-events-none">
+        <div className="flex flex-col items-center lg:items-end justify-center w-full lg:w-[40%] relative mt-2 lg:mt-0 gap-16 pointer-events-none lg:mr-12">
           
-          {/* CURRENT MISSION CARD */}
+          {/* CURRENT MISSION CARD (PREMIUM GLASSMORPHIC) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-[460px] rounded-[24px] border border-black/[0.05] bg-white/70 backdrop-blur-xl p-6 md:p-7 shadow-[0_10px_40px_rgba(0,0,0,0.04)] pointer-events-auto"
+            className="w-full max-w-[420px] rounded-[32px] bg-gradient-to-b from-white/90 to-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.08)] pointer-events-auto overflow-hidden"
           >
-            {/* CARD TOP */}
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <span className="font-poppins text-[10px] uppercase tracking-[0.22em] text-gray-400">
-                  Current Internal Project
+            {/* MAIN CONTENT AREA */}
+            <div className="p-7 md:p-8">
+              {/* STATUS HEADER */}
+              <div className="mb-6">
+                <span className="font-poppins text-[10px] tracking-[0.25em] uppercase text-gray-400 font-semibold">
+                  Internal Project – In Progress
                 </span>
-
-                <h3 className="mt-2.5 text-lg md:text-xl font-semibold text-[#2A2320] leading-snug">
-                   Developing HRIS platforms and maintaining enterprise LMS systems.
-                </h3>
               </div>
-              <div className="w-2.5 h-2.5 rounded-full bg-[#5E7657] mt-1.5 shrink-0" />
-            </div>
 
-            {/* CARD METRICS */}
-            <div className="mt-6">
-              <motion.div
-                whileHover={{ y: -2 }}
-                className="w-full rounded-xl border border-black/[0.04] bg-black/[0.01] p-4 flex flex-row items-center justify-between"
-              >
-                <div>
-                  <h4 className="text-lg md:text-xl font-semibold text-[#2A2320]">
-                    LG Sinarmas
-                  </h4>
-                  <p className="mt-0.5 text-xs text-gray-500">
-                    Software Engineer
-                  </p>
-                </div>
+              {/* TITLE & DESCRIPTION */}
+            <h3 
+              className="text-xl md:text-[22px] text-black leading-snug mb-3 tracking-wide"
+              style={{ fontFamily: "'Poppins ExtraLight', sans-serif" }}
+            >
+              Enterprise HRIS & LMS
+              </h3>
+              <p className="text-sm text-gray-500 font-light leading-relaxed mb-6">
+                Developing an HRIS system with role-based navigation and maintaining an LMS system focused on bug fixes and stability improvements.
+              </p>
 
-                <span className="px-2.5 py-1.5 rounded-md border border-black/[0.03] bg-white/50 text-[9px] md:text-[10px] font-medium tracking-widest uppercase text-gray-400">
-                  Jun 2025 - Present
-                </span>
-              </motion.div>
-            </div>
-
-            {/* CARD TECH STACK */}
-            <div className="mt-6">
-              <span className="font-poppins text-[10px] uppercase tracking-[0.2em] text-gray-400">
-                Tech Stack
-              </span>
-              <div className="flex flex-wrap gap-1.5 mt-2.5">
-                {['React', 'Python', 'TypeScript', 'PostgreSQL', 'TensorFlow'].map((tech) => (
-                  <motion.span
+              {/* TECH STACK PILLS */}
+              <div className="flex flex-wrap gap-2">
+                {['React', 'TypeScript', 'AWS S3'].map((tech) => (
+                  <span
                     key={tech}
-                    whileHover={{ y: -2 }}
-                    className="px-2.5 py-1 rounded-full border border-[#5E7657]/10 bg-[#5E7657]/[0.04] text-[#5E7657] text-[11px] font-medium"
+                    className="px-3 py-1.5 rounded-full border border-black/[0.04] bg-white/80 text-[10px] md:text-[11px] font-poppins text-[#2A2320] font-medium shadow-sm transition-transform hover:-translate-y-0.5"
                   >
                     {tech}
-                  </motion.span>
+                  </span>
                 ))}
               </div>
             </div>
 
-            {/* CARD MINI FOOTER */}
-            <div className="mt-6 pt-4 border-t border-black/[0.05] flex items-center justify-between text-xs">
-              <div>
-                <span className="font-poppins text-[9px] uppercase tracking-[0.2em] text-gray-400">
-                  Status
+            {/* WIDGET FOOTER (METADATA) */}
+            <div className="bg-black/[0.02] border-t border-black/[0.04] px-7 py-5 md:px-8 flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-poppins tracking-[0.2em] uppercase text-gray-400 mb-1">
+                  Company
                 </span>
-                <div className="flex items-center gap-1.5 mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#5E7657]" />
-                  <span className="text-[#2A2320]">Available for work</span>
-                </div>
+                <span 
+                  className="text-xs font-medium text-black tracking-wide"
+                  style={{ fontFamily: "'Poppins ExtraLight', sans-serif" }}
+                >
+                  LG Sinarmas
+                  </span>
               </div>
-
-              <div className="text-right">
-                <span className="font-poppins text-[9px] uppercase tracking-[0.2em] text-gray-400">
-                  Specialization
+              <div className="text-right flex flex-col">
+                <span className="text-[9px] font-poppins tracking-[0.2em] uppercase text-gray-400 mb-1">
+                  Role
                 </span>
-                <p className="mt-1 text-[#2A2320]">Frontend  {"·"}  Machine Learning</p>
+                <span 
+                  className="text-xs font-medium text-black tracking-wide"
+                  style={{ fontFamily: "'Poppins ExtraLight', sans-serif" }}
+                >
+                  Software Engineer
+                </span>
               </div>
             </div>
           </motion.div>
@@ -283,7 +252,6 @@ const HomePage = () => {
               src={catsAnimated}
               alt="Cat"
               draggable={false}
-              // -mb-[18px] atau -mb-[22px] agar kucing tenggelam sebagian ke dalam tombol
               className="w-16 md:w-20 lg:w-20 relative z-0 -mb-[20px] lg:-mb-[22px] mr-6 lg:mr-8 object-contain select-none pointer-events-none drop-shadow-sm"
               style={{
                 filter: btnHovered
@@ -297,7 +265,7 @@ const HomePage = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: ctaDelay, duration: 0.5, ease: 'easeOut' }}
-              className="w-full lg:w-auto relative z-10" // z-10 menutupi bagian bawah kucing
+              className="w-full lg:w-auto relative z-10" 
             >
               <motion.button
                 onClick={() => navigate('/about')}

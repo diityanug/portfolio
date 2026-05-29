@@ -98,26 +98,20 @@ const ContactPage = () => {
       <div className="w-full max-w-6xl mx-auto flex flex-col h-full">
 
         {/* HERO */}
-
         <div className="flex-1 flex flex-col justify-center mb-16 md:mb-24 relative z-10">
-
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gap-10 lg:gap-8">
 
             {/* LEFT */}
-
             <div className="flex flex-col items-start w-full lg:w-2/3">
-
               <motion.div
                 variants={itemVariants}
                 className="flex flex-col mb-4 md:mb-5"
               >
-
                 <h1 className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[72px] lg:text-[90px] leading-[0.9] tracking-tight text-[#2A2320]">
                   <Typewriter text="Let’s Build" />
                 </h1>
 
                 <div className="flex items-center gap-3 mt-1 md:mt-3">
-
                   <h1 className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[72px] lg:text-[90px] leading-[0.9] tracking-tight text-[#2A2320]">
                     <Typewriter text="Something" delay={0.4} />
                   </h1>
@@ -135,7 +129,6 @@ const ContactPage = () => {
                   >
                     Great.
                   </motion.span>
-
                 </div>
               </motion.div>
 
@@ -151,26 +144,23 @@ const ContactPage = () => {
                 I’m always excited to collaborate on meaningful projects,
                 discuss tech, or just say hello. Reach out anytime.
               </motion.p>
-
             </div>
 
-            {/* RIGHT */}
-
+            {/* RIGHT (CTA BUTTONS) */}
             <motion.div
               variants={itemVariants}
               className="w-full lg:w-1/3 flex justify-start lg:justify-end mt-2 lg:mt-0"
             >
+              {/* EMAIL BUTTON ONLY (Clean again) */}
               <a
                 href="https://mail.google.com/mail/u/0/?tf=cm&fs=1&to=diityanug13@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-between gap-3 bg-[#2A2320] text-white px-5 py-2.5 md:px-7 md:py-3.5 rounded-full hover:bg-[#5E7657] transition-all duration-500 ease-out shadow-md hover:shadow-lg hover:-translate-y-1"
               >
-
                 <span className="font-poppins text-xs tracking-[0.2em] uppercase font-medium">
                   Send an Email
                 </span>
-
                 <span className="bg-white/10 p-2 md:p-2.5 rounded-full group-hover:rotate-45 group-hover:bg-white/20 transition-all duration-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +177,6 @@ const ContactPage = () => {
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
                 </span>
-
               </a>
             </motion.div>
 
@@ -195,20 +184,16 @@ const ContactPage = () => {
         </div>
 
         {/* FOOTER */}
-
         <motion.div
           variants={itemVariants}
           className="w-full shrink-0"
         >
-
           <div className="w-full border-t border-black/10 mb-6" />
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 w-full">
 
-            {/* SOCIALS */}
-
-            <div className="flex gap-3">
-
+            {/* SOCIALS & CV */}
+            <div className="flex flex-wrap gap-3">
               {socials.map((social) => (
                 <a
                   key={social.name}
@@ -217,36 +202,55 @@ const ContactPage = () => {
                   rel="noopener noreferrer"
                   className="group flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-black/10 bg-white hover:border-[#5E7657] hover:bg-[#5E7657] hover:text-white transition-all duration-300 shadow-sm"
                 >
-
                   <span className="text-[#2A2320] group-hover:text-white transition-colors duration-300">
                     {social.icon}
                   </span>
-
                   <span className="font-poppins font-medium text-[10px] md:text-xs tracking-widest uppercase text-[#2A2320] group-hover:text-white transition-colors duration-300">
                     {social.name}
                   </span>
-
                 </a>
               ))}
 
+              {/* DOWNLOAD CV BUTTON */}
+              <a
+                href="MASUKKAN_LINK_GOOGLE_DRIVE_MU_DI_SINI"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-black/10 bg-white hover:border-[#5E7657] hover:bg-[#5E7657] hover:text-white transition-all duration-300 shadow-sm"
+              >
+                <span className="text-[#2A2320] group-hover:text-white transition-colors duration-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </span>
+                <span className="font-poppins font-medium text-[10px] md:text-xs tracking-widest uppercase text-[#2A2320] group-hover:text-white transition-colors duration-300">
+                  Resume
+                </span>
+              </a>
             </div>
 
             {/* STATUS */}
-
             <div className="flex flex-col items-start md:items-end gap-1.5 bg-white px-5 py-3 rounded-2xl border border-black/5 shadow-sm">
-
               <div className="flex items-center gap-2">
-
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
                 </span>
-
                 <p className="font-poppins text-[10px] md:text-xs uppercase tracking-widest text-gray-500 font-medium">
                   Available for work
                 </p>
-
               </div>
 
               <p
@@ -255,7 +259,6 @@ const ContactPage = () => {
               >
                 Central Jakarta, Indonesia
               </p>
-
             </div>
 
           </div>
