@@ -8,12 +8,11 @@ const ProjectDetail = () => {
   const navigate = useNavigate();
 
   // --- MOCK DATA ---
-  const projects: any = {
+  const projects: Record<string, any> = {
     'genre-game-classifier': {
       title: 'Genre Game Classifier',
       category: 'Natural Language Processing',
       year: '2024',
-      image: '/images/project-apc.jpg',
       overview:
         'Genre Game Classifier is a machine learning project designed to predict game genres based on game titles and descriptions using Natural Language Processing techniques.',
       description:
@@ -21,15 +20,18 @@ const ProjectDetail = () => {
       workflow: [
         {
           image: '/images/project-apc.jpg',
+          title: 'Input Data',
           text: 'User memasukkan judul dan deskripsi game mentah ke dalam form input yang disediakan pada halaman utama.'
         },
         {
           image: '/images/architecture-1.jpg',
+          title: 'Preprocessing',
           text: 'Proses data preprocessing berjalan di latar belakang: teks dibersihkan melalui case folding, tokenizing, dan stopword removal.'
         },
         {
           image: '/images/architecture-2.jpg',
-          text: 'TF-IDF Vectorizer mengubah teks bersih menjadi bentuk matriks numerik, kemudian model Naive Bayes memprediksi genre terbaik beserta persentase probabilitasnya.'
+          title: 'Classification',
+          text: 'TF-IDF Vectorizer mengubah teks bersih menjadi bentuk matriks numerik, kemudian model Naive Bayes memprediksi genre.'
         }
       ],
       technologies: [
@@ -39,7 +41,7 @@ const ProjectDetail = () => {
         'Naive Bayes',
         'Pandas',
         'React',
-        'TailwindCSS'
+        'Tailwind CSS'
       ],
     },
   };
@@ -51,19 +53,16 @@ const ProjectDetail = () => {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+      transition: { staggerChildren: 0.12, delayChildren: 0.1 }
     }
   };
 
   const fadeUp: Variants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 20, opacity: 0 },
     show: {
       y: 0,
       opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1]
-      }
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -71,46 +70,21 @@ const ProjectDetail = () => {
     hidden: { scaleX: 0, originX: 0 },
     show: {
       scaleX: 1,
-      transition: {
-        duration: 1.2,
-        ease: [0.22, 1, 0.36, 1],
-        delay: 0.2
-      }
-    }
-  };
-
-  const revealImage: Variants = {
-    hidden: {
-      clipPath: 'inset(0 100% 0 0)',
-      scale: 1.05
-    },
-    show: {
-      clipPath: 'inset(0 0% 0 0)',
-      scale: 1,
-      transition: {
-        duration: 1.2,
-        ease: [0.22, 1, 0.36, 1]
-      }
+      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
   // --- 404 PAGE ---
   if (!project) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-8">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-8 relative overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center"
+          className="text-center z-10"
         >
-          <h1 className="font-lejour text-8xl md:text-[120px] text-[#2A2320] mb-2">
-            404
-          </h1>
-
-          <p className="font-poppins text-gray-500 tracking-widest uppercase text-sm mb-10">
-            Project not found.
-          </p>
-
+          <h1 className="font-lejour text-8xl md:text-[120px] text-[#2A2320] mb-2">404</h1>
+          <p className="font-poppins text-gray-500 tracking-widest uppercase text-sm mb-10">Project not found.</p>
           <button
             onClick={() => navigate('/projects')}
             className="px-8 py-4 bg-[#2A2320] text-white rounded-full font-poppins text-xs tracking-[0.2em] uppercase hover:bg-[#5E7657] transition-colors duration-300"
@@ -122,278 +96,157 @@ const ProjectDetail = () => {
     );
   }
 
-  // Split title
-  const titleWords = project.title.split(' ');
-  const firstHalfTitle = titleWords
-    .slice(0, Math.ceil(titleWords.length / 2))
-    .join(' ');
-
-  const secondHalfTitle = titleWords
-    .slice(Math.ceil(titleWords.length / 2))
-    .join(' ');
-
   // --- MAIN DETAIL PAGE ---
   return (
     <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="min-h-screen bg-white px-6 md:px-12 pt-24 md:pt-32 pb-32 overflow-x-hidden"
+      className="relative min-h-[calc(100vh-116px)] bg-white px-6 md:px-16 pt-8 md:pt-12 pb-24 overflow-hidden"
     >
-      <div className="w-full max-w-[1400px] mx-auto">
+      {/* ========================================== */}
+      {/* BACKGROUND TEXTURES */}
+      {/* ========================================== */}
+      <div
+        className="absolute inset-0 pointer-events-none -z-30"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(0,0,0, 0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0,0,0, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '4rem 4rem',
+          maskImage: 'radial-gradient(circle at top center, black 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(circle at top center, black 40%, transparent 100%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none -z-20 opacity-[0.25] mix-blend-overlay"
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
+        }}
+      />
 
-        {/* HERO SECTION */}
+      <div className="w-full max-w-[1200px] mx-auto relative z-10">
 
-        <motion.div
-          variants={fadeUp}
-          className="flex flex-col md:flex-row justify-between items-start md:items-end w-full mb-12 md:mb-20 gap-8"
-        >
+        {/* ========================================== */}
+        {/* HEADER & TYPOGRAPHY HERO (Ditarik ke atas) */}
+        {/* ========================================== */}
+        <motion.div variants={fadeUp} className="mb-12 md:mb-16">
           <button
             onClick={() => navigate('/projects')}
-            className="group flex items-center gap-3 text-xs font-poppins uppercase tracking-widest text-gray-400 hover:text-[#2A2320] transition-colors duration-300"
+            className="group flex items-center gap-2 text-[10px] md:text-xs font-poppins uppercase tracking-[0.2em] text-gray-400 hover:text-[#5E7657] transition-colors duration-300 mb-6 md:mb-8"
           >
-            <span className="group-hover:-translate-x-1 transition-transform duration-300">
-              ←
-            </span>
-            {' '}
+            <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
             Back to Collection
           </button>
 
-          <div className="flex flex-col items-start md:items-end gap-2">
-            <span className="font-poppins text-[10px] md:text-xs tracking-[0.3em] uppercase text-gray-400 font-medium">
-              Category
-            </span>
+          <h1 className="font-lejour text-5xl md:text-[80px] lg:text-[100px] leading-[0.9] tracking-tight text-[#2A2320] max-w-4xl mb-8">
+            <Typewriter text={project.title} />
+          </h1>
 
-            <span className="font-telegraf text-sm md:text-base tracking-widest uppercase text-[#5E7657]">
-              {project.category}
-            </span>
+          <div className="flex flex-wrap gap-8 md:gap-16 pt-5 border-t border-black/[0.07]">
+            <div className="flex flex-col gap-1.5">
+              <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Category</span>
+              <span className="font-telegraf text-sm md:text-base text-[#2A2320]">{project.category}</span>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Year</span>
+              <span className="font-telegraf text-sm md:text-base text-[#2A2320]">{project.year}</span>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Role</span>
+              <span className="font-telegraf text-sm md:text-base text-[#2A2320]">Developer</span>
+            </div>
           </div>
         </motion.div>
 
-        {/* TITLE */}
-
-        <div className="flex flex-col mb-16 md:mb-24 w-full">
-          <motion.h1
-            variants={fadeUp}
-            className="pointer-events-none select-none font-lejour font-normal text-[12vw] md:text-[90px] lg:text-[130px] leading-[0.8] tracking-tight text-[#2A2320]"
-          >
-            <Typewriter text={firstHalfTitle} />
-          </motion.h1>
-
-          <div className="flex w-full items-center justify-end mt-4 md:mt-8 gap-6 md:gap-12">
-            <motion.div
-              variants={lineGrow}
-              className="w-16 md:w-48 h-[2px] bg-black/10"
-            />
-
-            <motion.h1
-              variants={fadeUp}
-              className="pointer-events-none select-none font-lejour font-normal text-[12vw] md:text-[90px] lg:text-[130px] leading-[0.8] tracking-tight text-[#5E7657]"
-            >
-              <Typewriter text={secondHalfTitle} delay={0.6} />
-            </motion.h1>
-          </div>
-        </div>
-
-        {/* MAIN IMAGE */}
-
-        <div className="relative mb-32 md:mb-40">
-          <motion.div
-            variants={revealImage}
-            className="w-full aspect-[4/3] md:aspect-[21/9] bg-gray-50 border border-black/5 shadow-sm overflow-hidden relative z-0"
-          >
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-            />
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            className="absolute -bottom-8 md:-bottom-10 left-1/2 -translate-x-1/2 w-[90%] md:w-auto bg-white border border-black/5 shadow-xl px-8 py-4 md:px-12 md:py-6 flex justify-between items-center gap-8 md:gap-24 z-10"
-          >
-            <div className="flex flex-col">
-              <span className="font-poppins text-[10px] md:text-xs tracking-[0.2em] uppercase text-gray-400 mb-1">
-                Year
-              </span>
-
-              <span className="font-telegraf text-sm md:text-base text-[#2A2320]">
-                {project.year}
-              </span>
-            </div>
-
-            <div className="w-[1px] h-8 bg-black/10" />
-
-            <div className="flex flex-col">
-              <span className="font-poppins text-[10px] md:text-xs tracking-[0.2em] uppercase text-gray-400 mb-1">
-                Role
-              </span>
-
-              <span className="font-telegraf text-sm md:text-base text-[#2A2320]">
-                Developer
-              </span>
+        {/* ========================================== */}
+        {/* EDITORIAL OVERVIEW & TECH STACK */}
+        {/* ========================================== */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 mb-16 md:mb-24">
+          
+          {/* Main Description */}
+          <motion.div variants={fadeUp} className="w-full lg:w-[55%] flex flex-col gap-6">
+            <h2 style={{ fontFamily: "'The Seasons Italic', serif" }} className="text-3xl md:text-4xl text-[#5E7657]">
+              The Case
+            </h2>
+            <div className="flex flex-col gap-5">
+              <p className="font-poppins font-light text-sm md:text-base leading-[1.8] text-gray-500">
+                {project.overview}
+              </p>
+              <p className="font-poppins font-light text-sm md:text-base leading-[1.8] text-gray-500">
+                {project.description}
+              </p>
             </div>
           </motion.div>
-        </div>
 
-        {/* CONTENT */}
-
-        <div className="flex flex-col gap-24 md:gap-40 w-full max-w-[1200px] mx-auto">
-
-          {/* OVERVIEW */}
-
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 w-full">
-
-            <div className="w-full lg:w-1/3 flex flex-col">
-              <motion.h2
-                variants={fadeUp}
-                style={{ fontFamily: "'The Seasons Italic', serif" }}
-                className="text-4xl md:text-5xl text-[#2A2320] mb-6"
-              >
-                The Case
-              </motion.h2>
-
-              <motion.div
-                variants={lineGrow}
-                className="w-24 h-[2px] bg-[#5E7657]"
-              />
-            </div>
-
-            <div className="w-full lg:w-2/3 flex flex-col gap-10">
-
-              <motion.div variants={fadeUp} className="flex flex-col gap-4">
-                <span className="font-poppins text-xs tracking-[0.3em] uppercase text-gray-400 font-medium">
-                  Overview
-                </span>
-
-                <p className="font-poppins font-light text-base md:text-lg leading-[1.8] text-[#4A3B32] text-justify">
-                  {project.overview}
-                </p>
-              </motion.div>
-
-              <motion.div variants={fadeUp} className="flex flex-col gap-4">
-                <span className="font-poppins text-xs tracking-[0.3em] uppercase text-gray-400 font-medium">
-                  Description
-                </span>
-
-                <p className="font-poppins font-light text-base md:text-lg leading-[1.8] text-[#4A3B32] text-justify">
-                  {project.description}
-                </p>
-              </motion.div>
-
-            </div>
-          </div>
-
-          <motion.div
-            variants={lineGrow}
-            className="w-full h-[1px] bg-black/10"
-          />
-
-          {/* WORKFLOW */}
-
-          <div className="flex flex-col w-full">
-
-            <motion.div
-              variants={fadeUp}
-              className="mb-16 md:mb-24 flex items-center justify-between"
-            >
-              <h2
-                style={{ fontFamily: "'The Seasons Italic', serif" }}
-                className="text-4xl md:text-5xl text-[#2A2320]"
-              >
-                Process Workflow
-              </h2>
-
-              <span className="font-poppins text-xs tracking-[0.3em] uppercase text-[#5E7657] font-medium hidden md:block">
-                0{project.workflow.length} Steps
-              </span>
-            </motion.div>
-
-            <div className="flex flex-col gap-24 md:gap-32">
-
-              {project.workflow.map((step: any, index: number) => {
-                const isEven = index % 2 === 0;
-
-                return (
-                  <motion.div
-                    variants={fadeUp}
-                    key={step.image}
-                    className={`flex flex-col ${
-                      isEven
-                        ? 'lg:flex-row'
-                        : 'lg:flex-row-reverse'
-                    } items-center gap-8 lg:gap-0 relative group`}
-                  >
-
-                    <div className="w-full lg:w-[60%] aspect-[4/3] bg-gray-50 border border-black/5 shadow-sm overflow-hidden relative z-0">
-                      <div className="absolute top-0 left-0 w-full h-full bg-[#5E7657]/0 group-hover:bg-[#5E7657]/10 transition-colors duration-500 z-10" />
-
-                      <img
-                        src={step.image}
-                        alt={`Step ${index + 1}`}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    </div>
-
-                    <div
-                      className={`w-full lg:w-[50%] bg-white p-8 md:p-12 border border-black/5 shadow-xl relative z-10
-                      ${isEven ? 'lg:-ml-20' : 'lg:-mr-20'}
-                      flex flex-col gap-6 transform lg:group-hover:-translate-y-4 transition-transform duration-500`}
-                    >
-                      <span className="font-lejour text-5xl md:text-6xl text-[#5E7657]/20 absolute top-4 right-8 select-none pointer-events-none">
-                        0{index + 1}
-                      </span>
-
-                      <div className="w-12 h-[2px] bg-[#5E7657] mb-2" />
-
-                      <p className="font-poppins font-light text-base md:text-lg leading-[1.8] text-[#4A3B32] text-justify relative z-20">
-                        {step.text}
-                      </p>
-                    </div>
-
-                  </motion.div>
-                );
-              })}
-
-            </div>
-          </div>
-
-          <motion.div
-            variants={lineGrow}
-            className="w-full h-[1px] bg-black/10"
-          />
-
-          {/* TECH STACK */}
-
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 w-full pb-10">
-
-            <div className="w-full lg:w-1/3 flex flex-col">
-              <motion.h2
-                variants={fadeUp}
-                style={{ fontFamily: "'The Seasons Italic', serif" }}
-                className="text-4xl md:text-5xl text-[#2A2320]"
-              >
-                Tech Stack
-              </motion.h2>
-            </div>
-
-            <div className="w-full lg:w-2/3 flex flex-wrap gap-4 items-start">
-
+          {/* Tech Stack Pills (Disamakan dengan Homepage Role Tags) */}
+          <motion.div variants={fadeUp} className="w-full lg:w-[45%] flex flex-col gap-5 lg:pt-2">
+            <h3 className="font-poppins text-[10px] md:text-xs tracking-[0.2em] uppercase text-gray-400 font-medium">
+              Technologies Used
+            </h3>
+            <div className="flex flex-wrap gap-2.5">
               {project.technologies.map((tech: string) => (
-                <motion.div
-                  variants={fadeUp}
+                <span
                   key={tech}
-                  className="font-poppins font-light px-6 py-3 border border-black/10 text-[#2A2320] text-sm tracking-widest uppercase hover:bg-[#2A2320] hover:text-white transition-all duration-300 cursor-default shadow-sm"
+                  className="px-5 py-2.5 rounded-full border border-black/[0.06] bg-black/[0.01] font-poppins text-xs md:text-sm text-gray-500 font-light hover:border-[#5E7657]/30 hover:text-[#5E7657] transition-colors cursor-default"
                 >
                   {tech}
-                </motion.div>
+                </span>
               ))}
-
             </div>
+          </motion.div>
+        </div>
+
+        <motion.div variants={lineGrow} className="w-full h-[1px] bg-black/[0.07] mb-16 md:mb-20" />
+
+        {/* ========================================== */}
+        {/* SIMPLE & MODERN WORKFLOW GRID */}
+        {/* ========================================== */}
+        <div className="flex flex-col w-full">
+          <motion.div variants={fadeUp} className="mb-10 md:mb-12 flex items-center justify-between">
+            <h2 style={{ fontFamily: "'The Seasons Italic', serif" }} className="text-3xl md:text-4xl text-[#2A2320]">
+              Process Workflow
+            </h2>
+            <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium hidden md:block">
+              0{project.workflow.length} Steps
+            </span>
+          </motion.div>
+
+          {/* Grid Layout santai 3 Kolom */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 lg:gap-10">
+            {project.workflow.map((step: any, index: number) => (
+              <motion.div variants={fadeUp} key={index} className="flex flex-col group cursor-default">
+                
+                {/* Modern Rounded Image (Pewarnaan Border disamakan dengan homepage) */}
+                <div className="w-full aspect-[4/3] rounded-3xl bg-black/[0.02] border border-black/[0.04] overflow-hidden mb-5 relative shadow-[0_10px_40px_rgba(0,0,0,0.02)] group-hover:shadow-[0_15px_50px_rgba(0,0,0,0.06)] transition-shadow duration-500">
+                  <div className="absolute inset-0 bg-[#5E7657]/0 group-hover:bg-[#5E7657]/10 transition-colors duration-500 z-10" />
+                  <img
+                    src={step.image}
+                    alt={step.title || `Step ${index + 1}`}
+                    className="w-full h-full object-cover grayscale opacity-90 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://placehold.co/600x450/f8f9fa/adb5bd?text=Workflow';
+                    }}
+                  />
+                  {/* Floating Step Number */}
+                  <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+                    <span className="font-telegraf text-xs text-[#2A2320] font-medium">{index + 1}</span>
+                  </div>
+                </div>
+
+                {/* Clean Text Details */}
+                <div className="flex flex-col px-1">
+                  <h4 className="font-poppins font-semibold text-base md:text-lg text-[#2A2320] mb-2 group-hover:text-[#5E7657] transition-colors">
+                    {step.title}
+                  </h4>
+                  <p className="font-poppins font-light text-xs md:text-sm text-gray-500 leading-relaxed">
+                    {step.text}
+                  </p>
+                </div>
+
+              </motion.div>
+            ))}
           </div>
 
         </div>
