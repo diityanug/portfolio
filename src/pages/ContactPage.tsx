@@ -213,7 +213,7 @@ const ContactPage = () => {
 
               {/* DOWNLOAD CV BUTTON */}
               <a
-                href="MASUKKAN_LINK_GOOGLE_DRIVE_MU_DI_SINI"
+                href="https://drive.google.com/file/d/1QutvnoHILQ140dkXgy_bBqjG171XwpU6/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-black/10 bg-white hover:border-[#5E7657] hover:bg-[#5E7657] hover:text-white transition-all duration-300 shadow-sm"
@@ -257,7 +257,7 @@ const ContactPage = () => {
                 style={{ fontFamily: "'The Seasons Italic', serif" }}
                 className="text-lg md:text-xl text-[#2A2320]"
               >
-                Central Jakarta, Indonesia
+                Cibitung, Indonesia
               </p>
             </div>
 

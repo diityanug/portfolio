@@ -3,43 +3,93 @@ import type { Variants } from 'framer-motion';
 import Typewriter from '../components/Typewriter';
 
 const AboutPage = () => {
+  //[cite: 1] Data pendidikan disesuaikan dengan CV
   const education = [
+    {
+      degree: 'Master of Science in Information Technology',
+      school: 'President University',
+      period: '2023 - 2025',
+      gpa: '3.64',
+      details: 'Specializing in frontend development and intelligent systems.',
+      link: '#'
+    },
     {
       degree: 'Bachelor of Accounting',
       school: 'Tadulako University',
       period: '2017 - 2022',
       gpa: '3.71',
       details: 'Focused on Financial Accounting and Taxation.',
-      link: 'https://drive.google.com/...'
-    },
-    {
-      degree: 'Master of Computer Science',
-      school: 'President University',
-      period: '2023 - 2025',
-      gpa: '3.64',
-      details: 'Focused on Business Intelligence.',
-      link: 'https://drive.google.com/...'
+      link: '#'
     }
   ];
 
+  //[cite: 1] Data sertifikasi disesuaikan dengan CV
   const certificates = [
     {
-      title: 'Team Agility through Agile Ways of Working',
-      issuer: 'Agile Academy Indonesia',
+      title: 'Learn Frontend Web Development (HTML, CSS dan Javascript)',
+      issuer: 'Udemy',
       year: '2025',
-      link: 'link to certificate'
+      link: '#'
     },
     {
-      title: 'React Advanced Patterns',
-      issuer: 'Frontend Masters',
+      title: 'Java Bootcamp: Learn Java with 100+ Java Projects',
+      issuer: 'Udemy',
+      year: '2025',
+      link: '#'
+    },
+    {
+      title: 'Cloud Practitioner Essentials (Learn AWS Cloud Basic)',
+      issuer: 'Dicoding Indonesia',
+      year: '2025',
+      link: '#'
+    },
+    {
+      title: 'Learn Machine Learning for Beginners',
+      issuer: 'Dicoding Indonesia',
       year: '2024',
-      link: 'https://frontendmasters.com/...'
+      link: '#'
     },
     {
-      title: 'Professional Scrum Master I',
-      issuer: 'Scrum.org',
+      title: 'English Speaking Intensive 1 - Level A1 (Excellent)',
+      issuer: 'WECAMP English Village',
       year: '2023',
-      link: 'https://www.scrum.org/...'
+      link: '#'
+    },
+    {
+      title: 'Tax Brevet Training AB + e-SPT',
+      issuer: 'Centre for Accounting Development, UI',
+      year: '2023',
+      link: '#'
+    },
+    {
+      title: 'Start Programming with Python',
+      issuer: 'Dicoding Indonesia',
+      year: '2023',
+      link: '#'
+    },
+    {
+      title: 'Learn JavaScript Programming Basics',
+      issuer: 'Dicoding Indonesia',
+      year: '2023',
+      link: '#'
+    },
+    {
+      title: 'Learn Basic Structured Query Language (SQL)',
+      issuer: 'Dicoding Indonesia',
+      year: '2023',
+      link: '#'
+    },
+    {
+      title: 'Learn DevOps Basics',
+      issuer: 'Dicoding Indonesia',
+      year: '2023',
+      link: '#'
+    },
+    {
+      title: 'Starting Basic Programming to Become a Software Developer',
+      issuer: 'Dicoding Indonesia',
+      year: '2023',
+      link: '#'
     }
   ];
 
@@ -163,12 +213,13 @@ const AboutPage = () => {
               variants={itemVariants}
               className="flex flex-col gap-6 w-full max-w-2xl"
             >
-              {/* Placeholder teks kamu, silakan diganti nanti */}
+              {/*[cite: 1] Deskripsi disesuaikan dengan profil CV */}
               <p className="font-poppins text-lg md:text-[20px] leading-relaxed text-gray-500 font-light text-justify">
-                aku adalah sipaling palah
+                Hi, I'm Aditya! I enjoy turning ideas into interactive and user-friendly web applications. My main focus is frontend development using React and TypeScript, where I love creating clean interfaces and smooth user experiences.
               </p>
+
               <p className="font-poppins text-lg md:text-[20px] leading-relaxed text-gray-500 font-light text-justify">
-                nah ini gatau nih mau nulis apa.
+                I also have experience working with AWS S3, building automation tools, and exploring machine learning projects with Python. I'm always excited to learn new technologies and solve real-world problems through software, whether it's developing web applications, automation solutions, or AI-powered projects.
               </p>
             </motion.div>
           </div>
@@ -221,7 +272,9 @@ const AboutPage = () => {
                       <h3 className="font-poppins font-semibold text-xl md:text-2xl text-[#2A2320] group-hover:text-[#5E7657] transition-colors pr-4">
                         {edu.degree}
                       </h3>
-                      <span className="text-xl text-gray-300 group-hover:text-[#5E7657] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300">
+                      
+                      {/* PANAH DI SINI DIBUAT HIDE SAAT IDLE, MUNCUL SAAT HOVER */}
+                      <span className="text-xl text-[#5E7657] opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out">
                         ↗
                       </span>
                     </div>
@@ -272,11 +325,11 @@ const AboutPage = () => {
                     className="flex justify-between items-center border-b border-black/[0.08] py-6 group hover:border-black/30 transition-colors duration-300"
                   >
                     <div className="flex flex-col pr-6 transform group-hover:translate-x-2 transition-transform duration-300 ease-out">
-                      <h3 className="font-poppins font-semibold text-base md:text-lg text-[#2A2320] group-hover:text-[#5E7657] transition-colors mb-1.5">
+                      <h3 className="font-poppins font-semibold text-sm md:text-base text-[#2A2320] group-hover:text-[#5E7657] transition-colors mb-1.5">
                         {cert.title}
                       </h3>
                       <div className="flex items-center gap-3">
-                        <p className="font-poppins text-xs text-gray-500 uppercase tracking-widest font-light">
+                        <p className="font-poppins text-[11px] md:text-xs text-gray-500 uppercase tracking-widest font-light">
                           {cert.issuer}
                         </p>
                         <span className="text-gray-300 group-hover:text-[#5E7657] opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-sm">
@@ -285,7 +338,7 @@ const AboutPage = () => {
                       </div>
                     </div>
 
-                    <span className="font-telegraf text-xs md:text-sm text-gray-400 whitespace-nowrap">
+                    <span className="font-telegraf text-xs md:text-sm text-gray-400 whitespace-nowrap pl-2">
                       {cert.year}
                     </span>
                   </a>
