@@ -87,7 +87,7 @@ const ProjectsPage = () => {
           </motion.p>
         </div>
 
-        {/* PROJECTS GRID - Compact Glassmorphism */}
+        {/* PROJECTS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 w-full">
           {projects.map((project) => (
             <motion.div
@@ -101,7 +101,7 @@ const ProjectsPage = () => {
               <div className="w-full aspect-[4/3] overflow-hidden relative bg-black/[0.02]">
                 <div className="absolute inset-0 bg-[#2A2320]/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 
-                {/* Year Pill (Floating on top-left of image) */}
+                {/* Year Pill */}
                 <div className="absolute top-5 left-5 z-20 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md shadow-sm border border-white/50 font-poppins text-[9px] font-semibold tracking-widest text-[#2A2320]">
                   {project.year}
                 </div>
@@ -131,7 +131,6 @@ const ProjectsPage = () => {
                     {project.title}
                   </h3>
                   
-                  {/* Hover Arrow Indicator */}
                   <span className="text-[#5E7657] text-xl opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out">
                     ↗
                   </span>

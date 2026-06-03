@@ -3,7 +3,7 @@ import type { Variants } from 'framer-motion';
 import Typewriter from '../components/Typewriter';
 
 const ContactPage = () => {
-  // --- ANIMATION VARIANTS ---
+  // ANIMATION VARIANTS
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -151,7 +151,7 @@ const ContactPage = () => {
               variants={itemVariants}
               className="w-full lg:w-1/3 flex justify-start lg:justify-end mt-2 lg:mt-0"
             >
-              {/* EMAIL BUTTON ONLY (Clean again) */}
+              {/* EMAIL BUTTON */}
               <a
                 href="https://mail.google.com/mail/u/0/?tf=cm&fs=1&to=diityanug13@gmail.com"
                 target="_blank"

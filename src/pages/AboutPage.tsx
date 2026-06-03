@@ -136,9 +136,8 @@ const AboutPage = () => {
       animate="show"
       className="relative flex flex-col pt-16 md:pt-24 px-8 md:px-16 pb-24 min-h-[calc(100vh-116px)] bg-white overflow-hidden"
     >
-      {/* ========================================== */}
+
       {/* BACKGROUND TEXTURES */}
-      {/* ========================================== */}
       <div
         className="absolute inset-0 pointer-events-none -z-30"
         style={{
@@ -160,9 +159,7 @@ const AboutPage = () => {
 
       <div className="w-full max-w-[1400px] mx-auto relative z-10">
 
-        {/* ========================================== */}
         {/* ABOUT ME SECTION */}
-        {/* ========================================== */}
         <div className="flex flex-col-reverse xl:flex-row gap-12 xl:gap-24 items-center xl:items-start mb-24">
 
           {/* LEFT: IMAGE PROFILE */}
@@ -171,7 +168,6 @@ const AboutPage = () => {
             className="w-full xl:w-4/12 flex justify-center xl:justify-start xl:pl-4"
           >
             <div className="relative z-10 group cursor-pointer w-full max-w-[240px] md:max-w-[280px]">
-              {/* Green Offset Shadow */}
               <div className="absolute -bottom-4 -left-4 md:-bottom-5 md:-left-5 w-full h-full bg-[#5E7657] rounded-2xl transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 -z-10" />
 
               {/* Main Image */}
@@ -212,7 +208,7 @@ const AboutPage = () => {
               variants={itemVariants}
               className="flex flex-col gap-6 w-full max-w-2xl"
             >
-              {/*[cite: 1] Deskripsi disesuaikan dengan profil CV */}
+              
               <p className="font-poppins text-lg md:text-[20px] leading-relaxed text-gray-500 font-light text-justify">
                 Hi, I'm Aditya! I enjoy turning ideas into interactive and user-friendly web applications. My main focus is frontend development using React and TypeScript, where I love creating clean interfaces and smooth user experiences.
               </p>
@@ -224,17 +220,13 @@ const AboutPage = () => {
           </div>
         </div>
 
-        {/* ========================================== */}
         {/* SECTION DIVIDER */}
-        {/* ========================================== */}
         <motion.div
           variants={lineVariants}
           className="w-full border-t border-black/[0.08] mb-16 md:mb-20"
         />
 
-        {/* ========================================== */}
         {/* EDUCATION & CERTIFICATES */}
-        {/* ========================================== */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 xl:gap-24">
 
           {/* EDUCATION COLUMN */}
@@ -260,7 +252,6 @@ const AboutPage = () => {
                     rel="noopener noreferrer"
                     className="block group bg-white rounded-3xl border border-black/5 hover:border-black/10 p-7 md:p-8 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
                   >
-                    {/* Animated side border line */}
                     <div className="absolute top-0 left-0 w-1.5 h-full bg-[#5E7657] scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-out" />
 
                     <span className="font-telegraf text-xs text-gray-400 tracking-widest uppercase mb-3 block">
@@ -272,7 +263,6 @@ const AboutPage = () => {
                         {edu.degree}
                       </h3>
                       
-                      {/* PANAH DI SINI DIBUAT HIDE SAAT IDLE, MUNCUL SAAT HOVER */}
                       <span className="text-xl text-[#5E7657] opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out">
                         ↗
                       </span>

@@ -6,7 +6,7 @@ const ProjectDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  // --- REAL REPOSITORY DATA ---
+  // REAL REPOSITORY DATA
   const projects: Record<string, any> = {
     'genre-game-classifier': {
       title: 'Game Genre Classifier',
@@ -19,7 +19,7 @@ const ProjectDetail = () => {
         'The core engine utilizes NLTK for intensive text normalization including regex-based filtering, tokenization, and stop-word elimination. Features are engineered using a TF-IDF (Term Frequency-Inverse Document Frequency) vectorizer, which feeds token arrays into optimized classification algorithms such as Multinomial Naive Bayes and Logistic Regression for highly accurate multi-class predictions.',
       workflow: [
         {
-          image: '/images/project-apc.jpg', // Sesuaikan path gambar lokal Anda
+          image: '/images/project-apc.jpg',
           title: 'Text Cleaning & NLTK Tokenization',
           text: 'Raw description strings undergo case folding, punctuation removal via regular expressions, and tokenization. Stop-words are stripped down to retain only semantically valuable terms.'
         },
@@ -49,7 +49,7 @@ const ProjectDetail = () => {
 
   const project = projects[slug as string];
 
-  // --- ANIMATION VARIANTS (FIXED & LINKED) ---
+  // ANIMATION
   const customEase = [0.16, 1, 0.3, 1] as const;
 
   const containerVariants: Variants = {
@@ -81,7 +81,7 @@ const ProjectDetail = () => {
     }
   };
 
-  // --- 404 PAGE ---
+  // 404 PAGE
   if (!project) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-white px-8 relative overflow-hidden">
@@ -104,7 +104,7 @@ const ProjectDetail = () => {
     );
   }
 
-  // --- MAIN DETAIL PAGE ---
+  // MAIN DETAIL PAGE
   return (
     <motion.div
       variants={containerVariants}
@@ -113,7 +113,7 @@ const ProjectDetail = () => {
       exit="exit"
       className="relative min-h-[calc(100vh-116px)] bg-white px-6 md:px-16 pt-8 md:pt-12 pb-24 overflow-x-hidden"
     >
-      {/* BACKGROUND TEXTURES (Menggunakan absolute agar aman bagi layout Navbar global) */}
+      {/* BACKGROUND TEXTURES */}
       <div
         className="absolute inset-0 pointer-events-none -z-30 w-full h-full"
         style={{

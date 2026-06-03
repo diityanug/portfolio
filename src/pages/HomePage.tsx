@@ -71,7 +71,6 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  /* variants */
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.1 } },

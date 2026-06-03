@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import Typewriter from '../components/Typewriter';
 
-/*─
-   Variants─ */
+/* Variants */
 const container: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
@@ -26,8 +25,7 @@ const revealRight: Variants = {
   show: { clipPath: 'inset(0 0% 0 0)', opacity: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 
-/*─
-   Data─ */
+/* Data */
 const experiences = [
   {
     id: 1,
@@ -68,28 +66,25 @@ const experiences = [
         ]
       }
     ],
-    // DITAMBAHKAN PROPERTI IMAGE UNTUK SETIAP FOTO KEGIATAN CULTURE
+
     culture: [
       {
         id: 1,
         title: "Cross-Border Synergy",
-        image: "/images/culture-synergy.jpg", // Ganti dengan path foto asli Anda
+        image: "/images/culture-synergy.jpg",
         description: "Engaging in routine technical alignments and cross-cultural engineering syncs with core engineering teams based in South Korea."
       },
       {
         id: 2,
         title: "Knowledge Sharing & Technical Mentorship",
-        image: "/images/culture-mentorship.jpg", // Ganti dengan path foto asli Anda
+        image: "/images/culture-mentorship.jpg",
         description: "Participating in internal tech talks, architectural review boards, and collaborative bonding initiatives to foster strong engineering practices."
       }
     ]
   },
 ];
 
-/*─
-   Components─ */
-
-// KOMPONEN CARD BARU UNTUK FOTO & DETAIL COMPANY CULTURE
+/* Components */
 const CultureCard = ({ item }: { item: (typeof experiences)[0]['culture'][0] }) => {
   return (
     <div className="group/cult flex flex-col cursor-pointer">
@@ -112,8 +107,7 @@ const CultureCard = ({ item }: { item: (typeof experiences)[0]['culture'][0] }) 
   );
 };
 
-/*─
-   Page─ */
+/* Page */
 const ExperiencePage = () => {
   const [expandedSections, setExpandedSections] = useState<Record<number, 'contributions' | 'culture' | null>>({});
 
@@ -232,7 +226,7 @@ const ExperiencePage = () => {
                         <div className="pt-10 pb-4">
                           <AnimatePresence mode="wait">
                             
-                            {/* RENDER KEY CONTRIBUTIONS */}
+                            {/* KEY CONTRIBUTIONS */}
                             {currentActive === 'contributions' && (
                               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="flex flex-col gap-8 max-w-[640px]">
                                 {exp.contributions.map((group, idx) => (
@@ -251,7 +245,7 @@ const ExperiencePage = () => {
                               </motion.div>
                             )}
 
-                            {/* RENDER COMPANY CULTURE (SUDAH MEMAKAI COMPONENT CARD BER-FOTO) */}
+                            {/* COMPANY CULTURE */}
                             {currentActive === 'culture' && (
                               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                                 {exp.culture.map((item) => (
