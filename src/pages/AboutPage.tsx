@@ -3,7 +3,7 @@ import type { Variants } from 'framer-motion';
 import Typewriter from '../components/Typewriter';
 
 const AboutPage = () => {
-  //[cite: 1] Data pendidikan disesuaikan dengan CV
+  // Education
   const education = [
     {
       degree: 'Master of Science in Information Technology',
@@ -23,7 +23,7 @@ const AboutPage = () => {
     }
   ];
 
-  //[cite: 1] Data sertifikasi disesuaikan dengan CV
+  // Certificates
   const certificates = [
     {
       title: 'Learn Frontend Web Development (HTML, CSS dan Javascript)',
@@ -57,7 +57,7 @@ const AboutPage = () => {
     },
     {
       title: 'Tax Brevet Training AB + e-SPT',
-      issuer: 'Centre for Accounting Development, UI',
+      issuer: 'Centre for Accounting Development, Universitas Indonesia',
       year: '2023',
       link: '#'
     },
@@ -93,7 +93,6 @@ const AboutPage = () => {
     }
   ];
 
-  // --- ANIMATION VARIANTS ---
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {

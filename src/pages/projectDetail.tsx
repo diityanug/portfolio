@@ -172,10 +172,6 @@ const ProjectDetail = () => {
               <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Year</span>
               <span className="font-telegraf text-sm md:text-base text-[#2A2320]">{project.year}</span>
             </div>
-            <div className="flex flex-col gap-2">
-              <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Role</span>
-              <span className="font-telegraf text-sm md:text-base text-[#2A2320]">Machine Learning</span>
-            </div>
           </div>
         </motion.div>
 
@@ -222,11 +218,8 @@ const ProjectDetail = () => {
         <div className="flex flex-col w-full">
           <motion.div variants={fadeUp} className="mb-12 flex items-end justify-between">
             <h2 style={{ fontFamily: "'The Seasons Italic', serif" }} className="text-3xl md:text-4xl text-[#2A2320]">
-              Pipeline Architecture
+              Processing Steps
             </h2>
-            <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium hidden md:block pb-1">
-              0{project.workflow.length} Processing Steps
-            </span>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-12">
