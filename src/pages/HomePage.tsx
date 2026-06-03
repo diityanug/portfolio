@@ -130,22 +130,17 @@ const HomePage = () => {
         transition={{ delay: 1, duration: 1 }}
         className="absolute bottom-8 md:bottom-12 left-8 md:left-16 flex flex-col gap-1 z-20 pointer-events-none"
       >
-        {/* label */}
         <span className="font-poppins text-[9px] tracking-[0.25em] uppercase text-gray-400 font-medium">
           Local Time — Cibitung, ID
         </span>
 
-        {/* time + weather on same row */}
         <div className="flex items-center gap-3">
-          {/* time */}
           <span className="font-poppins text-[#2A2320] text-sm md:text-base font-medium tracking-wide">
             {formattedTime}
           </span>
 
-          {/* divider */}
           <span className="w-[1px] h-4 bg-black/10 flex-shrink-0" />
 
-          {/* weather */}
           {weather ? (
             <motion.div
               initial={{ opacity: 0, x: -4 }}
@@ -281,14 +276,14 @@ const HomePage = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: ctaDelay, duration: 0.5, ease: 'easeOut' }}
-              className="w-full lg:w-auto relative z-10"
+              className="w-fit lg:w-auto relative z-10"
             >
               <motion.button
                 onClick={() => navigate('/about')}
                 whileTap={{ scale: 0.95 }}
                 onMouseEnter={() => setBtnHovered(true)}
                 onMouseLeave={() => setBtnHovered(false)}
-                className="flex items-center justify-center gap-3 lg:gap-4 bg-[#2A2320] text-white w-full lg:w-auto px-6 py-3 lg:px-8 lg:py-4 rounded-full hover:bg-[#5E7657] transition-colors duration-300 shadow-xl backdrop-blur-sm"
+                className="flex items-center justify-center gap-3 lg:gap-4 bg-[#2A2320] text-white w-fit lg:w-auto px-6 py-3 lg:px-8 lg:py-4 rounded-full hover:bg-[#5E7657] transition-colors duration-300 shadow-xl backdrop-blur-sm"
               >
                 <span className="font-poppins text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
                   Get in touch

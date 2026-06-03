@@ -79,19 +79,29 @@ const Navbar = () => {
               >
                 {navLinks
                   .filter(link => link.path !== '/')
-                  .map((link) => (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      className={`${
-                        location.pathname === link.path
-                          ? 'opacity-100 text-[#5E7657]'
-                          : 'opacity-40 text-[#2A2320]'
-                      } hover:opacity-100 hover:text-[#5E7657] transition-all duration-300 flex items-center shrink-0`}
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
+                  .map((link) => {
+                    const isActive = location.pathname === link.path;
+                    return (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className={`relative pb-1.5 flex items-center shrink-0 transition-colors duration-300 hover:text-[#5E7657] ${
+                          isActive ? 'text-[#5E7657] opacity-100' : 'text-[#2A2320] opacity-40'
+                        }`}
+                      >
+                        <span className="relative z-10">{link.name}</span>
+                        
+                        {/* Efek Garis Meluncur Mulus */}
+                        {isActive && (
+                          <motion.div
+                            layoutId="desktopActiveUnderline"
+                            className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#5E7657] rounded-full"
+                            transition={lightweightTransition}
+                          />
+                        )}
+                      </Link>
+                    );
+                  })}
               </motion.div>
             )}
           </AnimatePresence>
