@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import Typewriter from '../components/Typewriter';
 import catsAnimated from '../assets/cats2.svg';
 
 interface WeatherData {
@@ -11,9 +10,86 @@ interface WeatherData {
   icon: string;
 }
 
+// ─── KOMPONEN EFEK TEKS MELAYANG & BERGELOMBANG (VERSI SELO & SANTAI) ─────────
+const WavyText = ({ 
+  text, 
+  delayOffset = 0, 
+  isWavy = false, 
+  className = "" 
+}: { 
+  text: string, 
+  delayOffset?: number, 
+  isWavy?: boolean, 
+  className?: string 
+}) => {
+  const letters = Array.from(text);
+  
+  return (
+    <div className={`flex ${className}`}>
+      {letters.map((letter, index) => {
+        // Efek ngetik: huruf muncul bergantian di awal
+        const typeDelay = delayOffset + index * 0.08;
+        
+        // Offset fase gelombang untuk tiap huruf biar efek ombaknya nyambung halus
+        const wavePhase = (index * 0.1) + delayOffset; 
+
+        return (
+          <motion.span
+            key={index}
+            initial={{ opacity: 0, y: 15 }}
+            animate={
+              !isWavy
+                ? { 
+                    opacity: 1, 
+                    y: 0, 
+                    x: 0, 
+                    rotate: 0, 
+                    skewX: 0, 
+                    scale: 1 
+                  } // Mode normal: Diam rapi
+                : {
+                    opacity: 1,
+                    y: [0, -3, 0, 2, 0],         // Ayunan vertikal sangat tipis
+                    x: [0, 2, -1, 1, 0],         // Ayunan horizontal nyaris tak terlihat
+                    rotate: [0, 1, -0.5, 0.5, 0], // Cuma miring dikiiiit banget
+                    skewX: [0, -2, 1, -1, 0],    // Efek lentur sangat halus
+                    scale: [1, 1.01, 0.99, 1.01, 1] // Nafas pelan
+                  }
+            }
+            transition={
+              !isWavy
+                ? { 
+                    // Saat hover tombol: Kembali ke posisi asli (damping dibesarin biar kalem berhentinya)
+                    opacity: { duration: 0.2, delay: typeDelay },
+                    default: { type: "spring", stiffness: 300, damping: 20, mass: 1 }
+                  }
+                : {
+                    // Mode santai: Durasinya dipanjangin (8-11 detik) biar bergeraknya slow-motion
+                    opacity: { duration: 0.2, delay: typeDelay },
+                    y: { duration: 8, repeat: Infinity, ease: 'easeInOut', delay: wavePhase },
+                    x: { duration: 10, repeat: Infinity, ease: 'easeInOut', delay: wavePhase },
+                    rotate: { duration: 9, repeat: Infinity, ease: 'easeInOut', delay: wavePhase },
+                    skewX: { duration: 7, repeat: Infinity, ease: 'easeInOut', delay: wavePhase },
+                    scale: { duration: 11, repeat: Infinity, ease: 'easeInOut', delay: wavePhase },
+                  }
+            }
+            className="inline-block whitespace-pre origin-bottom"
+          >
+            {letter}
+          </motion.span>
+        );
+      })}
+    </div>
+  );
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [time, setTime] = useState(new Date());
+  
+  // State HANYA untuk mendeteksi hover pada tombol "Get in touch"
   const [btnHovered, setBtnHovered] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
 
@@ -87,6 +163,9 @@ const HomePage = () => {
   };
 
   const ctaDelay = 0.82;
+
+  // Teks melayang santai, diam saat tombol di-hover
+  const isTextWavy = !btnHovered;
 
   return (
     <motion.div
@@ -176,17 +255,17 @@ const HomePage = () => {
               </span>
             </motion.div>
 
-            <motion.h1
-              variants={fadeUp}
-              className="select-none pointer-events-none font-lejour font-normal text-5xl md:text-[80px] lg:text-[96px] leading-[0.9] tracking-tight text-[#2A2320] mb-5 md:mb-6"
-            >
-              <div className="pb-1 md:pb-2">
-                <Typewriter text="Aditya" />
-              </div>
-              <div className="text-[#5E7657]">
-                <Typewriter text="Nugraha" delay={0.5} />
-              </div>
-            </motion.h1>
+            {/* ANIMATED NAME WRAPPER */}
+            <motion.div variants={fadeUp} className="mb-5 md:mb-6 w-fit">
+              <h1 className="select-none cursor-default font-lejour font-normal text-5xl md:text-[80px] lg:text-[96px] leading-[0.9] tracking-tight text-[#2A2320] flex flex-col">
+                <div className="pb-1 md:pb-2">
+                  <WavyText text="Aditya" isWavy={isTextWavy} delayOffset={0} />
+                </div>
+                <div className="text-[#5E7657]">
+                  <WavyText text="Nugraha" isWavy={isTextWavy} delayOffset={0.4} />
+                </div>
+              </h1>
+            </motion.div>
 
             <motion.div
               variants={lineGrowHorizontal}
@@ -281,8 +360,8 @@ const HomePage = () => {
               <motion.button
                 onClick={() => navigate('/about')}
                 whileTap={{ scale: 0.95 }}
-                onMouseEnter={() => setBtnHovered(true)}
-                onMouseLeave={() => setBtnHovered(false)}
+                onMouseEnter={() => setBtnHovered(true)} // Menghentikan teks melayang
+                onMouseLeave={() => setBtnHovered(false)} // Mengaktifkan kembali teks melayang
                 className="flex items-center justify-center gap-3 lg:gap-4 bg-[#2A2320] text-white w-fit lg:w-auto px-6 py-3 lg:px-8 lg:py-4 rounded-full hover:bg-[#5E7657] transition-colors duration-300 shadow-xl backdrop-blur-sm"
               >
                 <span className="font-poppins text-xs md:text-sm tracking-[0.2em] uppercase font-medium">

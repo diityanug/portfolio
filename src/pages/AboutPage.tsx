@@ -176,7 +176,7 @@ const AboutPage = () => {
                 className="w-full aspect-[4/5] overflow-hidden bg-gray-50 rounded-2xl border border-black/5 shadow-sm relative"
               >
                 <img
-                  src="/images/ictures.jpg"
+                  src="/images/pic_aboutMe.jpg"
                   alt="Aditya Nugraha Irwan"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                   onError={(e) => {

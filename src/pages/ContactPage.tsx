@@ -3,7 +3,7 @@ import type { Variants } from 'framer-motion';
 import Typewriter from '../components/Typewriter';
 
 const ContactPage = () => {
-  // ANIMATION VARIANTS
+  // ANIMATION
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -257,7 +257,7 @@ const ContactPage = () => {
                 style={{ fontFamily: "'The Seasons Italic', serif" }}
                 className="text-lg md:text-xl text-[#2A2320]"
               >
-                Cibitung, Indonesia
+                Bekasi Regency, West Java.
               </p>
             </div>
 

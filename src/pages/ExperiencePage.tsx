@@ -38,8 +38,7 @@ const experiences = [
     description: (
       <div className="flex flex-col gap-4">
         <p>
-          Collaborating on global-scale infrastructure and internal platforms, driving engineering efficiency 
-          across multiple core systems from battery manufacturing management to enterprise-level internal tools.
+          Contributing to the smart manufacturing ecosystem through two core roles — autonomous process control and fault detection —while also involved in internal software development covering resource management and organizational learning systems.
         </p>
       </div>
     ),
@@ -47,22 +46,32 @@ const experiences = [
       {
         system: "APC (Autonomous Process Control)",
         points: [
-          "Managed MCCS configurations and equipment modeling across eight manufacturing sites.",
-          "Tracked critical equipment issues and handled operational reporting interfaces for high-throughput factory processes."
+          "Equipment modeling and integration using the Factova platform",
+          "Anomaly and alarm analysis across manufacturing processes",
+          "Machine failure validation to ensure operational reliability",
+          "MCCS configuration management across eight production sites"
+        ]
+      },
+      {
+        system: "FDC (Fault Detection and Classification)",
+        points: [
+          "User access administration within the FDC system",
+          "Assigning and adjusting user roles — from not available and view only to engineer — based on each user's needs and requests"
         ]
       },
       {
         system: "HRIS (Human Resource Information System)",
         points: [
-          "Developed robust asset management features to streamline internal resource tracking.",
-          "Integrated secure cloud storage modules utilizing AWS S3 and implemented precise Role-Based Access Control (RBAC) navigation."
+          "Developed asset management features to streamline internal resource tracking",
+          "Integrated secure cloud storage modules using AWS S3",
+          "Implemented precise Role-Based Access Control (RBAC) navigation"
         ]
       },
       {
         system: "LMS (Learning Management System)",
         points: [
-          "Maintained internal learning systems through proactive bug squashing and codebase refactoring.",
-          "Optimized application state and interface reliability to ensure seamless training delivery."
+          "Maintained internal learning systems through proactive bug fixing and codebase refactoring",
+          "Optimized application state and interface reliability to ensure seamless training delivery"
         ]
       }
     ],
@@ -70,13 +79,13 @@ const experiences = [
     culture: [
       {
         id: 1,
-        title: "Cross-Border Synergy",
+        title: "Sport - Futsal",
         image: "/images/culture-synergy.jpg",
         description: "Engaging in routine technical alignments and cross-cultural engineering syncs with core engineering teams based in South Korea."
       },
       {
         id: 2,
-        title: "Knowledge Sharing & Technical Mentorship",
+        title: "The Gwowth Circuit in Motion",
         image: "/images/culture-mentorship.jpg",
         description: "Participating in internal tech talks, architectural review boards, and collaborative bonding initiatives to foster strong engineering practices."
       }
