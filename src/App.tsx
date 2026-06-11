@@ -2,21 +2,22 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
+import ProfilePage from './pages/ProfilePage';
 import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ContactPage from './pages/ContactPage';
 import PageWrapper from './components/PageWrapper';
 import ProjectDetail from './pages/projectDetail';
+import BackgroundTexture from './components/BackgroundTexture';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence onExitComplete={() => window.scrollTo(0, 0)}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
-        <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
+        <Route path="/about" element={<PageWrapper><ProfilePage /></PageWrapper>} />
         <Route path="/experience" element={<PageWrapper><ExperiencePage /></PageWrapper>} />
         <Route path="/projects" element={<PageWrapper><ProjectsPage /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><ContactPage /></PageWrapper>} />
@@ -29,8 +30,12 @@ const AnimatedRoutes = () => {
 function App() {
   return (
     <Router>
-      <Navbar />
-      <AnimatedRoutes />
+      <div className="relative z-0 min-h-screen bg-white overflow-x-hidden">
+        <BackgroundTexture />
+
+        <Navbar />
+        <AnimatedRoutes />
+      </div>
     </Router>
   );
 }
