@@ -7,25 +7,21 @@ import { ClockWidget } from '../components/homePage/ClockWeather';
 import { WavyText } from '../components/homePage/WavyText';
 import catsAnimated from '../assets/cats2.svg';
 
-import { fadeUpVariants, lineGrowVariants } from '@utils/animation';
+import { 
+  containerVariants, 
+  lineGrowVariants, 
+  popUpVariants
+} from '@utils/animation';
 
 const TECH_TAGS = ['React', 'TypeScript', 'AWS S3'] as const;
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3, 
-      delayChildren: 0.6, 
-    },
-  },
-};
+/* MAIN HELPER COMPONENTS */
 
+// Bottom Info Widget
 const BottomInfo = memo(() => {
   return (
     <motion.div
-      variants={fadeUpVariants}
+      variants={popUpVariants}
       className="absolute bottom-8 md:bottom-12 left-8 md:left-16 flex items-center gap-3 md:gap-4 z-20 pointer-events-none"
     >
       <span className="font-poppins text-[10px] md:text-xs tracking-[0.25em] uppercase text-gray-500 font-medium">
@@ -38,6 +34,7 @@ const BottomInfo = memo(() => {
 });
 BottomInfo.displayName = 'BottomInfo';
 
+// Arrow Icon SVG
 const ArrowIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -52,6 +49,7 @@ const ArrowIcon = () => (
   </svg>
 );
 
+/* MAIN PAGE COMPONENT */
 const HomePage = (): ReactElement => {
   const navigate = useNavigate();
   const [btnHovered, setBtnHovered] = useState<boolean>(false);
@@ -60,10 +58,10 @@ const HomePage = (): ReactElement => {
 
   return (
     <motion.div 
-      variants={staggerContainer}
+      variants={containerVariants} 
       initial="hidden"
       animate="show"
-      exit={{ opacity: 0 }}
+      exit="exit" 
       className="w-full px-8 md:px-16 bg-transparent min-h-[calc(100vh-116px)] lg:h-[calc(100vh-116px)] overflow-x-hidden overflow-y-auto lg:overflow-hidden flex items-start lg:items-center relative z-0 pt-12 pb-24 lg:py-0"
     >
       <BottomInfo />
@@ -71,45 +69,55 @@ const HomePage = (): ReactElement => {
       {/* MAIN CONTENT */}
       <div className="w-full max-w-[1440px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 relative z-10">
 
-        {/* LEFT COLUMN */}
+        {/* // Left Column */}
         <div className="flex flex-col items-start justify-center w-full lg:w-[45%] relative pt-4 lg:pt-0 pointer-events-none">
-          <div className="pointer-events-auto w-full">
-
-            <motion.div variants={fadeUpVariants} className="mb-3 md:mb-4">
+          <motion.div variants={containerVariants} className="pointer-events-auto w-full flex flex-col gap-0">
+            
+            {/* // Greeting Text */}
+            <motion.div variants={popUpVariants} className="mb-3 md:mb-4">
               <span className="font-poppins text-xs md:text-sm tracking-[0.3em] uppercase text-gray-400 font-medium">
                 Hello, I'm
               </span>
             </motion.div>
 
-            <div className="mb-5 md:mb-6 w-fit select-none cursor-default font-lejour font-normal text-5xl md:text-[80px] lg:text-[96px] leading-[0.9] tracking-tight text-[#2A2320] flex flex-col">
-              <motion.div variants={fadeUpVariants} className="pb-1 md:pb-2">
+            {/* // Name Container */}
+            <motion.div 
+              variants={popUpVariants}
+              className="mb-5 md:mb-6 w-fit select-none cursor-default font-lejour font-normal text-5xl md:text-[80px] lg:text-[96px] leading-[0.9] tracking-tight text-[#2A2320] flex flex-col"
+            >
+              <div className="pb-1 md:pb-2">
                 <WavyText text="Aditya" isWavy={true} delayOffset={0} />
-              </motion.div>
-              <motion.div variants={fadeUpVariants} className="text-[#5E7657]">
+              </div>
+              <div className="text-[#5E7657]">
                 <WavyText text="Nugraha" isWavy={true} delayOffset={0.4} />
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
 
+            {/* // Decorative Line */}
             <motion.div
               variants={lineGrowVariants}
               className="w-16 md:w-32 h-[1px] bg-[#5E7657] mb-6 md:mb-8"
             />
 
+            {/* // Short Bio */}
             <motion.p
-              variants={fadeUpVariants}
+              variants={popUpVariants}
               className="font-poppins text-sm md:text-base lg:text-lg leading-relaxed text-gray-500 font-light max-w-[600px]"
             >
               Software Engineer focused on frontend development, with an interest in machine learning and automation.
             </motion.p>
-          </div>
+          </motion.div>
         </div>
 
-        {/* RIGHT COLUMN */}
-        <div className="flex flex-col items-center lg:items-end justify-center w-full lg:w-[40%] relative mt-2 lg:mt-0 gap-16 pointer-events-none lg:mr-12">
+        {/* // Right Column */}
+        <motion.div 
+          variants={containerVariants}
+          className="flex flex-col items-center lg:items-end justify-center w-full lg:w-[40%] relative mt-2 lg:mt-0 gap-16 pointer-events-none lg:mr-12"
+        >
 
-          {/* CURRENT CARD */}
+          {/* // Current Project Card */}
           <motion.div
-            variants={fadeUpVariants}
+            variants={popUpVariants}
             className="w-full max-w-[420px] rounded-[32px] bg-white/95 border border-black/[0.06] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.10)] pointer-events-auto overflow-hidden"
           >
             <div className="p-7 md:p-8">
@@ -154,8 +162,11 @@ const HomePage = (): ReactElement => {
             </div>
           </motion.div>
 
-          {/* CTA AREA */}
-          <motion.div variants={fadeUpVariants} className="flex flex-col items-center lg:items-end z-20 pointer-events-auto w-full max-w-[460px] relative">
+          {/* // CTA Area */}
+          <motion.div 
+            variants={popUpVariants}
+            className="flex flex-col items-center lg:items-end z-20 pointer-events-auto w-full max-w-[460px] relative"
+          >
             <img
               src={catsAnimated}
               alt="Cat"
@@ -183,7 +194,7 @@ const HomePage = (): ReactElement => {
             </div>
           </motion.div>
 
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );

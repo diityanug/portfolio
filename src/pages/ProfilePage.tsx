@@ -4,22 +4,13 @@ import { EducationCard, CertificateRow } from '../components/profilePage/Profile
 import { EDUCATION_DATA, CERTIFICATES_DATA } from '../constants/profileData';
 
 import {
-  fadeUpVariants,
+  containerVariants,
+  popUpVariants,
   lineGrowVariants,
   revealImageVariants
 } from '@utils/animation';
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3, 
-      delayChildren: 0.6,
-    },
-  },
-};
-
+/* MAIN PAGE COMPONENT */
 const ProfilePage = (): ReactElement => {
   const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
@@ -31,25 +22,23 @@ const ProfilePage = (): ReactElement => {
 
   return (
     <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeInOut' }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
       className="relative z-0 flex flex-col pt-16 md:pt-24 px-8 md:px-16 pb-24 min-h-[calc(100vh-116px)] bg-transparent overflow-hidden"
     >
 
       <div className="w-full max-w-[1400px] mx-auto relative z-10">
 
-        {/* ABOUT ME SECTION */}
+        {/* MAIN ABOUT */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="show"
+          variants={containerVariants}
           className="flex flex-col-reverse xl:flex-row gap-12 xl:gap-24 items-center xl:items-start mb-24"
         >
-          {/* LEFT: IMAGE PROFILE */}
+          {/* // Image Profile */}
           <motion.div
-            variants={fadeUpVariants}
+            variants={popUpVariants}
             className="w-full xl:w-4/12 flex justify-center xl:justify-start xl:pl-4"
           >
             <div className="relative z-10 group cursor-pointer w-full max-w-[240px] md:max-w-[280px]">
@@ -70,13 +59,13 @@ const ProfilePage = (): ReactElement => {
             </div>
           </motion.div>
 
-          {/* RIGHT: TEXT CONTENT */}
+          {/* // Text Content */}
           <div className="w-full xl:w-8/12 flex flex-col pt-4 xl:pt-8">
             <h1 className="pointer-events-none select-none font-lejour font-normal text-6xl md:text-[96px] leading-[0.9] tracking-tight mb-8">
-              <motion.div variants={fadeUpVariants} className="pb-2 md:pb-3 text-[#2A2320]">
+              <motion.div variants={popUpVariants} className="pb-2 md:pb-3 text-[#2A2320]">
                 About
               </motion.div>
-              <motion.div variants={fadeUpVariants} className="text-[#5E7657]">
+              <motion.div variants={popUpVariants} className="text-[#5E7657]">
                 Me
               </motion.div>
             </h1>
@@ -87,7 +76,7 @@ const ProfilePage = (): ReactElement => {
             />
 
             <motion.div
-              variants={fadeUpVariants}
+              variants={popUpVariants}
               className="flex flex-col gap-6 w-full max-w-2xl"
             >
               <p className="font-poppins text-lg md:text-[20px] leading-relaxed text-gray-500 font-light text-justify">
@@ -100,7 +89,7 @@ const ProfilePage = (): ReactElement => {
           </div>
         </motion.div>
 
-        {/* SECTION DIVIDER */}
+        {/* MAIN DIVIDER */}
         <motion.div
           variants={lineGrowVariants}
           initial="hidden"
@@ -109,18 +98,18 @@ const ProfilePage = (): ReactElement => {
           className="w-full border-t border-black/[0.08] mb-16 md:mb-20"
         />
 
-        {/* EDUCATION & CERTIFICATES */}
+        {/* MAIN EDUCATION & CERTIFICATES */}
         <motion.div
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 xl:grid-cols-2 gap-16 xl:gap-24"
         >
-          {/* EDUCATION */}
+          {/* // Education */}
           <div className="flex flex-col items-start w-full">
             <motion.h2
-              variants={fadeUpVariants}
+              variants={popUpVariants}
               style={{ fontFamily: "'The Seasons Italic', serif" }}
               className="text-4xl md:text-[44px] tracking-tight text-[#2A2320] mb-10"
             >
@@ -129,15 +118,17 @@ const ProfilePage = (): ReactElement => {
 
             <div className="flex flex-col gap-6 w-full">
               {EDUCATION_DATA.map((edu) => (
-                <EducationCard key={edu.degree} {...edu} />
+                <motion.div key={edu.degree} variants={popUpVariants}>
+                  <EducationCard {...edu} />
+                </motion.div>
               ))}
             </div>
           </div>
 
-          {/* CERTIFICATES */}
+          {/* // Certificates */}
           <div className="flex flex-col items-start w-full">
             <motion.h2
-              variants={fadeUpVariants}
+              variants={popUpVariants}
               style={{ fontFamily: "'The Seasons Italic', serif" }}
               className="text-4xl md:text-[44px] tracking-tight text-[#2A2320] mb-10"
             >
@@ -146,7 +137,9 @@ const ProfilePage = (): ReactElement => {
 
             <div className="flex flex-col w-full border-t border-black/[0.08]">
               {CERTIFICATES_DATA.map((cert) => (
-                <CertificateRow key={cert.title} {...cert} />
+                <motion.div key={cert.title} variants={popUpVariants}>
+                  <CertificateRow {...cert} />
+                </motion.div>
               ))}
             </div>
           </div>

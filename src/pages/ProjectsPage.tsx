@@ -2,44 +2,38 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import { 
-  fadeUpVariants, 
+  containerVariants, 
+  popUpVariants, 
   lineGrowVariants 
 } from '@utils/animation';
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3, 
-      delayChildren: 0.6,
-    },
-  },
-};
+/* MAIN PROJECT DATA */
+const projects = [
+  {
+    title: "Genre Game Classifier",
+    category: "Natural Language Processing",
+    year: "2024",
+    image: "public/images/Project 1.png",
+    slug: "genre-game-classifier"
+  }
+];
 
+/* MAIN PAGE COMPONENT */
 const ProjectsPage = () => {
   const navigate = useNavigate();
 
-  const projects = [
-    {
-      title: "Genre Game Classifier",
-      category: "Natural Language Processing",
-      year: "2024",
-      image: "public/images/Project 1.png",
-      slug: "genre-game-classifier"
-    }
-  ];
-
   return (
     <motion.div
-      variants={staggerContainer}
+      variants={containerVariants}
       initial="hidden"
       animate="show"
-      exit={{ opacity: 0 }}
+      exit="exit"
       className="w-full px-8 md:px-16 bg-transparent min-h-[calc(100vh-116px)] overflow-x-hidden relative z-0 pt-16 md:pt-24 pb-24"
     >
+      {/* // Background Blur */}
       <div className="absolute top-1/4 right-1/4 w-[40vw] h-[40vw] bg-gray-50/60 rounded-full blur-3xl pointer-events-none -z-10" />
 
+      {/* // Top Border */}
       <motion.div
         variants={lineGrowVariants}
         className="absolute top-0 left-0 w-full h-[1px] bg-black/[0.07] pointer-events-none"
@@ -47,34 +41,39 @@ const ProjectsPage = () => {
 
       <div className="w-full max-w-[1440px] mx-auto relative z-10">
 
-        {/* HEADER SECTION */}
-        <div className="mb-20 md:mb-28 flex flex-col md:flex-row md:items-end justify-between gap-10">
+        {/* MAIN HEADER */}
+        <motion.div variants={containerVariants} className="mb-20 md:mb-28 flex flex-col md:flex-row md:items-end justify-between gap-10">
           <div className="flex flex-col">
+            {/* // Title */}
             <h1 className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[80px] lg:text-[96px] leading-[0.9] tracking-tight flex flex-col">
-               <motion.div variants={fadeUpVariants} className="text-[#2A2320] pb-1 md:pb-2">
+               <motion.div variants={popUpVariants} className="text-[#2A2320] pb-1 md:pb-2">
                  Personal
                </motion.div>
-               <motion.div variants={fadeUpVariants} className="text-[#5E7657]">
+               <motion.div variants={popUpVariants} className="text-[#5E7657]">
                  Projects
                </motion.div>
             </h1>
             
+            {/* // Decorative Line */}
             <motion.div variants={lineGrowVariants} className="w-16 md:w-32 h-[1px] bg-[#5E7657] mt-8" />
           </div>
           
+          {/* // Subtitle */}
           <motion.p 
-            variants={fadeUpVariants}
+            variants={popUpVariants}
             className="font-poppins text-gray-400 uppercase tracking-[0.2em] text-[10px] md:text-xs font-medium max-w-[220px] text-left md:text-right leading-relaxed pb-1"
           >
             Projects, Experiments, and Ideas Brought to Life
           </motion.p>
-        </div>
+        </motion.div>
 
-        {/* PROJECTS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 w-full">
+        {/* MAIN PROJECTS GRID */}
+        <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 w-full">
+          
+          {/* // Project Cards Iteration */}
           {projects.map((project) => (
             <motion.div
-              variants={fadeUpVariants}
+              variants={popUpVariants}
               key={project.slug}
               onClick={() => navigate(`/projects/${project.slug}`)}
               className="group cursor-pointer flex flex-col w-full rounded-[28px] bg-gradient-to-b from-white/90 to-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_24px_60px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out overflow-hidden"
@@ -117,7 +116,7 @@ const ProjectsPage = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </motion.div>

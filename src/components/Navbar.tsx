@@ -1,22 +1,49 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { Transition } from 'framer-motion';
 
 import iconIdle from '../assets/iconIdle.svg';
 import iconHover from '../assets/iconHover.svg';
 
-const LEFT_LINKS = [
+/* TYPES & CONSTANTS */
+// Link interface
+interface NavLink {
+  name: string;
+  path: string;
+}
+
+// Left side links
+const LEFT_LINKS: readonly NavLink[] = [
   { name: 'Profile', path: '/about' },
   { name: 'Experience', path: '/experience' },
 ] as const;
 
-const RIGHT_LINKS = [
+// Right side links
+const RIGHT_LINKS: readonly NavLink[] = [
   { name: 'Projects', path: '/projects' },
   { name: 'Contact', path: '/contact' },
 ] as const;
 
-const NavGroup = memo(({ links, pathname, spacing }: { links: any, pathname: string, spacing: string }) => (
+// Animation config
+const navTransition: Transition = {
+  duration: 0.8,
+  ease: [0.22, 1, 0.36, 1],
+};
+
+
+/* COMPONENTS */
+// NavGroup interface
+interface NavGroupProps {
+  links: readonly NavLink[];
+  pathname: string;
+  spacing: string;
+}
+
+// NavGroup wrapper
+const NavGroup = memo(({ links, pathname, spacing }: NavGroupProps) => (
   <div className={`flex items-center gap-5 lg:gap-8 font-google font-bold text-sm tracking-[0.3em] uppercase ${spacing}`}>
-    {links.map((link: any) => {
+    {links.map((link) => {
       const isActive = pathname === link.path;
       return (
         <Link
@@ -34,18 +61,24 @@ const NavGroup = memo(({ links, pathname, spacing }: { links: any, pathname: str
 ));
 NavGroup.displayName = 'NavGroup';
 
+
+/* MAIN NAVBAR */
 const Navbar = () => {
+  // State management
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  
+  // Refs
   const rafRef = useRef<number | null>(null);
-
-  const lastPathRef = useRef(location.pathname);
+  const lastPathRef = useRef<string>(location.pathname);
+  
   if (!isHome) {
     lastPathRef.current = location.pathname;
   }
 
+  // Scroll listener
   useEffect(() => {
     const handleScroll = () => {
       if (rafRef.current !== null) return;
@@ -64,10 +97,12 @@ const Navbar = () => {
     };
   }, []);
 
+  // Route change listener
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
 
+  // Mobile toggle handler
   const handleToggle = useCallback(() => setIsOpen(prev => !prev), []);
 
   return (
@@ -79,30 +114,42 @@ const Navbar = () => {
       <div className="relative w-full h-full flex items-center justify-between">
 
         {/* LEFT AREA */}
-        <div className="flex-1 flex justify-end items-center h-full overflow-hidden origin-right">
+        <div className="flex-1 flex justify-end items-center h-full overflow-hidden">
           
+          {/* // Line decoration */}
           <div className="flex-grow h-full flex items-center pr-8 lg:pr-12">
             <div className="w-full h-[2px] bg-black/20 rounded-full min-w-[20px]" />
           </div>
 
-          <div
-            className={`hidden md:block overflow-hidden whitespace-nowrap ${
-              !isHome ? 'max-w-[700px] opacity-100' : 'max-w-0 opacity-0'
-            }`}
-            style={{
-              transition: 'max-width 600ms cubic-bezier(0.4, 0, 0.2, 1), opacity 600ms cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
+          {/* // Width animation wrapper */}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: !isHome ? 'auto' : 0 }}
+            transition={navTransition}
+            className="hidden md:flex justify-end overflow-hidden whitespace-nowrap"
           >
-            <NavGroup links={LEFT_LINKS} pathname={lastPathRef.current} spacing="pr-2" />
-          </div>
+            {/* // Slide animation text */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ 
+                opacity: !isHome ? 1 : 0, 
+                x: !isHome ? 0 : 50 
+              }}
+              transition={navTransition}
+              className="shrink-0 flex items-center"
+            >
+              <NavGroup links={LEFT_LINKS} pathname={lastPathRef.current} spacing="pr-2" />
+            </motion.div>
+          </motion.div>
           
+          {/* // Gap spacer */}
           <div className="w-[clamp(16px,2vw,36px)] shrink-0" />
         </div>
 
-        {/* CATS ICON */}
+        {/* CENTER ICON */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center pointer-events-none px-4">
           
-          {/* Desktop Logo */}
+          {/* // Desktop view */}
           <Link
             to="/"
             className="group hidden md:flex items-center justify-center h-12 md:h-16 shrink-0 relative transition-transform duration-300 active:scale-95 pointer-events-auto"
@@ -111,7 +158,7 @@ const Navbar = () => {
             <img src={iconHover} alt="Logo Hover" draggable={false} className="absolute inset-0 m-auto h-full w-auto object-contain select-none transition-opacity duration-300 opacity-0 group-hover:opacity-100 drop-shadow-md" />
           </Link>
 
-          {/* Mobile Logo */}
+          {/* // Mobile view */}
           {isHome ? (
             <Link
               to="/"
@@ -131,25 +178,36 @@ const Navbar = () => {
               <img src={iconHover} alt="Logo Toggle Hover" draggable={false} className="absolute inset-0 m-auto h-full w-auto object-contain select-none transition-opacity duration-300 opacity-0 group-hover:opacity-100 drop-shadow-md" />
             </button>
           )}
-
         </div>
 
         {/* RIGHT AREA */}
-        <div className="flex-1 flex justify-start items-center h-full overflow-hidden origin-left">
+        <div className="flex-1 flex justify-start items-center h-full overflow-hidden">
           
+          {/* // Gap spacer */}
           <div className="w-[clamp(16px,2vw,36px)] shrink-0" />
 
-          <div
-            className={`hidden md:block overflow-hidden whitespace-nowrap ${
-              !isHome ? 'max-w-[700px] opacity-100' : 'max-w-0 opacity-0'
-            }`}
-            style={{
-              transition: 'max-width 600ms cubic-bezier(0.4, 0, 0.2, 1), opacity 600ms cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
+          {/* // Width animation wrapper */}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: !isHome ? 'auto' : 0 }}
+            transition={navTransition}
+            className="hidden md:flex justify-start overflow-hidden whitespace-nowrap"
           >
-            <NavGroup links={RIGHT_LINKS} pathname={lastPathRef.current} spacing="pl-2" />
-          </div>
+            {/* // Slide animation text */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ 
+                opacity: !isHome ? 1 : 0, 
+                x: !isHome ? 0 : -50 
+              }}
+              transition={navTransition}
+              className="shrink-0 flex items-center"
+            >
+              <NavGroup links={RIGHT_LINKS} pathname={lastPathRef.current} spacing="pl-2" />
+            </motion.div>
+          </motion.div>
 
+          {/* // Line decoration */}
           <div className="flex-grow h-full flex items-center pl-8 lg:pl-12">
             <div className="w-full h-[2px] bg-black/20 rounded-full min-w-[20px]" />
           </div>
@@ -157,35 +215,39 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* DROPDOWN MOBILE */}
-      <div
-        className={`absolute top-full left-0 w-full bg-white/[0.97] overflow-hidden md:hidden shadow-sm -z-10 origin-top ${
-          !isHome && isOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
-        }`}
-        style={{
-          transition: 'max-height 600ms cubic-bezier(0.4, 0, 0.2, 1), opacity 600ms cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
-      >
-        <div className="flex flex-col items-center pt-8 pb-10 gap-6 px-4">
-          {[{ name: 'Home', path: '/' }, ...LEFT_LINKS, ...RIGHT_LINKS].map((link) => {
-            const isActive = location.pathname === link.path;
-            return (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className={`font-google font-bold text-[11px] tracking-[0.25em] uppercase transition-all duration-500 ease-in-out active:scale-95 border-b-2 pb-1 ${
-                  isActive
-                    ? 'border-[#5E7657] opacity-100 text-[#5E7657]'
-                    : 'border-transparent opacity-40 text-[#2A2320]'
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      {/* MOBILE DROPDOWN */}
+      <AnimatePresence>
+        {!isHome && isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20, mass: 0.8 }}
+            className="absolute top-full left-0 w-full bg-white/[0.97] overflow-hidden md:hidden shadow-sm -z-10 origin-top"
+          >
+            {/* // Mobile links map */}
+            <div className="flex flex-col items-center pt-8 pb-10 gap-6 px-4">
+              {[{ name: 'Home', path: '/' }, ...LEFT_LINKS, ...RIGHT_LINKS].map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className={`font-google font-bold text-[11px] tracking-[0.25em] uppercase transition-all duration-500 ease-in-out active:scale-95 border-b-2 pb-1 ${
+                      isActive
+                        ? 'border-[#5E7657] opacity-100 text-[#5E7657]'
+                        : 'border-transparent opacity-40 text-[#2A2320]'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

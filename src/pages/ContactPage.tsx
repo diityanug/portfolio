@@ -4,51 +4,42 @@ import { SocialButton } from '../components/contactPage/SocialButton';
 import { SOCIAL_LINKS, EMAIL_LINK, RESUME_LINK, RESUME_ICON } from '../constants/contactData';
 
 import { 
-  fadeUpVariants, 
+  containerVariants, 
+  popUpVariants, 
   lineGrowVariants 
 } from '@utils/animation';
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3, 
-      delayChildren: 0.6, 
-    },
-  },
-};
 
 const ContactPage = (): ReactElement => {
   return (
     <motion.div
-      variants={staggerContainer}
+      variants={containerVariants}
       initial="hidden"
       animate="show"
-      exit={{ opacity: 0 }}
-      className="relative z-0 flex flex-col px-8 md:px-16 py-6 md:py-8 h-[calc(100vh-116px)] overflow-hidden bg-transparent"
+      exit="exit"
+      className="relative z-0 flex flex-col px-8 md:px-16 py-6 md:py-8 h-auto min-h-[calc(100vh-116px)] md:min-h-0 md:h-[calc(100vh-116px)] overflow-x-hidden overflow-y-auto md:overflow-hidden bg-transparent"
     >
 
-      <div className="w-full max-w-6xl mx-auto flex flex-col h-full relative z-10">
+      <div className="w-full max-w-6xl mx-auto flex flex-col h-full relative z-10 flex-1">
 
-        {/* HERO */}
-        <div className="flex-1 flex flex-col justify-center mb-16 md:mb-24">
+        {/* MAIN HERO */}
+        <motion.div variants={containerVariants} className="flex-1 flex flex-col justify-center mb-16 md:mb-24 mt-8 md:mt-0">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gap-10 lg:gap-8">
 
-            {/* LEFT */}
-            <div className="flex flex-col items-start w-full lg:w-2/3">
+            {/* LEFT SECTION */}
+            <motion.div variants={containerVariants} className="flex flex-col items-start w-full lg:w-2/3">
               
               <div className="flex flex-col mb-4 md:mb-5">
-                <motion.h1 variants={fadeUpVariants} className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[72px] lg:text-[90px] leading-[0.9] tracking-tight text-[#2A2320]">
+                <motion.h1 variants={popUpVariants} className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[72px] lg:text-[90px] leading-[0.9] tracking-tight text-[#2A2320]">
                   Let’s Build
                 </motion.h1>
 
-                <div className="flex items-center gap-3 mt-1 md:mt-3">
-                  <motion.h1 variants={fadeUpVariants} className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[72px] lg:text-[90px] leading-[0.9] tracking-tight text-[#2A2320]">
+                {/* Typography Wrapper */}
+                <div className="flex flex-wrap md:flex-nowrap items-center gap-x-3 gap-y-1 md:gap-3 mt-1 md:mt-3">
+                  <motion.h1 variants={popUpVariants} className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[72px] lg:text-[90px] leading-[0.9] tracking-tight text-[#2A2320]">
                     Something
                   </motion.h1>
                   <motion.span
-                    variants={fadeUpVariants}
+                    variants={popUpVariants}
                     style={{ fontFamily: "'The Seasons Italic', serif" }}
                     className="pointer-events-none select-none text-6xl md:text-[80px] lg:text-[105px] leading-[0.8] text-[#5E7657] mt-1 md:mt-3"
                   >
@@ -57,15 +48,17 @@ const ContactPage = (): ReactElement => {
                 </div>
               </div>
 
+              {/* Decorative Line */}
               <motion.div variants={lineGrowVariants} className="w-full max-w-[250px] border-t-2 border-black/10 my-4 md:my-6" />
 
-              <motion.p variants={fadeUpVariants} className="pointer-events-none select-none font-poppins text-base md:text-lg font-light tracking-wide text-gray-500 leading-relaxed max-w-lg">
+              <motion.p variants={popUpVariants} className="pointer-events-none select-none font-poppins text-base md:text-lg font-light tracking-wide text-gray-500 leading-relaxed max-w-lg">
                 I’m always excited to collaborate on meaningful projects, discuss tech, or just say hello. Reach out anytime.
               </motion.p>
-            </div>
+            </motion.div>
 
-            {/* RIGHT (CTA BUTTONS) */}
-            <motion.div variants={fadeUpVariants} className="w-full lg:w-1/3 flex justify-start lg:justify-end mt-2 lg:mt-0">
+            {/* RIGHT SECTION */}
+            {/* CTA Buttons */}
+            <motion.div variants={popUpVariants} className="w-full lg:w-1/3 flex justify-start lg:justify-end mt-2 lg:mt-0">
               <a href={EMAIL_LINK} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center justify-between gap-3 bg-[#2A2320] text-white px-5 py-2.5 md:px-7 md:py-3.5 rounded-full hover:bg-[#5E7657] transition-all duration-500 ease-out shadow-md hover:shadow-lg hover:-translate-y-1">
                 <span className="font-poppins text-xs tracking-[0.2em] uppercase font-medium">Send an Email</span>
                 <span className="bg-white/10 p-2 md:p-2.5 rounded-full group-hover:rotate-45 group-hover:bg-white/20 transition-all duration-300">
@@ -77,13 +70,16 @@ const ContactPage = (): ReactElement => {
               </a>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* FOOTER */}
-        <motion.div variants={fadeUpVariants} className="w-full shrink-0">
+        {/* MAIN FOOTER */}
+        <motion.div variants={popUpVariants} className="w-full shrink-0 mt-auto">
+          {/* Top Border */}
           <div className="w-full border-t border-black/10 mb-6" />
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 w-full">
+            
+            {/* Social Links */}
             <div className="flex flex-wrap gap-3">
               {SOCIAL_LINKS.map((social) => (
                 <SocialButton 
@@ -100,6 +96,7 @@ const ContactPage = (): ReactElement => {
               />
             </div>
 
+            {/* Status Indicator */}
             <div className="flex flex-col items-start md:items-end gap-1.5 bg-white px-5 py-3 rounded-2xl border border-black/5 shadow-sm">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2.5 w-2.5">

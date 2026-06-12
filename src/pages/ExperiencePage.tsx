@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { fadeUpVariants, lineGrowVariants } from '@utils/animation';
+import { containerVariants, popUpVariants, lineGrowVariants } from '@utils/animation';
 import { ExperienceItem } from '../components/experiencePage/ExperienceCard';
 import type { ExperienceData } from '../components/experiencePage/ExperienceCard';
 
-/* Data */
+/* MAIN DATA */
 const experiences: ExperienceData[] = [
   {
     id: 1,
@@ -70,56 +70,53 @@ const experiences: ExperienceData[] = [
   },
 ];
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3, 
-      delayChildren: 0.6,
-    },
-  },
-};
-
-/* Page */
+/* MAIN PAGE */
 const ExperiencePage = () => {
   return (
     <motion.div
-      variants={staggerContainer}
+      variants={containerVariants}
       initial="hidden"
       animate="show"
-      exit={{ opacity: 0 }}
+      exit="exit"
       className="relative z-0 flex flex-col pt-16 md:pt-24 px-8 md:px-16 pb-28 min-h-[calc(100vh-116px)] bg-transparent overflow-hidden"
     >
       <div className="w-full max-w-[1440px] mx-auto relative z-10">
         
-        {/* HEADER */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12 mb-16 md:mb-20">
+        {/* MAIN HEADER */}
+        <motion.div variants={containerVariants} className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12 mb-16 md:mb-20">
           <div className="flex flex-col">
-            <motion.h1 variants={fadeUpVariants} className="font-lejour font-normal leading-[0.9] tracking-tight text-[#1a1a1a] select-none pointer-events-none text-[56px] md:text-[80px] lg:text-[96px] pb-1 md:pb-2">
+            <motion.h1 variants={popUpVariants} className="font-lejour font-normal leading-[0.9] tracking-tight text-[#1a1a1a] select-none pointer-events-none text-[56px] md:text-[80px] lg:text-[96px] pb-1 md:pb-2">
               Work
             </motion.h1>
-            <motion.h1 variants={fadeUpVariants} className="font-lejour font-normal leading-[0.9] tracking-tight text-[#5E7657] select-none pointer-events-none text-[56px] md:text-[80px] lg:text-[96px]">
+            <motion.h1 variants={popUpVariants} className="font-lejour font-normal leading-[0.9] tracking-tight text-[#5E7657] select-none pointer-events-none text-[56px] md:text-[80px] lg:text-[96px]">
               Experience
             </motion.h1>
+            
+            {/* // Decorative Line */}
             <motion.div variants={lineGrowVariants} className="w-12 md:w-16 h-[1px] bg-[#5E7657] mt-6" />
           </div>
           
-          <motion.div variants={fadeUpVariants} className="flex flex-col items-start md:items-end gap-3 pb-1">
+          {/* // Subtitle */}
+          <motion.div variants={popUpVariants} className="flex flex-col items-start md:items-end gap-3 pb-1">
             <p className="font-poppins text-[10px] tracking-[0.22em] uppercase text-gray-400 font-light max-w-[180px] text-left md:text-right leading-loose">
               A timeline of my professional journey.
             </p>
           </motion.div>
-        </div>
+        </motion.div>
 
-        {/* EXPERIENCE LIST */}
-        <div className="flex flex-col">
+        {/* MAIN EXPERIENCE LIST */}
+        <motion.div variants={containerVariants} className="flex flex-col">
+          
+          {/* // Top Divider */}
           <motion.div variants={lineGrowVariants} className="w-full h-[1px] bg-black/10" />
 
+          {/* // Experience Cards Iteration */}
           {experiences.map((exp) => (
-            <ExperienceItem key={exp.id} exp={exp} />
+            <motion.div key={exp.id} variants={popUpVariants}>
+              <ExperienceItem exp={exp} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );
