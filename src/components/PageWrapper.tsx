@@ -11,7 +11,8 @@ const PageWrapper = ({ children }: PageWrapperProps) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="w-full pt-[80px] md:pt-[116px] min-h-screen"
+      // Hapus semua pt-*, biarkan min-h-screen saja agar mentok atas
+      className="w-full min-h-screen" 
     >
       {children}
     </motion.div>

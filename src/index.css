@@ -4,37 +4,107 @@
 
 /* FONTS */
 @font-face {
-    font-family: 'Telegraf Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Telegraf Regular'), url('TelegrafRegular_272984568a25d8528fe2de8b20b29011.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'Poppins ExtraLight';
-  src: url('/fonts/Poppins-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
+  font-family: 'Poppins Light';
+  src: url('/fonts/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
-
 @font-face {
   font-family: 'Le Jour Serif';
   src: url('/fonts/Le Jour Serif Personal Use Only.otf') format('opentype');
-  font-weight: 100;
+  font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
-
 @font-face {
-  font-family: 'The Seasons Italic';
-  src: url('/fonts/TheSeasons-Italic.ttf') format('truetype');
+  font-family: 'The_Seasons_Regular';
+  src: url('/fonts/The Seasons Regular.ttf') format('truetype'); 
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Atteron';
+  src: url('/fonts/Atteron Personal Use Only.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cardo';
+  src: url('/fonts/Cardo-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cardo Italic';
+  src: url('/fonts/Cardo-Italic.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
+  font-display: swap;
 }
-
 @font-face {
-  font-family: 'Google Sans';
-  src: url('/fonts/GoogleSans-VariableFont.ttf') format('truetype');
+  font-family: 'CMU Roman';
+  src: url('/fonts/cmunrm.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'CMU Italic';
+  src: url('/fonts/cmunti.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nove';
+  src: url('/fonts/Nove.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
   font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Tan Mon Cheri';
+  src: url('/fonts/TAN-MON CHERI-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Hatton';
+  src: url('/fonts/PP Hatton Medium 500.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Garbata';
+  src: url('/fonts/Garbata-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Aileron';
+  src: url('/fonts/aileron.regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Migra';
+  src: url('/fonts/Migra.otf') format('opentype');
+  font-weight: normal;
   font-style: normal;
 }
 

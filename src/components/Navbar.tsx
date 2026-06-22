@@ -31,18 +31,10 @@ const navTransition: Transition = {
   ease: [0.22, 1, 0.36, 1],
 };
 
-
 /* COMPONENTS */
-// NavGroup interface
-interface NavGroupProps {
-  links: readonly NavLink[];
-  pathname: string;
-  spacing: string;
-}
-
 // NavGroup wrapper
-const NavGroup = memo(({ links, pathname, spacing }: NavGroupProps) => (
-  <div className={`flex items-center gap-5 lg:gap-8 font-google font-bold text-sm tracking-[0.3em] uppercase ${spacing}`}>
+const NavGroup = memo(({ links, pathname, spacing }: { links: readonly NavLink[]; pathname: string; spacing: string }) => (
+  <div className={`flex items-center gap-5 lg:gap-8 font-garbata font-bold text-sm tracking-[0.3em] uppercase ${spacing}`}>
     {links.map((link) => {
       const isActive = pathname === link.path;
       return (
@@ -60,7 +52,6 @@ const NavGroup = memo(({ links, pathname, spacing }: NavGroupProps) => (
   </div>
 ));
 NavGroup.displayName = 'NavGroup';
-
 
 /* MAIN NAVBAR */
 const Navbar = () => {
@@ -102,54 +93,43 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Mobile toggle handler
   const handleToggle = useCallback(() => setIsOpen(prev => !prev), []);
 
   return (
     <nav
-      className={`w-full h-16 md:h-20 fixed top-0 left-0 z-50 transition-colors duration-300 px-4 md:px-8 ${
-        isScrolled ? 'bg-white/[0.97] shadow-sm' : 'bg-transparent'
+      className={`w-full h-16 md:h-20 fixed top-0 left-0 z-50 transition-all duration-300 px-4 md:px-8 ${
+        isScrolled 
+          ? 'bg-[#F9F8F4]/80 backdrop-blur-md shadow-sm border-b border-[#2E4C38]/10' 
+          : 'bg-transparent'
       }`}
     >
       <div className="relative w-full h-full flex items-center justify-between">
 
         {/* LEFT AREA */}
         <div className="flex-1 flex justify-end items-center h-full overflow-hidden">
-          
-          {/* // Line decoration */}
           <div className="flex-grow h-full flex items-center pr-8 lg:pr-12">
             <div className="w-full h-[2px] bg-black/20 rounded-full min-w-[20px]" />
           </div>
-
-          {/* // Width animation wrapper */}
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: !isHome ? 'auto' : 0 }}
             transition={navTransition}
             className="hidden md:flex justify-end overflow-hidden whitespace-nowrap"
           >
-            {/* // Slide animation text */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
-              animate={{ 
-                opacity: !isHome ? 1 : 0, 
-                x: !isHome ? 0 : 50 
-              }}
+              animate={{ opacity: !isHome ? 1 : 0, x: !isHome ? 0 : 50 }}
               transition={navTransition}
               className="shrink-0 flex items-center"
             >
               <NavGroup links={LEFT_LINKS} pathname={lastPathRef.current} spacing="pr-2" />
             </motion.div>
           </motion.div>
-          
-          {/* // Gap spacer */}
           <div className="w-[clamp(16px,2vw,36px)] shrink-0" />
         </div>
 
         {/* CENTER ICON */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center pointer-events-none px-4">
-          
-          {/* // Desktop view */}
           <Link
             to="/"
             className="group hidden md:flex items-center justify-center h-12 md:h-16 shrink-0 relative transition-transform duration-300 active:scale-95 pointer-events-auto"
@@ -158,7 +138,6 @@ const Navbar = () => {
             <img src={iconHover} alt="Logo Hover" draggable={false} className="absolute inset-0 m-auto h-full w-auto object-contain select-none transition-opacity duration-300 opacity-0 group-hover:opacity-100 drop-shadow-md" />
           </Link>
 
-          {/* // Mobile view */}
           {isHome ? (
             <Link
               to="/"
@@ -172,7 +151,6 @@ const Navbar = () => {
               onClick={handleToggle}
               className="md:hidden group flex items-center justify-center h-12 shrink-0 relative transition-transform duration-300 active:scale-95 pointer-events-auto focus:outline-none"
               aria-label="Toggle menu"
-              aria-expanded={isOpen}
             >
               <img src={isOpen ? iconHover : iconIdle} alt="Logo Toggle" draggable={false} className="h-full w-auto object-contain select-none transition-opacity duration-300 group-hover:opacity-0" />
               <img src={iconHover} alt="Logo Toggle Hover" draggable={false} className="absolute inset-0 m-auto h-full w-auto object-contain select-none transition-opacity duration-300 opacity-0 group-hover:opacity-100 drop-shadow-md" />
@@ -182,36 +160,25 @@ const Navbar = () => {
 
         {/* RIGHT AREA */}
         <div className="flex-1 flex justify-start items-center h-full overflow-hidden">
-          
-          {/* // Gap spacer */}
           <div className="w-[clamp(16px,2vw,36px)] shrink-0" />
-
-          {/* // Width animation wrapper */}
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: !isHome ? 'auto' : 0 }}
             transition={navTransition}
             className="hidden md:flex justify-start overflow-hidden whitespace-nowrap"
           >
-            {/* // Slide animation text */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
-              animate={{ 
-                opacity: !isHome ? 1 : 0, 
-                x: !isHome ? 0 : -50 
-              }}
+              animate={{ opacity: !isHome ? 1 : 0, x: !isHome ? 0 : -50 }}
               transition={navTransition}
               className="shrink-0 flex items-center"
             >
               <NavGroup links={RIGHT_LINKS} pathname={lastPathRef.current} spacing="pl-2" />
             </motion.div>
           </motion.div>
-
-          {/* // Line decoration */}
           <div className="flex-grow h-full flex items-center pl-8 lg:pl-12">
             <div className="w-full h-[2px] bg-black/20 rounded-full min-w-[20px]" />
           </div>
-
         </div>
       </div>
 
@@ -223,9 +190,8 @@ const Navbar = () => {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 120, damping: 20, mass: 0.8 }}
-            className="absolute top-full left-0 w-full bg-white/[0.97] overflow-hidden md:hidden shadow-sm -z-10 origin-top"
+            className="absolute top-full left-0 w-full bg-[#F9F8F4]/95 backdrop-blur-md overflow-hidden md:hidden shadow-sm -z-10 origin-top border-b border-[#2E4C38]/10"
           >
-            {/* // Mobile links map */}
             <div className="flex flex-col items-center pt-8 pb-10 gap-6 px-4">
               {[{ name: 'Home', path: '/' }, ...LEFT_LINKS, ...RIGHT_LINKS].map((link) => {
                 const isActive = location.pathname === link.path;
@@ -234,7 +200,7 @@ const Navbar = () => {
                     key={link.path}
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`font-google font-bold text-[11px] tracking-[0.25em] uppercase transition-all duration-500 ease-in-out active:scale-95 border-b-2 pb-1 ${
+                    className={`font-garbata font-bold text-[11px] tracking-[0.25em] uppercase transition-all duration-500 ease-in-out active:scale-95 border-b-2 pb-1 ${
                       isActive
                         ? 'border-[#5E7657] opacity-100 text-[#5E7657]'
                         : 'border-transparent opacity-40 text-[#2A2320]'

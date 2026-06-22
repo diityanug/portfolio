@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 import { 
-  containerVariants, 
-  popUpVariants, 
-  lineGrowVariants 
+  popUpVariants 
 } from '@utils/animation';
+
+// IMPORT STATIC DOT GRID DI SINI
+import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
 
 /* MAIN PROJECT DATA */
 const projects = [
@@ -18,101 +20,140 @@ const projects = [
   }
 ];
 
+/* ARROW ICON HELPER */
+const ArrowUpRight = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="17" x2="19" y2="5"></line>
+    <polyline points="5 5 19 5 19 19"></polyline>
+  </svg>
+);
+
 /* MAIN PAGE COMPONENT */
 const ProjectsPage = () => {
   const navigate = useNavigate();
 
+  const pageVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.5 } },
+    exit: { opacity: 0, transition: { duration: 0.3 } }
+  };
+
+  const typingChar: Variants = {
+    hidden: { opacity: 0, y: 15, rotate: -5 },
+    show: { 
+      opacity: 1, y: 0, rotate: 0,
+      transition: { type: "spring", damping: 16, stiffness: 140 }
+    }
+  };
+
+  const listContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { delayChildren: 1.0, staggerChildren: 0.2 } 
+    }
+  };
+
   return (
     <motion.div
-      variants={containerVariants}
+      variants={pageVariants}
       initial="hidden"
       animate="show"
       exit="exit"
-      className="w-full px-8 md:px-16 bg-transparent min-h-[calc(100vh-116px)] overflow-x-hidden relative z-0 pt-16 md:pt-24 pb-24"
+      className="relative z-0 flex flex-col pt-32 lg:pt-40 px-6 md:px-12 lg:px-16 pb-24 min-h-screen bg-[#F9F8F4] overflow-x-hidden"
     >
-      {/* // Background Blur */}
-      <div className="absolute top-1/4 right-1/4 w-[40vw] h-[40vw] bg-gray-50/60 rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* BACKGROUND STATIC */}
+      <StaticDotGrid />
 
-      {/* // Top Border */}
-      <motion.div
-        variants={lineGrowVariants}
-        className="absolute top-0 left-0 w-full h-[1px] bg-black/[0.07] pointer-events-none"
-      />
+      <div className="w-full max-w-[1200px] mx-auto relative z-10">
 
-      <div className="w-full max-w-[1440px] mx-auto relative z-10">
-
-        {/* MAIN HEADER */}
-        <motion.div variants={containerVariants} className="mb-20 md:mb-28 flex flex-col md:flex-row md:items-end justify-between gap-10">
-          <div className="flex flex-col">
-            {/* // Title */}
-            <h1 className="pointer-events-none select-none font-lejour font-normal text-5xl md:text-[80px] lg:text-[96px] leading-[0.9] tracking-tight flex flex-col">
-               <motion.div variants={popUpVariants} className="text-[#2A2320] pb-1 md:pb-2">
-                 Personal
-               </motion.div>
-               <motion.div variants={popUpVariants} className="text-[#5E7657]">
-                 Projects
-               </motion.div>
-            </h1>
-            
-            {/* // Decorative Line */}
-            <motion.div variants={lineGrowVariants} className="w-16 md:w-32 h-[1px] bg-[#5E7657] mt-8" />
-          </div>
+        {/* EDITORIAL HEADER */}
+        <div className="mb-20 md:mb-28">
           
-          {/* // Subtitle */}
-          <motion.p 
-            variants={popUpVariants}
-            className="font-poppins text-gray-400 uppercase tracking-[0.2em] text-[10px] md:text-xs font-medium max-w-[220px] text-left md:text-right leading-relaxed pb-1"
+          <motion.h1 
+            initial="hidden"
+            animate="show"
+            transition={{ staggerChildren: 0.08, delayChildren: 0.1 }}
+            className="pointer-events-none select-none font-hatton font-normal text-6xl md:text-[80px] lg:text-[100px] leading-[0.85] tracking-tight mb-8 flex flex-col items-start md:flex-row md:flex-wrap md:items-baseline gap-x-5 gap-y-1"
           >
-            Projects, Experiments, and Ideas Brought to Life
-          </motion.p>
-        </motion.div>
+            <div className="text-[#1A2F24] flex pb-2">
+              {"PERSONAL".split("").map((char, i) => (
+                <motion.span key={`personal-${i}`} variants={typingChar} className="inline-block whitespace-pre">
+                  {char}
+                </motion.span>
+              ))}
+            </div>
+            <div className="text-[#4A6750] flex md:ml-12 lg:ml-20">
+              {"PROJECTS".split("").map((char, i) => (
+                <motion.span key={`projects-${i}`} variants={typingChar} className="inline-block whitespace-pre">
+                  {char}
+                </motion.span>
+              ))}
+            </div>
+          </motion.h1>
+        </div>
 
-        {/* MAIN PROJECTS GRID */}
-        <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 w-full">
-          
-          {/* // Project Cards Iteration */}
+        {/* MAIN PROJECTS LIST */}
+        <motion.div 
+          variants={listContainerVariants} 
+          initial="hidden"
+          animate="show"
+          className="flex flex-col w-full border-t border-[#2E4C38]/20"
+        >
           {projects.map((project) => (
             <motion.div
               variants={popUpVariants}
               key={project.slug}
               onClick={() => navigate(`/projects/${project.slug}`)}
-              className="group cursor-pointer flex flex-col w-full rounded-[28px] bg-gradient-to-b from-white/90 to-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_24px_60px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out overflow-hidden"
+              className="group cursor-pointer flex flex-col lg:flex-row w-full py-12 md:py-16 border-b border-[#2E4C38]/15 hover:border-[#4A6750] transition-colors duration-500 ease-out gap-8 lg:gap-20 items-center"
             >
-              <div className="w-full aspect-[16/9] overflow-hidden relative bg-black/[0.02]">
-                <div className="absolute inset-0 bg-[#2A2320]/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                
-                <div className="absolute top-5 left-5 z-20 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md shadow-sm border border-white/50 font-poppins text-[9px] font-semibold tracking-widest text-[#2A2320]">
-                  {project.year}
-                </div>
-
+              
+              {/* Image Section */}
+              <div className="w-full lg:w-[45%] shrink-0 aspect-[16/10] overflow-hidden rounded-2xl relative bg-[#EAF1EC]/50 border border-[#2E4C38]/5">
+                <div className="absolute inset-0 bg-[#1A2F24]/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-[0.22,1,0.36,1]"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement!.style.backgroundColor = '#f8f9fa';
                   }}
                 />
               </div>
 
-              <div className="p-6 md:p-8 flex flex-col flex-grow">
-                <span className="font-poppins text-[9px] tracking-[0.25em] uppercase text-gray-400 font-semibold mb-3">
-                  {project.category}
-                </span>
+              {/* Content Section */}
+              <div className="flex-1 flex flex-col justify-center w-full">
                 
-                <div className="flex items-start justify-between gap-4 mt-auto">
-                  <h3 
-                    className="text-xl md:text-[22px] text-black leading-snug tracking-wide group-hover:text-[#5E7657] transition-colors duration-300"
-                    style={{ fontFamily: "'Poppins ExtraLight', sans-serif" }}
-                  >
-                    {project.title}
-                  </h3>
-                  
-                  <span className="text-[#5E7657] text-xl opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                    ↗
+                {/* Index & Category */}
+                <div className="flex items-center gap-4 mb-6 md:mb-8">
+                  <span className="w-12 h-[1.5px] bg-[#2E4C38]/20" />
+                  <span className="font-['Red_Hat_Display'] text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#4A6750] font-bold">
+                    {project.category}
                   </span>
                 </div>
+                
+                {/* Title */}
+                <h3 className="font-hatton font-normal text-4xl md:text-5xl lg:text-6xl text-[#1A2F24] leading-[1.1] mb-8 md:mb-12 group-hover:text-[#4A6750] transition-colors duration-300">
+                  {project.title}
+                </h3>
+                
+                {/* Footer Details */}
+                <div className="flex items-center justify-between w-full pt-6 border-t border-[#2E4C38]/10 mt-auto">
+                  <span className="font-migra text-[#1A2F24]/70 text-base md:text-lg font-medium">
+                    {project.year}
+                  </span>
+                  
+                  <div className="flex items-center gap-3 text-[#1A2F24]/40 group-hover:text-[#4A6750] transition-colors duration-300 overflow-hidden pr-2">
+                    {/* Teks View Project Muncul Saat Dihover */}
+                    <span className="font-['Red_Hat_Display'] text-[10px] tracking-[0.2em] uppercase font-bold opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">
+                      View Project
+                    </span>
+                    <div className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
+                      <ArrowUpRight />
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </motion.div>
           ))}

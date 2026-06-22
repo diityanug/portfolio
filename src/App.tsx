@@ -14,7 +14,7 @@ const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence onExitComplete={() => window.scrollTo(0, 0)}>
+    <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
         <Route path="/about" element={<PageWrapper><ProfilePage /></PageWrapper>} />
@@ -30,7 +30,8 @@ const AnimatedRoutes = () => {
 function App() {
   return (
     <Router>
-      <div className="relative z-0 min-h-screen bg-white overflow-x-hidden">
+      {/* Ubah bg-white menjadi bg-[#F9F8F4] di bawah ini */}
+      <div className="relative z-0 min-h-screen bg-[#F9F8F4] overflow-x-hidden">
         <BackgroundTexture />
 
         <Navbar />

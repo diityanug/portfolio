@@ -1,23 +1,19 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
-import { 
-  containerVariants, 
-  popUpVariants, 
-  lineGrowVariants 
-} from '@utils/animation';
+import { popUpVariants } from '@utils/animation';
+import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
 
-/* MAIN PROJECT DETAIL COMPONENT */
 const ProjectDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  /* MAIN REPOSITORY DATA */
   const projects: Record<string, any> = {
     'genre-game-classifier': {
-      title: 'Game Genre Classifier',
+      title: 'Genre Game Classifier',
       category: 'Full-Stack Machine Learning',
       year: '2024',
       link: 'https://github.com/diityanug/game-genre-classifier',
@@ -42,7 +38,7 @@ const ProjectDetail = () => {
       ],
       technologies: [
         'Python', 'spaCy', 'Scikit-Learn', 'Pandas', 
-        'FastAPI', 'Pydantic', 'REST API',           
+        'FastAPI', 'Pydantic', 'REST API',          
         'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'
       ],
     },
@@ -50,22 +46,56 @@ const ProjectDetail = () => {
 
   const project = projects[slug as string];
 
-  /* MAIN 404 FALLBACK */
+  const pageVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.5 } },
+    exit: { opacity: 0, transition: { duration: 0.3 } }
+  };
+
+  const typingChar: Variants = {
+    hidden: { opacity: 0, y: 15, rotate: -5 },
+    show: { 
+      opacity: 1, y: 0, rotate: 0,
+      transition: { type: "spring", damping: 16, stiffness: 140 }
+    }
+  };
+
+  const metaContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { delayChildren: 1.0, staggerChildren: 0.2 } 
+    }
+  };
+
+  const listContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { delayChildren: 1.2, staggerChildren: 0.15 } 
+    }
+  };
+
+  const lineGrowVariants: Variants = {
+    hidden: { width: 0 },
+    show: { width: "100%", transition: { duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.4 } }
+  };
+
   if (!project) {
     return (
       <motion.div 
-        variants={containerVariants}
+        variants={pageVariants}
         initial="hidden"
         animate="show"
         exit="exit"
-        className="min-h-screen flex flex-col items-center justify-center bg-transparent px-8 relative overflow-hidden"
+        className="min-h-screen flex flex-col items-center justify-center bg-[#F9F8F4] px-8 relative overflow-hidden"
       >
         <motion.div variants={popUpVariants} className="text-center z-10">
-          <h1 className="font-lejour text-8xl md:text-[120px] text-[#2A2320] mb-2">404</h1>
-          <p className="font-poppins text-gray-500 tracking-widest uppercase text-sm mb-10">Project not found.</p>
+          <h1 className="font-hatton text-8xl md:text-[120px] text-[#1A2F24] mb-2 leading-none">404</h1>
+          <p className="font-['Red_Hat_Display'] text-[#4A6750] tracking-[0.2em] uppercase text-xs md:text-sm font-bold mb-10">Project not found</p>
           <button
             onClick={() => navigate('/projects')}
-            className="px-8 py-4 bg-[#2A2320] text-white rounded-full font-poppins text-xs tracking-[0.2em] uppercase hover:bg-[#5E7657] transition-colors duration-300"
+            className="px-8 py-4 border border-[#2E4C38]/20 text-[#1A2F24] rounded-full font-['Red_Hat_Display'] text-[10px] tracking-[0.2em] uppercase font-bold hover:bg-[#1A2F24] hover:text-[#F9F8F4] transition-colors duration-500"
           >
             Back to Projects
           </button>
@@ -74,72 +104,111 @@ const ProjectDetail = () => {
     );
   }
 
-  /* MAIN RENDER */
+  const titleWords = project.title.split(' ');
+
   return (
     <>
       <motion.div
-        variants={containerVariants}
+        variants={pageVariants}
         initial="hidden"
         animate="show"
         exit="exit"
-        className="relative z-0 min-h-[calc(100vh-116px)] bg-transparent px-6 md:px-16 pt-8 md:pt-12 pb-24 overflow-x-hidden"
+        className="relative z-0 min-h-screen bg-[#F9F8F4] px-6 md:px-12 lg:px-16 pt-32 lg:pt-40 pb-24 overflow-x-hidden"
       >
+        <StaticDotGrid />
+
         <div className="w-full max-w-[1200px] mx-auto relative z-10">
           
-          {/* MAIN NAV HEADER */}
-          <motion.div variants={popUpVariants} className="flex items-center justify-between mb-12 md:mb-16 relative z-20">
-            {/* // Back Button */}
-            <button onClick={() => navigate('/projects')} className="group flex items-center gap-2 text-[10px] md:text-xs font-poppins uppercase tracking-[0.2em] text-gray-400 hover:text-[#5E7657] transition-colors duration-300">
+          {/* Header Navigation */}
+          <motion.div 
+            variants={metaContainerVariants} 
+            initial="hidden"
+            animate="show"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-16 md:mb-20 relative z-20"
+          >
+            <motion.button variants={popUpVariants} onClick={() => navigate('/projects')} className="group flex items-center gap-3 text-[10px] md:text-xs font-['Red_Hat_Display'] uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
               <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span> Back to Projects
-            </button>
-            {/* // Repository Link */}
+            </motion.button>
             {project.link && (
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 px-5 py-2.5 rounded-full border border-black/10 bg-black/[0.02] hover:bg-black/[0.04] transition-colors duration-300 text-[10px] md:text-xs font-poppins uppercase tracking-[0.15em] text-[#2A2320] font-medium">
-                Visit Repository <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-[#5E7657]">↗</span>
-              </a>
+              <motion.a variants={popUpVariants} href={project.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 px-6 py-3 rounded-full border border-[#2E4C38]/20 bg-transparent hover:bg-[#1A2F24] hover:text-[#F9F8F4] transition-colors duration-500 text-[10px] md:text-xs font-['Red_Hat_Display'] uppercase font-bold tracking-[0.2em] text-[#1A2F24]">
+                Visit Repository 
+                <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+              </motion.a>
             )}
           </motion.div>
 
-          {/* MAIN HERO SECTION */}
-          <motion.div variants={popUpVariants} className="mb-16 md:mb-24">
-            {/* // Title */}
-            <h1 className="font-lejour text-5xl md:text-[80px] lg:text-[100px] leading-[0.9] tracking-tight text-[#2A2320] max-w-4xl mb-12 relative z-10">
-              {project.title.split(' ').map((word: string, index: number) => (
-                <span key={index} className={word === 'Classifier' ? 'text-[#5E7657]' : ''}>
-                  {word}{' '}
-                </span>
-              ))}
-            </h1>
+          {/* Hero */}
+          <div className="mb-16 md:mb-24 flex flex-col">
+            <motion.div 
+              initial="hidden"
+              animate="show"
+              transition={{ staggerChildren: 0.08, delayChildren: 0.1 }}
+              className="flex flex-wrap gap-x-4 md:gap-x-6 gap-y-2 mb-16"
+            >
+              <h1 className="font-hatton font-normal text-5xl md:text-[80px] lg:text-[100px] leading-[0.9] tracking-tight flex flex-wrap gap-x-4 md:gap-x-6">
+                {titleWords.map((word: string, wIdx: number) => (
+                  <div key={wIdx} className={`flex ${wIdx === titleWords.length - 1 ? 'text-[#4A6750]' : 'text-[#1A2F24]'}`}>
+                    {word.split('').map((char, cIdx) => (
+                      <motion.span key={cIdx} variants={typingChar} className="inline-block whitespace-pre">
+                        {char}
+                      </motion.span>
+                    ))}
+                  </div>
+                ))}
+              </h1>
+            </motion.div>
             
-            {/* // Metadata */}
-            <div className="flex flex-wrap gap-10 md:gap-20 pt-8 border-t border-black/[0.07]">
-              <div className="flex flex-col gap-2">
-                <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Category</span>
-                <span className="font-telegraf text-sm md:text-base text-[#2A2320]">{project.category}</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="font-poppins text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Year</span>
-                <span className="font-telegraf text-sm md:text-base text-[#2A2320]">{project.year}</span>
-              </div>
-            </div>
-          </motion.div>
+            {/* Metadata */}
+            <motion.div 
+              variants={metaContainerVariants} 
+              initial="hidden"
+              animate="show"
+              className="flex flex-wrap gap-12 md:gap-24 pt-8 border-t border-[#2E4C38]/20"
+            >
+              <motion.div variants={popUpVariants} className="flex flex-col gap-3">
+                <span className="font-['Red_Hat_Display'] text-[10px] tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold">Category</span>
+                <span className="font-migra text-lg md:text-xl text-[#1A2F24] font-medium">{project.category}</span>
+              </motion.div>
+              <motion.div variants={popUpVariants} className="flex flex-col gap-3">
+                <span className="font-['Red_Hat_Display'] text-[10px] tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold">Year</span>
+                <span className="font-migra text-lg md:text-xl text-[#1A2F24] font-medium">{project.year}</span>
+              </motion.div>
+            </motion.div>
+          </div>
 
-          {/* MAIN CONTENT SPLIT */}
-          <motion.div variants={containerVariants} className="flex flex-col lg:flex-row gap-12 lg:gap-24 mb-20 md:mb-32">
-            
-            {/* // Left: Overview & Description */}
-            <motion.div variants={popUpVariants} className="w-full lg:w-[60%] flex flex-col gap-6">
-              <h2 style={{ fontFamily: "'The Seasons Italic', serif" }} className="text-3xl md:text-4xl text-[#5E7657]">The Case</h2>
-              <p className="font-poppins font-light text-sm md:text-base leading-[1.8] text-gray-600">{project.overview}</p>
-              <p className="font-poppins font-light text-sm md:text-base leading-[1.8] text-gray-600">{project.description}</p>
+          {/* Main Content */}
+          <motion.div 
+            variants={listContainerVariants} 
+            initial="hidden"
+            animate="show"
+            className="flex flex-col lg:flex-row gap-16 lg:gap-24 mb-24 md:mb-32"
+          >
+            {/* Left Section (Description) */}
+            <motion.div variants={popUpVariants} className="w-full lg:w-[60%] flex flex-col gap-8">
+              <h2 className="font-hatton font-normal text-3xl md:text-4xl text-[#1A2F24]">
+                The Case
+              </h2>
+              <div className="flex flex-col gap-6">
+                <p className="font-['The_Seasons_Regular'] text-base md:text-lg leading-relaxed text-[#1A2F24]/80 text-justify">
+                  {project.overview}
+                </p>
+                <p className="font-['The_Seasons_Regular'] text-base md:text-lg leading-relaxed text-[#1A2F24]/80 text-justify">
+                  {project.description}
+                </p>
+              </div>
             </motion.div>
 
-            {/* // Right: Tech Stack */}
-            <motion.div variants={popUpVariants} className="w-full lg:w-[40%] flex flex-col gap-6 lg:pt-2">
-              <h3 className="font-poppins text-[10px] md:text-xs tracking-[0.2em] uppercase text-gray-400 font-medium">Tech Stack</h3>
-              <div className="flex flex-wrap gap-2.5">
+            {/* Right Section (Tech Stack) */}
+            <motion.div variants={popUpVariants} className="w-full lg:w-[40%] flex flex-col gap-8 lg:pt-2">
+              <h3 className="font-['Red_Hat_Display'] text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold border-b border-[#2E4C38]/20 pb-3">
+                Tech Stack
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech: string) => (
-                  <span key={tech} className="px-4 py-2 rounded-full border border-black/[0.06] bg-black/[0.01] font-poppins text-[11px] md:text-xs text-gray-500 font-medium hover:border-[#5E7657]/40 hover:text-[#5E7657] hover:bg-[#5E7657]/5 transition-all cursor-default">
+                  <span 
+                    key={tech} 
+                    className="border border-[#2E4C38]/20 text-[#1A2F24]/80 font-['Red_Hat_Display'] font-bold text-[10px] uppercase tracking-wider px-4 py-2 hover:border-[#4A6750] hover:text-[#4A6750] transition-colors duration-300 cursor-default"
+                  >
                     {tech}
                   </span>
                 ))}
@@ -147,37 +216,51 @@ const ProjectDetail = () => {
             </motion.div>
           </motion.div>
 
-          <motion.div variants={lineGrowVariants} className="w-full h-[1px] bg-black/[0.07] mb-16 md:mb-20" />
+          <motion.div 
+            variants={lineGrowVariants} 
+            initial="hidden"
+            animate="show"
+            className="w-full h-[1px] bg-[#2E4C38]/20 mb-16 md:mb-24" 
+          />
 
-          {/* MAIN INTERACTIVE FEATURES */}
-          <motion.div variants={containerVariants} className="flex flex-col w-full">
-            {/* // Section Header */}
-            <motion.div variants={popUpVariants} className="mb-12 flex items-end justify-between">
-              <h2 style={{ fontFamily: "'The Seasons Italic', serif" }} className="text-3xl md:text-4xl text-[#2A2320]">Interactive Features</h2>
+          {/* Interactive Features */}
+          <motion.div 
+            variants={listContainerVariants} 
+            initial="hidden"
+            animate="show"
+            className="flex flex-col w-full"
+          >
+            <motion.div variants={popUpVariants} className="mb-12">
+              <h2 className="font-hatton font-normal text-3xl md:text-4xl text-[#1A2F24]">
+                Interactive Features
+              </h2>
             </motion.div>
             
-            {/* // Features Grid */}
-            <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-12">
+            <motion.div variants={listContainerVariants} className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
               {project.workflow.map((step: any, index: number) => (
                 <motion.div variants={popUpVariants} key={index} className="flex flex-col group">
                   <div 
-                    className="w-full aspect-[4/3] rounded-3xl bg-black/[0.02] border border-black/[0.04] overflow-hidden mb-6 relative shadow-[0_10px_40px_rgba(0,0,0,0.02)] group-hover:shadow-[0_15px_50px_rgba(0,0,0,0.06)] transition-all duration-500 cursor-zoom-in"
+                    className="w-full aspect-[4/3] rounded-2xl bg-[#EAF1EC]/30 border border-[#2E4C38]/10 overflow-hidden mb-6 relative cursor-zoom-in"
                     onClick={() => setSelectedImage(step.image)}
                   >
-                    <div className="absolute inset-0 bg-transparent group-hover:bg-[#5E7657]/5 transition-colors duration-500 z-10" />
+                    <div className="absolute inset-0 bg-[#1A2F24]/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
                     <img 
                       src={step.image} 
                       alt={step.title} 
-                      className="w-full h-full object-cover grayscale opacity-90 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" 
+                      className="w-full h-full object-cover grayscale opacity-90 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-[0.22,1,0.36,1]" 
                       onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x450/f8f9fa/adb5bd?text=Feature+Preview'; }} 
                     />
-                    <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center shadow-sm pointer-events-none">
-                      <span className="font-telegraf text-xs text-[#2A2320] font-medium">{index + 1}</span>
+                    <div className="absolute top-4 left-4 z-20 bg-[#F9F8F4]/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center border border-[#2E4C38]/10 pointer-events-none">
+                      <span className="font-migra text-xs text-[#1A2F24] font-bold">0{index + 1}</span>
                     </div>
                   </div>
                   <div className="flex flex-col px-1 cursor-default">
-                    <h4 className="font-poppins font-semibold text-lg text-[#2A2320] mb-2 group-hover:text-[#5E7657] transition-colors">{step.title}</h4>
-                    <p className="font-poppins font-light text-sm text-gray-500 leading-relaxed">{step.text}</p>
+                    <h4 className="font-['Poppins_Light'] font-bold text-lg md:text-xl text-[#1A2F24] mb-3 group-hover:text-[#4A6750] transition-colors duration-300">
+                      {step.title}
+                    </h4>
+                    <p className="font-['The_Seasons_Regular'] text-sm md:text-base text-[#1A2F24]/70 leading-relaxed text-justify">
+                      {step.text}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -187,7 +270,7 @@ const ProjectDetail = () => {
         </div>
       </motion.div>
 
-      {/* MAIN IMAGE OVERLAY */}
+      {/* Lightbox */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -195,29 +278,27 @@ const ProjectDetail = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8 cursor-zoom-out"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A2F24]/90 backdrop-blur-md p-4 md:p-8 cursor-zoom-out"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center"
+              className="relative max-w-6xl w-full max-h-[90vh] flex items-center justify-center"
               onClick={(e) => e.stopPropagation()} 
             >
               <img
                 src={selectedImage}
                 alt="Enlarged view"
-                className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl"
+                className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
               />
-              
-              {/* // Close Button */}
               <button
-                className="absolute -top-4 -right-4 md:-top-6 md:-right-6 text-[#2A2320] bg-white hover:bg-gray-100 hover:scale-105 rounded-full p-2 md:p-3 shadow-lg transition-all"
+                className="absolute -top-5 -right-5 md:-top-6 md:-right-6 text-[#1A2F24] bg-[#F9F8F4] hover:bg-white hover:scale-105 rounded-full p-2.5 md:p-3 shadow-xl transition-all duration-300"
                 onClick={() => setSelectedImage(null)}
                 aria-label="Close popup"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>

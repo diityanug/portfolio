@@ -5,12 +5,23 @@ const customEase = [0.22, 1, 0.36, 1] as const;
 export const containerVariants: Variants = {
   hidden: { opacity: 0, y: 0 },
   show: { opacity: 1, y: 0, transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-  // Memberikan efek fade-down global untuk transisi pindah halaman
   exit: { opacity: 0, y: 30, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
-// Tambahan Pop-up Variants
+// Smooth Pop-up (Transisi stabil, cocok untuk UI/Teks)
 export const popUpVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.95, y: 15 },
+  show: { 
+    opacity: 1, 
+    scale: 1, 
+    y: 0, 
+    transition: { duration: 0.8, ease: customEase } 
+  },
+  exit: { opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.3, ease: 'easeOut' } }
+};
+
+// Bouncy Pop-up (Transisi memantul/spring, cocok untuk Card/Image)
+export const bouncyPopUpVariants: Variants = {
   hidden: { opacity: 0, scale: 0.85, y: 20 },
   show: { 
     opacity: 1, 
@@ -18,7 +29,6 @@ export const popUpVariants: Variants = {
     y: 0, 
     transition: { type: "spring", stiffness: 200, damping: 15 } 
   },
-  // Item ikut turun dan mengecil sedikit saat keluar
   exit: { opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
