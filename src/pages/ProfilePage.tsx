@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import type { ReactElement, SyntheticEvent } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { EDUCATION_DATA, CERTIFICATES_DATA } from '../constants/profileData';
-
-import { popUpVariants } from '@utils/animation';
 
 // IMPORT STAR GRID DI SINI (Sesuaikan letak foldernya)
 import StarGrid from '../components/profilePage/StarGrid';
@@ -17,93 +14,58 @@ const ArrowUpRight = () => (
   </svg>
 );
 
+/* =========================================
+   KOREOGRAFI ANIMASI (CINEMATIC TIMING)
+   ========================================= */
+const customEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Wrapper Utama (Cuma buat atur exit pas pindah page)
+const pageVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.5 } },
+  exit: { opacity: 0, y: -20, filter: "blur(10px)", transition: { duration: 0.5, ease: customEase } }
+};
+
+// 1. Teks "HI" muncul duluan
+const textHiVariants: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(12px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.1 } }
+};
+
+// 2. Teks "THERE!" nyusul dikit
+const textThereVariants: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(12px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.25 } }
+};
+
+// 3. Foto nyusul setelah teks sapaan selesai
+const photoVariants: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.6 } }
+};
+
+// 4. Bio muncul paling akhir melengkapi scene
+const bioVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase, delay: 0.8 } }
+};
+
+// Untuk Edukasi & Sertifikat (Muncul bergantian saat di-scroll)
+const sectionVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } }
+};
+
 /* MAIN PAGE COMPONENT */
 const ProfilePage = (): ReactElement => {
-  const [showAllCerts, setShowAllCerts] = useState(false);
-
   const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
-    const target = e.currentTarget;
-    target.style.display = 'none';
+    e.currentTarget.style.display = 'none';
   };
-
-  /* =========================================
-     KOREOGRAFI ANIMASI (TIMELINE)
-     ========================================= */
-
-  const pageVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { duration: 0.5 } },
-    exit: { opacity: 0, transition: { duration: 0.3 } }
-  };
-
-  // 1. Teks "HI THERE!" Muncul Pertama
-  const typingContainer: Variants = {
-    hidden: { opacity: 1 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 } 
-    }
-  };
-  
-  const typingChar: Variants = {
-    hidden: { opacity: 0, y: 30, rotate: -10 },
-    show: { 
-      opacity: 1, 
-      y: 0, 
-      rotate: 0,
-      transition: { type: "spring", damping: 14, stiffness: 120 }
-    }
-  };
-
-  // 2. Foto Profil "Colorful Blocks" Muncul Kedua Bertahap
-  const photoContainerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { delayChildren: 1.0, staggerChildren: 0.2 }
-    }
-  };
-
-  const frontFrameVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.95, y: 15 },
-    show: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
-
-  const colorBlock1Variants: Variants = {
-    hidden: { opacity: 0, x: 0, y: 0 },
-    show: {
-      opacity: 1,
-      x: -20, // Geser Kiri
-      y: 20,  // Geser Bawah
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
-
-  const colorBlock2Variants: Variants = {
-    hidden: { opacity: 0, x: 0, y: 0 },
-    show: {
-      opacity: 1,
-      x: 20,  // Geser Kanan
-      y: -20, // Geser Atas
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
-
-  // 3. Bio & Konten Lainnya Muncul Terakhir
-  const delayedContainerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { delayChildren: 1.6, staggerChildren: 0.15 } 
-    }
-  };
-
-  const displayedCertificates = showAllCerts ? CERTIFICATES_DATA : CERTIFICATES_DATA.slice(0, 2);
 
   return (
     <motion.div 
@@ -111,263 +73,182 @@ const ProfilePage = (): ReactElement => {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="relative z-0 flex flex-col pt-[120px] lg:pt-32 px-8 md:px-16 pb-24 min-h-screen bg-[#F9F8F4] overflow-x-hidden"
+      className="relative z-0 flex flex-col pt-24 md:pt-36 px-6 md:px-12 pb-32 min-h-screen bg-[#F9F8F4] overflow-x-hidden text-[#1A2F24]"
     >
-      {/* ===== PASANG STAR GRID DI SINI ===== */}
-      <StarGrid />
+      {/* BACKGROUND STAR GRID (Super Tipis) */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+        <StarGrid />
+      </div>
 
-      <div className="w-full max-w-[1200px] mx-auto relative z-10">
-
-        {/* MAIN ABOUT */}
-        <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-16 items-center lg:items-start mb-24 mt-4 md:mt-8">
+      <div className="w-full max-w-[1200px] mx-auto relative z-10 flex flex-col items-center">
+        
+        {/* ================= HERO SECTION (KIRI FOTO, KANAN KONTEN) ================= */}
+        <div className="w-full flex flex-col md:flex-row items-center md:items-center justify-between gap-12 lg:gap-16 mb-24 md:mb-32 mt-4 relative">
           
-          {/* FOTO PROFIL (COLORFUL BLOCKS REVEAL) */}
-          <div className="w-full lg:w-5/12 flex justify-center lg:justify-start mt-8 lg:mt-0">
-            <motion.div
-              variants={photoContainerVariants}
-              initial="hidden"
-              animate="show"
-              className="relative w-full max-w-[260px] md:max-w-[300px]"
+          {/* BAGIAN KIRI: FOTO PROFIL GEDE */}
+          <motion.div 
+            variants={photoVariants} 
+            className="w-full md:w-5/12 lg:w-1/2 flex justify-center md:justify-start relative z-10"
+          >
+            <div 
+              className="w-full max-w-[350px] md:max-w-[450px] lg:max-w-[550px] aspect-square"
+              style={{
+                WebkitMaskImage: 'radial-gradient(circle at center, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 75%)',
+                maskImage: 'radial-gradient(circle at center, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 75%)'
+              }}
             >
-              {/* FRAME WARNA 1: Kuning Mustard (Geser Kiri Bawah) */}
-              <motion.div 
-                variants={colorBlock1Variants}
-                className="absolute inset-0 w-full h-full bg-[#E0BA5C] z-0 rounded-xl" 
+              <img
+                src="/images/aw aw"
+                alt="Aditya Nugraha Irwan"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out"
+                onError={handleImageError}
               />
-              
-              {/* FRAME WARNA 2: Hijau Gelap (Geser Kanan Atas) */}
-              <motion.div 
-                variants={colorBlock2Variants}
-                className="absolute inset-0 w-full h-full bg-[#4A6750] z-0 rounded-xl" 
-              />
-              
-              {/* FRAME DEPAN: Foto Utama */}
-              <motion.div 
-                variants={frontFrameVariants}
-                className="relative z-10 p-2 md:p-3 bg-white border border-[#2E4C38]/10 shadow-xl rounded-xl"
-              >
-                <div className="w-full aspect-[4/5] overflow-hidden bg-[#F9F8F4] rounded-lg">
-                  <img
-                    src="/images/aw aw"
-                    alt="Aditya Nugraha Irwan"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                    onError={handleImageError}
-                  />
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
-          {/* TEXT CONTENT */}
-          <div className="w-full lg:w-7/12 flex flex-col items-center lg:items-start text-center lg:text-left">
+          {/* BAGIAN KANAN: TEKS "HI THERE!" & BIO */}
+          <div className="w-full md:w-7/12 lg:w-1/2 flex flex-col items-center md:items-start text-center z-20">
             
-            {/* Teks Muncul Duluan dengan Animasi Angin */}
-            <motion.h1 
-              variants={typingContainer}
-              initial="hidden"
-              animate="show"
-              className="pointer-events-none select-none font-hatton font-normal text-7xl md:text-[100px] lg:text-[120px] leading-[0.85] tracking-tight mb-8 flex flex-col items-center lg:items-start"
-            >
-              <div className="text-[#1A2F24] flex pb-2 md:pb-3">
-                {"HI".split("").map((char, i) => (
-                  <motion.span key={`hi-${i}`} variants={typingChar} className="inline-block whitespace-pre">
-                    <motion.span
-                      animate={{ y: -4, rotate: 1.5 }} 
-                      transition={{ 
-                        repeat: Infinity, 
-                        repeatType: "mirror", 
-                        duration: 1.6, 
-                        delay: 2 + (i * 0.12), 
-                        ease: "easeInOut" 
-                      }}
-                      className="inline-block origin-bottom"
-                    >
-                      {char}
-                    </motion.span>
-                  </motion.span>
-                ))}
-              </div>
-              <div className="text-[#4A6750] flex lg:ml-12">
-                {"THERE!".split("").map((char, i) => (
-                  <motion.span key={`there-${i}`} variants={typingChar} className="inline-block whitespace-pre">
-                    <motion.span
-                      animate={{ y: -4, rotate: 1.5 }}
-                      transition={{ 
-                        repeat: Infinity, 
-                        repeatType: "mirror", 
-                        duration: 1.6, 
-                        delay: 2 + ((i + 2) * 0.12), 
-                        ease: "easeInOut" 
-                      }}
-                      className="inline-block origin-bottom"
-                    >
-                      {char}
-                    </motion.span>
-                  </motion.span>
-                ))}
-              </div>
-            </motion.h1>
+            {/* TEKS "HI THERE!" */}
+            <div className="flex gap-4 md:gap-5 mb-8">
+              <motion.h1 variants={textHiVariants} className="font-['The_Seasons_Regular'] text-[70px] md:text-[90px] lg:text-[120px] leading-none text-[#1A2F24] drop-shadow-sm">
+                HI
+              </motion.h1>
+              <motion.h1 variants={textThereVariants} className="font-['The_Seasons_Regular'] text-[70px] md:text-[90px] lg:text-[120px] leading-none text-[#4A6750] drop-shadow-sm">
+                THERE!
+              </motion.h1>
+            </div>
 
-            {/* Bio Muncul Terakhir */}
-            <motion.div
-              initial="hidden"
-              animate="show"
-              variants={delayedContainerVariants}
-              className="flex flex-col items-center lg:items-start"
-            >
-              <motion.div
-                variants={popUpVariants}
-                className="flex flex-col gap-8 w-full max-w-[600px]"
-              >
-                <p className="font-migra text-justify text-lg md:text-xl leading-relaxed text-[#2E4C38]/90 font-medium">
-                  I'm <span className="text-[#4A6750] font-bold">Aditya</span>! 👋 I'm a Software Engineer who absolutely loves turning wild ideas into interactive and super smooth web apps. My daily playground mostly involves <span className="bg-[#4A6750]/10 text-[#2E4C38] px-2 py-0.5 rounded-md font-garbata font-bold text-sm md:text-base">React</span> and <span className="bg-[#4A6750]/10 text-[#2E4C38] px-2 py-0.5 rounded-md font-garbata font-bold text-sm md:text-base">TypeScript</span>.
-                </p>
-                <p className="font-migra text-justify text-lg md:text-xl leading-relaxed text-[#2E4C38]/90 font-medium">
-                  Beyond the frontend world, I'm also exploring AWS S3, building handy automation tools, and playing around with Python for machine learning. I'm always down to learn new tech, solve real-world puzzles, and just build cool stuff!
-                </p>
-              </motion.div>
+            {/* KONTEN BIO (DIBIKIN RATA KIRI-KANAN / JUSTIFY SEMUA) */}
+            <motion.div variants={bioVariants} className="flex flex-col gap-6 w-full max-w-[600px]">
+              <p className="font-migra text-justify text-lg md:text-xl leading-relaxed text-[#2E4C38]/90 font-medium">
+                I'm <span className="text-[#4A6750] font-bold">Aditya</span>! 👋 I'm a Software Engineer who absolutely loves turning wild ideas into interactive and super smooth web apps. My daily playground mostly involves <span className="bg-[#4A6750]/10 text-[#2E4C38] px-2 py-0.5 rounded-md font-garbata font-bold text-sm md:text-base">React</span> and <span className="bg-[#4A6750]/10 text-[#2E4C38] px-2 py-0.5 rounded-md font-garbata font-bold text-sm md:text-base">TypeScript</span>.
+              </p>
+              <p className="font-migra text-justify text-lg md:text-xl leading-relaxed text-[#2E4C38]/90 font-medium">
+                Beyond the frontend world, I'm also exploring AWS S3, building handy automation tools, and playing around with Python for machine learning. I'm always down to learn new tech, solve real-world puzzles, and just build cool stuff!
+              </p>
             </motion.div>
           </div>
+
         </div>
 
-        {/* EDUCATION & CERTIFICATES */}
-        <motion.div
+
+        {/* ================= EDUCATION SECTION ================= */}
+        <motion.div 
           initial="hidden"
-          animate="show"
-          variants={delayedContainerVariants}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mt-12"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={sectionVariants}
+          className="w-full flex flex-col mb-32"
         >
-          {/* EDUCATION SECTION */}
-          <div className="flex flex-col items-start w-full">
-            <motion.div variants={popUpVariants} className="flex items-center gap-4 mb-6">
-              <span className="text-3xl">🎓</span>
-              <h2 className="font-hatton text-4xl md:text-[40px] text-[#1A2F24]">EDUCATION</h2>
-            </motion.div>
+          <motion.div variants={cardVariants} className="flex items-center justify-center md:justify-start gap-4 mb-10">
+            <span className="text-3xl">🎓</span>
+            <h2 className="font-hatton text-3xl md:text-4xl text-[#1A2F24] tracking-wide">
+              EDUCATION
+            </h2>
+          </motion.div>
 
-            <motion.div variants={popUpVariants} className="w-full h-[1.5px] bg-[#2E4C38]/20 mb-4" />
-
-            <div className="flex flex-col w-full">
-              {EDUCATION_DATA.map((edu: any, index: number) => (
-                <motion.div 
-                  key={index} 
-                  variants={popUpVariants}
-                  className="py-6 border-b border-[#2E4C38]/10 group flex flex-col"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-[#4A6750] text-sm md:text-base font-medium font-migra">
-                      {edu.period || edu.year || edu.date}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            {EDUCATION_DATA.map((edu: any, index: number) => (
+              <motion.div 
+                key={index} 
+                variants={cardVariants}
+                whileHover={{ y: -5 }}
+                className="bg-[#4A6750]/[0.03] hover:bg-[#4A6750]/[0.06] p-8 md:p-10 rounded-[2.5rem] transition-colors duration-500 flex flex-col h-full border border-transparent hover:border-[#4A6750]/10"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                  <span className="bg-white/60 text-[#4A6750] px-4 py-1.5 rounded-full text-sm font-['Red_Hat_Display'] font-bold tracking-wide">
+                    {edu.period || edu.year || edu.date}
+                  </span>
+                  {(edu.gpa || edu.ipk) && (
+                    <span className="text-[#2E4C38]/70 text-sm font-['Red_Hat_Display'] font-bold tracking-widest bg-white/40 px-3 py-1 rounded-xl">
+                      GPA {edu.gpa || edu.ipk}
                     </span>
-                    {(edu.gpa || edu.ipk) && (
-                      <>
-                        <span className="w-1.5 h-1.5 bg-[#4A6750]/30 rounded-full" />
-                        <span className="text-[#2E4C38] text-xs md:text-sm font-bold font-migra tracking-wider mt-0.5">
-                          GPA: {edu.gpa || edu.ipk}
-                        </span>
-                      </>
-                    )}
+                  )}
+                </div>
+
+                <h3 className="font-hatton font-bold text-2xl md:text-3xl text-[#1A2F24] mb-2">
+                  {edu.degree || edu.title}
+                </h3>
+                
+                <h4 className="font-migra text-[#4A6750] text-xl mb-5 opacity-90">
+                  {edu.institution || edu.school}
+                </h4>
+
+                {edu.focus && (
+                  <div className="font-['Poppins_Light'] text-[#2E4C38] text-sm mb-4">
+                    <strong className="font-semibold">Focus:</strong> <span className="opacity-80">{edu.focus}</span>
+                  </div>
+                )}
+
+                {edu.description && (
+                  <p className="text-[#2E4C38]/70 text-base md:text-lg leading-relaxed font-['The_Seasons_Regular'] mt-auto text-justify">
+                    {edu.description}
+                  </p>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+
+        {/* ================= CERTIFICATES SECTION ================= */}
+        <motion.div 
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={sectionVariants}
+          className="w-full flex flex-col"
+        >
+          <motion.div variants={cardVariants} className="flex items-center justify-center md:justify-start gap-4 mb-10">
+            <span className="text-3xl">✨</span>
+            <h2 className="font-hatton text-3xl md:text-4xl text-[#1A2F24] tracking-wide">
+              CERTIFICATES
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
+            {CERTIFICATES_DATA.map((cert: any, index: number) => (
+              <motion.div 
+                key={cert.title || index}
+                variants={cardVariants}
+                whileHover={{ y: -5 }}
+                className="bg-[#4A6750]/[0.03] hover:bg-[#4A6750]/[0.06] p-6 md:p-8 rounded-[2rem] transition-colors duration-500 flex flex-col h-full group border border-transparent hover:border-[#4A6750]/10"
+              >
+                <a 
+                  href={cert.link || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col h-full justify-between gap-8 outline-none"
+                >
+                  <div className="flex flex-col">
+                    <h3 className="font-hatton font-bold text-xl text-[#1A2F24] group-hover:text-[#4A6750] transition-colors line-clamp-3 mb-4 leading-snug">
+                      {cert.title || cert.name}
+                    </h3>
+                    
+                    <div className="flex flex-wrap items-center gap-2 mt-auto">
+                      <span className="text-sm font-medium text-[#4A6750]/80 font-migra">
+                        {cert.issuer || cert.organization}
+                      </span>
+                      {cert.year && (
+                        <>
+                          <span className="w-1.5 h-1.5 bg-[#4A6750]/30 rounded-full mx-1" />
+                          <span className="font-['Red_Hat_Display'] text-xs font-bold text-[#4A6750] bg-white/50 px-2 py-1 rounded-lg">
+                            {cert.year}
+                          </span>
+                        </>
+                      )}
+                    </div>
                   </div>
 
-                  <h3 className="font-hatton font-bold text-xl md:text-2xl text-[#1A2F24] mb-1 group-hover:text-[#4A6750] transition-colors">
-                    {edu.degree || edu.title}
-                  </h3>
-                  
-                  <h4 className="font-migra text-[#4A6750]/90 text-lg md:text-xl mb-2">
-                    {edu.institution || edu.school}
-                  </h4>
-
-                  {edu.focus && (
-                    <div className="font-['Poppins_Light'] font-bold text-[#2E4C38] text-sm mt-1 mb-2">
-                      Focus: <span className="font-medium text-[#2E4C38]/80">{edu.focus}</span>
-                    </div>
-                  )}
-
-                  {edu.description && (
-                    <p className="text-[#2E4C38]/70 text-base md:text-lg leading-relaxed font-['The_Seasons_Regular'] mt-2 text-justify">
-                      {edu.description}
-                    </p>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* CERTIFICATES SECTION */}
-          <div className="flex flex-col items-start w-full">
-            <motion.div variants={popUpVariants} className="flex items-center gap-4 mb-6">
-              <span className="text-3xl">✨</span>
-              <h2 className="font-hatton text-4xl md:text-[40px] text-[#1A2F24]">CERTIFICATES</h2>
-            </motion.div>
-
-            <motion.div variants={popUpVariants} className="w-full h-[1.5px] bg-[#2E4C38]/20 mb-4" />
-
-            <div className="flex flex-col w-full">
-              <AnimatePresence initial={false}>
-                {/* @ts-ignore */}
-                {displayedCertificates.map((cert: any, index: number) => (
-                  <motion.div 
-                    key={cert.title || index}
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <a 
-                      href={cert.link || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-5 md:py-6 flex items-center justify-between border-b border-[#2E4C38]/10 group cursor-pointer"
-                    >
-                      <div className="flex flex-col pr-6">
-                        <h3 className="font-hatton font-bold text-[#1A2F24] text-lg md:text-xl group-hover:text-[#4A6750] transition-colors line-clamp-2">
-                          {cert.title || cert.name}
-                        </h3>
-                        
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="text-base md:text-lg font-medium text-[#4A6750]/90 font-migra">
-                            {cert.issuer || cert.organization}
-                          </span>
-                          {cert.year && (
-                            <>
-                              <span className="w-1.5 h-1.5 bg-[#4A6750]/30 rounded-full" />
-                              <span className="text-base md:text-lg text-[#4A6750]/70 font-migra">
-                                {cert.year}
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="text-[#1A2F24]/30 group-hover:text-[#4A6750] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300">
-                        <ArrowUpRight />
-                      </div>
-                    </a>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-
-            {/* EXTEND / SHOW MORE BUTTON */}
-            {CERTIFICATES_DATA.length > 2 && (
-              <motion.button
-                layout 
-                variants={popUpVariants}
-                onClick={() => setShowAllCerts(!showAllCerts)}
-                className="mt-6 flex items-center gap-2 text-xs md:text-sm font-['Red_Hat_Display'] font-bold tracking-[0.15em] uppercase text-[#4A6750] hover:text-[#1A2F24] transition-colors"
-              >
-                {showAllCerts ? "Show Less" : `View All (${CERTIFICATES_DATA.length})`}
-                <motion.svg 
-                  animate={{ rotate: showAllCerts ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                >
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </motion.svg>
-              </motion.button>
-            )}
-
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#1A2F24]/30 group-hover:bg-[#4A6750] group-hover:text-white group-hover:rotate-45 transition-all duration-300 self-end shadow-sm">
+                    <ArrowUpRight />
+                  </div>
+                </a>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
