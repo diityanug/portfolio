@@ -35,35 +35,29 @@ const menuVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1, 
-    transition: { 
-      staggerChildren: 0.08, 
-      delayChildren: 0.05
-    } 
+    transition: { staggerChildren: 0.06, delayChildren: 0.05 } 
   },
   exit: { 
     opacity: 0, 
-    transition: { 
-      staggerChildren: 0.05, 
-      staggerDirection: -1 
-    } 
+    transition: { staggerChildren: 0.05, staggerDirection: -1 } 
   }
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: -20, scale: 0.9 },
+  hidden: { opacity: 0, y: -20, scale: 0.95 },
   visible: { 
     opacity: 1, 
     y: 0, 
     scale: 1,
-    transition: { type: "spring", stiffness: 300, damping: 20 } 
+    transition: { type: "tween", duration: 0.35, ease: [0.22, 1, 0.36, 1] } 
   },
-  exit: { opacity: 0, y: -10, scale: 0.9, transition: { duration: 0.2 } }
+  exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.2 } }
 };
 
 
 /* COMPONENTS */
 const NavGroup = memo(({ links, pathname }: { links: readonly NavLink[]; pathname: string; }) => (
-  <div className="flex items-center gap-2 md:gap-4 font-garbata font-bold text-[10px] md:text-xs tracking-[0.2em] uppercase">
+  <div className="flex items-center gap-2 md:gap-4 font-['Red_Hat_Display'] font-bold text-[10px] md:text-xs tracking-[0.2em] uppercase">
     {links.map((link) => {
       const isActive = pathname === link.path;
       return (
@@ -101,7 +95,18 @@ const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  // FIX: lazy init langsung baca posisi scroll SEBELUM render pertama.
+  // Ini menghilangkan kebutuhan setTimeout + state update setelah mount,
+  // yang tadinya jadi penyebab navbar "loncat" mode saat refresh di posisi scroll.
+  const [isScrolled, setIsScrolled] = useState<boolean>(
+    () => typeof window !== 'undefined' && window.scrollY > 30
+  );
+
+  // FIX: flag ini dipakai untuk mematikan class transisi CSS pada render
+  // pertama, supaya walau ada 1 frame reflow, tidak ada animasi yang kepicu
+  // sebelum browser benar-benar "settle" di state yang tepat.
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
   
   const rafRef = useRef<number | null>(null);
   const lastPathRef = useRef<string>(location.pathname);
@@ -110,8 +115,9 @@ const Navbar = () => {
     lastPathRef.current = location.pathname;
   }
 
-  // Scroll logic for FLOATING DOCK
   useEffect(() => {
+    setHasMounted(true);
+
     const handleScroll = () => {
       if (rafRef.current !== null) return;
       rafRef.current = requestAnimationFrame(() => {
@@ -119,7 +125,9 @@ const Navbar = () => {
         rafRef.current = null;
       });
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafRef.current !== null) {
@@ -137,15 +145,18 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 flex justify-center transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none ${
+      className={`fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none ${
+        hasMounted ? 'transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]' : ''
+      } ${
         isScrolled ? 'pt-4 px-4 md:px-0' : 'pt-0 px-0'
       }`}
     >
       <div 
-        // 🚨 KAPSUL DESKTOP DIPENDEKIN DI SINI (max-w-[520px]) 🚨
-        className={`relative flex items-center justify-between transition-all duration-500 ease-out ${
+        className={`relative flex items-center justify-between ${
+          hasMounted ? 'transition-all duration-500 ease-out' : ''
+        } ${
           isScrolled 
-            ? 'w-full md:w-[80%] max-w-[520px] h-12 md:h-14 bg-transparent md:bg-white/60 md:backdrop-blur-xl border-transparent md:border md:border-white/60 shadow-none md:shadow-[0_10px_30px_-10px_rgba(46,76,56,0.15)] rounded-full px-4 md:px-6 md:pointer-events-auto' 
+            ? 'w-full md:w-[90%] max-w-[620px] h-12 md:h-14 bg-transparent md:bg-white/60 md:backdrop-blur-xl border-transparent md:border md:border-white/60 shadow-none md:shadow-[0_10px_30px_-10px_rgba(46,76,56,0.15)] rounded-full px-4 md:px-6 md:pointer-events-auto' 
             : 'w-full h-20 md:h-24 bg-transparent border-transparent shadow-none rounded-none px-4 md:px-12'
         }`}
       >
@@ -155,7 +166,6 @@ const Navbar = () => {
             initial={false}
             animate={{ 
               width: isScrolled ? "0%" : "100%", 
-              opacity: isScrolled ? 0 : 1,
               marginRight: isScrolled ? 0 : 16
             }}
             transition={{ duration: 0.4, ease: "circOut" }}
@@ -165,8 +175,8 @@ const Navbar = () => {
           </motion.div>
 
           <motion.div
-            initial={{ width: 0, opacity: 0 }}
-            animate={{ width: !isHome ? 'auto' : 0, opacity: !isHome ? 1 : 0 }}
+            initial={false}
+            animate={{ width: !isHome ? 'auto' : 0 }}
             transition={{ duration: 0.4, ease: "circOut" }}
             className="hidden md:flex justify-end overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto"
           >
@@ -180,7 +190,7 @@ const Navbar = () => {
         <div className="relative z-20 flex items-center justify-center px-2 md:px-4 shrink-0 pointer-events-auto">
           <Link
             to="/"
-            className={`group hidden md:flex items-center justify-center shrink-0 relative transition-all duration-500 active:scale-90 ${
+            className={`group hidden md:flex items-center justify-center shrink-0 relative transition-all duration-500 active:scale-90 aspect-square ${
               isScrolled ? 'h-10' : 'h-14 md:h-16'
             }`}
           >
@@ -192,7 +202,7 @@ const Navbar = () => {
               src={iconIdle} 
               alt="Logo" 
               draggable={false} 
-              className="h-full w-auto object-contain select-none transition-opacity duration-500 group-hover:opacity-0 relative z-10" 
+              className="h-full w-full object-contain select-none transition-opacity duration-500 group-hover:opacity-0 relative z-10" 
             />
             <motion.img 
               animate={{ y: [-2, 2, -2] }}
@@ -200,7 +210,7 @@ const Navbar = () => {
               src={iconHover} 
               alt="Logo Hover" 
               draggable={false} 
-              className="absolute inset-0 m-auto h-full w-auto object-contain select-none transition-opacity duration-500 opacity-0 group-hover:opacity-100 drop-shadow-[0_0_10px_rgba(74,103,80,0.5)] z-10" 
+              className="absolute inset-0 m-auto h-full w-full object-contain select-none transition-opacity duration-500 opacity-0 group-hover:opacity-100 drop-shadow-[0_0_10px_rgba(74,103,80,0.5)] z-10" 
             />
           </Link>
 
@@ -232,8 +242,8 @@ const Navbar = () => {
         {/* RIGHT AREA */}
         <div className="flex-1 flex justify-start items-center h-full overflow-hidden">
           <motion.div
-            initial={{ width: 0, opacity: 0 }}
-            animate={{ width: !isHome ? 'auto' : 0, opacity: !isHome ? 1 : 0 }}
+            initial={false}
+            animate={{ width: !isHome ? 'auto' : 0 }}
             transition={{ duration: 0.4, ease: "circOut" }}
             className="hidden md:flex justify-start overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto"
           >
@@ -246,7 +256,6 @@ const Navbar = () => {
             initial={false}
             animate={{ 
               width: isScrolled ? "0%" : "100%", 
-              opacity: isScrolled ? 0 : 1,
               marginLeft: isScrolled ? 0 : 16
             }}
             transition={{ duration: 0.4, ease: "circOut" }}
@@ -257,7 +266,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE DROPDOWN - MODEL FLOATING PILLS (Kapsul Melayang) 🚀 */}
+      {/* MOBILE DROPDOWN - MODEL FLOATING PILLS */}
       <AnimatePresence>
         {!isHome && isOpen && (
           <motion.div
@@ -276,14 +285,15 @@ const Navbar = () => {
                   key={link.path}
                   variants={itemVariants}
                   className="w-full max-w-[260px]"
+                  whileTap={{ scale: 0.95 }} 
                 >
                   <Link
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`pointer-events-auto relative flex items-center justify-center w-full py-3.5 rounded-full font-garbata font-bold text-[11px] tracking-[0.25em] uppercase transition-all duration-300 active:scale-95 border ${
+                    className={`pointer-events-auto flex items-center justify-center w-full py-3.5 rounded-full font-['Red_Hat_Display'] font-bold text-[11px] tracking-[0.25em] uppercase border transition-colors duration-300 ${
                       isActive
-                        ? 'bg-[#4A6750]/90 backdrop-blur-md text-[#F9F8F4] border-[#4A6750]/50 shadow-[0_8px_20px_rgba(74,103,80,0.2)]'
-                        : 'bg-white/60 backdrop-blur-xl text-[#1A2F24] border-white/50 hover:bg-white/80 shadow-[0_8px_20px_rgba(46,76,56,0.05)]'
+                        ? 'bg-[#4A6750]/95 text-[#F9F8F4] border-[#4A6750]/50 shadow-[0_8px_20px_rgba(74,103,80,0.2)]'
+                        : 'bg-white/95 text-[#1A2F24] border-white/50 hover:bg-white shadow-[0_8px_20px_rgba(46,76,56,0.05)]'
                     }`}
                   >
                     {link.name}

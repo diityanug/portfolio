@@ -1,13 +1,54 @@
-import { useState } from 'react';
-import type { ReactElement, ReactNode, SyntheticEvent } from 'react';
+import { useState, type ReactElement, type SyntheticEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { popUpVariants } from '@utils/animation';
 
 // IMPORT STATIC DOT GRID DI SINI
 import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
 
-/* MAIN DATA */
+/* =========================================
+   KOREOGRAFI ANIMASI (CINEMATIC TIMING)
+   ========================================= */
+const customEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Wrapper Utama (Exit pakai blur disamakan dengan Profile Page)
+const pageVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.5 } },
+  exit: { opacity: 0, y: -20, filter: "blur(10px)", transition: { duration: 0.5, ease: customEase } }
+};
+
+// 1. Teks "WORK" muncul duluan pakai blur
+const textWorkVariants: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(12px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.1 } }
+};
+
+// 2. Teks "EXPERIENCE" nyusul
+const textExperienceVariants: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(12px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.25 } }
+};
+
+// 3. Subtitle / Garis pembatas nyusul
+const subtitleVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase, delay: 0.6 } }
+};
+
+// 4. Container & Card untuk list experience
+const sectionVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.8 } }
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } }
+};
+
+/* =========================================
+   MAIN DATA
+   ========================================= */
 const experiences = [
   {
     id: 1,
@@ -17,13 +58,7 @@ const experiences = [
     period: 'June 2025 — Present',
     logo: '/LG_Sinarmas_Logo_Vector.svg',
     tags: ['React', 'TypeScript', 'AWS S3', 'RBAC', 'LMS', 'HRIS', 'Battery Manufacturing', 'Equipment Modeling', 'MCCS Configuration'],
-    description: (
-      <div className="flex flex-col gap-2">
-        <p className="text-justify">
-          Contributing to the smart manufacturing ecosystem through two core roles — autonomous process control and fault detection — while also involved in internal software development covering resource management and organizational learning systems.
-        </p>
-      </div>
-    ),
+    description: "Contributing to the smart manufacturing ecosystem through two core roles — autonomous process control and fault detection — while also involved in internal software development covering resource management and organizational learning systems.",
     contributions: [
       {
         system: "APC (Autonomous Process Control)",
@@ -40,7 +75,7 @@ const experiences = [
         icon: "🔍",
         points: [
           "User access administration within the FDC system",
-          "Assigning and adjusting user roles — from not available and view only to engineer — based on each user's needs and requests"
+          "Assigning and adjusting user roles based on user's needs and requests"
         ]
       },
       {
@@ -78,110 +113,31 @@ const experiences = [
   },
 ];
 
-/* SLEEK EXPAND ICON */
-const ExpandIcon = ({ open }: { open: boolean }) => (
-  <motion.span
-    animate={{ rotate: open ? 45 : 0 }}
-    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-    className="flex items-center justify-center w-6 h-6 text-[#1A2F24] shrink-0 ml-4"
+/* =========================================
+   MODERN CHEVRON ICON
+   ========================================= */
+const ChevronIcon = ({ isOpen }: { isOpen: boolean }) => (
+  <motion.svg 
+    animate={{ rotate: isOpen ? 180 : 0 }}
+    transition={{ duration: 0.3, ease: customEase }}
+    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
   >
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  </motion.span>
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </motion.svg>
 );
 
-/* MINIMALIST ACCORDION ROW */
-type AccordionRowProps = {
-  icon: string;
-  title: string;
-  subtitle?: string;
-  children: ReactNode;
-};
-
-const AccordionRow = ({ icon, title, subtitle, children }: AccordionRowProps) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="border-b border-[#2E4C38]/20 overflow-hidden">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between py-5 text-left group transition-colors hover:bg-[#2E4C38]/[0.02]"
-        aria-expanded={open}
-      >
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <span className="text-xl md:text-2xl shrink-0 opacity-80">{icon}</span>
-          <div className="flex-1 min-w-0">
-            <h5 className="font-['The_Seasons_Regular'] font-bold text-base md:text-lg text-[#1A2F24] leading-snug break-words">
-              {title}
-            </h5>
-            {subtitle && (
-              <span className={`font-['The_Seasons_Regular'] text-sm text-[#4A6750]/60 block mt-1 transition-opacity duration-300 ${open ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>
-                {subtitle}
-              </span>
-            )}
-          </div>
-        </div>
-        <ExpandIcon open={open} />
-      </button>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            <div className="pb-6 pt-2 pl-[44px] md:pl-[52px] pr-4">
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
-/* MAIN PAGE */
+/* =========================================
+   MAIN PAGE
+   ========================================= */
 const ExperiencePage = (): ReactElement => {
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  const handleToggle = (id: number) => {
+    setExpandedId((prev) => (prev === id ? null : id));
+  };
+
   const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
-    const target = e.currentTarget;
-    target.style.display = 'none';
-  };
-
-  const pageVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { duration: 0.5 } },
-    exit: { opacity: 0, transition: { duration: 0.3 } }
-  };
-
-  // Varian Teks Judul
-  const typingChar: Variants = {
-    hidden: { opacity: 0, y: 15, rotate: -5 },
-    show: { 
-      opacity: 1, y: 0, rotate: 0,
-      transition: { type: "spring", damping: 16, stiffness: 140 }
-    }
-  };
-
-  const listContainerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { delayChildren: 1.2, staggerChildren: 0.2 } 
-    }
-  };
-
-  const delayedContainerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { delayChildren: 1.5, staggerChildren: 0.2 } 
-    }
+    e.currentTarget.style.display = 'none';
   };
 
   return (
@@ -190,178 +146,191 @@ const ExperiencePage = (): ReactElement => {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="relative z-0 flex flex-col pt-32 lg:pt-40 px-6 md:px-12 lg:px-16 pb-24 min-h-screen bg-[#F9F8F4] overflow-x-hidden"
+      className="relative z-0 flex flex-col pt-32 lg:pt-40 px-6 md:px-12 lg:px-16 pb-32 min-h-screen bg-[#F9F8F4] overflow-x-hidden"
     >
-      {/* ===== BACKGROUND STATIC DOT GRID DI SINI ===== */}
       <StaticDotGrid />
 
-      <div className="w-full max-w-[1200px] mx-auto relative z-10">
+      <div className="w-full max-w-[1000px] mx-auto relative z-10">
         
-        {/* EDITORIAL HEADER */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
+        {/* ================= HEADER ================= */}
+        <div className="flex flex-col gap-4 mb-20">
+          <div className="flex flex-col md:flex-row gap-x-6 gap-y-1">
+            <motion.h1 variants={textWorkVariants} className="font-['The_Seasons_Regular'] text-[60px] sm:text-[80px] md:text-[100px] lg:text-[110px] leading-[0.85] tracking-tight text-[#1A2F24] drop-shadow-sm">
+              WORK
+            </motion.h1>
+            <motion.h1 variants={textExperienceVariants} className="font-['The_Seasons_Regular'] text-[60px] sm:text-[80px] md:text-[100px] lg:text-[110px] leading-[0.85] tracking-tight text-[#4A6750] drop-shadow-sm">
+              EXPERIENCE
+            </motion.h1>
+          </div>
           
           <motion.div 
-            initial="hidden"
-            animate="show"
-            transition={{ staggerChildren: 0.08, delayChildren: 0.1 }}
-            className="flex flex-col md:flex-row md:flex-wrap gap-x-6 gap-y-2"
+            variants={subtitleVariants}
+            className="flex items-center gap-4 mt-2"
           >
-            <h1 className="font-hatton font-normal text-6xl md:text-[80px] lg:text-[100px] leading-[0.9] tracking-tight flex">
-              <div className="text-[#1A2F24] flex">
-                {"WORK".split("").map((char, i) => (
-                  <motion.span key={`work-${i}`} variants={typingChar} className="inline-block">
-                    {char}
-                  </motion.span>
-                ))}
-              </div>
-            </h1>
-            <h1 className="font-hatton font-normal text-6xl md:text-[80px] lg:text-[100px] leading-[0.9] tracking-tight flex">
-              <div className="text-[#4A6750] flex">
-                {"EXPERIENCE".split("").map((char, i) => (
-                  <motion.span key={`exp-${i}`} variants={typingChar} className="inline-block">
-                    {char}
-                  </motion.span>
-                ))}
-              </div>
-            </h1>
-          </motion.div>
-
-          <motion.div
-            variants={listContainerVariants}
-            initial="hidden"
-            animate="show"
-            className="flex flex-col gap-2 md:text-right shrink-0 border-l-2 md:border-l-0 md:border-r-2 border-[#4A6750] pl-4 md:pl-0 md:pr-4"
-          >
-            <motion.span variants={popUpVariants} className="font-['The_Seasons_Regular'] text-sm text-[#4A6750]/80">
-              {experiences[0].period}
-            </motion.span>
+            <span className="font-['Red_Hat_Display'] text-xs font-bold tracking-[0.2em] uppercase text-[#4A6750]/80 bg-white/60 px-4 py-2 rounded-full border border-[#4A6750]/20">
+              Professional Journey
+            </span>
+            <div className="flex-1 h-[1px] bg-[#2E4C38]/10" />
           </motion.div>
         </div>
 
-        {/* MAIN EXPERIENCE LIST */}
-        <motion.div
+        {/* ================= PREMIUM EXP CARDS ================= */}
+        <motion.div 
           initial="hidden"
-          animate="show"
-          variants={delayedContainerVariants}
-          className="flex flex-col w-full"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={sectionVariants}
+          className="flex flex-col w-full gap-12"
         >
-          {experiences.map((exp) => (
-            <motion.div 
-              key={exp.id} 
-              variants={popUpVariants}
-              className="w-full flex flex-col lg:flex-row gap-12 lg:gap-20 pb-16 pt-8 border-t border-[#2E4C38]/20"
-            >
-              {/* LEFT — Sleek Identity sidebar */}
-              <div className="w-full lg:w-[340px] shrink-0 lg:sticky lg:top-32 lg:self-start flex flex-col">
-                <div className="flex items-center gap-6 mb-6">
-                  <div className="w-16 h-16 bg-transparent border border-[#2E4C38]/20 rounded-none flex items-center justify-center p-2">
-                    <img 
-                      src={exp.logo} 
-                      alt={exp.company} 
-                      className="w-full h-full object-contain opacity-90"
-                      onError={handleImageError}
-                    />
+          {experiences.map((exp) => {
+            const isExpanded = expandedId === exp.id;
+
+            return (
+              <motion.div 
+                key={exp.id}
+                variants={cardVariants}
+                className="w-full bg-white/60 backdrop-blur-xl border border-white/50 shadow-[0_10px_40px_rgba(46,76,56,0.05)] rounded-[2.5rem] p-6 md:p-10 transition-shadow hover:shadow-[0_15px_50px_rgba(46,76,56,0.08)]"
+              >
+                
+                {/* --- CARD HEADER --- */}
+                <div className="flex flex-col gap-8">
+                  <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                    <div className="flex flex-col md:flex-row md:items-center gap-6">
+                      <div className="w-20 h-20 md:w-24 md:h-24 bg-white shadow-sm border border-[#2E4C38]/10 rounded-2xl flex items-center justify-center p-4 shrink-0">
+                        <img 
+                          src={exp.logo} 
+                          alt={exp.company} 
+                          className="w-full h-full object-contain"
+                          onError={handleImageError}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <h2 className="font-['The_Seasons_Regular'] text-3xl md:text-5xl text-[#1A2F24] leading-[1.1]">
+                          {exp.role}
+                        </h2>
+                        {/* INI FONT-NYA UDAH DIGANTI JADI TIPIS ELEGANT */}
+                        <h3 className="font-['Poppins_Light'] text-xl md:text-2xl text-[#4A6750] tracking-wide mt-1">
+                          at {exp.company}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* Metadata Kanan */}
+                    <div className="flex flex-row lg:flex-col items-center lg:items-end gap-3 lg:gap-2">
+                      <span className="font-['Red_Hat_Display'] text-[11px] md:text-xs font-bold tracking-[0.1em] text-[#1A2F24] bg-[#4A6750]/10 px-3 py-1.5 rounded-md">
+                        {exp.period}
+                      </span>
+                      <span className="font-['Red_Hat_Display'] text-[10px] md:text-xs font-bold tracking-widest uppercase text-[#1A2F24]/50">
+                        {exp.location}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <h2 className="font-hatton font-bold text-2xl text-[#1A2F24] leading-tight">
-                      {exp.role}
-                    </h2>
-                    <h3 className="font-migra text-lg text-[#4A6750]">
-                      {exp.company}
-                    </h3>
+
+                  {/* Deskripsi, Tags & Toggle */}
+                  <div className="flex flex-col gap-6">
+                    <p className="font-['Aileron'] text-lg md:text-xl text-[#2E4C38]/80 leading-relaxed text-justify">
+                      {exp.description}
+                    </p>
+
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                      <div className="flex flex-wrap gap-2 md:max-w-[70%]">
+                        {exp.tags.map((tag, idx) => (
+                          <span key={idx} className="bg-white/80 border border-[#2E4C38]/10 text-[#1A2F24]/70 font-['Red_Hat_Display'] font-bold text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <button
+                        onClick={() => handleToggle(exp.id)}
+                        className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-['Red_Hat_Display'] text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-300 outline-none shrink-0 ${
+                          isExpanded 
+                            ? 'bg-[#1A2F24] text-white shadow-md' 
+                            : 'bg-white/80 text-[#1A2F24] border border-[#2E4C38]/20 hover:bg-[#1A2F24] hover:text-white hover:shadow-lg'
+                        }`}
+                      >
+                        {isExpanded ? 'Close Details' : 'Explore Details'}
+                        <ChevronIcon isOpen={isExpanded} />
+                      </button>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3 mb-6">
-                  <span className="text-[#1A2F24] text-sm font-medium font-migra">
-                    {exp.period}
-                  </span>
-                  <span className="w-1 h-1 bg-[#1A2F24]/40 rounded-full" />
-                  <span className="text-[#1A2F24]/70 text-xs font-bold font-migra tracking-wider uppercase">
-                    {exp.location}
-                  </span>
-                </div>
-
-                <div className="text-[#1A2F24]/80 font-['The_Seasons_Regular'] text-base leading-relaxed font-medium mb-8 text-justify">
-                  {exp.description}
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {exp.tags.map((tag, idx) => (
-                    <span 
-                      key={idx} 
-                      className="border border-[#2E4C38]/20 text-[#1A2F24]/80 font-['The_Seasons_Regular'] font-bold text-[10px] uppercase tracking-wider px-3 py-1.5"
+                {/* --- EXPANDED CONTENT --- */}
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      key="details"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ type: "tween", duration: 0.5, ease: customEase }}
+                      className="overflow-hidden"
                     >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* RIGHT — Minimalist List */}
-              <div className="flex-1 flex flex-col gap-10">
-
-                <div className="flex flex-col">
-                  <span className="font-hatton text-xs tracking-[0.2em] uppercase text-[#1A2F24] font-bold border-b border-[#2E4C38]/20 pb-3 mb-2">
-                    Key Contributions
-                  </span>
-                  <div className="flex flex-col">
-                    {exp.contributions.map((contrib, idx) => (
-                      <AccordionRow
-                        key={idx}
-                        icon={contrib.icon}
-                        title={contrib.system}
-                      >
-                        <ul className="flex flex-col gap-4">
-                          {contrib.points.map((point, pIdx) => (
-                            <motion.li
-                              key={pIdx}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: pIdx * 0.05 }}
-                              className="flex items-start gap-3 text-[#1A2F24]/80 font-['The_Seasons_Regular'] text-base leading-relaxed text-justify"
-                            >
-                              <span className="text-[#4A6750] mt-1.5 text-[10px] opacity-60">✦</span>
-                              <span>{point}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                      </AccordionRow>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col">
-                  <span className="font-hatton text-xs tracking-[0.2em] uppercase text-[#1A2F24] font-bold border-b border-[#2E4C38]/20 pb-3 mb-2">
-                    Company Culture
-                  </span>
-                  <div className="flex flex-col">
-                    {exp.culture.map((item, idx) => (
-                      <AccordionRow
-                        key={item.id}
-                        icon={idx === 0 ? '🤝' : '🌱'}
-                        title={item.title}
-                      >
-                        <div className="w-full sm:max-w-sm aspect-[16/9] overflow-hidden mb-4 border border-[#2E4C38]/10">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 transition-all duration-500"
-                            onError={handleImageError}
-                          />
+                      <div className="pt-10 pb-2 mt-10 border-t border-[#2E4C38]/10 flex flex-col gap-12">
+                        
+                        <div className="flex flex-col gap-6">
+                          <span className="font-['Red_Hat_Display'] text-xs font-bold tracking-[0.2em] uppercase text-[#4A6750]">
+                            Core Impact & Contributions
+                          </span>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {exp.contributions.map((contrib, idx) => (
+                              <div key={idx} className="bg-white/50 border border-[#2E4C38]/10 p-6 rounded-2xl flex flex-col gap-4">
+                                <h5 className="font-['Aileron'] font-bold text-xl text-[#1A2F24] flex items-center gap-3">
+                                  <span className="text-2xl drop-shadow-sm">{contrib.icon}</span>
+                                  {contrib.system}
+                                </h5>
+                                <ul className="flex flex-col gap-3">
+                                  {contrib.points.map((point, pIdx) => (
+                                    <li key={pIdx} className="flex items-start gap-3 text-[#2E4C38]/80 font-['Aileron'] text-base leading-relaxed text-justify">
+                                      <span className="text-[#4A6750] mt-1.5 text-[10px] opacity-60 shrink-0">✦</span>
+                                      <span>{point}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                        <p className="font-['The_Seasons_Regular'] text-base text-[#1A2F24]/80 leading-relaxed text-justify">
-                          {item.description}
-                        </p>
-                      </AccordionRow>
-                    ))}
-                  </div>
-                </div>
 
-              </div>
-            </motion.div>
-          ))}
+                        <div className="flex flex-col gap-6">
+                          <span className="font-['Red_Hat_Display'] text-xs font-bold tracking-[0.2em] uppercase text-[#4A6750]">
+                            Culture & Environment
+                          </span>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {exp.culture.map((item) => (
+                              <div key={item.id} className="bg-white/50 border border-[#2E4C38]/10 p-4 rounded-2xl flex flex-col gap-4 group">
+                                <div className="w-full aspect-[16/9] overflow-hidden rounded-xl bg-[#2E4C38]/5 relative">
+                                  <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                                    onError={handleImageError}
+                                  />
+                                </div>
+                                <div className="flex flex-col gap-1.5 px-2 pb-2">
+                                  <h6 className="font-['The_Seasons_Regular'] font-bold text-2xl text-[#1A2F24]">
+                                    {item.title}
+                                  </h6>
+                                  <p className="font-['Aileron'] text-sm md:text-base text-[#2E4C38]/80 leading-relaxed text-justify">
+                                    {item.description}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+              </motion.div>
+            );
+          })}
         </motion.div>
+
       </div>
     </motion.div>
   );

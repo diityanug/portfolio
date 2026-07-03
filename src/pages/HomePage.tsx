@@ -6,42 +6,39 @@ import type { Variants } from 'framer-motion';
 
 import { ClockWidget } from '../components/homePage/ClockWeather';
 import DotGrid from '../components/homePage/DotGrid';
-import BioReveal from '../components/homePage/BioReveal';
 
 /* =========================================
-   ANIMATION VARIANTS (LUXURY & SMOOTH)
+   ANIMATION VARIANTS
    ========================================= */
-const luxuryEase: [number, number, number, number] = [0.76, 0, 0.24, 1];
+const ANIM_DURATION = 0.5; 
+// FIX TS ERROR: Tambahkan "as const" agar dibaca sebagai tuple [number, number, number, number]
+const snappyEase = [0.22, 1, 0.36, 1] as const; 
 
 const pageVariants: Variants = {
   hidden: { opacity: 0 },
-  show: { 
-    opacity: 1, 
-    transition: { duration: 1.2, ease: luxuryEase } 
-  },
+  show: { opacity: 1 },
   exit: { 
     opacity: 0, 
     filter: "blur(10px)",
-    transition: { duration: 0.6, ease: luxuryEase } 
+    transition: { duration: 0.4 } 
   }
 };
 
-// Menggunakan custom property agar kita bisa mengatur delay spesifik untuk tiap elemen
-const textRise: Variants = {
-  hidden: { y: "110%", opacity: 0 },
-  show: (customDelay: number) => ({ 
-    y: "0%", 
-    opacity: 1,
-    transition: { duration: 1.2, ease: luxuryEase, delay: customDelay }
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: (delay: number) => ({ 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: ANIM_DURATION, ease: snappyEase, delay } 
   })
 };
 
-const fadeVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: (customDelay: number) => ({ 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 1, ease: luxuryEase, delay: customDelay } 
+const textRise: Variants = {
+  hidden: { y: "110%", opacity: 0 },
+  show: (delay: number) => ({ 
+    y: "0%", 
+    opacity: 1,
+    transition: { duration: ANIM_DURATION, ease: snappyEase, delay }
   })
 };
 
@@ -54,7 +51,7 @@ const ArrowUpRight = (): ReactElement => (
     width="16" height="16" viewBox="0 0 24 24" 
     fill="none" stroke="currentColor" strokeWidth="1.5" 
     strokeLinecap="round" strokeLinejoin="round"
-    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+    className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1"
   >
     <line x1="5" y1="17" x2="19" y2="5"></line>
     <polyline points="5 5 19 5 19 19"></polyline>
@@ -67,7 +64,6 @@ const ArrowUpRight = (): ReactElement => (
 const HomePage = (): ReactElement => {
   const navigate = useNavigate();
 
-  // Diubah dari '/contact' ke '/about'
   const handleNavigate = useCallback(() => navigate('/about'), [navigate]);
 
   return (
@@ -88,14 +84,14 @@ const HomePage = (): ReactElement => {
         
         <div className="flex flex-col items-center">
           
-          {/* Label Atas - Muncul setelah nama (delay: 0.8s) */}
-          <motion.div custom={0.8} variants={fadeVariants} className="mb-6 md:mb-8">
+          {/* URUTAN 3 (Delay 0.5) */}
+          <motion.div custom={0.5} variants={fadeUp} className="mb-6 md:mb-8">
             <span className="font-['Red_Hat_Display'] text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#4A6750] font-bold">
               Hello, I'm
             </span>
           </motion.div>
 
-          {/* Nama - Muncul paling awal (delay: 0.1s dan 0.2s) */}
+          {/* URUTAN 1 & 2 (Delay 0.1 & 0.2) */}
           <div className="flex flex-col items-center mb-10 md:mb-12 cursor-default select-none">
             <div className="overflow-hidden pb-2 md:pb-4">
               <motion.h1 
@@ -117,20 +113,20 @@ const HomePage = (): ReactElement => {
             </div>
           </div>
 
-          {/* Bio Line - Muncul setelah label (delay: 1.0s) */}
-          <motion.div custom={1.0} variants={fadeVariants} className="w-full max-w-[550px] font-['Aileron'] text-base md:text-lg leading-relaxed text-[#2E4C38]/80 font-medium mb-12 px-4">
-            <BioReveal />
+          {/* URUTAN 4 (Delay 0.6) */}
+          <motion.div custom={0.6} variants={fadeUp} className="w-full max-w-[550px] font-['Aileron'] text-base md:text-lg leading-relaxed text-[#2E4C38]/80 font-medium mb-12 px-4">
+            <p>Software Engineer focusing on Frontend Development. Building digital experiences with React and TypeScript.</p>
           </motion.div>
 
-          {/* CTA Button - Muncul terakhir (delay: 1.2s) */}
+          {/* URUTAN 5 (Delay 0.7) */}
           <motion.button
-            custom={1.2}
-            variants={fadeVariants}
+            custom={0.7}
+            variants={fadeUp}
+            whileTap={{ scale: 0.95 }}
             onClick={handleNavigate}
-            className="group relative flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-[#1A2F24] text-[#F9F8F4] overflow-hidden transition-transform active:scale-95 shadow-[0_10px_30px_rgba(26,47,36,0.15)] hover:shadow-[0_10px_40px_rgba(74,103,80,0.3)]"
+            className="group relative flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-[#1A2F24] text-[#F9F8F4] overflow-hidden shadow-[0_10px_30px_rgba(26,47,36,0.15)] hover:shadow-[0_10px_40px_rgba(74,103,80,0.3)]"
           >
-            {/* Animasi hover diperbaiki: durasi lebih cepat (300ms) dan menggunakan ease-out agar responsif/tanpa jeda */}
-            <div className="absolute inset-0 bg-[#4A6750] translate-y-full rounded-full transition-transform duration-300 ease-out group-hover:translate-y-0" />
+            <div className="absolute inset-0 bg-[#4A6750] translate-y-full rounded-full transition-transform duration-200 ease-out group-hover:translate-y-0" />
             <span className="relative z-10 font-['Red_Hat_Display'] text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold mt-0.5">
               Let's Talk
             </span>
@@ -143,9 +139,10 @@ const HomePage = (): ReactElement => {
       </div>
 
       {/* ================= BOTTOM METADATA ================= */}
+      {/* URUTAN 6 (Delay 0.8) */}
       <motion.div 
-        custom={1.4}
-        variants={fadeVariants}
+        custom={0.8}
+        variants={fadeUp}
         className="absolute bottom-6 md:bottom-10 left-6 right-6 md:left-12 md:right-12 flex justify-between items-end z-10 pointer-events-none"
       >
         <div className="flex flex-col gap-1">
@@ -153,7 +150,7 @@ const HomePage = (): ReactElement => {
             Location
           </span>
           <span className="font-['Aileron'] text-xs md:text-sm text-[#1A2F24] font-medium tracking-wide">
-            Seoul, KR
+            Bekasi Regency, West Java
           </span>
         </div>
         
