@@ -20,15 +20,23 @@ export const EDUCATION_DATA: readonly EducationItem[] = [
 ] as const;
 
 export const CERTIFICATES_DATA: readonly CertificateItem[] = [
-  { title: 'Learn Frontend Web Development (HTML, CSS dan Javascript)', issuer: 'Udemy', year: '2025', link: '#' },
-  { title: 'Java Bootcamp: Learn Java with 100+ Java Projects', issuer: 'Udemy', year: '2025', link: '#' },
-  { title: 'Cloud Practitioner Essentials (Learn AWS Cloud Basic)', issuer: 'Dicoding Indonesia', year: '2025', link: '#' },
-  { title: 'Learn Machine Learning for Beginners', issuer: 'Dicoding Indonesia', year: '2024', link: '#' },
-  { title: 'English Speaking Intensive 1 - Level A1 (Excellent)', issuer: 'WECAMP English Village', year: '2023', link: '#' },
-  { title: 'Tax Brevet Training AB + e-SPT', issuer: 'Centre for Accounting Development, Universitas Indonesia', year: '2023', link: '#' },
-  { title: 'Start Programming with Python', issuer: 'Dicoding Indonesia', year: '2023', link: '#' },
-  { title: 'Learn JavaScript Programming Basics', issuer: 'Dicoding Indonesia', year: '2023', link: '#' },
-  { title: 'Learn Basic Structured Query Language (SQL)', issuer: 'Dicoding Indonesia', year: '2023', link: '#' },
-  { title: 'Learn DevOps Basics', issuer: 'Dicoding Indonesia', year: '2023', link: '#' },
-  { title: 'Starting Basic Programming to Become a Software Developer', issuer: 'Dicoding Indonesia', year: '2023', link: '#' }
+  { title: 'C# Basics for Beginners: Learn C# Fundamentals by Coding', issuer: 'Udemy', year: '2026', link: 'https://www.udemy.com/certificate/UC-f5ec86b8-bde2-459f-b596-bf83c536b2ab/' },
+  { title: 'Belajar Frontend Website (HTML, CSS dan Javascript)', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-3b379b97-a4bd-4981-b1c5-9375dc8924f4/' },
+  { title: 'Java Bootcamp: Learn Java with 100+ Java Projects', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-cf7a6f29-db74-41c8-a2b0-d647df3e28d1/' },
+  { title: 'Cloud Practitioner Essentials (Learn AWS Cloud Basic)', issuer: 'Dicoding Indonesia', year: '2025', link: 'https://www.dicoding.com/certificates/53XEDN5R9PRN' },
+  { title: 'Introduction to REST APIs for Absolute Beginners', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-da90b50c-184e-4f53-b71f-d7901efe6032/' },
+  { title: 'Belajar Machine Learning untuk Pemula', issuer: 'Dicoding Indonesia', year: '2024', link: 'https://www.dicoding.com/certificates/N9ZOOM2R6ZG5' },
+  { title: 'English Speaking Intensive 1 - Level A1 (Excellent)', issuer: 'WECAMP English Village', year: '2023', link: 'Gogle drive' },
+  { title: 'Tax Brevet Training AB + e-SPT', issuer: 'Centre for Accounting Development, Universitas Indonesia', year: '2023', link: 'Google Drive' },
+  { title: 'Belajar Dasar Manajemen Proyek', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/KEXL05Q8RPG2' },
+  { title: 'Belajar Dasar Visualisasi Data', issuer: 'Dicoding Indonesia', year: '2023', link: 'http://dicoding.com/certificates/0LZ0QOW63Z65' },
+  { title: 'Belajar Dasar Git dengan Github', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/6RPN4K1J4X2M' },
+  { title: 'Memulai Pemrograman dengan Python', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/NVP78926RXR0' },
+  { title: 'Belajar Dasar Pemrograman JavaScript', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/6RPN48R65X2M' },
+  { title: 'Memulai Pemrograman dengan Haskell', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/98XWV40V9PM3' },
+  { title: 'Learn Basic Structured Query Language (SQL)', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/07Z68K26JXQR' },
+  { title: 'Belajar Dasar-Dasar DevOps', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/4EXG4YY9GPRL' },
+  { title: 'Memulai Dasar Pemrograman untuk Menjadi Pengembang Software', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/1RXY0N50QZVM' }
 ] as const;
+
+

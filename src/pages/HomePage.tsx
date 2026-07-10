@@ -7,12 +7,9 @@ import type { Variants } from 'framer-motion';
 import { ClockWidget } from '../components/homePage/ClockWeather';
 import DotGrid from '../components/homePage/DotGrid';
 
-/* =========================================
-   ANIMATION VARIANTS
-   ========================================= */
-const ANIM_DURATION = 0.5; 
-// FIX TS ERROR: Tambahkan "as const" agar dibaca sebagai tuple [number, number, number, number]
-const snappyEase = [0.22, 1, 0.36, 1] as const; 
+/* ANIMATION VARIANTS */
+const ANIM_DURATION = 1.2; 
+const relaxedEase = [0.4, 0, 0.2, 1] as const; 
 
 const pageVariants: Variants = {
   hidden: { opacity: 0 },
@@ -20,7 +17,7 @@ const pageVariants: Variants = {
   exit: { 
     opacity: 0, 
     filter: "blur(10px)",
-    transition: { duration: 0.4 } 
+    transition: { duration: 0.6 } 
   }
 };
 
@@ -29,7 +26,7 @@ const fadeUp: Variants = {
   show: (delay: number) => ({ 
     opacity: 1, 
     y: 0, 
-    transition: { duration: ANIM_DURATION, ease: snappyEase, delay } 
+    transition: { duration: ANIM_DURATION, ease: relaxedEase, delay } 
   })
 };
 
@@ -38,13 +35,11 @@ const textRise: Variants = {
   show: (delay: number) => ({ 
     y: "0%", 
     opacity: 1,
-    transition: { duration: ANIM_DURATION, ease: snappyEase, delay }
+    transition: { duration: ANIM_DURATION, ease: relaxedEase, delay }
   })
 };
 
-/* =========================================
-   COMPONENTS
-   ========================================= */
+/* COMPONENTS */
 const ArrowUpRight = (): ReactElement => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
@@ -58,9 +53,7 @@ const ArrowUpRight = (): ReactElement => (
   </svg>
 );
 
-/* =========================================
-   MAIN PAGE
-   ========================================= */
+/* MAIN PAGE */
 const HomePage = (): ReactElement => {
   const navigate = useNavigate();
 
@@ -74,30 +67,28 @@ const HomePage = (): ReactElement => {
       exit="exit" 
       className="w-full min-h-screen bg-[#F9F8F4] overflow-hidden relative z-0 flex flex-col justify-center items-center px-6 md:px-12 pt-20 pb-12"
     >
-      {/* ================= BACKGROUND ================= */}
+      {/* BACKGROUND */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
         <DotGrid />
       </div>
 
-      {/* ================= MAIN CONTENT ================= */}
+      {/* MAIN CONTENT */}
       <div className="w-full max-w-[1200px] relative z-10 flex flex-col items-center justify-center text-center">
         
         <div className="flex flex-col items-center">
           
-          {/* URUTAN 3 (Delay 0.5) */}
           <motion.div custom={0.5} variants={fadeUp} className="mb-6 md:mb-8">
-            <span className="font-['Red_Hat_Display'] text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#4A6750] font-bold">
+            <span className="font-redhat text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#4A6750] font-bold">
               Hello, I'm
             </span>
           </motion.div>
 
-          {/* URUTAN 1 & 2 (Delay 0.1 & 0.2) */}
           <div className="flex flex-col items-center mb-10 md:mb-12 cursor-default select-none">
             <div className="overflow-hidden pb-2 md:pb-4">
               <motion.h1 
                 custom={0.1}
                 variants={textRise}
-                className="font-['The_Seasons_Regular'] text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] leading-[0.85] text-[#1A2F24]"
+                className="font-seasons text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] leading-[0.85] text-[#1A2F24]"
               >
                 ADITYA
               </motion.h1>
@@ -106,19 +97,17 @@ const HomePage = (): ReactElement => {
               <motion.h1 
                 custom={0.2}
                 variants={textRise}
-                className="font-['The_Seasons_Regular'] text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] leading-[0.85] text-[#4A6750]"
+                className="font-seasons text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] leading-[0.85] text-[#4A6750]"
               >
                 NUGRAHA
               </motion.h1>
             </div>
           </div>
 
-          {/* URUTAN 4 (Delay 0.6) */}
-          <motion.div custom={0.6} variants={fadeUp} className="w-full max-w-[550px] font-['Aileron'] text-base md:text-lg leading-relaxed text-[#2E4C38]/80 font-medium mb-12 px-4">
+          <motion.div custom={0.6} variants={fadeUp} className="w-full max-w-[550px] font-aileron text-base md:text-lg leading-relaxed text-[#2E4C38]/80 font-medium mb-12 px-4">
             <p>Software Engineer focusing on Frontend Development. Building digital experiences with React and TypeScript.</p>
           </motion.div>
 
-          {/* URUTAN 5 (Delay 0.7) */}
           <motion.button
             custom={0.7}
             variants={fadeUp}
@@ -127,8 +116,8 @@ const HomePage = (): ReactElement => {
             className="group relative flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-[#1A2F24] text-[#F9F8F4] overflow-hidden shadow-[0_10px_30px_rgba(26,47,36,0.15)] hover:shadow-[0_10px_40px_rgba(74,103,80,0.3)]"
           >
             <div className="absolute inset-0 bg-[#4A6750] translate-y-full rounded-full transition-transform duration-200 ease-out group-hover:translate-y-0" />
-            <span className="relative z-10 font-['Red_Hat_Display'] text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold mt-0.5">
-              Let's Talk
+            <span className="relative z-10 font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold mt-0.5">
+              Get in Touch
             </span>
             <span className="relative z-10 text-[#E0BA5C]">
               <ArrowUpRight />
@@ -138,24 +127,23 @@ const HomePage = (): ReactElement => {
         </div>
       </div>
 
-      {/* ================= BOTTOM METADATA ================= */}
-      {/* URUTAN 6 (Delay 0.8) */}
+      {/* BOTTOM METADATA */}
       <motion.div 
         custom={0.8}
         variants={fadeUp}
         className="absolute bottom-6 md:bottom-10 left-6 right-6 md:left-12 md:right-12 flex justify-between items-end z-10 pointer-events-none"
       >
         <div className="flex flex-col gap-1">
-          <span className="font-['Red_Hat_Display'] text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-[#4A6750] font-bold">
+          <span className="font-redhat text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-[#4A6750] font-bold">
             Location
           </span>
-          <span className="font-['Aileron'] text-xs md:text-sm text-[#1A2F24] font-medium tracking-wide">
+          <span className="font-aileron text-xs md:text-sm text-[#1A2F24] font-medium tracking-wide">
             Bekasi Regency, West Java
           </span>
         </div>
         
         <div className="flex flex-col gap-1 text-right">
-          <span className="font-['Red_Hat_Display'] text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-[#4A6750] font-bold">
+          <span className="font-redhat text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-[#4A6750] font-bold">
             Local Time
           </span>
           <div className="pointer-events-auto">

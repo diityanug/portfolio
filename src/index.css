@@ -12,21 +12,21 @@
 }
 @font-face {
   font-family: 'Le Jour Serif';
-  src: url('/fonts/Le Jour Serif Personal Use Only.otf') format('opentype');
+  src: url('/fonts/Le%20Jour%20Serif%20Personal%20Use%20Only.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'The_Seasons_Regular';
-  src: url('/fonts/The Seasons Regular.ttf') format('truetype'); 
+  src: url('/fonts/The%20Seasons%20Regular.ttf') format('truetype'); 
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Atteron';
-  src: url('/fonts/Atteron Personal Use Only.ttf') format('truetype');
+  src: url('/fonts/Atteron%20Personal%20Use%20Only.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -67,7 +67,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'Red Hat Display';
+  font-family: 'Red_Hat_Display';
   src: url('/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
@@ -75,14 +75,14 @@
 }
 @font-face {
   font-family: 'Tan Mon Cheri';
-  src: url('/fonts/TAN-MON CHERI-Regular.ttf') format('truetype');
+  src: url('/fonts/TAN-MON%20CHERI-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'PP Hatton';
-  src: url('/fonts/PP Hatton Medium 500.otf') format('opentype');
+  src: url('/fonts/PP%20Hatton%20Medium%20500.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;

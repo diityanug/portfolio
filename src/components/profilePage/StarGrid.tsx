@@ -1,11 +1,6 @@
 import { useEffect, useRef, memo } from 'react';
 import type { ReactElement } from 'react';
 
-/**
- * High-performance Canvas Star Grid (Antigravity Style)
- * Bentuk bintik diubah menjadi Bintang 4-Sudut (Sparkle ✧).
- * Warna: Sage Green (#2E4C38).
- */
 const StarGrid = (): ReactElement => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -20,14 +15,14 @@ const StarGrid = (): ReactElement => {
     let width = window.innerWidth;
     let height = window.innerHeight;
 
-    // --- KONFIGURASI GRID ---
-    const SPACING = 40; // Jarak antar bintang (dibikin agak renggang biar elegan)
-    const BASE_RADIUS = 2.5; // Ukuran awal bintang
-    const MAX_RADIUS = 7.5; // Ukuran saat kena kursor
-    const INTERACTION_RADIUS = 140; // Jarak tarikan kursor
-    const BASE_OPACITY = 0.12; 
-    const MAX_OPACITY = 0.8; 
-    const REPEL_DISTANCE = 12; // Jarak menyingkir
+    // Grid Config
+    const SPACING = 40;
+    const BASE_RADIUS = 2.5;
+    const MAX_RADIUS = 7.5;
+    const INTERACTION_RADIUS = 140;
+    const BASE_OPACITY = 0.12;
+    const MAX_OPACITY = 0.8;
+    const REPEL_DISTANCE = 12;
 
     type Star = {
       baseX: number;
@@ -90,18 +85,16 @@ const StarGrid = (): ReactElement => {
     window.addEventListener('mouseout', onMouseLeave);
 
     let animationFrameId: number;
-
-    // Fungsi untuk menggambar bentuk bintang 4 sudut (Sparkle)
     const drawSparkle = (x: number, y: number, size: number) => {
-      const inner = size * 0.25; // Ketebalan inti bintang
+      const inner = size * 0.25;
       ctx.beginPath();
-      ctx.moveTo(x, y - size); // Top
+      ctx.moveTo(x, y - size); 
       ctx.lineTo(x + inner, y - inner);
-      ctx.lineTo(x + size, y); // Right
+      ctx.lineTo(x + size, y); 
       ctx.lineTo(x + inner, y + inner);
-      ctx.lineTo(x, y + size); // Bottom
+      ctx.lineTo(x, y + size);
       ctx.lineTo(x - inner, y + inner);
-      ctx.lineTo(x - size, y); // Left
+      ctx.lineTo(x - size, y);
       ctx.lineTo(x - inner, y - inner);
       ctx.closePath();
       ctx.fill();
@@ -139,7 +132,6 @@ const StarGrid = (): ReactElement => {
         star.currentRadius += (star.targetRadius - star.currentRadius) * 0.15;
         star.currentOpacity += (star.targetOpacity - star.currentOpacity) * 0.15;
 
-        // Set Warna Sage Green
         ctx.fillStyle = `rgba(46, 76, 56, ${star.currentOpacity})`; 
         drawSparkle(star.x, star.y, star.currentRadius);
       });
