@@ -116,7 +116,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
           <span className="text-sm text-gray-500 font-sans shrink-0 md:pt-2">{exp.location}</span>
         </div>
 
-        <p className="text-[15px] md:text-base text-gray-600 leading-relaxed font-sans max-w-2xl mb-5">
+        <p className="text-justify text-[15px] md:text-base text-gray-600 leading-relaxed font-sans max-w-2xl mb-5">
           {exp.description}
         </p>
 
