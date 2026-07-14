@@ -34,7 +34,7 @@ export const CERTIFICATES_DATA: readonly CertificateItem[] = [
   { title: 'Memulai Pemrograman dengan Python', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/NVP78926RXR0' },
   { title: 'Belajar Dasar Pemrograman JavaScript', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/6RPN48R65X2M' },
   { title: 'Memulai Pemrograman dengan Haskell', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/98XWV40V9PM3' },
-  { title: 'Learn Basic Structured Query Language (SQL)', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/07Z68K26JXQR' },
+  { title: 'Belajar Dasar Structured Query Language (SQL)', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/07Z68K26JXQR' },
   { title: 'Belajar Dasar-Dasar DevOps', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/4EXG4YY9GPRL' },
   { title: 'Memulai Dasar Pemrograman untuk Menjadi Pengembang Software', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/1RXY0N50QZVM' }
 ] as const;
