@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { SocialButton } from '../components/contactPage/SocialButton';
@@ -13,7 +13,8 @@ const ArrowRight = () => (
   </svg>
 );
 
-const relaxedEase: [number, number, number, number] = [0.4, 0, 0.2, 1];
+const relaxedEase = [0.4, 0, 0.2, 1] as const;
+
 const ContactPage = (): ReactElement => {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -61,40 +62,40 @@ const ContactPage = (): ReactElement => {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="relative z-0 flex flex-col justify-between pt-28 md:pt-32 px-5 md:px-10 lg:px-16 pb-8 md:pb-10 min-h-[100dvh] bg-[#F9F8F4] overflow-hidden"
+      className="relative z-0 flex flex-col justify-between pt-20 md:pt-32 px-5 md:px-10 lg:px-16 pb-4 md:pb-10 w-full h-[100svh] bg-[#F9F8F4] overflow-hidden"
     >
       <DotGrid />
 
       {/* TOP BAR: Status & Location */}
-      <motion.div variants={itemVariants} className="relative z-10 w-full max-w-[1400px] mx-auto flex justify-between items-start">
-        <div className="flex items-center gap-3 bg-white/60 backdrop-blur-md px-4 py-2.5 rounded-full border border-[#2E4C38]/10 shadow-sm">
+      <motion.div variants={itemVariants} className="relative z-10 w-full max-w-[1400px] mx-auto flex justify-between items-center gap-2">
+        <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2.5 rounded-full border border-[#2E4C38]/10 shadow-sm shrink-0">
           <motion.span 
             animate={{ opacity: [0.3, 1, 0.3], scale: [0.9, 1.1, 0.9] }}
             transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-            className="relative flex h-2.5 w-2.5 rounded-full bg-[#4A6750]"
+            className="relative flex h-2 w-2 rounded-full bg-[#4A6750]"
           />
-          <p className="font-redhat text-[10px] uppercase tracking-[0.2em] text-[#1A2F24]/70 font-bold mt-0.5">
+          <p className="font-redhat text-[8px] md:text-[10px] uppercase tracking-[0.15em] md:tracking-[0.2em] text-[#1A2F24]/70 font-bold mt-0.5">
             Available for work
           </p>
         </div>
 
-        <div className="hidden md:flex flex-col items-end gap-1 text-right">
-          <span className="font-redhat text-[10px] tracking-[0.2em] uppercase text-[#4A6750] font-bold">
+        <div className="flex flex-col items-end text-right shrink-0">
+          <span className="font-redhat text-[8px] md:text-[10px] tracking-[0.15em] md:tracking-[0.2em] uppercase text-[#4A6750] font-bold">
             Base Location
           </span>
-          <p className="font-aileron text-sm text-[#1A2F24] font-bold">
-            Bekasi Regency, West Java
+          <p className="font-aileron text-[11px] md:text-sm text-[#1A2F24] font-bold tracking-wide">
+            Bekasi, West Java
           </p>
         </div>
       </motion.div>
 
       {/* CENTER HERO: Typography */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center items-center text-center w-full my-10 lg:my-0">
+      <div className="relative z-10 flex-1 flex flex-col justify-center items-center text-center w-full my-2 lg:my-0 select-none">
         <motion.h1 variants={itemVariants} className="font-seasons text-[11vw] sm:text-[70px] lg:text-[100px] leading-[0.85] tracking-tight text-[#1A2F24]">
           LET'S BUILD
         </motion.h1>
         
-        <h1 className="font-seasons text-[11vw] sm:text-[70px] lg:text-[100px] leading-[0.85] tracking-tight flex flex-wrap justify-center gap-x-3 sm:gap-x-4">
+        <h1 className="font-seasons text-[11vw] sm:text-[70px] lg:text-[100px] leading-[0.85] tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-4">
           <motion.span variants={itemVariants} className="text-[#1A2F24]">
             SOMETHING
           </motion.span>
@@ -122,15 +123,14 @@ const ContactPage = (): ReactElement => {
 
       {/* BOTTOM BAR */}
       <motion.div variants={itemVariants} className="relative z-10 w-full max-w-[1200px] mx-auto">
-        <div className="flex flex-col xl:flex-row items-center justify-between gap-10 xl:gap-20 bg-white/40 backdrop-blur-xl border border-white/60 p-6 md:px-8 md:py-6 rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(46,76,56,0.1)]">
+        <div className="flex flex-col xl:flex-row items-center justify-between gap-4 xl:gap-20 bg-white/40 backdrop-blur-xl border border-white/60 p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-[0_15px_35px_-15px_rgba(46,76,56,0.08)]">
           
-          <p className="font-aileron text-center xl:text-left text-base md:text-lg text-[#2E4C38]/80 leading-relaxed font-medium flex-1 min-w-[280px]">
+          <p className="font-aileron text-center xl:text-left text-xs md:text-lg text-[#2E4C38]/80 leading-relaxed font-medium flex-1 max-w-[480px]">
             I’m always excited to collaborate on meaningful projects, discuss tech, or just say hello. Reach out anytime.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center xl:justify-end gap-6 md:gap-8 shrink-0">
-            
-            <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center xl:justify-end gap-3.5 md:gap-8 shrink-0 w-full sm:w-auto">
+            <div className="flex flex-row flex-wrap items-center justify-center gap-2 md:gap-3">
               {SOCIAL_LINKS.map((social) => (
                 <SocialButton key={social.name} url={social.url} icon={social.icon} label={social.name} />
               ))}
@@ -141,7 +141,7 @@ const ContactPage = (): ReactElement => {
               href={EMAIL_LINK} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="group flex items-center justify-center gap-3 bg-[#1A2F24] text-[#F9F8F4] pl-5 pr-1.5 py-1.5 md:pl-6 md:pr-2 md:py-2 rounded-full hover:bg-[#2E4C38] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_4px_14px_rgba(26,47,36,0.15)] w-full sm:w-auto shrink-0"
+              className="group flex items-center justify-center gap-3 bg-[#1A2F24] text-[#F9F8F4] pl-5 pr-2 py-2 md:pl-6 md:pr-2 md:py-2 rounded-full hover:bg-[#2E4C38] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_4px_14px_rgba(26,47,36,0.15)] w-full sm:w-auto shrink-0"
             >
               <span className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold mt-0.5">
                 Let's Talk

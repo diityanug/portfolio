@@ -2,9 +2,10 @@ import { useState, type ReactElement, type SyntheticEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
+import lgSinarmasLogo from '../assets/LG_Sinarmas_Logo_Vector.svg';
 
 /* Animasi */
-const customEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const customEase = [0.22, 1, 0.36, 1] as const;
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -50,8 +51,8 @@ const experiences = [
     company: 'LG Sinarmas',
     location: 'Central Jakarta, Indonesia',
     period: 'JUNE 2025 — PRESENT',
-    logo: '/LG_Sinarmas_Logo_Vector.svg',
-    tags: ['React', 'TypeScript', 'AWS S3', 'Battery Manufacturing'],
+    logo: lgSinarmasLogo,
+    tags: ['React', 'TypeScript', 'AWS S3', 'Battery Manufacturing', 'Microfrontend Architecture'],
     description: "Contributing to Smart Factory operations through equipment modeling, server monitoring, and equipment alarm maintenance, while developing scalable internal enterprise applications—including HRIS, LMS, and Job Portal—using React, TypeScript, and Microfrontend Architecture.",
     contributions: [
       { system: "APC (Autonomous Process Control)", icon: <GearIcon />, points: ["Registered and modeled manufacturing equipment using Factova.", "Monitored server and equipment status across multiple production sites.", "Investigated and resolved equipment alarm issues to ensure system reliability."] },
@@ -90,10 +91,11 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
   return (
     <motion.article
       variants={itemVariants}
-      className="w-full border-b border-[#1A2F24]/10 py-10 md:py-14 grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-6"
+      // LOOSENED: py-8 dinaikkan ke py-11 agar jarak antar baris pekerjaan lebih lega
+      className="w-full border-b border-[#1A2F24]/10 py-11 md:py-14 grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-5 md:gap-y-6"
     >
       {/* LEFT: logo + period */}
-      <div className="lg:col-span-3 flex lg:flex-col justify-between lg:justify-start gap-4">
+      <div className="lg:col-span-3 flex flex-col justify-between lg:justify-start gap-3 md:gap-4">
         <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-4">
           <img
             src={exp.logo}
@@ -102,29 +104,32 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
             onError={handleImageError}
           />
         </div>
-        <span className="text-[11px] font-bold tracking-[0.2em] text-[#4A6750] uppercase self-start lg:mt-1">
+        <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#4A6750]/80 md:text-[#4A6750] uppercase self-start lg:mt-1">
           {exp.period}
         </span>
       </div>
 
       {/* RIGHT: content */}
-      <div className="lg:col-span-9">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-5">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-seasons text-[#1A2F24] leading-[0.95]">
+      <div className="lg:col-span-9 flex flex-col">
+        {/* LOOSENED: mb-4 dinaikkan ke mb-5 */}
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 md:gap-2 mb-5">
+          <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-seasons text-[#1A2F24] leading-tight md:leading-[0.95]">
             {exp.role}
           </h2>
-          <span className="text-sm text-gray-500 font-sans shrink-0 md:pt-2">{exp.location}</span>
+          <span className="text-xs md:text-sm text-gray-500 font-sans shrink-0 sm:pt-2">{exp.location}</span>
         </div>
 
-        <p className="text-justify text-[15px] md:text-base text-gray-600 leading-relaxed font-sans max-w-2xl mb-5">
+        {/* LOOSENED: mb-5 tetap dipertahankan untuk ruang bernapas teks */}
+        <p className="text-justify text-sm md:text-base text-gray-600 leading-relaxed font-sans max-w-2xl mb-5">
           {exp.description}
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-7">
+        {/* LOOSENED: mb-6 dinaikkan ke mb-7 */}
+        <div className="flex flex-wrap gap-1.5 md:gap-2 mb-7">
           {exp.tags.map((tag, idx) => (
             <span
               key={idx}
-              className="text-[11px] font-semibold uppercase tracking-wide text-[#4A6750] px-3 py-1 rounded-full border border-[#2E4C38]/15"
+              className="text-[10px] md:text-[11px] font-semibold uppercase tracking-wide text-[#4A6750] px-3 py-1 rounded-full border border-[#2E4C38]/15"
             >
               {tag}
             </span>
@@ -132,12 +137,12 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
         </div>
 
         {/* SEGMENTED TOGGLE */}
-        <div className="inline-flex bg-[#4A6750]/[0.06] rounded-full p-1 gap-1">
+        <div className="inline-flex bg-[#4A6750]/[0.06] rounded-full p-1 gap-1 select-none self-start">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => toggleTab(tab.key)}
-              className={`relative px-5 py-2 text-[11px] font-bold uppercase tracking-wider rounded-full transition-colors duration-300 ${
+              className={`relative px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-wider rounded-full transition-colors duration-300 ${
                 activeTab === tab.key ? 'text-[#F9F8F4]' : 'text-[#1A2F24]/55 hover:text-[#1A2F24]'
               }`}
             >
@@ -154,63 +159,67 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
         </div>
 
         {/* EXPANDABLE CONTENT */}
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ 
-            height: activeTab ? 'auto' : 0,
-            opacity: activeTab ? 1 : 0 
+        <div
+          className="grid overflow-hidden"
+          style={{
+            gridTemplateRows: activeTab ? '1fr' : '0fr',
+            transition: 'grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
-          transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-          className="overflow-hidden"
         >
-          <AnimatePresence mode="wait">
-            {activeTab === 'core' && (
-              <motion.div key="core" variants={fadeVariants} initial="hidden" animate="show" exit="exit" className="pt-7">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-1">
-                  {exp.contributions.map((contrib, idx) => (
-                    <div key={idx} className="bg-[#F9F8F4] border border-[#2E4C38]/8 rounded-2xl p-5">
-                      <h4 className="flex items-center gap-2.5 text-sm font-semibold text-[#1A2F24] mb-3 font-sans">
-                        <span className="text-[#4A6750]">{contrib.icon}</span>
-                        {contrib.system}
-                      </h4>
-                      <ul className="flex flex-col gap-2">
-                        {contrib.points.map((point, pIdx) => (
-                          <li key={pIdx} className="flex items-start gap-2.5 text-[13px] text-gray-600 leading-relaxed font-sans">
-                            <span className="w-1 h-1 rounded-full bg-[#4A6750] mt-2 shrink-0" />
-                            {point}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+          <div className="min-h-0 overflow-hidden">
+            <AnimatePresence mode="wait">
+              {activeTab === 'core' && (
+                // LOOSENED: pt-5 dinaikkan ke pt-7 agar panel detail tidak menempel dekat tombol toggle
+                <motion.div key="core" variants={fadeVariants} initial="hidden" animate="show" exit="exit" className="pt-7">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-1">
+                    {exp.contributions.map((contrib, idx) => (
+                      // LOOSENED: p-4 dinaikkan kembali ke p-5 agar isi box lega
+                      <div key={idx} className="bg-[#F9F8F4] border border-[#2E4C38]/8 rounded-xl md:rounded-2xl p-5">
+                        <h4 className="flex items-center gap-2.5 text-base md:text-sm font-semibold text-[#1A2F24] mb-3.5 font-sans leading-tight">
+                          <span className="text-[#4A6750] shrink-0">{contrib.icon}</span>
+                          {contrib.system}
+                        </h4>
+                        <ul className="flex flex-col gap-2.5">
+                          {contrib.points.map((point, pIdx) => (
+                            <li key={pIdx} className="flex items-start gap-2.5 text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-sans text-justify">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#4A6750] mt-1.5 shrink-0" />
+                              {point}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
-            {activeTab === 'culture' && (
-              <motion.div key="culture" variants={fadeVariants} initial="hidden" animate="show" exit="exit" className="pt-7">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-1">
-                  {exp.culture.map((item) => (
-                    <div key={item.id} className="rounded-2xl overflow-hidden border border-[#2E4C38]/10 bg-[#F9F8F4]">
-                      <div className="w-full aspect-video bg-gray-200 overflow-hidden">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover"
-                          onError={handleImageError}
-                        />
+              {activeTab === 'culture' && (
+                // LOOSENED: pt-5 dinaikkan ke pt-7
+                <motion.div key="culture" variants={fadeVariants} initial="hidden" animate="show" exit="exit" className="pt-7">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-1">
+                    {exp.culture.map((item) => (
+                      <div key={item.id} className="rounded-xl md:rounded-2xl overflow-hidden border border-[#2E4C38]/10 bg-[#F9F8F4]">
+                        <div className="w-full aspect-video bg-gray-200 overflow-hidden">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                            onError={handleImageError}
+                          />
+                        </div>
+                        {/* LOOSENED: p-4 dinaikkan ke p-5 */}
+                        <div className="p-5">
+                          <h4 className="font-bold text-base md:text-[15px] text-[#1A2F24] mb-1.5 font-sans">{item.title}</h4>
+                          <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-sans text-justify">{item.description}</p>
+                        </div>
                       </div>
-                      <div className="p-5">
-                        <h4 className="font-medium text-[15px] text-[#1A2F24] mb-1.5 font-sans">{item.title}</h4>
-                        <p className="text-[13px] text-gray-600 leading-relaxed font-sans">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </motion.article>
   );
@@ -224,11 +233,13 @@ const ExperiencePage = (): ReactElement => {
       initial="hidden"
       animate="show"
       exit="hidden"
-      className="relative z-0 flex flex-col pt-32 lg:pt-36 px-6 md:px-10 lg:px-16 pb-32 min-h-[100dvh] bg-[#F9F8F4] overflow-x-hidden font-sans text-gray-800"
+      // LOOSENED: pt-24 dinaikkan ke pt-28 agar judul halaman lebih turun dan lapang dari atas navbar
+      className="relative z-0 flex flex-col pt-28 lg:pt-36 px-5 md:px-10 lg:px-16 pb-24 md:pb-32 min-h-[100dvh] bg-[#F9F8F4] overflow-x-hidden font-sans text-gray-800"
     >
       <StaticDotGrid />
 
       <div className="w-full relative z-10">
+        {/* LOOSENED: mb-10 dinaikkan ke mb-14 sebelum garis border-t */}
         <motion.div variants={textThereVariants} className="w-full mb-14 md:mb-20">
           <h1 className="font-seasons text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight text-[#1A2F24]">
             WORK<br />

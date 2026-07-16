@@ -8,7 +8,7 @@ export const containerVariants: Variants = {
   exit: { opacity: 0, y: 30, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
-// Smooth Pop-up (Transisi stabil, cocok untuk UI/Teks)
+// Smooth Pop-up
 export const popUpVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95, y: 15 },
   show: { 
@@ -20,7 +20,7 @@ export const popUpVariants: Variants = {
   exit: { opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
-// Bouncy Pop-up (Transisi memantul/spring, cocok untuk Card/Image)
+// Bouncy Pop-up
 export const bouncyPopUpVariants: Variants = {
   hidden: { opacity: 0, scale: 0.85, y: 20 },
   show: { 

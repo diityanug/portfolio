@@ -6,7 +6,7 @@ import type { Variants } from 'framer-motion';
 import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
 
 /* Animation Variants */
-const customEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const customEase = [0.22, 1, 0.36, 1] as const;
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -32,7 +32,7 @@ const projects = [
     title: "Genre Game Classifier",
     category: "Natural Language Processing",
     year: "2024",
-    image: "public/images/Project 1.png",
+    image: "/images/Project 1.png",
     slug: "genre-game-classifier"
   }
 ];

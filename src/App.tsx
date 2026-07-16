@@ -30,7 +30,6 @@ const AnimatedRoutes = () => {
 function App() {
   return (
     <Router>
-      {/* Ubah bg-white menjadi bg-[#F9F8F4] di bawah ini */}
       <div className="relative z-0 min-h-screen bg-[#F9F8F4] overflow-x-hidden">
         <BackgroundTexture />
 

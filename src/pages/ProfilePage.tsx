@@ -1,72 +1,86 @@
-import type { ReactElement, SyntheticEvent } from 'react';
-import { motion } from 'framer-motion';
+import { useState, type ReactElement, type SyntheticEvent } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { EDUCATION_DATA, CERTIFICATES_DATA } from '../constants/profileData';
 import StarGrid from '../components/profilePage/StarGrid';
 
-/* ARROW ICON HELPER */
-const ArrowUpRight = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="5" y1="17" x2="19" y2="5"></line>
-    <polyline points="5 5 19 5 19 19"></polyline>
+/* ICONS RESIZABLE */
+const ArrowUpRight = (): ReactElement => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+    <line x1="7" y1="17" x2="17" y2="7"></line>
+    <polyline points="7 7 17 7 17 17"></polyline>
   </svg>
 );
 
-/* THEME ICONS */
-const EduIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#4A6750]">
+const EduIcon = ({ size = 24 }: { size?: number }): ReactElement => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
     <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
   </svg>
 );
 
-const CertIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#4A6750]">
+const CertIcon = ({ size = 24 }: { size?: number }): ReactElement => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="7"></circle>
     <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
   </svg>
 );
 
-const customEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+/* BUTTERY SMOOTH ANIMATIONS */
+const easeOutQuint = [0.22, 1, 0.36, 1] as const;
 
 const pageVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.5 } },
-  exit: { opacity: 0, y: -20, filter: "blur(10px)", transition: { duration: 0.5, ease: customEase } }
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOutQuint } },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.3, ease: 'easeInOut' } }
 };
 
-const textHiVariants: Variants = {
-  hidden: { opacity: 0, x: -30, filter: "blur(12px)" },
-  show: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.1 } }
+const heroContentVariants: Variants = {
+  hidden: { opacity: 0, y: 15 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: easeOutQuint, staggerChildren: 0.12 } }
 };
 
-const textThereVariants: Variants = {
-  hidden: { opacity: 0, x: -30, filter: "blur(12px)" },
-  show: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.25 } }
+const childVariants: Variants = {
+  hidden: { opacity: 0, x: -15, filter: "blur(4px)" },
+  show: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: easeOutQuint } }
 };
 
 const photoVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95, filter: "blur(10px)", y: 30 },
-  show: { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.2, ease: customEase, delay: 0.4 } }
+  show: { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.2, ease: easeOutQuint, delay: 0.4 } }
 };
 
-const bioVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase, delay: 0.6 } }
+const panelVariants: Variants = {
+ hidden: { opacity: 0, height: 0 },
+  show: {
+    opacity: 1,
+    height: "auto",
+    transition: {
+      height: { duration: 0.45, ease: easeOutQuint },
+      opacity: { duration: 0.35, delay: 0.1 },
+    },
+  },
+  exit: {
+    opacity: 0,
+    height: 0,
+    transition: {
+      height: { duration: 0.4, ease: easeOutQuint },
+      opacity: { duration: 0.2 },
+    },
+  },
 };
 
-const sectionVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
-};
+type EduCertKey = 'education' | 'certificates';
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } }
-};
+const eduCertTabs: { key: EduCertKey; label: string; desc: string; icon: ReactElement }[] = [
+  { key: 'education', label: 'Education', desc: 'Academic history & focus areas', icon: <EduIcon size={22} /> },
+  { key: 'certificates', label: 'Certificates', desc: 'Professional credentials & licenses', icon: <CertIcon size={22} /> },
+];
 
-/* MAIN PAGE COMPONENT */
+/* MAIN REVAMPED COMPONENT */
 const ProfilePage = (): ReactElement => {
+  const [activeSection, setActiveSection] = useState<EduCertKey | null>(null);
+
   const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.display = 'none';
   };
@@ -77,203 +91,232 @@ const ProfilePage = (): ReactElement => {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="relative z-0 flex flex-col pt-28 md:pt-36 px-6 md:px-10 lg:px-16 pb-24 md:pb-32 min-h-screen bg-[#F9F8F4] overflow-x-hidden text-[#1A2F24]"
+      className="relative z-0 flex flex-col pt-24 md:pt-36 px-6 md:px-12 lg:px-20 pb-28 min-h-screen bg-[#F9F8F4] overflow-x-hidden text-[#1A2F24]"
     >
-
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+      {/* BACKGROUND GRAPHIC */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-25">
         <StarGrid />
       </div>
 
-      <div className="w-full relative z-10 flex flex-col max-w-7xl mx-auto">
+      <div className="w-full relative z-10 flex flex-col max-w-6xl mx-auto">
         
-        {/* HERO SECTION */}
-        <div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-16 mb-24 md:mb-40 mt-4 relative z-10">
-
-          {/* KIRI: TEKS & BIO (TETAP DIPERLEBAR & RATA KIRI-KANAN) */}
-          <div className="w-full lg:w-[65%] flex flex-col items-center lg:items-start text-center lg:text-left z-20">
-            
-            <div className="flex flex-col mb-10 w-full">
-              <motion.h1 variants={textHiVariants} className="font-seasons text-[14vw] sm:text-[80px] md:text-[90px] lg:text-[110px] leading-[0.9] tracking-tight text-[#1A2F24]">
+        {/* HERO ACCENT */}
+        <div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-16 mb-14 md:mb-24 mt-2">
+          
+          {/* LEFT SIDE: INTRODUCTION */}
+          <motion.div 
+            variants={heroContentVariants}
+            className="w-full lg:w-[62%] flex flex-col items-center lg:items-start text-center lg:text-left"
+          >
+            <div className="flex flex-col mb-8 w-full select-none">
+              <motion.h1 variants={childVariants} className="font-seasons text-[15vw] sm:text-[85px] md:text-[95px] lg:text-[105px] leading-[0.85] tracking-tight text-[#1A2F24]">
                 Hi
               </motion.h1>
-              <div className="flex items-center justify-center lg:justify-start gap-4">
-                <motion.h1 variants={textThereVariants} className="font-seasons text-[14vw] sm:text-[80px] md:text-[90px] lg:text-[110px] leading-[0.9] tracking-tight text-[#4A6750] italic">
+              <div className="flex items-center justify-center lg:justify-start gap-4 mt-1">
+                <motion.h1 variants={childVariants} className="font-seasons text-[15vw] sm:text-[85px] md:text-[95px] lg:text-[105px] leading-[0.85] tracking-tight text-[#4A6750] italic font-normal">
                   There!
                 </motion.h1>
                 <motion.div 
                   initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: "80px", opacity: 1 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
-                  className="h-[2px] bg-[#1A2F24]/30 hidden lg:block mt-4" 
+                  animate={{ width: "60px", opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                  className="h-[1.5px] bg-[#4A6750]/40 hidden lg:block mt-6" 
                 />
               </div>
             </div>
 
-            <motion.div variants={bioVariants} className="flex flex-col gap-6 w-full">
-              <p className="font-redhat text-justify text-base md:text-lg lg:text-[19px] xl:text-[20px] leading-relaxed text-[#2E4C38]/90 font-medium tracking-wide">
-                I'm <span className="text-[#4A6750] font-bold">Aditya</span>! 👋 a Software Engineer with experience in both Smart Factory systems and Frontend Development. My primary role involves equipment modeling, server monitoring, and maintaining equipment alarm systems to ensure reliable manufacturing operations across multiple production sites.
+            <motion.div variants={childVariants} className="flex flex-col gap-5 w-full font-redhat text-justify text-base md:text-[17px] lg:text-[18px] leading-relaxed text-[#2E4C38]/90 font-medium tracking-wide">
+              <p>
+                I'm <span className="text-[#4A6750] font-bold border-b border-[#4A6750]/20 pb-0.5">Aditya</span>! 👋 a Software Engineer with experience in both Smart Factory systems and Frontend Development. My primary role involves equipment modeling, server monitoring, and maintaining equipment alarm systems to ensure reliable manufacturing operations across multiple production sites.
               </p>
-              <p className="font-redhat text-justify text-base md:text-lg lg:text-[19px] xl:text-[20px] leading-relaxed text-[#2E4C38]/90 font-medium tracking-wide">
-                Alongside my main responsibilities, I contribute to several internal web applications, building microfrontend-based systems using React and TypeScript for HRIS, LMS, and Job Portal platforms. I enjoy creating clean, scalable, and user-friendly interfaces while continuously improving application performance.
+              <p>
+                Alongside my main responsibilities, I contribute to several internal web applications, building microfrontend-based systems using React and TypeScript for HRIS, LMS, and Job Portal platforms.
               </p>
-              <p className="font-redhat text-justify text-base md:text-lg lg:text-[19px] xl:text-[20px] leading-relaxed text-[#2E4C38]/80 font-medium tracking-wide border-l-2 border-[#4A6750]/30 pl-4 mt-2 italic">
-                Beyond my daily work, I love exploring cloud technologies, automation, and machine learning with Python. I'm always excited to learn new technologies and build solutions that solve real-world problems.
+              <p className="border-l-2 border-[#4A6750]/40 pl-4 mt-1 italic text-[#2E4C38]/80 font-normal">
+                Beyond my daily work, I love exploring cloud technologies, automation, and machine learning with Python.
               </p>
             </motion.div>
-          </div>
+          </motion.div>
 
-          {/* KANAN: FOTO (KEMBALI KE DESAIN ASYMMETRICAL ORIGINAL) */}
+          {/* RIGHT SIDE */}
           <motion.div
             variants={photoVariants}
-            className="w-full lg:w-[35%] flex justify-center lg:justify-end relative z-10 mt-8 lg:mt-16"
+            className="w-full lg:w-[38%] flex justify-center lg:justify-end mt-4 lg:mt-6"
           >
-            <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[350px] aspect-[3/4]">
+            <div className="relative w-full max-w-[250px] sm:max-w-[280px] lg:max-w-[310px] aspect-[3/4] group">
+              <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-[#4A6750]/10 to-transparent blur-xl opacity-80 pointer-events-none" />
+              <div className="absolute inset-0 rounded-tr-[3.5rem] rounded-bl-[3.5rem] rounded-tl-xl rounded-br-xl border border-[#4A6750]/30 pointer-events-none translate-x-3.5 translate-y-3.5 transition-transform duration-500 group-hover:translate-x-2 group-hover:translate-y-2" />
               
-              {/* Decorative Geometric Background Glow & Accents */}
-              <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-tr from-[#4A6750]/20 to-transparent blur-2xl opacity-70" />
-              <div className="absolute inset-0 rounded-tr-[4rem] rounded-bl-[4rem] rounded-tl-2xl rounded-br-2xl border-2 border-[#4A6750]/20 pointer-events-none translate-x-4 translate-y-4 transition-transform duration-500 hover:translate-x-2 hover:translate-y-2" />
-              <div className="absolute inset-0 rounded-tr-[4rem] rounded-bl-[4rem] rounded-tl-2xl rounded-br-2xl border border-[#4A6750]/10 pointer-events-none -translate-x-2 -translate-y-2" />
-              
-              {/* Main Photo Wrapper */}
-              <motion.div 
-                transition={{ duration: 0.4, ease: customEase }}
-                className="relative w-full h-full rounded-tr-[4rem] rounded-bl-[4rem] rounded-tl-2xl rounded-br-2xl overflow-hidden ring-1 ring-[#4A6750]/15 shadow-[0_30px_60px_-15px_rgba(46,76,56,0.25)] bg-[#F9F8F4]"
-              >
+              <div className="relative w-full h-full rounded-tr-[3.5rem] rounded-bl-[3.5rem] rounded-tl-xl rounded-br-xl overflow-hidden ring-1 ring-[#4A6750]/20 shadow-[0_20px_45px_-12px_rgba(46,76,56,0.18)] bg-[#F9F8F4]">
                 <img
-                  src="public/images/pic_aboutMe.jpg"
+                  src="/images/pic_aboutMe.jpg"
                   alt="Aditya Nugraha Irwan"
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover grayscale-[15%] contrast-[105%] transition-transform duration-700 ease-out"
                   onError={handleImageError}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1A2F24]/10 via-transparent to-transparent pointer-events-none" />
-              </motion.div>
-
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1A2F24]/5 via-transparent to-transparent pointer-events-none" />
+              </div>
             </div>
           </motion.div>
-
         </div>
 
-        {/* EDUCATION SECTION */}
-        <motion.div 
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={sectionVariants}
-          className="w-full flex flex-col mb-24 md:mb-32"
-        >
-          <motion.div variants={cardVariants} className="flex items-center justify-center md:justify-start gap-4 mb-8 md:mb-10">
-            <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[#4A6750]/10">
-              <EduIcon />
-            </span>
-            <h2 className="font-seasons text-3xl md:text-4xl lg:text-5xl text-[#1A2F24] tracking-wide mt-1">
-              EDUCATION
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 w-full">
-            {EDUCATION_DATA.map((edu: any, index: number) => (
-              <motion.div 
-                key={index} 
-                variants={cardVariants}
-                whileHover={{ y: -5 }}
-                className="bg-[#4A6750]/[0.03] hover:bg-[#4A6750]/[0.06] p-5 md:p-6 lg:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-transparent hover:border-[#4A6750]/10 transition-colors duration-500 flex flex-col h-full group"
-              >
-                <div className="min-h-[76px] md:min-h-[96px] lg:min-h-[108px] pb-4 mb-8 border-b border-[#2E4C38]/10 flex flex-col justify-start">
-                  <h3 className="font-redhat text-2xl md:text-3xl lg:text-4xl text-[#1A2F24] font-semibold tracking-tight group-hover:text-[#4A6750] transition-colors duration-500">
-                    {edu.degree || edu.title}
-                  </h3>
-                </div>
-
-                <div className="flex items-start justify-between gap-2 sm:gap-4 mb-6 md:mb-8 mt-2">
-                  <div className="flex flex-col gap-1.5 min-w-0">
-                    <h4 className="font-redhat tracking-wide text-[#4A6750] text-[13px] sm:text-sm md:text-base font-bold uppercase whitespace-nowrap">
-                      {edu.institution || edu.school}
-                    </h4>
-                    <span className="font-redhat text-[11px] sm:text-xs md:text-sm font-semibold tracking-[0.15em] text-[#1A2F24]/50">
-                      {edu.period || edu.year || edu.date}
-                    </span>
+        {/* HIGH-LIGHTED INTERACTIVE SYSTEM */}
+        <div className="w-full flex flex-col gap-6">
+          
+          {/* INTERACTIVE ROW CARDS */}
+          {/* Penyesuaian p-4 di mobile agar hemat tempat */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+            {eduCertTabs.map((tab) => {
+              const isActive = activeSection === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveSection(isActive ? null : tab.key)}
+                  className={`relative flex items-center gap-4 sm:gap-5 p-4 sm:p-6 text-left rounded-2xl border transition-all duration-300 outline-none overflow-hidden group ${
+                    isActive 
+                      ? 'bg-[#1A2F24] border-[#1A2F24] text-[#F9F8F4] shadow-md shadow-[#1A2F24]/10' 
+                      : 'bg-[#4A6750]/[0.03] border-[#2E4C38]/12 text-[#1A2F24] hover:bg-[#4A6750]/[0.07] hover:border-[#4A6750]/30 hover:-translate-y-0.5'
+                  }`}
+                >
+                  {/* Dynamic Icon Base */}
+                  <div className={`p-3 rounded-xl shrink-0 transition-all duration-300 ${
+                    isActive ? 'bg-[#4A6750] text-[#F9F8F4] scale-105' : 'bg-[#1A2F24]/5 text-[#4A6750] group-hover:bg-[#4A6750]/10'
+                  }`}>
+                    {tab.icon}
                   </div>
                   
-                  {(edu.gpa || edu.ipk) && (
-                    <div className="flex items-center bg-[#1A2F24] text-[#F9F8F4] px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] md:text-xs font-redhat font-bold tracking-[0.15em] uppercase shadow-sm shrink-0">
-                      <span>GPA {edu.gpa || edu.ipk}</span>
+                  {/* Meta Details */}
+                  <div className="flex flex-col min-w-0 pr-4">
+                    <span className="font-redhat text-base sm:text-xl font-bold tracking-tight">
+                      {tab.label}
+                    </span>
+                    <span className={`font-redhat text-xs mt-0.5 transition-colors line-clamp-1 ${
+                      isActive ? 'text-[#F9F8F4]/65' : 'text-[#1A2F24]/55'
+                    }`}>
+                      {tab.desc}
+                    </span>
+                  </div>
+
+                  {/* Corner Visual Indicator */}
+                  <div className="absolute top-4 right-4 opacity-40 group-hover:opacity-100 transition-opacity">
+                    <div className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#4A6750]' : 'bg-[#1A2F24]/30'}`} />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* DYNAMIC EXPANDABLE SECTION */}
+          <div className="w-full">
+            <AnimatePresence initial={false} mode="wait">
+              {activeSection && (
+                <motion.div
+                  key={activeSection}
+                  variants={panelVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
+                  className="w-full overflow-hidden"
+                >
+                  {/* Menyesuaian p-4 di mobile */}
+                  <div className="bg-[#4A6750]/[0.015] border border-[#2E4C38]/8 rounded-2xl p-4 md:p-8 lg:p-10 shadow-inner mt-1">
+
+                  {activeSection === 'education' && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                      {EDUCATION_DATA.map((edu: any, index: number) => (
+                        <motion.div
+                          key={index}
+                          whileHover={{ y: -4 }}
+                          transition={{ duration: 0.2 }}
+                          className="bg-[#F9F8F4] p-5 md:p-7 rounded-xl border border-[#2E4C38]/5 hover:border-[#4A6750]/20 transition-all flex flex-col h-full group shadow-sm"
+                        >
+                          <div className="min-h-[50px] md:min-h-[72px] pb-3 mb-4 border-b border-[#2E4C38]/8 flex flex-col justify-start">
+                            <h3 className="font-redhat text-lg md:text-2xl text-[#1A2F24] tracking-tight font-bold group-hover:text-[#4A6750] transition-colors duration-300 leading-snug">
+                              {edu.degree || edu.title}
+                            </h3>
+                          </div>
+
+                          <div className="flex items-start justify-between gap-3 mb-4">
+                            <div className="flex flex-col gap-0.5 min-w-0">
+                              {/* FIX: Mengganti 'truncate' menjadi 'break-words' agar nama Universitas panjang terlipat rapi */}
+                              <h4 className="font-redhat tracking-wide text-[#4A6750] text-xs md:text-base font-bold uppercase break-words">
+                                {edu.institution || edu.school}
+                              </h4>
+                              <span className="font-redhat text-[11px] md:text-sm font-semibold tracking-wider text-[#1A2F24]/45">
+                                {edu.period || edu.year || edu.date}
+                              </span>
+                            </div>
+
+                            {(edu.gpa || edu.ipk) && (
+                              <div className="flex items-center bg-[#1A2F24] text-[#F9F8F4] px-2.5 py-1 rounded-full text-[10px] md:text-xs font-redhat font-bold tracking-wider uppercase shrink-0 select-none">
+                                <span>GPA {edu.gpa || edu.ipk}</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {edu.focus && (
+                            <div className="font-redhat text-[#1A2F24]/85 text-xs md:text-[15px] mb-3 pl-3 border-l-[1.5px] border-[#4A6750]/40 break-words">
+                              <strong className="font-bold text-[#1A2F24]">Focus:</strong> {edu.focus}
+                            </div>
+                          )}
+
+                          {edu.description && (
+                            <p className="text-[#1A2F24]/60 text-xs md:text-[15px] leading-relaxed font-redhat mt-auto text-left text-pretty">
+                              {edu.description}
+                            </p>
+                          )}
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+
+                  {activeSection === 'certificates' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+                      {CERTIFICATES_DATA.map((cert: any, index: number) => (
+                        <motion.div
+                          key={cert.title || index}
+                          whileHover={{ y: -4 }}
+                          transition={{ duration: 0.2 }}
+                          className="bg-[#F9F8F4] hover:bg-white p-5 rounded-xl transition-all flex flex-col h-full group border border-[#2E4C38]/5 hover:border-[#4A6750]/20 shadow-sm"
+                        >
+                          <a
+                            href={cert.link || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col h-full justify-between gap-5 outline-none"
+                          >
+                            <div className="flex flex-col gap-3">
+                              <div className="flex items-center justify-between gap-3">
+                                {/* FIX: Mengganti 'truncate' menjadi 'break-words' agar nama Issuer (seperti Universitas Indonesia) tidak terpotong */}
+                                <span className="text-[11px] md:text-sm font-bold text-[#4A6750]/75 font-redhat tracking-wide break-words min-w-0 flex-1">
+                                  {cert.issuer || cert.organization}
+                                </span>
+                                {cert.year && (
+                                  <span className="font-redhat tracking-wider text-[10px] md:text-xs font-bold text-[#4A6750] bg-[#4A6750]/5 px-2 py-0.5 rounded-md shrink-0">
+                                    {cert.year}
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className="font-redhat text-sm md:text-[17px] font-bold text-[#1A2F24] group-hover:text-[#4A6750] transition-colors line-clamp-3 leading-snug">
+                                {cert.title || cert.name}
+                              </h3>
+                            </div>
+                            <div className="w-8 h-8 rounded-full bg-[#1A2F24]/5 text-[#1A2F24]/40 flex items-center justify-center group-hover:bg-[#4A6750] group-hover:text-white group-hover:rotate-45 transition-all duration-300 self-end shadow-xs shrink-0">
+                              <ArrowUpRight />
+                            </div>
+                          </a>
+                        </motion.div>
+                      ))}
                     </div>
                   )}
                 </div>
-
-                {edu.focus && (
-                  <div className="font-redhat text-[#1A2F24]/80 text-sm md:text-base mb-6 pl-4 border-l-2 border-[#4A6750]/40">
-                    <strong className="font-bold text-[#1A2F24]">Focus:</strong> {edu.focus}
-                  </div>
-                )}
-
-                {edu.description && (
-                  <p className="text-[#1A2F24]/60 text-sm md:text-base leading-relaxed font-redhat mt-auto text-left text-pretty">
-                    {edu.description}
-                  </p>
-                )}
-              </motion.div>
-            ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </motion.div>
-
-        {/* CERTIFICATES SECTION */}
-        <motion.div 
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={sectionVariants}
-          className="w-full flex flex-col"
-        >
-          <motion.div variants={cardVariants} className="flex items-center justify-center md:justify-start gap-4 mb-8 md:mb-10">
-            <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[#4A6750]/10">
-              <CertIcon />
-            </span>
-            <h2 className="font-seasons text-3xl md:text-4xl lg:text-5xl text-[#1A2F24] tracking-wide mt-1">
-              CERTIFICATES
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 w-full">
-            {CERTIFICATES_DATA.map((cert: any, index: number) => (
-              <motion.div 
-                key={cert.title || index}
-                variants={cardVariants}
-                whileHover={{ y: -5 }}
-                className="bg-[#4A6750]/[0.03] hover:bg-[#4A6750]/[0.06] p-5 md:p-6 lg:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-colors duration-500 flex flex-col h-full group border border-transparent hover:border-[#4A6750]/10"
-              >
-                <a 
-                  href={cert.link || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col h-full justify-between gap-6 md:gap-8 outline-none"
-                >
-                  <div className="flex flex-col gap-4 md:gap-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="text-xs md:text-sm font-medium text-[#4A6750]/80 font-redhat tracking-wide mt-1">
-                        {cert.issuer || cert.organization}
-                      </span>
-                      {cert.year && (
-                        <span className="font-redhat tracking-wide text-[10px] md:text-xs font-bold text-[#4A6750] bg-white/50 px-3 py-1 rounded-lg shrink-0">
-                          {cert.year}
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="font-redhat text-lg md:text-xl text-[#1A2F24] group-hover:text-[#4A6750] transition-colors line-clamp-3 leading-snug">
-                      {cert.title || cert.name}
-                    </h3>
-                  </div>
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center text-[#1A2F24]/30 group-hover:bg-[#4A6750] group-hover:text-white group-hover:rotate-45 transition-all duration-300 self-end shadow-sm shrink-0">
-                    <ArrowUpRight />
-                  </div>
-                </a>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
+        </div>
       </div>
     </motion.div>
   );

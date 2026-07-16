@@ -3,7 +3,7 @@ export interface EducationItem {
   readonly school: string;
   readonly period: string;
   readonly gpa: string;
-  readonly details: string;
+  readonly focus: string;
   readonly link: string;
 }
 

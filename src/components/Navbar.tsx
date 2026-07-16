@@ -70,7 +70,6 @@ const NavGroup = memo(({ links, pathname }: { links: readonly NavLink[]; pathnam
               : 'text-[#2E4C38]/80 hover:text-[#1A2F24]'
           }`}
         >
-          {/* Trik pembungkus agar lebar selalu ikut font-extrabold */}
           <span 
             data-text={link.name}
             className={`relative flex flex-col items-center justify-center before:content-[attr(data-text)] before:font-extrabold before:invisible before:h-0 ${
@@ -80,7 +79,7 @@ const NavGroup = memo(({ links, pathname }: { links: readonly NavLink[]; pathnam
             {link.name}
           </span>
           
-          {/* Titik mungil */}
+          {/* Dot */}
           <div className="absolute -bottom-1 left-1/2 -translate-x-1/2">
             {isActive ? (
               <motion.div
@@ -178,7 +177,6 @@ const Navbar = () => {
         
         {/* LEFT AREA */}
         <div className="flex-1 flex justify-end items-center h-full overflow-hidden">
-          {/* Wrapper Garis - Animasi max-width dan overflow biar gak nabrak */}
           <div
             className={`flex items-center h-full mr-4 transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex-1 ${
               isScrolled ? 'opacity-0' : 'opacity-100'
@@ -269,7 +267,6 @@ const Navbar = () => {
             </div>
           </motion.div>
 
-          {/* Wrapper Garis - Animasi max-width dan overflow biar gak nabrak */}
           <div
             className={`flex items-center h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
               isScrolled ? 'max-w-0 opacity-0 ml-0' : 'max-w-[1000px] flex-1 opacity-100 ml-4'

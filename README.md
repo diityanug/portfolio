@@ -7,7 +7,7 @@ Personal portfolio website of Aditya Nugraha, a Software Engineer specializing i
 - Animated page transitions — page switching using Framer Motion's `AnimatePresence`, complete with blur & fade effects.
 - Home — hero section with staggered text animation, a real-time local clock (`ClockWidget`), and a dot grid background.
 - About / Profile — education history and certifications.
-- Experience — expandable work experience cards to view contribution details & work culture (accordion with smooth height animation).
+- Experience — expandable work experience cards highlighting microfrontend contributions & work culture.
 - Projects — list of projects with individual detail pages (dynamic route `/projects/:slug`).
 - Contact — social links (LinkedIn, GitHub), resume, and direct email.
 - Custom fonts — utilizes a collection of custom fonts (The Seasons, Aileron, Red Hat Display, Cardo, Migra, etc.).

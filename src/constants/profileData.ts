@@ -6,7 +6,7 @@ export const EDUCATION_DATA: readonly EducationItem[] = [
     school: 'President University',
     period: '2023 - 2025',
     gpa: '3.64',
-    details: 'Focused on Business Intelligence.',
+    focus: 'Focused on Business Intelligence.',
     link: '#'
   },
   {
@@ -14,7 +14,7 @@ export const EDUCATION_DATA: readonly EducationItem[] = [
     school: 'Tadulako University',
     period: '2017 - 2022',
     gpa: '3.71',
-    details: 'Focused on Financial Accounting and Taxation.',
+    focus: 'Focused on Financial Accounting and Taxation.',
     link: '#'
   }
 ] as const;
@@ -26,10 +26,10 @@ export const CERTIFICATES_DATA: readonly CertificateItem[] = [
   { title: 'Cloud Practitioner Essentials (Learn AWS Cloud Basic)', issuer: 'Dicoding Indonesia', year: '2025', link: 'https://www.dicoding.com/certificates/53XEDN5R9PRN' },
   { title: 'Introduction to REST APIs for Absolute Beginners', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-da90b50c-184e-4f53-b71f-d7901efe6032/' },
   { title: 'Belajar Machine Learning untuk Pemula', issuer: 'Dicoding Indonesia', year: '2024', link: 'https://www.dicoding.com/certificates/N9ZOOM2R6ZG5' },
-  { title: 'English Speaking Intensive 1 - Level A1 (Excellent)', issuer: 'WECAMP English Village', year: '2023', link: 'Gogle drive' },
+  { title: 'English Speaking Intensive 1 - Level A1 (Excellent)', issuer: 'WECAMP English Village', year: '2023', link: 'Google drive' },
   { title: 'Tax Brevet Training AB + e-SPT', issuer: 'Centre for Accounting Development, Universitas Indonesia', year: '2023', link: 'Google Drive' },
   { title: 'Belajar Dasar Manajemen Proyek', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/KEXL05Q8RPG2' },
-  { title: 'Belajar Dasar Visualisasi Data', issuer: 'Dicoding Indonesia', year: '2023', link: 'http://dicoding.com/certificates/0LZ0QOW63Z65' },
+  { title: 'Belajar Dasar Visualisasi Data', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://dicoding.com/certificates/0LZ0QOW63Z65' },
   { title: 'Belajar Dasar Git dengan Github', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/6RPN4K1J4X2M' },
   { title: 'Memulai Pemrograman dengan Python', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/NVP78926RXR0' },
   { title: 'Belajar Dasar Pemrograman JavaScript', issuer: 'Dicoding Indonesia', year: '2023', link: 'https://www.dicoding.com/certificates/6RPN48R65X2M' },

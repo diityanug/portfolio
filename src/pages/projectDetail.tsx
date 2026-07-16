@@ -6,7 +6,7 @@ import type { Variants } from 'framer-motion';
 import { popUpVariants } from '@utils/animation';
 import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
 
-const customEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const customEase = [0.22, 1, 0.36, 1] as const;
 
 const pageVariants: Variants = {
   hidden: { opacity: 0 },
@@ -249,7 +249,7 @@ const ProjectDetail = () => {
                     <img 
                       src={step.image} 
                       alt={step.title} 
-                      className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-[0.22,1,0.36,1]" 
+                      className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" 
                       onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x450/f8f9fa/adb5bd?text=Feature+Preview'; }} 
                     />
                     <div className="absolute top-3 left-3 z-20 bg-[#F9F8F4]/90 backdrop-blur-sm w-7 h-7 rounded-full flex items-center justify-center border border-[#2E4C38]/10 pointer-events-none">
