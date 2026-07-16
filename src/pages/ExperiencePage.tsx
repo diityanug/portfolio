@@ -1,4 +1,4 @@
-import { useState, type ReactElement, type SyntheticEvent } from 'react';
+import { useEffect, useState, type ReactElement, type SyntheticEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
@@ -62,8 +62,30 @@ const experiences = [
       { system: "Job Portal", icon: <BriefcaseIcon />, points: ["Resolved bugs to ensure application reliability.", "Developed and integrated new features to support recruitment workflows.", "Redesigned the Applicant Management popup interface for a more modern and user-friendly experience."] }
     ],
     culture: [
-      { id: 1, title: "Sport - Futsal", image: "/images/culture-synergy.jpg", description: "Engaging in routine technical alignments and cross-cultural engineering syncs with core engineering teams based in South Korea." },
-      { id: 2, title: "The Growth Circuit", image: "/images/culture-mentorship.jpg", description: "Participating in internal tech talks, architectural review boards, and collaborative bonding initiatives to foster strong engineering practices." }
+      { 
+        id: 1, 
+        title: "Team Appreciation Dinner", 
+        image: "/images/Ayce.webp", 
+        description: "A team dining event held to appreciate and celebrate employee performance." 
+      },
+      { 
+        id: 2, 
+        title: "Monthly Futsal", 
+        image: "/images/Futsal.webp", 
+        description: "A monthly sports activity organized to maintain physical fitness and well-being." 
+      },
+      { 
+        id: 3, 
+        title: "The Growth Circuit in Motion", 
+        image: "/images/LGSM.webp", 
+        description: "LGSM's annual event aimed at setting collective goals and aligning the vision for the upcoming year." 
+      },
+      { 
+        id: 4, 
+        title: "Company Outing", 
+        image: "/images/Outing.webp", 
+        description: "An outdoor gathering designed to strengthen the bonds of brotherhood and teamwork among employees." 
+      }
     ]
   },
 ];
@@ -74,6 +96,13 @@ type TabKey = 'core' | 'culture';
 /* Experience Row */
 const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
   const [activeTab, setActiveTab] = useState<TabKey | null>(null);
+
+  useEffect(() => {
+    exp.culture.forEach((item) => {
+      const img = new Image();
+      img.src = item.image;
+    });
+  }, [exp.culture])
 
   const toggleTab = (tab: TabKey) => {
     setActiveTab((prev) => (prev === tab ? null : tab));
@@ -91,7 +120,6 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
   return (
     <motion.article
       variants={itemVariants}
-      // LOOSENED: py-8 dinaikkan ke py-11 agar jarak antar baris pekerjaan lebih lega
       className="w-full border-b border-[#1A2F24]/10 py-11 md:py-14 grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-5 md:gap-y-6"
     >
       {/* LEFT: logo + period */}
@@ -111,7 +139,6 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
 
       {/* RIGHT: content */}
       <div className="lg:col-span-9 flex flex-col">
-        {/* LOOSENED: mb-4 dinaikkan ke mb-5 */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 md:gap-2 mb-5">
           <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-seasons text-[#1A2F24] leading-tight md:leading-[0.95]">
             {exp.role}
@@ -119,12 +146,10 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
           <span className="text-xs md:text-sm text-gray-500 font-sans shrink-0 sm:pt-2">{exp.location}</span>
         </div>
 
-        {/* LOOSENED: mb-5 tetap dipertahankan untuk ruang bernapas teks */}
         <p className="text-justify text-sm md:text-base text-gray-600 leading-relaxed font-sans max-w-2xl mb-5">
           {exp.description}
         </p>
 
-        {/* LOOSENED: mb-6 dinaikkan ke mb-7 */}
         <div className="flex flex-wrap gap-1.5 md:gap-2 mb-7">
           {exp.tags.map((tag, idx) => (
             <span
@@ -169,11 +194,9 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
           <div className="min-h-0 overflow-hidden">
             <AnimatePresence mode="wait">
               {activeTab === 'core' && (
-                // LOOSENED: pt-5 dinaikkan ke pt-7 agar panel detail tidak menempel dekat tombol toggle
                 <motion.div key="core" variants={fadeVariants} initial="hidden" animate="show" exit="exit" className="pt-7">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-1">
                     {exp.contributions.map((contrib, idx) => (
-                      // LOOSENED: p-4 dinaikkan kembali ke p-5 agar isi box lega
                       <div key={idx} className="bg-[#F9F8F4] border border-[#2E4C38]/8 rounded-xl md:rounded-2xl p-5">
                         <h4 className="flex items-center gap-2.5 text-base md:text-sm font-semibold text-[#1A2F24] mb-3.5 font-sans leading-tight">
                           <span className="text-[#4A6750] shrink-0">{contrib.icon}</span>
@@ -194,11 +217,10 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
               )}
 
               {activeTab === 'culture' && (
-                // LOOSENED: pt-5 dinaikkan ke pt-7
                 <motion.div key="culture" variants={fadeVariants} initial="hidden" animate="show" exit="exit" className="pt-7">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-1">
                     {exp.culture.map((item) => (
-                      <div key={item.id} className="rounded-xl md:rounded-2xl overflow-hidden border border-[#2E4C38]/10 bg-[#F9F8F4]">
+                      <div key={item.id} className="w-full rounded-xl md:rounded-2xl overflow-hidden border border-[#2E4C38]/10 bg-[#F9F8F4]">
                         <div className="w-full aspect-video bg-gray-200 overflow-hidden">
                           <img
                             src={item.image}
@@ -207,10 +229,9 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
                             onError={handleImageError}
                           />
                         </div>
-                        {/* LOOSENED: p-4 dinaikkan ke p-5 */}
-                        <div className="p-5">
-                          <h4 className="font-bold text-base md:text-[15px] text-[#1A2F24] mb-1.5 font-sans">{item.title}</h4>
-                          <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-sans text-justify">{item.description}</p>
+                        <div className="p-4 md:p-5">
+                          <h4 className="font-bold text-sm md:text-[14px] text-[#1A2F24] mb-1 font-sans">{item.title}</h4>
+                          <p className="text-[11px] md:text-[12px] text-gray-600 leading-relaxed font-sans text-justify">{item.description}</p>
                         </div>
                       </div>
                     ))}
@@ -233,13 +254,11 @@ const ExperiencePage = (): ReactElement => {
       initial="hidden"
       animate="show"
       exit="hidden"
-      // LOOSENED: pt-24 dinaikkan ke pt-28 agar judul halaman lebih turun dan lapang dari atas navbar
       className="relative z-0 flex flex-col pt-28 lg:pt-36 px-5 md:px-10 lg:px-16 pb-24 md:pb-32 min-h-[100dvh] bg-[#F9F8F4] overflow-x-hidden font-sans text-gray-800"
     >
       <StaticDotGrid />
 
       <div className="w-full relative z-10">
-        {/* LOOSENED: mb-10 dinaikkan ke mb-14 sebelum garis border-t */}
         <motion.div variants={textThereVariants} className="w-full mb-14 md:mb-20">
           <h1 className="font-seasons text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight text-[#1A2F24]">
             WORK<br />

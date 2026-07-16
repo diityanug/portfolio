@@ -129,7 +129,7 @@ const ProjectDetail = () => {
             </motion.button>
             {project.link && (
               <motion.a variants={popUpVariants} href={project.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-[10px] md:text-xs font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
-                Visit Repository 
+                Visit Repository{' '}
                 <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">↗</span>
               </motion.a>
             )}
@@ -146,7 +146,7 @@ const ProjectDetail = () => {
               <h1 className="font-seasons text-5xl sm:text-6xl md:text-[80px] lg:text-[100px] leading-[0.9] tracking-tight flex flex-wrap gap-x-3 md:gap-x-5">
                 {titleWords.map((word: string, wIdx: number) => (
                   <motion.div 
-                    key={wIdx} 
+                    key={word + wIdx} 
                     variants={titleWordVariants} 
                     className={`inline-block ${wIdx === titleWords.length - 1 ? 'text-[#4A6750]' : 'text-[#1A2F24]'}`}
                   >
@@ -238,12 +238,14 @@ const ProjectDetail = () => {
             
             <motion.div variants={listContainerVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
               {project.workflow.map((step: any, index: number) => (
-                <motion.div variants={popUpVariants} key={index} className="flex flex-col group">
+                <motion.div variants={popUpVariants} key={step.title + index} className="flex flex-col group">
                   
                   {/* Thumbnail Workflow */}
-                  <div 
+                  <button 
+                    type="button"
                     className="w-full aspect-[4/3] rounded-[1.25rem] bg-[#EAF1EC]/30 border border-[#2E4C38]/10 overflow-hidden mb-5 relative cursor-zoom-in shadow-sm hover:shadow-md transition-shadow duration-300"
                     onClick={() => setSelectedImage(step.image)}
+                    aria-label={`Enlarge ${step.title}`}
                   >
                     <div className="absolute inset-0 bg-[#1A2F24]/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
                     <img 
@@ -255,7 +257,7 @@ const ProjectDetail = () => {
                     <div className="absolute top-3 left-3 z-20 bg-[#F9F8F4]/90 backdrop-blur-sm w-7 h-7 rounded-full flex items-center justify-center border border-[#2E4C38]/10 pointer-events-none">
                       <span className="font-aileron text-[10px] md:text-xs text-[#1A2F24] font-bold">0{index + 1}</span>
                     </div>
-                  </div>
+                  </button>
 
                   {/* Text Workflow */}
                   <div className="flex flex-col cursor-default">

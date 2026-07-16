@@ -149,7 +149,7 @@ const ProfilePage = (): ReactElement => {
               
               <div className="relative w-full h-full rounded-tr-[3.5rem] rounded-bl-[3.5rem] rounded-tl-xl rounded-br-xl overflow-hidden ring-1 ring-[#4A6750]/20 shadow-[0_20px_45px_-12px_rgba(46,76,56,0.18)] bg-[#F9F8F4]">
                 <img
-                  src="/images/pic_aboutMe.jpg"
+                  src="/images/pic_aboutMe.webp"
                   alt="Aditya Nugraha Irwan"
                   loading="lazy"
                   decoding="async"
