@@ -75,34 +75,40 @@ const ProjectsPage = (): ReactElement => {
         </motion.div>
 
         {/* SHOWCASE LIST */}
-        <div className="w-full border-t border-[#1A2F24]/10">
+        <div className="w-full border-t border-[#1A2F24]/10 mt-2">
           {projects.map((project) => (
             <motion.div
               variants={itemVariants}
               key={project.slug}
               onClick={() => navigate(`/projects/${project.slug}`)}
-              className="group flex flex-col md:flex-row items-start md:items-center w-full py-8 md:py-10 border-b border-[#1A2F24]/10 cursor-pointer gap-5 md:gap-8"
+              className="group flex flex-col md:flex-row items-start md:items-center w-full py-6 md:py-10 border-b border-[#1A2F24]/10 cursor-pointer gap-4 md:gap-8"
             >
 
               {/* Thumbnail */}
-              <div className="w-full md:w-40 aspect-video relative overflow-hidden rounded-xl bg-[#EAF1EC]/50 shrink-0 border border-[#2E4C38]/10">
-                <div className="absolute inset-0 bg-[#1A2F24]/5 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none" />
+              <div className="w-full md:w-48 aspect-[16/9] md:aspect-video relative overflow-hidden rounded-2xl bg-[#EAF1EC]/50 shrink-0 border border-[#2E4C38]/10">
+                <div className="absolute inset-0 bg-[#1A2F24]/10 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none" />
+                
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   onError={handleImageError}
                 />
+
+                {/* Arrow Icon : Mobile ver. */}
+                <div className="md:hidden absolute bottom-3 right-3 w-9 h-9 rounded-full bg-white/70 backdrop-blur-md text-[#1A2F24] flex items-center justify-center shadow-[0_4px_12px_rgba(26,47,36,0.15)] z-20 transition-transform active:scale-90">
+                  <ArrowRight />
+                </div>
               </div>
 
               {/* Text Content */}
               <div className="flex-1 flex flex-col justify-center">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="font-redhat text-[10px] tracking-[0.15em] uppercase text-[#4A6750] font-bold">
+                  <span className="font-redhat text-[9px] md:text-[10px] tracking-[0.15em] uppercase text-[#4A6750] font-bold">
                     {project.category}
                   </span>
                   <span className="w-1 h-1 rounded-full bg-[#2E4C38]/20" />
-                  <span className="font-aileron text-[10px] font-bold uppercase tracking-wider text-[#1A2F24]/50">
+                  <span className="font-aileron text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#1A2F24]/50">
                     {project.year}
                   </span>
                 </div>
@@ -112,7 +118,7 @@ const ProjectsPage = (): ReactElement => {
                 </h3>
               </div>
 
-              {/* Arrow Icon */}
+              {/* Arrow Icon : Desktop ver. */}
               <div className="hidden md:flex items-center h-10 rounded-full border border-[#2E4C38]/20 text-[#1A2F24] group-hover:bg-[#1A2F24] group-hover:text-[#F9F8F4] group-hover:border-transparent transition-all duration-500 shrink-0">
                 <div className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 group-hover:pl-4 transition-all duration-500 ease-out font-aileron text-[10px] font-bold tracking-[0.15em] uppercase">
                   View Project

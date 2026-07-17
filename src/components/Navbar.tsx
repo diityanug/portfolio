@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Transition, Variants } from 'framer-motion';
+import type { Transition } from 'framer-motion';
+import { Home, User, Briefcase, Code, Mail } from 'lucide-react';
 
 import iconIdle from '../assets/iconIdle.svg';
 import iconHover from '../assets/iconHover.svg';
@@ -31,29 +32,16 @@ const syncTransition: Transition = {
 
 const smoothCssTransition = 'transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]';
 
-const menuVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1, 
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 } 
-  },
-  exit: { 
-    opacity: 0, 
-    transition: { staggerChildren: 0.1, staggerDirection: -1 } 
+const getMenuIcon = (name: string) => {
+  switch (name.toLowerCase()) {
+    case 'home': return <Home size={16} strokeWidth={2.5} />;
+    case 'profile': return <User size={16} strokeWidth={2.5} />;
+    case 'experience': return <Briefcase size={16} strokeWidth={2.5} />;
+    case 'projects': return <Code size={16} strokeWidth={2.5} />;
+    case 'contact': return <Mail size={16} strokeWidth={2.5} />;
+    default: return null;
   }
 };
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: -20, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { type: "tween", duration: 0.8, ease: [0.4, 0, 0.2, 1] } 
-  },
-  exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.4 } }
-};
-
 
 /* COMPONENTS */
 const NavGroup = memo(({ links, pathname }: { links: readonly NavLink[]; pathname: string; }) => (
@@ -143,6 +131,13 @@ const Navbar = () => {
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen && !isHome ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, isHome]);
 
   const handleToggle = useCallback(() => setIsOpen(prev => !prev), []);
 
@@ -281,43 +276,69 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE DROPDOWN */}
+      {/* MOBILE DROPDOWN - MODERN APP MENU (BEST FOR ICONS) */}
       <AnimatePresence>
-        {!isHome && isOpen && (
-          <motion.div
-            variants={menuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className={`absolute left-0 right-0 z-40 pointer-events-none flex flex-col items-center gap-3 px-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              isScrolled ? 'top-[80px]' : 'top-[95px]'
-            }`}
-          >
-            {[{ name: 'Home', path: '/' }, ...LEFT_LINKS, ...RIGHT_LINKS].map((link) => {
-              const isActive = location.pathname === link.path;
-              return (
-                <motion.div 
-                  key={link.path}
-                  variants={itemVariants}
-                  className="w-full max-w-[260px]"
-                  whileTap={{ scale: 0.95 }} 
-                >
+          {!isHome && isOpen && (
+            <motion.div
+              key="mobile-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsOpen(false)}
+              className="md:hidden fixed inset-0 z-10 bg-[#1A2F24]/20 backdrop-blur-sm pointer-events-auto"
+              aria-hidden="true"
+            />
+          )}
+          {!isHome && isOpen && (
+            <motion.div
+              key="mobile-panel"
+              initial={{ opacity: 0, y: -15, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0, duration: 0.4 } }}
+              exit={{ opacity: 0, y: -10, scale: 0.96, transition: { duration: 0.2 } }}
+              // inset-x-4 agar jarak rata di kiri-kanan layar
+              className="md:hidden absolute top-full inset-x-4 mt-3 z-30 p-3 rounded-3xl bg-white/95 backdrop-blur-xl border border-white/60 shadow-[0_20px_40px_-15px_rgba(46,76,56,0.2)] flex flex-col gap-1 pointer-events-auto origin-top"
+            >
+              {[{ name: 'Home', path: '/' }, ...LEFT_LINKS, ...RIGHT_LINKS].map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
                   <Link
+                    key={link.path}
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`pointer-events-auto flex items-center justify-center w-full py-3.5 rounded-full font-redhat font-bold text-[11px] tracking-[0.25em] uppercase border transition-colors duration-700 ${
-                      isActive
-                        ? 'bg-[#4A6750]/95 text-[#F9F8F4] border-[#4A6750]/50 shadow-[0_8px_20px_rgba(74,103,80,0.2)]'
-                        : 'bg-white/95 text-[#1A2F24] border-white/50 hover:bg-white shadow-[0_8px_20px_rgba(46,76,56,0.05)]'
+                    className={`relative flex items-center w-full p-2.5 rounded-2xl transition-all duration-300 group ${
+                      isActive 
+                        ? 'bg-[#1A2F24]/5' 
+                        : 'hover:bg-[#1A2F24]/5'
                     }`}
                   >
-                    {link.name}
+                    {/* Kotak Ikon */}
+                    <div className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 ${
+                      isActive 
+                        ? 'bg-[#1A2F24] text-white shadow-md' 
+                        : 'bg-white text-[#2E4C38]/50 border border-[#1A2F24]/10 group-hover:text-[#1A2F24] group-hover:border-[#1A2F24]/30'
+                    }`}>
+                      <span className={`${isActive ? 'scale-100' : 'scale-95 group-hover:scale-110 group-hover:rotate-3'} transition-transform duration-300`}>
+                        {getMenuIcon(link.name)}
+                      </span>
+                    </div>
+                    
+                    {/* Teks */}
+                    <span className={`flex-1 ml-4 font-redhat text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${
+                      isActive ? 'text-[#1A2F24] font-extrabold' : 'text-[#2E4C38]/70 font-medium group-hover:text-[#1A2F24]'
+                    }`}>
+                      {link.name}
+                    </span>
+
+                    {/* Indikator Titik Aktif di Kanan */}
+                    <div className={`w-1.5 h-1.5 mr-2 rounded-full transition-all duration-300 ${
+                      isActive ? 'bg-[#1A2F24] scale-100' : 'bg-transparent scale-0'
+                    }`} />
                   </Link>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        )}
+                );
+              })}
+            </motion.div>
+          )}
       </AnimatePresence>
     </nav>
   );

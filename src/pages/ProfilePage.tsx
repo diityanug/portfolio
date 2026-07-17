@@ -1,10 +1,11 @@
 import { useState, type ReactElement, type SyntheticEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+
 import { EDUCATION_DATA, CERTIFICATES_DATA } from '../constants/profileData';
 import StarGrid from '../components/profilePage/StarGrid';
 
-/* ICONS RESIZABLE */
+/* ICONS */
 const ArrowUpRight = (): ReactElement => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
     <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -26,45 +27,73 @@ const CertIcon = ({ size = 24 }: { size?: number }): ReactElement => (
   </svg>
 );
 
-/* BUTTERY SMOOTH ANIMATIONS */
-const easeOutQuint = [0.22, 1, 0.36, 1] as const;
+/* ANIMATION VARIANTS */
+const customEase = [0.22, 1, 0.36, 1] as const; 
 
 const pageVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOutQuint } },
-  exit: { opacity: 0, y: -10, transition: { duration: 0.3, ease: 'easeInOut' } }
+  hidden: { opacity: 0 },
+  show: { 
+    opacity: 1, 
+    transition: { duration: 0.8, ease: customEase } 
+  },
+  exit: { 
+    opacity: 0, 
+    y: -15,
+    transition: { duration: 0.4, ease: 'easeInOut' } 
+  }
 };
 
 const heroContentVariants: Variants = {
-  hidden: { opacity: 0, y: 15 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: easeOutQuint, staggerChildren: 0.12 } }
+  hidden: { opacity: 0 },
+  show: { 
+    opacity: 1, 
+    transition: { staggerChildren: 0.18, delayChildren: 0.2 } 
+  }
 };
 
 const childVariants: Variants = {
-  hidden: { opacity: 0, x: -15, filter: "blur(4px)" },
-  show: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: easeOutQuint } }
+  hidden: { opacity: 0, y: 25, filter: "blur(8px)" },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    filter: "blur(0px)", 
+    transition: { duration: 1.1, ease: customEase } 
+  }
 };
 
 const photoVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.95, filter: "blur(10px)", y: 30 },
-  show: { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.2, ease: easeOutQuint, delay: 0.4 } }
+  hidden: { opacity: 0, scale: 0.92, filter: "blur(12px)", y: 40 },
+  show: { 
+    opacity: 1, 
+    scale: 1, 
+    filter: "blur(0px)", 
+    y: 0, 
+    transition: { duration: 1.5, ease: customEase, delay: 0.6 } 
+  }
 };
 
 const panelVariants: Variants = {
- hidden: { opacity: 0, height: 0 },
+  hidden: { 
+    opacity: 0, 
+    height: 0,
+    transition: {
+      height: { duration: 0.5, ease: customEase },
+      opacity: { duration: 0.3 }
+    }
+  },
   show: {
     opacity: 1,
     height: "auto",
     transition: {
-      height: { duration: 0.45, ease: easeOutQuint },
-      opacity: { duration: 0.35, delay: 0.1 },
+      height: { duration: 0.6, ease: customEase },
+      opacity: { duration: 0.4, delay: 0.2 },
     },
   },
   exit: {
     opacity: 0,
     height: 0,
     transition: {
-      height: { duration: 0.4, ease: easeOutQuint },
+      height: { duration: 0.5, ease: customEase },
       opacity: { duration: 0.2 },
     },
   },
@@ -77,7 +106,7 @@ const eduCertTabs: { key: EduCertKey; label: string; desc: string; icon: ReactEl
   { key: 'certificates', label: 'Certificates', desc: 'Professional credentials & licenses', icon: <CertIcon size={22} /> },
 ];
 
-/* MAIN REVAMPED COMPONENT */
+/* MAIN COMPONENT */
 const ProfilePage = (): ReactElement => {
   const [activeSection, setActiveSection] = useState<EduCertKey | null>(null);
 
@@ -100,10 +129,10 @@ const ProfilePage = (): ReactElement => {
 
       <div className="w-full relative z-10 flex flex-col max-w-6xl mx-auto">
         
-        {/* HERO ACCENT */}
+        {/* HERO SECTION */}
         <div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-16 mb-14 md:mb-24 mt-2">
           
-          {/* LEFT SIDE: INTRODUCTION */}
+          {/* LEFT SIDE: Bio */}
           <motion.div 
             variants={heroContentVariants}
             className="w-full lg:w-[62%] flex flex-col items-center lg:items-start text-center lg:text-left"
@@ -119,7 +148,7 @@ const ProfilePage = (): ReactElement => {
                 <motion.div 
                   initial={{ width: 0, opacity: 0 }}
                   animate={{ width: "60px", opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
+                  transition={{ delay: 1.2, duration: 0.8, ease: customEase }}
                   className="h-[1.5px] bg-[#4A6750]/40 hidden lg:block mt-6" 
                 />
               </div>
@@ -138,7 +167,7 @@ const ProfilePage = (): ReactElement => {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT SIDE: Profile Picture */}
           <motion.div
             variants={photoVariants}
             className="w-full lg:w-[38%] flex justify-center lg:justify-end mt-4 lg:mt-6"
@@ -162,11 +191,9 @@ const ProfilePage = (): ReactElement => {
           </motion.div>
         </div>
 
-        {/* HIGH-LIGHTED INTERACTIVE SYSTEM */}
         <div className="w-full flex flex-col gap-6">
           
-          {/* INTERACTIVE ROW CARDS */}
-          {/* Penyesuaian p-4 di mobile agar hemat tempat */}
+          {/* ROW CARDS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
             {eduCertTabs.map((tab) => {
               const isActive = activeSection === tab.key;
@@ -180,14 +207,12 @@ const ProfilePage = (): ReactElement => {
                       : 'bg-[#4A6750]/[0.03] border-[#2E4C38]/12 text-[#1A2F24] hover:bg-[#4A6750]/[0.07] hover:border-[#4A6750]/30 hover:-translate-y-0.5'
                   }`}
                 >
-                  {/* Dynamic Icon Base */}
                   <div className={`p-3 rounded-xl shrink-0 transition-all duration-300 ${
                     isActive ? 'bg-[#4A6750] text-[#F9F8F4] scale-105' : 'bg-[#1A2F24]/5 text-[#4A6750] group-hover:bg-[#4A6750]/10'
                   }`}>
                     {tab.icon}
                   </div>
                   
-                  {/* Meta Details */}
                   <div className="flex flex-col min-w-0 pr-4">
                     <span className="font-redhat text-base sm:text-xl font-bold tracking-tight">
                       {tab.label}
@@ -199,7 +224,6 @@ const ProfilePage = (): ReactElement => {
                     </span>
                   </div>
 
-                  {/* Corner Visual Indicator */}
                   <div className="absolute top-4 right-4 opacity-40 group-hover:opacity-100 transition-opacity">
                     <div className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#4A6750]' : 'bg-[#1A2F24]/30'}`} />
                   </div>
@@ -208,7 +232,7 @@ const ProfilePage = (): ReactElement => {
             })}
           </div>
 
-          {/* DYNAMIC EXPANDABLE SECTION */}
+          {/* EXPANDABLE SECTION */}
           <div className="w-full">
             <AnimatePresence initial={false} mode="wait">
               {activeSection && (
@@ -220,7 +244,6 @@ const ProfilePage = (): ReactElement => {
                   exit="exit"
                   className="w-full overflow-hidden"
                 >
-                  {/* Menyesuaian p-4 di mobile */}
                   <div className="bg-[#4A6750]/[0.015] border border-[#2E4C38]/8 rounded-2xl p-4 md:p-8 lg:p-10 shadow-inner mt-1">
 
                   {activeSection === 'education' && (
@@ -228,8 +251,7 @@ const ProfilePage = (): ReactElement => {
                       {EDUCATION_DATA.map((edu: any, index: number) => (
                         <motion.div
                           key={index}
-                          whileHover={{ y: -4 }}
-                          transition={{ duration: 0.2 }}
+                          whileHover={{ y: -4, transition: { duration: 0.3 } }}
                           className="bg-[#F9F8F4] p-5 md:p-7 rounded-xl border border-[#2E4C38]/5 hover:border-[#4A6750]/20 transition-all flex flex-col h-full group shadow-sm"
                         >
                           <div className="min-h-[50px] md:min-h-[72px] pb-3 mb-4 border-b border-[#2E4C38]/8 flex flex-col justify-start">
@@ -240,7 +262,6 @@ const ProfilePage = (): ReactElement => {
 
                           <div className="flex items-start justify-between gap-3 mb-4">
                             <div className="flex flex-col gap-0.5 min-w-0">
-                              {/* FIX: Mengganti 'truncate' menjadi 'break-words' agar nama Universitas panjang terlipat rapi */}
                               <h4 className="font-redhat tracking-wide text-[#4A6750] text-xs md:text-base font-bold uppercase break-words">
                                 {edu.institution || edu.school}
                               </h4>
@@ -258,7 +279,7 @@ const ProfilePage = (): ReactElement => {
 
                           {edu.focus && (
                             <div className="font-redhat text-[#1A2F24]/85 text-xs md:text-[15px] mb-3 pl-3 border-l-[1.5px] border-[#4A6750]/40 break-words">
-                              <strong className="font-bold text-[#1A2F24]">Focus:</strong> {edu.focus}
+                              {edu.focus}
                             </div>
                           )}
 
@@ -277,8 +298,7 @@ const ProfilePage = (): ReactElement => {
                       {CERTIFICATES_DATA.map((cert: any, index: number) => (
                         <motion.div
                           key={cert.title || index}
-                          whileHover={{ y: -4 }}
-                          transition={{ duration: 0.2 }}
+                          whileHover={{ y: -4, transition: { duration: 0.3 } }}
                           className="bg-[#F9F8F4] hover:bg-white p-5 rounded-xl transition-all flex flex-col h-full group border border-[#2E4C38]/5 hover:border-[#4A6750]/20 shadow-sm"
                         >
                           <a
@@ -289,7 +309,6 @@ const ProfilePage = (): ReactElement => {
                           >
                             <div className="flex flex-col gap-3">
                               <div className="flex items-center justify-between gap-3">
-                                {/* FIX: Mengganti 'truncate' menjadi 'break-words' agar nama Issuer (seperti Universitas Indonesia) tidak terpotong */}
                                 <span className="text-[11px] md:text-sm font-bold text-[#4A6750]/75 font-redhat tracking-wide break-words min-w-0 flex-1">
                                   {cert.issuer || cert.organization}
                                 </span>
