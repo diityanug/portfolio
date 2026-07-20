@@ -188,7 +188,7 @@ const Navbar = () => {
             initial={false}
             animate={{ width: !isHome ? 'auto' : 0 }}
             transition={syncTransition}
-            className="hidden md:flex justify-end overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto"
+            className="hidden md:flex justify-start overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto"
           >
             <div className="shrink-0 flex items-center">
               <NavGroup links={LEFT_LINKS} pathname={lastPathRef.current} />
@@ -255,7 +255,7 @@ const Navbar = () => {
             initial={false}
             animate={{ width: !isHome ? 'auto' : 0 }}
             transition={syncTransition}
-            className="hidden md:flex justify-start overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto"
+            className="hidden md:flex justify-end overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto"
           >
             <div className="shrink-0 flex items-center">
               <NavGroup links={RIGHT_LINKS} pathname={lastPathRef.current} />
@@ -276,7 +276,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE DROPDOWN - MODERN APP MENU (BEST FOR ICONS) */}
+      {/* MOBILE DROPDOWN */}
       <AnimatePresence>
           {!isHome && isOpen && (
             <motion.div
@@ -296,7 +296,6 @@ const Navbar = () => {
               initial={{ opacity: 0, y: -15, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0, duration: 0.4 } }}
               exit={{ opacity: 0, y: -10, scale: 0.96, transition: { duration: 0.2 } }}
-              // inset-x-4 agar jarak rata di kiri-kanan layar
               className="md:hidden absolute top-full inset-x-4 mt-3 z-30 p-3 rounded-3xl bg-white/95 backdrop-blur-xl border border-white/60 shadow-[0_20px_40px_-15px_rgba(46,76,56,0.2)] flex flex-col gap-1 pointer-events-auto origin-top"
             >
               {[{ name: 'Home', path: '/' }, ...LEFT_LINKS, ...RIGHT_LINKS].map((link) => {
@@ -312,7 +311,7 @@ const Navbar = () => {
                         : 'hover:bg-[#1A2F24]/5'
                     }`}
                   >
-                    {/* Kotak Ikon */}
+                    {/* Icon */}
                     <div className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 ${
                       isActive 
                         ? 'bg-[#1A2F24] text-white shadow-md' 
@@ -330,7 +329,6 @@ const Navbar = () => {
                       {link.name}
                     </span>
 
-                    {/* Indikator Titik Aktif di Kanan */}
                     <div className={`w-1.5 h-1.5 mr-2 rounded-full transition-all duration-300 ${
                       isActive ? 'bg-[#1A2F24] scale-100' : 'bg-transparent scale-0'
                     }`} />

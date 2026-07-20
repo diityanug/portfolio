@@ -33,13 +33,13 @@ src/
 ├── assets/                     # SVGs & static assets
 ├── components/
 │   ├── contactPage/            # SocialButton, contactDetails
-│   ├── experiencePage/         # ExperienceCard, StaticDotGrid
-│   ├── homePage/               # BioReveal, ClockWeather, DotGrid, WavyText
-│   ├── profilePage/            # ProfileCard, StarGrid
+│   ├── experiencePage/         # StaticDotGrid
+│   ├── homePage/               # ClockWeather, DotGrid
+│   ├── profilePage/            # StarGrid
 │   ├── BackgroundTexture.tsx
 │   ├── Navbar.tsx
-│   ├── PageWrapper.tsx
-│   └── Typewriter.tsx
+│   └── PageWrapper.tsx
+|
 ├── constants/                  # Static data (profile, contact)
 ├── pages/                      # HomePage, ProfilePage, ExperiencePage, ProjectsPage, ContactPage, projectDetail
 ├── types/                      # TypeScript type definitions
