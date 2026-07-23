@@ -20,6 +20,7 @@ export const EDUCATION_DATA: readonly EducationItem[] = [
 ] as const;
 
 export const CERTIFICATES_DATA: readonly CertificateItem[] = [
+  { title: 'Team Agility through Agile Ways of Working', issuer: 'Agile Academy Indonesia', year: '2025', link: 'https://drive.google.com/drive/folders/1zNRpF_mX7S5pA-MK-BZbmYDiXlbBdhH0?usp=sharing' },
   { title: 'C# Basics for Beginners: Learn C# Fundamentals by Coding', issuer: 'Udemy', year: '2026', link: 'https://www.udemy.com/certificate/UC-f5ec86b8-bde2-459f-b596-bf83c536b2ab/' },
   { title: 'Belajar Frontend Website (HTML, CSS dan Javascript)', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-3b379b97-a4bd-4981-b1c5-9375dc8924f4/' },
   { title: 'Java Bootcamp: Learn Java with 100+ Java Projects', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-cf7a6f29-db74-41c8-a2b0-d647df3e28d1/' },
