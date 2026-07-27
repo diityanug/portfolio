@@ -1,7 +1,7 @@
 import type { SocialItem } from '../types/contact';
 
 export const EMAIL_LINK = 'https://mail.google.com/mail/u/0/?tf=cm&fs=1&to=diityanug13@gmail.com';
-export const RESUME_LINK = 'https://drive.google.com/file/d/1QutvnoHILQ140dkXgy_bBqjG171XwpU6/view?usp=sharing';
+export const RESUME_LINK = 'https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing';
 
 export const SOCIAL_LINKS: readonly SocialItem[] = [
   {
