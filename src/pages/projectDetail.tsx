@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-
-import { popUpVariants } from '@utils/animation';
-import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
+import StaticDotGrid from '../components/ui/StaticDotGrid';
 
 const customEase = [0.22, 1, 0.36, 1] as const;
 
@@ -38,6 +36,12 @@ const listContainerVariants: Variants = {
 const lineGrowVariants: Variants = {
   hidden: { width: 0 },
   show: { width: "100%", transition: { duration: 1, ease: customEase, delay: 0.8 } }
+};
+
+// Varian baru pengganti popUpVariants bawaan
+const fadeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(5px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease: customEase } }
 };
 
 const ProjectDetail = () => {
@@ -89,11 +93,11 @@ const ProjectDetail = () => {
         exit="exit"
         className="min-h-screen flex flex-col items-center justify-center bg-[#F9F8F4] px-8 relative overflow-hidden"
       >
-        <motion.div variants={popUpVariants} className="text-center z-10">
+        <motion.div variants={fadeUpVariants} initial="hidden" animate="show" className="text-center z-10">
           <h1 className="font-seasons text-8xl md:text-[120px] text-[#1A2F24] mb-2 leading-none">404</h1>
           <p className="font-redhat text-[#4A6750] tracking-[0.2em] uppercase text-xs md:text-sm font-bold mb-10">Project not found</p>
           <button
-            onClick={() => navigate('/projects')}
+            onClick={() => navigate('/#projects')} 
             className="px-8 py-4 border border-[#2E4C38]/20 text-[#1A2F24] rounded-full font-redhat text-[10px] tracking-[0.2em] uppercase font-bold hover:bg-[#1A2F24] hover:text-[#F9F8F4] transition-colors duration-500"
           >
             Back to Projects
@@ -124,11 +128,11 @@ const ProjectDetail = () => {
             animate="show"
             className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12 relative z-20"
           >
-            <motion.button variants={popUpVariants} onClick={() => navigate('/projects')} className="group flex items-center gap-3 text-[10px] md:text-xs font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
+            <motion.button variants={fadeUpVariants} onClick={() => navigate('/#projects')} className="group flex items-center gap-3 text-[10px] md:text-xs font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
               <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span> Back to Projects
             </motion.button>
             {project.link && (
-              <motion.a variants={popUpVariants} href={project.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-[10px] md:text-xs font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
+              <motion.a variants={fadeUpVariants} href={project.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-[10px] md:text-xs font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
                 Visit Repository{' '}
                 <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">↗</span>
               </motion.a>
@@ -163,11 +167,11 @@ const ProjectDetail = () => {
               animate="show"
               className="flex flex-wrap items-center gap-3"
             >
-              <motion.span variants={popUpVariants} className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#4A6750] font-bold">
+              <motion.span variants={fadeUpVariants} className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#4A6750] font-bold">
                 {project.category}
               </motion.span>
-              <motion.span variants={popUpVariants} className="w-1 h-1 rounded-full bg-[#2E4C38]/20" />
-              <motion.span variants={popUpVariants} className="font-aileron text-[11px] md:text-xs font-bold uppercase tracking-wider text-[#1A2F24]/50">
+              <motion.span variants={fadeUpVariants} className="w-1 h-1 rounded-full bg-[#2E4C38]/20" />
+              <motion.span variants={fadeUpVariants} className="font-aileron text-[11px] md:text-xs font-bold uppercase tracking-wider text-[#1A2F24]/50">
                 {project.year}
               </motion.span>
             </motion.div>
@@ -182,7 +186,7 @@ const ProjectDetail = () => {
             className="flex flex-col lg:flex-row gap-12 lg:gap-32 mb-20 md:mb-28"
           >
             {/* Left Section */}
-            <motion.div variants={popUpVariants} className="w-full lg:w-[70%] flex flex-col gap-6">
+            <motion.div variants={fadeUpVariants} className="w-full lg:w-[70%] flex flex-col gap-6">
               <h2 className="font-seasons text-3xl md:text-4xl text-[#1A2F24]">
                 The Case
               </h2>
@@ -197,7 +201,7 @@ const ProjectDetail = () => {
             </motion.div>
 
             {/* Right Section */}
-            <motion.div variants={popUpVariants} className="w-full lg:w-[30%] flex flex-col gap-6 lg:pt-1">
+            <motion.div variants={fadeUpVariants} className="w-full lg:w-[30%] flex flex-col gap-6 lg:pt-1">
               <h3 className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold border-b border-[#2E4C38]/10 pb-3">
                 Tech Stack
               </h3>
@@ -230,7 +234,7 @@ const ProjectDetail = () => {
             viewport={{ once: true, margin: "-50px" }}
             className="flex flex-col w-full"
           >
-            <motion.div variants={popUpVariants} className="mb-10">
+            <motion.div variants={fadeUpVariants} className="mb-10">
               <h2 className="font-seasons text-3xl md:text-4xl text-[#1A2F24]">
                 Features
               </h2>
@@ -238,7 +242,7 @@ const ProjectDetail = () => {
             
             <motion.div variants={listContainerVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
               {project.workflow.map((step: any, index: number) => (
-                <motion.div variants={popUpVariants} key={step.title + index} className="flex flex-col group">
+                <motion.div variants={fadeUpVariants} key={step.title + index} className="flex flex-col group">
                   
                   {/* Thumbnail Workflow */}
                   <button 

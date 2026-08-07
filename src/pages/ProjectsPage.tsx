@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
-import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
+import StaticDotGrid from '../components/ui/StaticDotGrid';
 
 /* Animation Variants */
 const customEase = [0.22, 1, 0.36, 1] as const;
@@ -16,9 +16,14 @@ const containerVariants: Variants = {
   },
 };
 
-const textThereVariants: Variants = {
-  hidden: { opacity: 0, y: 30, filter: "blur(12px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1, ease: customEase, delay: 0.25 } }
+const textVariants: Variants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    filter: "blur(0px)", 
+    transition: { duration: 0.8, ease: customEase, delay: 0.1 } 
+  }
 };
 
 const itemVariants: Variants = {
@@ -45,8 +50,8 @@ const ArrowRight = () => (
   </svg>
 );
 
-/* MAIN PAGE COMPONENT */
-const ProjectsPage = (): ReactElement => {
+/* MAIN SECTION COMPONENT */
+const ProjectSection = (): ReactElement => {
   const navigate = useNavigate();
 
   const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
@@ -54,34 +59,37 @@ const ProjectsPage = (): ReactElement => {
   };
 
   return (
-    <motion.div
+    <motion.section
+      id="projects"
       variants={containerVariants}
       initial="hidden"
-      animate="show"
-      exit="hidden"
-      className="relative z-0 flex flex-col pt-32 lg:pt-36 px-6 md:px-10 lg:px-16 pb-32 min-h-[100dvh] bg-[#F9F8F4] overflow-x-hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-10%" }}
+      // Padding dipangkas drastis menjadi py-4 (mobile) dan md:py-10 (desktop)
+      className="relative z-0 flex flex-col py-4 md:py-10 px-6 md:px-12 lg:px-20 w-full bg-[#F9F8F4] overflow-hidden scroll-mt-20"
     >
       <StaticDotGrid />
 
       {/* CONTAINER */}
-      <div className="w-full relative z-10">
+      <div className="w-full relative z-10 max-w-6xl mx-auto">
 
-        {/* HEADER */}
-        <motion.div variants={textThereVariants} className="w-full mb-14 md:mb-20">
-          <h1 className="font-seasons text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight text-[#1A2F24]">
-            PERSONAL<br />
-            <span className="text-[#4A6750]">PROJECTS</span>
-          </h1>
+        {/* HEADER - Margin bawah dikurangi (mb-4) agar nempel dengan list */}
+        <motion.div variants={textVariants} className="w-full mb-4 flex items-center gap-4">
+          <h2 className="font-seasons text-4xl md:text-5xl lg:text-6xl tracking-tight text-[#1A2F24] whitespace-nowrap">
+            Personal <span className="text-[#4A6750]">Projects</span>
+          </h2>
+          <div className="flex-1 h-[1px] bg-[#4A6750]/30 mt-2 hidden md:block" />
         </motion.div>
 
         {/* SHOWCASE LIST */}
-        <div className="w-full border-t border-[#1A2F24]/10 mt-2">
+        <div className="w-full border-t border-[#1A2F24]/10">
           {projects.map((project) => (
             <motion.div
               variants={itemVariants}
               key={project.slug}
               onClick={() => navigate(`/projects/${project.slug}`)}
-              className="group flex flex-col md:flex-row items-start md:items-center w-full py-6 md:py-10 border-b border-[#1A2F24]/10 cursor-pointer gap-4 md:gap-8"
+              // Padding per item proyek dipadatkan (py-4)
+              className="group flex flex-col md:flex-row items-start md:items-center w-full py-4 border-b border-[#1A2F24]/10 cursor-pointer gap-4 md:gap-8"
             >
 
               {/* Thumbnail */}
@@ -133,8 +141,8 @@ const ProjectsPage = (): ReactElement => {
         </div>
 
       </div>
-    </motion.div>
+    </motion.section>
   );
 };
 
-export default ProjectsPage;
+export default ProjectSection;

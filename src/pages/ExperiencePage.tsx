@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, type ReactElement, type SyntheticEvent } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import StaticDotGrid from '../components/experiencePage/StaticDotGrid';
+import StaticDotGrid from '../components/ui/StaticDotGrid';
 import lgSinarmasLogo from '../assets/LG_Sinarmas_Logo_Vector.svg';
 
 /* Animasi */
@@ -15,13 +15,13 @@ const containerVariants: Variants = {
   },
 };
 
-const textThereVariants: Variants = {
-  hidden: { opacity: 0, y: 30, filter: "blur(12px)" },
+const textVariants: Variants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
   show: { 
     opacity: 1, 
     y: 0, 
     filter: "blur(0px)", 
-    transition: { duration: 1, ease: customEase, delay: 0.25 } 
+    transition: { duration: 0.8, ease: customEase, delay: 0.1 } 
   }
 };
 
@@ -93,7 +93,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
 
     const node = rowRef.current;
     if (node) {
-      const targetTop = node.getBoundingClientRect().top + window.scrollY - 80;
+      const targetTop = node.getBoundingClientRect().top + window.scrollY - 100;
       
       if (window.scrollY > targetTop) {
         if (accordionRef.current) accordionRef.current.style.overflowAnchor = 'none';
@@ -120,7 +120,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
     <motion.article
       ref={rowRef}
       variants={itemVariants}
-      className="w-full border-b border-[#1A2F24]/10 py-8 md:py-14 grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-5 md:gap-y-6"
+      className="w-full py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-5 md:gap-y-6"
       style={{ contain: 'layout' }}
     >
       {/* LEFT: logo + period */}
@@ -135,20 +135,20 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
 
       {/* RIGHT: content */}
       <div className="lg:col-span-9 flex flex-col">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 md:gap-2 mb-4">
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-seasons text-[#1A2F24] leading-tight md:leading-[0.95]">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 md:gap-2 mb-3">
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-seasons text-[#1A2F24] leading-tight md:leading-[0.95]">
             {exp.role}
-          </h2>
+          </h3>
           <span className="text-xs md:text-sm text-gray-500 font-sans shrink-0 sm:pt-2">{exp.location}</span>
         </div>
 
-        <p className="text-left sm:text-justify text-sm md:text-base text-gray-600 leading-relaxed font-sans max-w-2xl mb-5">
+        <p className="text-left sm:text-justify text-[14px] md:text-[15px] text-gray-600 leading-relaxed font-sans max-w-2xl mb-4">
           {exp.description}
         </p>
 
         <div className="flex flex-wrap gap-1.5 md:gap-2 mb-6">
           {exp.tags.map((tag, idx) => (
-            <span key={idx} className="text-[9px] md:text-[11px] font-semibold uppercase tracking-wide text-[#4A6750] px-2.5 py-0.5 md:px-3 md:py-1 rounded-full border border-[#2E4C38]/15" >
+            <span key={idx} className="text-[9px] md:text-[10px] font-semibold uppercase tracking-wide text-[#4A6750] px-2.5 py-0.5 md:px-3 md:py-1 rounded-full border border-[#2E4C38]/15" >
               {tag}
             </span>
           ))}
@@ -234,24 +234,25 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
   );
 };
 
-/* Main Page */
-const ExperiencePage = (): ReactElement => {
+/* Main Section */
+const ExperienceSection = (): ReactElement => {
   return (
-    <motion.div
+    <motion.section
+      id="experience"
       variants={containerVariants}
       initial="hidden"
-      animate="show"
-      exit="hidden"
-      className="relative z-0 flex flex-col pt-24 lg:pt-36 px-4 sm:px-10 lg:px-16 pb-24 md:pb-32 min-h-[100dvh] bg-[#F9F8F4] overflow-x-hidden font-sans text-gray-800"
+      whileInView="show"
+      viewport={{ once: true, margin: "-15%" }}
+      className="relative z-0 flex flex-col pt-4 pb-20 md:pt-8 md:pb-24 px-6 md:px-12 lg:px-20 w-full bg-[#F9F8F4] overflow-hidden font-sans text-gray-800 scroll-mt-20"
     >
       <StaticDotGrid />
 
-      <div className="w-full relative z-10">
-        <motion.div variants={textThereVariants} className="w-full mb-10 md:mb-20">
-          <h1 className="font-seasons text-[12vw] sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight text-[#1A2F24]">
-            WORK<br />
-            <span className="text-[#4A6750]">EXPERIENCE</span>
-          </h1>
+      <div className="w-full relative z-10 max-w-6xl mx-auto">
+        <motion.div variants={textVariants} className="w-full mb-8 md:mb-12 flex items-center gap-4">
+          <h2 className="font-seasons text-4xl md:text-5xl lg:text-6xl tracking-tight text-[#1A2F24] whitespace-nowrap">
+            Work <span className="text-[#4A6750]">Experience</span>
+          </h2>
+          <div className="flex-1 h-[1px] bg-[#4A6750]/30 mt-2 hidden md:block" />
         </motion.div>
 
         <div className="w-full border-t border-[#1A2F24]/10">
@@ -260,8 +261,8 @@ const ExperiencePage = (): ReactElement => {
           ))}
         </div>
       </div>
-    </motion.div>
+    </motion.section>
   );
 };
 
-export default ExperiencePage;
+export default ExperienceSection;
