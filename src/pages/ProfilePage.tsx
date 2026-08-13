@@ -1,9 +1,8 @@
-import { useState, useRef, type ReactElement, type SyntheticEvent } from 'react';
+import { useState, type ReactElement, type SyntheticEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
 import { EDUCATION_DATA, CERTIFICATES_DATA } from '../constants/profileData';
-import StarGrid from '../components/ui/StarGrid';
 
 /* ICONS */
 const ArrowUpRight = (): ReactElement => (
@@ -108,28 +107,13 @@ const TECH_CATEGORIES = [
 
 /* MAIN COMPONENT */
 const ProfileSection = (): ReactElement => {
-  const [activeTab, setActiveTab] = useState<TabKey | null>(null);
-  const [renderedTab, setRenderedTab] = useState<TabKey | null>(null);
-  const accordionRef = useRef<HTMLDivElement>(null);
-
+  // 1. Set default langsung tampil di 'education'
+  const [activeTab, setActiveTab] = useState<TabKey>('education');
+  
   const toggleTab = (tab: TabKey) => {
-    if (activeTab === tab) {
-      setActiveTab(null);
-    } else {
+    // 2. Hapus logika tutup / auto scroll, hanya ubah tab jika berbeda
+    if (activeTab !== tab) {
       setActiveTab(tab);
-      setRenderedTab(tab);
-      
-      const node = document.getElementById('tabs-section');
-      if (node) {
-        const targetTop = node.getBoundingClientRect().top + window.scrollY - 100;
-        if (window.scrollY > targetTop) {
-          if (accordionRef.current) accordionRef.current.style.overflowAnchor = 'none';
-          window.scrollTo({ top: targetTop, behavior: 'smooth' });
-          window.setTimeout(() => {
-            if (accordionRef.current) accordionRef.current.style.overflowAnchor = '';
-          }, 500);
-        }
-      }
     }
   };
 
@@ -174,7 +158,6 @@ const ProfileSection = (): ReactElement => {
       className="relative z-0 flex flex-col pt-10 pb-8 md:pt-24 md:pb-20 px-4 md:px-12 lg:px-20 bg-[#F9F8F4] overflow-hidden text-[#1A2F24] w-full scroll-mt-16"
     >
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
-        <StarGrid />
       </div>
 
       <div className="w-full relative z-10 flex flex-col max-w-6xl mx-auto gap-10 md:gap-16">
@@ -216,7 +199,7 @@ const ProfileSection = (): ReactElement => {
           </motion.div>
         </div>
 
-        {/* TABS & ACCORDION SECTION */}
+        {/* TABS SECTION */}
         <div id="tabs-section" className="w-full flex flex-col items-center">
           
           <div className="inline-flex items-center justify-center bg-[#1A2F24]/5 p-1.5 rounded-2xl w-fit max-w-full overflow-x-auto scrollbar-none mb-6 md:mb-10 relative z-10 gap-1 sm:gap-1.5">
@@ -239,175 +222,163 @@ const ProfileSection = (): ReactElement => {
             })}
           </div>
 
-          <div
-            ref={accordionRef}
-            className="w-full grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ gridTemplateRows: activeTab ? '1fr' : '0fr' }}
-          >
-            <div className="overflow-hidden">
-              <div className="pt-2 pb-2">
+          <div className="w-full overflow-hidden pt-2 pb-2">
+            
+            {/* 3. GRID UTAMA: Ditambahkan min-h-[380px] md:min-h-[420px] agar layout fixed tidak bergeser */}
+            <div className="grid grid-cols-1 items-start min-h-[360px] md:min-h-[400px]">
+              <AnimatePresence>
                 
-                {/* GRID SATU SEL */}
-                <div className="grid grid-cols-1 items-start">
-                  <AnimatePresence>
-                    
-                    {/* EDUCATION TAB (Telah Disempurnakan untuk Mobile) */}
-                    {renderedTab === 'education' && (
-                      <motion.div
-                        key="education"
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: activeTab === 'education' ? 1 : 0, y: activeTab === 'education' ? 0 : 10 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        transition={{ duration: 0.4, ease: customEase }}
-                        className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
-                      >
-                        {EDUCATION_DATA.map((edu: any, index: number) => (
-                          <div key={index} className="bg-white/60 backdrop-blur-sm rounded-3xl md:rounded-[2rem] border border-white/80 hover:border-[#4A6750]/30 transition-all shadow-sm hover:shadow-md group flex flex-col w-[85vw] sm:w-[340px] md:w-[420px] shrink-0 h-[340px] md:h-[380px] snap-center relative overflow-hidden">
-                            
-                            {/* Giant Watermark Icon for Education (Agar tidak kopong) */}
-                            <div className="absolute -right-6 -bottom-6 opacity-[0.03] scale-[4] transform-gpu pointer-events-none group-hover:scale-[4.5] group-hover:opacity-[0.04] transition-all duration-700">
-                              <GraduationCapIcon />
-                            </div>
-
-                            <div className="relative z-10 flex flex-col h-full">
-                              
-                              {/* Top Content Area - Menggunakan justify-center agar merata ke tengah */}
-                              <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
-                                <span className="font-redhat text-[11px] sm:text-xs font-bold text-[#4A6750] tracking-widest uppercase mb-2 block">
-                                  {edu.period || edu.year || edu.date}
-                                </span>
-                                <h4 className="font-redhat font-bold text-[#1A2F24] text-sm md:text-base leading-snug mb-1.5 opacity-80">
-                                  {edu.institution || edu.school}
-                                </h4>
-                                <h3 className="font-redhat text-[22px] md:text-2xl text-[#1A2F24] font-bold leading-tight group-hover:text-[#4A6750] transition-colors mb-4 pr-2">
-                                  {edu.degree || edu.title}
-                                </h3>
-                                
-                                <div>
-                                  {(edu.gpa || edu.ipk) && (
-                                    <span className="inline-flex items-center gap-1.5 bg-[#4A6750]/10 text-[#4A6750] px-3 py-1.5 rounded-lg text-[11.5px] font-redhat font-bold tracking-widest uppercase shadow-sm">
-                                      <BookIcon />
-                                      GPA {edu.gpa || edu.ipk}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                              
-                              {/* Bottom Edge-to-Edge Box - Ditambahkan label Focus & Detail */}
-                              <div className="mt-auto bg-white/40 border-t border-white/60 shadow-[0_-2px_15px_rgb(0,0,0,0.02)] p-6 md:p-8 group-hover:bg-white/60 transition-colors w-full">
-                                <div className="font-redhat text-[10px] md:text-[11px] font-bold tracking-widest text-[#4A6750]/60 uppercase mb-2.5">
-                                  Focus & Detail
-                                </div>
-                                {edu.focus && (
-                                  <div className="font-redhat text-[#1A2F24] text-[13.5px] md:text-[14.5px] leading-relaxed font-bold">
-                                    {edu.focus}
-                                  </div>
-                                )}
-                                {edu.description && (
-                                  <p className="text-[#1A2F24]/70 text-[12.5px] md:text-sm leading-relaxed font-redhat text-left line-clamp-2 mt-1.5">
-                                    {edu.description}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-
-                          </div>
-                        ))}
-                      </motion.div>
-                    )}
-
-                    {/* CERTIFICATES TAB */}
-                    {renderedTab === 'certificates' && (
-                      <motion.div
-                        key="certificates"
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: activeTab === 'certificates' ? 1 : 0, y: activeTab === 'certificates' ? 0 : 10 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        transition={{ duration: 0.4, ease: customEase }}
-                        className="col-start-1 row-start-1 w-full flex flex-col"
-                      >
-                        <div className="grid grid-rows-2 grid-flow-col gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory">
-                          {CERTIFICATES_DATA.map((cert: any, index: number) => 
-                            renderCertCard(cert, index)
-                          )}
+                {/* EDUCATION TAB */}
+                {activeTab === 'education' && (
+                  <motion.div
+                    key="education"
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.4, ease: customEase }}
+                    className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
+                  >
+                    {EDUCATION_DATA.map((edu: any, index: number) => (
+                      <div key={index} className="bg-white/60 backdrop-blur-sm rounded-3xl md:rounded-[2rem] border border-white/80 hover:border-[#4A6750]/30 transition-all shadow-sm hover:shadow-md group flex flex-col w-[85vw] sm:w-[340px] md:w-[420px] shrink-0 h-[340px] md:h-[380px] snap-center relative overflow-hidden">
+                        
+                        <div className="absolute -right-6 -bottom-6 opacity-[0.03] scale-[4] transform-gpu pointer-events-none group-hover:scale-[4.5] group-hover:opacity-[0.04] transition-all duration-700">
+                          <GraduationCapIcon />
                         </div>
-                      </motion.div>
-                    )}
 
-                    {/* SKILLS TAB */}
-                    {renderedTab === 'skills' && (
-                      <motion.div
-                        key="skills"
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: activeTab === 'skills' ? 1 : 0, y: activeTab === 'skills' ? 0 : 10 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        transition={{ duration: 0.4, ease: customEase }}
-                        className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
-                      >
-                        {TECH_CATEGORIES.map((category, index) => (
-                          <div 
-                            key={index}
-                            className="bg-white/60 backdrop-blur-sm rounded-3xl md:rounded-[2rem] border border-white/80 hover:border-[#4A6750]/30 transition-all shadow-sm hover:shadow-md flex flex-col w-[85vw] sm:w-[320px] md:w-[360px] shrink-0 h-[340px] md:h-[380px] snap-center group relative overflow-hidden"
-                          >
-                            <div className="absolute -right-6 -bottom-6 opacity-[0.03] scale-[4] transform-gpu pointer-events-none group-hover:scale-[4.5] group-hover:opacity-[0.05] transition-all duration-700">
-                              {category.icon}
-                            </div>
-
-                            <div className="relative z-10 flex flex-col h-full">
-                              
-                              <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
-                                <div className="flex items-center gap-3 mb-4 text-[#1A2F24] group-hover:text-[#4A6750] transition-colors">
-                                  <div className="opacity-80 scale-125 origin-left">{category.icon}</div>
-                                  <h3 className="font-redhat text-lg md:text-xl font-bold">
-                                    {category.title}
-                                  </h3>
-                                </div>
-                                <p className="font-redhat text-[13.5px] md:text-[14.5px] text-[#1A2F24]/70 mb-2 leading-relaxed text-left">
-                                  {category.description}
-                                </p>
-                              </div>
-                              
-                              <div className="mt-auto bg-white/40 border-t border-white/60 shadow-[0_-2px_15px_rgb(0,0,0,0.02)] p-6 md:p-8 group-hover:bg-white/60 transition-colors w-full">
-                                <div className="font-redhat text-[10px] md:text-[11px] font-bold tracking-widest text-[#4A6750]/60 uppercase mb-3">
-                                  Core Stack
-                                </div>
-                                <div className="flex flex-wrap gap-2 md:gap-2.5">
-                                  {category.skills.map((skill, i) => (
-                                    <span 
-                                      key={i}
-                                      className="group/badge flex items-center gap-1.5 px-3 py-1.5 md:py-2 bg-white border border-[#1A2F24]/10 text-[#1A2F24]/80 text-[11px] md:text-xs font-redhat font-bold tracking-wide rounded-lg hover:bg-[#4A6750] hover:text-white hover:border-[#4A6750] transition-colors duration-300 cursor-default shadow-sm"
-                                    >
-                                      {skill.slug && (
-                                        <img 
-                                          src={`https://cdn.simpleicons.org/${skill.slug}/1A2F24`} 
-                                          alt={skill.name}
-                                          className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70 group-hover/badge:brightness-0 group-hover/badge:invert group-hover/badge:opacity-100 transition-all duration-300"
-                                          loading="lazy"
-                                        />
-                                      )}
-                                      {skill.name}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
+                        <div className="relative z-10 flex flex-col h-full">
+                          
+                          <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
+                            <span className="font-redhat text-[11px] sm:text-xs font-bold text-[#4A6750] tracking-widest uppercase mb-2 block">
+                              {edu.period || edu.year || edu.date}
+                            </span>
+                            <h4 className="font-redhat font-bold text-[#1A2F24] text-sm md:text-base leading-snug mb-1.5 opacity-80">
+                              {edu.institution || edu.school}
+                            </h4>
+                            <h3 className="font-redhat text-[22px] md:text-2xl text-[#1A2F24] font-bold leading-tight group-hover:text-[#4A6750] transition-colors mb-4 pr-2">
+                              {edu.degree || edu.title}
+                            </h3>
+                            
+                            <div>
+                              {(edu.gpa || edu.ipk) && (
+                                <span className="inline-flex items-center gap-1.5 bg-[#4A6750]/10 text-[#4A6750] px-3 py-1.5 rounded-lg text-[11.5px] font-redhat font-bold tracking-widest uppercase shadow-sm">
+                                  <BookIcon />
+                                  GPA {edu.gpa || edu.ipk}
+                                </span>
+                              )}
                             </div>
                           </div>
-                        ))}
-                      </motion.div>
-                    )}
+                          
+                          <div className="mt-auto bg-white/40 border-t border-white/60 shadow-[0_-2px_15px_rgb(0,0,0,0.02)] p-6 md:p-8 group-hover:bg-white/60 transition-colors w-full">
+                            <div className="font-redhat text-[10px] md:text-[11px] font-bold tracking-widest text-[#4A6750]/60 uppercase mb-2.5">
+                              Focus & Detail
+                            </div>
+                            {edu.focus && (
+                              <div className="font-redhat text-[#1A2F24] text-[13.5px] md:text-[14.5px] leading-relaxed font-bold">
+                                {edu.focus}
+                              </div>
+                            )}
+                            {edu.description && (
+                              <p className="text-[#1A2F24]/70 text-[12.5px] md:text-sm leading-relaxed font-redhat text-left line-clamp-2 mt-1.5">
+                                {edu.description}
+                              </p>
+                            )}
+                          </div>
+                        </div>
 
-                  </AnimatePresence>
-                </div>
-                
-                <div className={`flex justify-center items-center gap-1.5 text-[10px] font-redhat tracking-widest text-[#1A2F24]/40 uppercase select-none transition-opacity duration-500 ${activeTab ? 'opacity-100' : 'opacity-0'}`}>
-                  <span>Swipe sideways to explore</span>
-                  <span>→</span>
-                </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
 
-              </div>
+                {/* CERTIFICATES TAB */}
+                {activeTab === 'certificates' && (
+                  <motion.div
+                    key="certificates"
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.4, ease: customEase }}
+                    className="col-start-1 row-start-1 w-full flex flex-col"
+                  >
+                    <div className="grid grid-rows-2 grid-flow-col gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory">
+                      {CERTIFICATES_DATA.map((cert: any, index: number) => 
+                        renderCertCard(cert, index)
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* SKILLS TAB */}
+                {activeTab === 'skills' && (
+                  <motion.div
+                    key="skills"
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.4, ease: customEase }}
+                    className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
+                  >
+                    {TECH_CATEGORIES.map((category, index) => (
+                      <div 
+                        key={index}
+                        className="bg-white/60 backdrop-blur-sm rounded-3xl md:rounded-[2rem] border border-white/80 hover:border-[#4A6750]/30 transition-all shadow-sm hover:shadow-md flex flex-col w-[85vw] sm:w-[320px] md:w-[360px] shrink-0 h-[340px] md:h-[380px] snap-center group relative overflow-hidden"
+                      >
+                        <div className="absolute -right-6 -bottom-6 opacity-[0.03] scale-[4] transform-gpu pointer-events-none group-hover:scale-[4.5] group-hover:opacity-[0.05] transition-all duration-700">
+                          {category.icon}
+                        </div>
+
+                        <div className="relative z-10 flex flex-col h-full">
+                          
+                          <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
+                            <div className="flex items-center gap-3 mb-4 text-[#1A2F24] group-hover:text-[#4A6750] transition-colors">
+                              <div className="opacity-80 scale-125 origin-left">{category.icon}</div>
+                              <h3 className="font-redhat text-lg md:text-xl font-bold">
+                                {category.title}
+                              </h3>
+                            </div>
+                            <p className="font-redhat text-[13.5px] md:text-[14.5px] text-[#1A2F24]/70 mb-2 leading-relaxed text-left">
+                              {category.description}
+                            </p>
+                          </div>
+                          
+                          <div className="mt-auto bg-white/40 border-t border-white/60 shadow-[0_-2px_15px_rgb(0,0,0,0.02)] p-6 md:p-8 group-hover:bg-white/60 transition-colors w-full">
+                            <div className="font-redhat text-[10px] md:text-[11px] font-bold tracking-widest text-[#4A6750]/60 uppercase mb-3">
+                              Core Stack
+                            </div>
+                            <div className="flex flex-wrap gap-2 md:gap-2.5">
+                              {category.skills.map((skill, i) => (
+                                <span 
+                                  key={i}
+                                  className="group/badge flex items-center gap-1.5 px-3 py-1.5 md:py-2 bg-white border border-[#1A2F24]/10 text-[#1A2F24]/80 text-[11px] md:text-xs font-redhat font-bold tracking-wide rounded-lg hover:bg-[#4A6750] hover:text-white hover:border-[#4A6750] transition-colors duration-300 cursor-default shadow-sm"
+                                >
+                                  {skill.slug && (
+                                    <img 
+                                      src={`https://cdn.simpleicons.org/${skill.slug}/1A2F24`} 
+                                      alt={skill.name}
+                                      className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70 group-hover/badge:brightness-0 group-hover/badge:invert group-hover/badge:opacity-100 transition-all duration-300"
+                                      loading="lazy"
+                                    />
+                                  )}
+                                  {skill.name}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+
+              </AnimatePresence>
             </div>
-          </div>
+              
+            <div className="flex justify-center items-center gap-1.5 text-[10px] font-redhat tracking-widest text-[#1A2F24]/40 uppercase select-none mt-2">
+              <span>Swipe sideways to explore</span>
+              <span>→</span>
+            </div>
 
+          </div>
         </div>
       </div>
     </motion.section>

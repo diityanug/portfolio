@@ -1,11 +1,7 @@
 import { type ReactElement, type SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import type { Variants } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
-import StaticDotGrid from '../components/ui/StaticDotGrid';
-
-/* Animation Variants */
 const customEase = [0.22, 1, 0.36, 1] as const;
 
 const containerVariants: Variants = {
@@ -17,40 +13,37 @@ const containerVariants: Variants = {
 };
 
 const textVariants: Variants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 20 },
   show: { 
     opacity: 1, 
     y: 0, 
-    filter: "blur(0px)", 
     transition: { duration: 0.8, ease: customEase, delay: 0.1 } 
   }
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
+  hidden: { opacity: 0, x: 20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: customEase } },
 };
 
-/* MAIN PROJECT DATA */
 const projects = [
   {
     title: "Genre Game Classifier",
-    category: "Natural Language Processing",
+    category: "Machine Learning",
     year: "2024",
-    image: "/images/Project 1.png",
+    image: "/images/Cover.png",
     slug: "genre-game-classifier"
-  }
+  },
+  // Tambahkan project lain di sini untuk efek swipe
 ];
 
-/* ARROW ICON HELPER */
 const ArrowRight = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-rotate-45">
     <line x1="5" y1="12" x2="19" y2="12"></line>
     <polyline points="12 5 19 12 12 19"></polyline>
   </svg>
 );
 
-/* MAIN SECTION COMPONENT */
 const ProjectSection = (): ReactElement => {
   const navigate = useNavigate();
 
@@ -65,81 +58,80 @@ const ProjectSection = (): ReactElement => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-10%" }}
-      // Padding dipangkas drastis menjadi py-4 (mobile) dan md:py-10 (desktop)
-      className="relative z-0 flex flex-col py-4 md:py-10 px-6 md:px-12 lg:px-20 w-full bg-[#F9F8F4] overflow-hidden scroll-mt-20"
+      // Padding disamakan persis dengan Experience Section
+      className="relative z-0 flex flex-col pt-8 pb-12 md:pt-16 md:pb-20 w-full bg-[#F9F8F4] overflow-hidden scroll-mt-20"
     >
-      <StaticDotGrid />
-
-      {/* CONTAINER */}
-      <div className="w-full relative z-10 max-w-6xl mx-auto">
-
-        {/* HEADER - Margin bawah dikurangi (mb-4) agar nempel dengan list */}
-        <motion.div variants={textVariants} className="w-full mb-4 flex items-center gap-4">
-          <h2 className="font-seasons text-4xl md:text-5xl lg:text-6xl tracking-tight text-[#1A2F24] whitespace-nowrap">
-            Personal <span className="text-[#4A6750]">Projects</span>
+      <div className="w-full relative z-10 max-w-5xl mx-auto px-6 md:px-12 lg:px-20">
+        
+        {/* 1. HEADER SECTION (Senada dengan Work Experience) */}
+        <motion.div variants={textVariants} className="w-full mb-6 md:mb-10 flex flex-col">
+          <span className="font-redhat text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-2">
+            Portfolio
+          </span>
+          <h2 className="font-seasons text-[40px] md:text-5xl lg:text-6xl tracking-tight text-[#1A2F24] leading-none">
+            Selected Projects.
           </h2>
-          <div className="flex-1 h-[1px] bg-[#4A6750]/30 mt-2 hidden md:block" />
         </motion.div>
 
-        {/* SHOWCASE LIST */}
-        <div className="w-full border-t border-[#1A2F24]/10">
-          {projects.map((project) => (
-            <motion.div
-              variants={itemVariants}
-              key={project.slug}
-              onClick={() => navigate(`/projects/${project.slug}`)}
-              // Padding per item proyek dipadatkan (py-4)
-              className="group flex flex-col md:flex-row items-start md:items-center w-full py-4 border-b border-[#1A2F24]/10 cursor-pointer gap-4 md:gap-8"
-            >
-
-              {/* Thumbnail */}
-              <div className="w-full md:w-48 aspect-[16/9] md:aspect-video relative overflow-hidden rounded-2xl bg-[#EAF1EC]/50 shrink-0 border border-[#2E4C38]/10">
-                <div className="absolute inset-0 bg-[#1A2F24]/10 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none" />
+        {/* 2. SWIPEABLE CARDS */}
+        <div className="w-full relative z-10">
+          {/* -mx-6 px-6 digunakan agar scroll melebar sampai mentok ujung bezel HP, tapi konten tetap sejajar */}
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 md:gap-8 pb-6 pt-2 scrollbar-none -mx-6 px-6 md:-mx-12 md:px-12 lg:-mx-20 lg:px-20">
+            {projects.map((project) => (
+              <motion.div
+                variants={itemVariants}
+                key={project.slug}
+                onClick={() => navigate(`/projects/${project.slug}`)}
+                className="group flex flex-col shrink-0 w-[80vw] sm:w-[340px] md:w-[420px] snap-center cursor-pointer"
+              >
                 
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  onError={handleImageError}
-                />
-
-                {/* Arrow Icon : Mobile ver. */}
-                <div className="md:hidden absolute bottom-3 right-3 w-9 h-9 rounded-full bg-white/70 backdrop-blur-md text-[#1A2F24] flex items-center justify-center shadow-[0_4px_12px_rgba(26,47,36,0.15)] z-20 transition-transform active:scale-90">
-                  <ArrowRight />
-                </div>
-              </div>
-
-              {/* Text Content */}
-              <div className="flex-1 flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="font-redhat text-[9px] md:text-[10px] tracking-[0.15em] uppercase text-[#4A6750] font-bold">
-                    {project.category}
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-[#2E4C38]/20" />
-                  <span className="font-aileron text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#1A2F24]/50">
-                    {project.year}
-                  </span>
+                {/* Image Area - Clean & App-like */}
+                <div className="w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden bg-white border border-[#1A2F24]/10 rounded-[1.25rem] md:rounded-[1.5rem] mb-4 md:mb-5 shadow-sm group-hover:shadow-md group-hover:border-[#4A6750]/30 transition-all duration-500">
+                  <div className="absolute inset-0 bg-[#1A2F24]/0 group-hover:bg-[#1A2F24]/5 transition-colors duration-500 z-10 pointer-events-none" />
+                  
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    onError={handleImageError}
+                  />
+                  
+                  {/* Floating Action Button */}
+                  <div className="absolute bottom-4 right-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-md text-[#1A2F24] flex items-center justify-center shadow-sm z-20 transition-all duration-300 group-hover:bg-[#1A2F24] group-hover:text-[#F9F8F4] active:scale-95 border border-[#1A2F24]/5">
+                    <ArrowRight />
+                  </div>
                 </div>
 
-                <h3 className="font-seasons text-2xl md:text-3xl text-[#1A2F24] group-hover:text-[#4A6750] transition-colors duration-500">
-                  {project.title}
-                </h3>
-              </div>
-
-              {/* Arrow Icon : Desktop ver. */}
-              <div className="hidden md:flex items-center h-10 rounded-full border border-[#2E4C38]/20 text-[#1A2F24] group-hover:bg-[#1A2F24] group-hover:text-[#F9F8F4] group-hover:border-transparent transition-all duration-500 shrink-0">
-                <div className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 group-hover:pl-4 transition-all duration-500 ease-out font-aileron text-[10px] font-bold tracking-[0.15em] uppercase">
-                  View Project
+                {/* Text Area */}
+                <div className="flex flex-col px-1">
+                  
+                  {/* Tags (Senada dengan Tag di Experience) */}
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#4A6750] px-3 py-1.5 bg-[#4A6750]/5 rounded-full border border-[#2E4C38]/10 shrink-0">
+                      {project.category}
+                    </span>
+                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#1A2F24]/40 px-3 py-1.5 bg-white rounded-full border border-[#1A2F24]/10 shrink-0">
+                      {project.year}
+                    </span>
+                  </div>
+                  
+                  {/* Title (Font Red Hat + tracking-wide agar renggang elegan) */}
+                  <h3 className="font-redhat font-bold text-[20px] md:text-[24px] tracking-wide leading-tight text-[#1A2F24] group-hover:text-[#4A6750] transition-colors duration-300">
+                    {project.title}
+                  </h3>
                 </div>
-                <span className="w-10 h-10 flex items-center justify-center group-hover:-rotate-45 transition-transform duration-500 shrink-0">
-                  <ArrowRight />
-                </span>
-              </div>
+                
+              </motion.div>
+            ))}
+          </div>
 
-            </motion.div>
-          ))}
+          {/* 3. SWIPE INDICATOR */}
+          <div className="flex justify-start items-center gap-2 text-[9px] font-redhat tracking-widest text-[#1A2F24]/30 uppercase select-none mt-2">
+            <span>Swipe to explore</span>
+            <span>→</span>
+          </div>
+          
         </div>
-
       </div>
     </motion.section>
   );

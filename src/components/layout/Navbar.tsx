@@ -191,6 +191,48 @@ const Navbar = () => {
     };
   }, [location.pathname, isCoverMode]);
 
+  // BARU: konsumsi hash target (misal "#contact") pas navigasi masuk ke "/" dari route lain (mis. ProjectDetail)
+  useEffect(() => {
+    if (location.pathname !== '/' || !location.hash) return;
+
+    const targetId = location.hash.slice(1);
+
+    // Klik "home" dari luar "/" -> munculin cover lagi, bukan scroll ke section
+    if (targetId === 'home') {
+      goHome();
+      navigate('/', { replace: true });
+      return;
+    }
+
+    let attempts = 0;
+    let rafId: number;
+
+    const tryScroll = () => {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        setActiveSection(targetId);
+        navigate(location.pathname, { replace: true }); // bersihin hash biar gak nyangkut/re-trigger
+        return;
+      }
+      if (attempts < 30) {
+        attempts += 1;
+        rafId = requestAnimationFrame(tryScroll);
+      }
+    };
+
+    if (homeLocked) {
+      leaveHome();
+      const timer = setTimeout(tryScroll, 1250);
+      return () => clearTimeout(timer);
+    }
+
+    tryScroll();
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [location.pathname, location.hash, homeLocked, goHome, leaveHome, navigate]);
+
   const handleNavigate = useCallback((id: string) => {
     if (location.pathname !== '/') {
       navigate(`/#${id}`);

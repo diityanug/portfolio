@@ -21,7 +21,7 @@ const metaContainerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { delayChildren: 0.4, staggerChildren: 0.15 } 
+    transition: { delayChildren: 0.1, staggerChildren: 0.1 } 
   }
 };
 
@@ -29,19 +29,24 @@ const listContainerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { delayChildren: 0.6, staggerChildren: 0.15 } 
+    transition: { delayChildren: 0.3, staggerChildren: 0.15 } 
   }
 };
 
 const lineGrowVariants: Variants = {
   hidden: { width: 0 },
-  show: { width: "100%", transition: { duration: 1, ease: customEase, delay: 0.8 } }
+  show: { width: "100%", transition: { duration: 1.2, ease: customEase, delay: 0.4 } }
 };
 
-// Varian baru pengganti popUpVariants bawaan
 const fadeUpVariants: Variants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(5px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease: customEase } }
+  hidden: { opacity: 0, y: 25, scale: 0.98, filter: "blur(5px)" },
+  show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.8, ease: customEase } }
+};
+
+// Animasi instan tanpa delay untuk Navigasi dan blok Feature
+const instantFadeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 15, filter: "blur(5px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: customEase } }
 };
 
 const ProjectDetail = () => {
@@ -52,7 +57,7 @@ const ProjectDetail = () => {
   const projects: Record<string, any> = {
     'genre-game-classifier': {
       title: 'Genre Game Classifier',
-      category: 'Full-Stack Machine Learning',
+      category: 'Machine Learning',
       year: '2024',
       link: 'https://github.com/diityanug/game-genre-classifier',
       overview: 'Game Genre Classifier is an end-to-end Machine Learning pipeline designed to predict video game genres based on their descriptions. The project covers the entire ML lifecycle: automated data mining, an advanced NLP pipeline, a highly optimized REST API, and an interactive React-based frontend.',
@@ -98,7 +103,7 @@ const ProjectDetail = () => {
           <p className="font-redhat text-[#4A6750] tracking-[0.2em] uppercase text-xs md:text-sm font-bold mb-10">Project not found</p>
           <button
             onClick={() => navigate('/#projects')} 
-            className="px-8 py-4 border border-[#2E4C38]/20 text-[#1A2F24] rounded-full font-redhat text-[10px] tracking-[0.2em] uppercase font-bold hover:bg-[#1A2F24] hover:text-[#F9F8F4] transition-colors duration-500"
+            className="px-8 py-4 border border-[#2E4C38]/20 text-[#1A2F24] rounded-full font-redhat text-[10px] tracking-[0.2em] uppercase font-bold hover:bg-[#1A2F24] hover:text-[#F9F8F4] transition-colors duration-500 outline-none"
           >
             Back to Projects
           </button>
@@ -116,104 +121,115 @@ const ProjectDetail = () => {
         initial="hidden"
         animate="show"
         exit="exit"
-        className="relative z-0 min-h-screen bg-[#F9F8F4] px-6 md:px-12 lg:px-24 xl:px-32 pt-32 lg:pt-40 pb-24 overflow-x-hidden"
+        className="relative z-0 min-h-screen bg-[#F9F8F4] px-6 md:px-12 lg:px-20 pt-10 md:pt-28 pb-[120px] md:pb-24 overflow-x-hidden"
       >
         <StaticDotGrid />
-        <div className="w-full max-w-screen-2xl mx-auto relative z-10">
+        <div className="w-full max-w-5xl mx-auto relative z-10">
           
-          {/* Header Navigation */}
+          {/* 1. HEADER NAVIGATION */}
           <motion.div 
-            variants={metaContainerVariants} 
+            variants={instantFadeUpVariants} 
             initial="hidden"
             animate="show"
-            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12 relative z-20"
+            className="flex flex-row items-center justify-between gap-4 mb-12 md:mb-16 relative z-20"
           >
-            <motion.button variants={fadeUpVariants} onClick={() => navigate('/#projects')} className="group flex items-center gap-3 text-[10px] md:text-xs font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
-              <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span> Back to Projects
-            </motion.button>
+            <button 
+              onClick={() => navigate('/#projects')} 
+              className="group flex items-center gap-2 text-[9px] md:text-[10px] font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/60 hover:text-[#1A2F24] bg-white/60 hover:bg-white backdrop-blur-sm border border-[#1A2F24]/10 px-4 py-2.5 rounded-full transition-all duration-300 outline-none shadow-sm hover:shadow-md"
+            >
+              <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span> Back
+            </button>
+
             {project.link && (
-              <motion.a variants={fadeUpVariants} href={project.link} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-[10px] md:text-xs font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors duration-300">
-                Visit Repository{' '}
-                <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">↗</span>
-              </motion.a>
+              <a 
+                href={project.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group flex items-center gap-2 text-[9px] md:text-[10px] font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/60 hover:text-[#1A2F24] bg-white/60 hover:bg-white backdrop-blur-sm border border-[#1A2F24]/10 px-4 py-2.5 rounded-full transition-all duration-300 outline-none shadow-sm hover:shadow-md"
+              >
+                Visit Repo <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">↗</span>
+              </a>
             )}
           </motion.div>
 
-          {/* Hero Section */}
-          <div className="mb-16 md:mb-20 flex flex-col">
+          {/* 2. HERO SECTION */}
+          <div className="mb-14 md:mb-20 flex flex-col items-start">
+            <motion.div 
+              variants={metaContainerVariants} 
+              initial="hidden"
+              animate="show"
+              className="flex items-center gap-3 mb-5"
+            >
+              <motion.span variants={fadeUpVariants} className="flex items-center gap-2 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#4A6750]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4A6750] animate-pulse"></span>
+                {project.category}
+              </motion.span>
+              <motion.span variants={fadeUpVariants} className="text-[10px] text-[#1A2F24]/30 mb-0.5">|</motion.span>
+              <motion.span variants={fadeUpVariants} className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#1A2F24]/50">
+                {project.year}
+              </motion.span>
+            </motion.div>
+
             <motion.div 
               initial="hidden"
               animate="show"
               transition={{ staggerChildren: 0.1, delayChildren: 0.1 }}
-              className="flex flex-wrap gap-x-3 md:gap-x-5 gap-y-2 mb-8"
+              className="flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 select-none"
             >
-              <h1 className="font-seasons text-5xl sm:text-6xl md:text-[80px] lg:text-[100px] leading-[0.9] tracking-tight flex flex-wrap gap-x-3 md:gap-x-5">
+              <h1 className="font-seasons text-[44px] min-[375px]:text-[50px] sm:text-6xl md:text-[80px] lg:text-[100px] leading-[0.95] tracking-tight flex flex-wrap gap-x-2 md:gap-x-4">
                 {titleWords.map((word: string, wIdx: number) => (
                   <motion.div 
                     key={word + wIdx} 
                     variants={titleWordVariants} 
-                    className={`inline-block ${wIdx === titleWords.length - 1 ? 'text-[#4A6750]' : 'text-[#1A2F24]'}`}
+                    className={`inline-block ${wIdx === titleWords.length - 1 ? 'text-[#4A6750] italic pr-2' : 'text-[#1A2F24]'}`}
                   >
                     {word}
                   </motion.div>
                 ))}
               </h1>
             </motion.div>
-
-            {/* Metadata */}
-            <motion.div 
-              variants={metaContainerVariants} 
-              initial="hidden"
-              animate="show"
-              className="flex flex-wrap items-center gap-3"
-            >
-              <motion.span variants={fadeUpVariants} className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#4A6750] font-bold">
-                {project.category}
-              </motion.span>
-              <motion.span variants={fadeUpVariants} className="w-1 h-1 rounded-full bg-[#2E4C38]/20" />
-              <motion.span variants={fadeUpVariants} className="font-aileron text-[11px] md:text-xs font-bold uppercase tracking-wider text-[#1A2F24]/50">
-                {project.year}
-              </motion.span>
-            </motion.div>
           </div>
 
-          {/* Main Content */}
+          {/* 3. MAIN CONTENT */}
           <motion.div 
             variants={listContainerVariants} 
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-50px" }}
-            className="flex flex-col lg:flex-row gap-12 lg:gap-32 mb-20 md:mb-28"
+            viewport={{ once: true, margin: "-10%" }}
+            className="flex flex-col lg:flex-row gap-10 lg:gap-16 mb-16 md:mb-24"
           >
-            {/* Left Section */}
-            <motion.div variants={fadeUpVariants} className="w-full lg:w-[70%] flex flex-col gap-6">
-              <h2 className="font-seasons text-3xl md:text-4xl text-[#1A2F24]">
+            {/* Left Section (The Case) */}
+            <motion.div variants={fadeUpVariants} className="w-full lg:w-[60%] flex flex-col gap-6 lg:pr-8">
+              <h2 className="font-['Garbata'] text-[28px] md:text-[32px] text-[#1A2F24]">
                 The Case
               </h2>
-              <div className="flex flex-col gap-5">
-                <p className="font-aileron text-base md:text-lg leading-relaxed text-[#2E4C38]/80 text-justify">
+              <div className="flex flex-col gap-6">
+                <p className="font-aileron text-[15px] md:text-[17px] leading-[1.85] text-[#2E4C38]/90">
                   {project.overview}
                 </p>
-                <p className="font-aileron text-base md:text-lg leading-relaxed text-[#2E4C38]/80 text-justify">
+                <p className="font-aileron text-[15px] md:text-[17px] leading-[1.85] text-[#2E4C38]/80">
                   {project.description}
                 </p>
               </div>
             </motion.div>
 
-            {/* Right Section */}
-            <motion.div variants={fadeUpVariants} className="w-full lg:w-[30%] flex flex-col gap-6 lg:pt-1">
-              <h3 className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold border-b border-[#2E4C38]/10 pb-3">
-                Tech Stack
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {project.technologies.map((tech: string) => (
-                  <span 
-                    key={tech} 
-                    className="bg-[#4A6750]/5 border border-[#4A6750]/10 text-[#4A6750] font-redhat font-bold text-[9px] md:text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg cursor-default"
-                  >
-                    {tech}
-                  </span>
-                ))}
+            {/* Right Section (Tech Stack) */}
+            <motion.div variants={fadeUpVariants} className="w-full lg:w-[40%] flex flex-col">
+              <div className="bg-white/80 backdrop-blur-sm border border-[#2E4C38]/10 rounded-[2rem] p-6 md:p-8 shadow-sm">
+                <h3 className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold mb-5 flex items-center gap-3">
+                  <span className="w-8 h-[1px] bg-[#2E4C38]/20"></span>
+                  Tech Stack
+                </h3>
+                <div className="flex flex-wrap gap-2 md:gap-2.5">
+                  {project.technologies.map((tech: string) => (
+                    <span 
+                      key={tech} 
+                      className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#1A2F24]/70 px-3 md:px-4 py-2 bg-[#F9F8F4] hover:bg-[#4A6750]/10 hover:text-[#4A6750] rounded-full border border-[#2E4C38]/5 shrink-0 cursor-default transition-colors duration-300"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -223,31 +239,33 @@ const ProjectDetail = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="w-full h-[1px] bg-[#2E4C38]/10 mb-16 md:mb-20" 
+            className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#2E4C38]/10 to-transparent mb-16 md:mb-24" 
           />
 
-          {/* Features */}
+          {/* 4. FEATURES & WORKFLOW (Tanpa Stagger & Delay) */}
+          {/* PERUBAHAN: Dibungkus satu motion.div, margin dihapus agar langsung terpicu seketika saat masuk layar */}
           <motion.div 
-            variants={listContainerVariants} 
+            variants={instantFadeUpVariants} 
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true }}
             className="flex flex-col w-full"
           >
-            <motion.div variants={fadeUpVariants} className="mb-10">
-              <h2 className="font-seasons text-3xl md:text-4xl text-[#1A2F24]">
-                Features
+            <div className="mb-10 md:mb-12 text-center md:text-left">
+              <h2 className="font-['Garbata'] text-[28px] md:text-[32px] text-[#1A2F24]">
+                Features & Workflow
               </h2>
-            </motion.div>
+            </div>
             
-            <motion.div variants={listContainerVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            {/* PERUBAHAN: motion.div pada item dihilangkan, diubah menjadi div biasa agar muncul barengan sebagai satu kesatuan */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-8">
               {project.workflow.map((step: any, index: number) => (
-                <motion.div variants={fadeUpVariants} key={step.title + index} className="flex flex-col group">
+                <div key={step.title + index} className="flex flex-col group bg-white rounded-[2rem] p-4 border border-[#2E4C38]/5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-10px_rgba(26,47,36,0.15)] transition-all duration-500 hover:-translate-y-1">
                   
                   {/* Thumbnail Workflow */}
                   <button 
                     type="button"
-                    className="w-full aspect-[4/3] rounded-[1.25rem] bg-[#EAF1EC]/30 border border-[#2E4C38]/10 overflow-hidden mb-5 relative cursor-zoom-in shadow-sm hover:shadow-md transition-shadow duration-300"
+                    className="w-full aspect-[4/3] rounded-[1.25rem] bg-[#F9F8F4] overflow-hidden mb-5 relative cursor-zoom-in outline-none"
                     onClick={() => setSelectedImage(step.image)}
                     aria-label={`Enlarge ${step.title}`}
                   >
@@ -255,27 +273,26 @@ const ProjectDetail = () => {
                     <img 
                       src={step.image} 
                       alt={step.title} 
-                      className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" 
+                      className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 group-hover:scale-105 transition-transform duration-700" 
                       onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x450/f8f9fa/adb5bd?text=Feature+Preview'; }} 
                     />
-                    <div className="absolute top-3 left-3 z-20 bg-[#F9F8F4]/90 backdrop-blur-sm w-7 h-7 rounded-full flex items-center justify-center border border-[#2E4C38]/10 pointer-events-none">
-                      <span className="font-aileron text-[10px] md:text-xs text-[#1A2F24] font-bold">0{index + 1}</span>
+                    <div className="absolute top-3 left-3 z-20 bg-white/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center border border-[#2E4C38]/10 pointer-events-none shadow-sm">
+                      <span className="font-redhat text-[10px] text-[#1A2F24] font-bold">0{index + 1}</span>
                     </div>
                   </button>
 
                   {/* Text Workflow */}
-                  <div className="flex flex-col cursor-default">
-                    <h4 className="font-seasons font-bold text-xl md:text-2xl text-[#1A2F24] mb-2 group-hover:text-[#4A6750] transition-colors duration-300">
+                  <div className="flex flex-col cursor-default px-2 pb-2">
+                    <h4 className="font-redhat font-bold text-[17px] md:text-[18px] text-[#1A2F24] mb-2 group-hover:text-[#4A6750] transition-colors duration-300">
                       {step.title}
                     </h4>
-                    <p className="font-aileron text-sm md:text-base text-[#2E4C38]/70 leading-relaxed text-justify">
+                    <p className="font-aileron text-[14px] text-[#2E4C38]/70 leading-[1.65]">
                       {step.text}
                     </p>
                   </div>
-
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </motion.div>
 
         </div>
@@ -305,7 +322,7 @@ const ProjectDetail = () => {
                 className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
               />
               <button
-                className="absolute -top-5 -right-5 md:-top-6 md:-right-6 text-[#1A2F24] bg-[#F9F8F4] hover:bg-white hover:scale-105 rounded-full p-2.5 md:p-3 shadow-xl transition-all duration-300"
+                className="absolute -top-12 right-0 md:-top-6 md:-right-6 text-[#1A2F24] bg-[#F9F8F4] hover:bg-white hover:scale-105 rounded-full p-2.5 md:p-3 shadow-xl transition-all duration-300 outline-none"
                 onClick={() => setSelectedImage(null)}
                 aria-label="Close popup"
               >

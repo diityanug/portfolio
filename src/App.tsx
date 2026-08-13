@@ -38,9 +38,9 @@ const MainPortfolio = () => {
         {homeLocked && (
           <motion.div
             key="cover-page"
-            initial={{ y: "-100dvh" }} 
-            animate={{ y: 0, pointerEvents: "auto" }}
-            exit={{ y: "-100dvh", pointerEvents: "none" }}   
+            initial={{ y: "-110%" }} 
+            animate={{ y: "0%", pointerEvents: "auto" }}
+            exit={{ y: "-110%", pointerEvents: "none" }} // Ubah dari -100dvh
             transition={transitionSpec}
             className="fixed top-0 left-0 w-full h-[100dvh] z-50 flex flex-col bg-[#F9F8F4] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overscroll-none touch-none"
           >
@@ -58,7 +58,12 @@ const MainPortfolio = () => {
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
+      <AnimatePresence
+        mode="wait"
+        onExitComplete={() => {
+          if (!window.location.hash) window.scrollTo(0, 0);
+        }}
+      >
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><MainPortfolio /></PageWrapper>} />
         <Route path="/projects/:slug" element={<PageWrapper><ProjectDetail /></PageWrapper>} />

@@ -23,20 +23,25 @@ export const HomeLockProvider = ({ children }: { children: ReactNode }) => {
 
   // Efek ini mengunci scroll (menyembunyikan scrollbar) HANYA selama di Homepage atau selama animasi berjalan
   useEffect(() => {
-    if (!isMain) {
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-      return;
-    }
+  if (!isMain) {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    return;
+  }
 
-    if (homeLocked) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-    } else {
+  if (homeLocked) {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  } else {
+    // Tunda kembalinya scrollbar sampai animasi ke atas selesai (1.2s)
+    const timer = setTimeout(() => {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-    }
-  }, [isMain, homeLocked]);
+    }, 1200); 
+    
+    return () => clearTimeout(timer);
+  }
+}, [isMain, homeLocked]);
 
   const leaveHome = useCallback(() => {
     window.scrollTo(0, 0); // Pastikan mulai dari posisi atas
