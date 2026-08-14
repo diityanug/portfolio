@@ -2,21 +2,35 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { Transition } from 'framer-motion';
+
+import { HomeLockProvider, useHomeLock } from './context/HomeLockContext';
+
 import Navbar from './components/layout/Navbar';
+import PageWrapper from './components/layout/PageWrapper';
+import BackgroundTexture from './components/ui/BackgroundTexture';
+
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ContactPage from './pages/ContactPage';
-import PageWrapper from './components/layout/PageWrapper';
 import ProjectDetail from './pages/projectDetail';
-import BackgroundTexture from './components/ui/BackgroundTexture';
-import { HomeLockProvider, useHomeLock } from './context/HomeLockContext';
 
 const MainPortfolio = () => {
   const { homeLocked } = useHomeLock();
   const [hasRevealedOnce, setHasRevealedOnce] = useState(!homeLocked);
   
+  useEffect(() => {
+    const viewportMeta = document.querySelector('meta[name="viewport"]');
+    if (!viewportMeta) return;
+    
+    if (homeLocked) {
+      viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+    } else {
+      viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
+    }
+  }, [homeLocked]);
+
   useEffect(() => {
     if (!homeLocked && !hasRevealedOnce) {
       setHasRevealedOnce(true);
@@ -27,6 +41,8 @@ const MainPortfolio = () => {
 
   return (
     <div className="relative w-full bg-[#F9F8F4]">
+      
+      {/* Main Portfolio Sections */}
       <div className="flex flex-col w-full bg-[#F9F8F4]">
         <section id="about"><ProfilePage /></section>
         <section id="experience"><ExperiencePage /></section>
@@ -34,15 +50,16 @@ const MainPortfolio = () => {
         <section id="contact"><ContactPage /></section>
       </div>
 
+      {/* Homepage Cover Overlay */}
       <AnimatePresence initial={false}>
         {homeLocked && (
           <motion.div
             key="cover-page"
             initial={{ y: "-110%" }} 
             animate={{ y: "0%", pointerEvents: "auto" }}
-            exit={{ y: "-110%", pointerEvents: "none" }} // Ubah dari -100dvh
+            exit={{ y: "-110%", pointerEvents: "none" }}
             transition={transitionSpec}
-            className="fixed top-0 left-0 w-full h-[100dvh] z-50 flex flex-col bg-[#F9F8F4] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overscroll-none touch-none"
+            className="fixed top-0 left-0 w-full h-[100dvh] z-50 flex flex-col bg-[#F9F8F4] shadow-[0_20px_50px_rgba(0,0,0,0.2)] overscroll-none"
           >
             <AnimatePresence>
               <HomePage />
@@ -50,20 +67,22 @@ const MainPortfolio = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
+      
     </div>
   );
 };
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  
   return (
-      <AnimatePresence
-        mode="wait"
-        onExitComplete={() => {
-          if (!window.location.hash) window.scrollTo(0, 0);
-        }}
-      >
+    <AnimatePresence
+      mode="wait"
+      initial={false}
+      onExitComplete={() => {
+        if (!window.location.hash) window.scrollTo(0, 0);
+      }}
+    >
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><MainPortfolio /></PageWrapper>} />
         <Route path="/projects/:slug" element={<PageWrapper><ProjectDetail /></PageWrapper>} />
@@ -73,6 +92,12 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   return (
     <Router>
       <HomeLockProvider>

@@ -8,14 +8,14 @@ import DotGrid from '../components/ui/DotGrid';
 
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
-// 1. Variant untuk Container Utama (Mengatur urutan kemunculan / stagger)
+// 1. REVISI: Hapus opacity: 0 pada 'hidden' agar background/halaman tidak berkedip
 const containerVariants: Variants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 }, 
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1, // Jarak waktu muncul antar elemen
-      delayChildren: 0.1,   // Jeda sebelum elemen pertama muncul
+      staggerChildren: 0.1, 
+      delayChildren: 0.1,   
     }
   }
 };
@@ -74,7 +74,6 @@ const TechMarquee = (): ReactElement => {
   const items = [...STACK_ITEMS, ...STACK_ITEMS];
 
   return (
-    // Menggunakan motion.div dan variants={fadeOnly} langsung di sini
     <motion.div 
       variants={fadeOnly}
       className="absolute bottom-0 inset-x-0 z-10 border-t border-[#1A2F24]/10 bg-[#F9F8F4]/80 backdrop-blur-sm overflow-hidden"
@@ -109,11 +108,12 @@ const HomePage = (): ReactElement => {
 
   return (
     <motion.div
-      key="home-page" // Memaksa animasi ulang setiap kali komponen dimuat
+      key="home-page"
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="w-full min-h-[100svh] bg-[#F9F8F4] overflow-hidden relative z-0 flex flex-col px-6 pt-8 pb-[80px] md:px-12 md:pt-12"
+      // REVISI: Ubah overflow-hidden menjadi overflow-x-clip untuk melepaskan lock zoom di mobile
+      className="w-full min-h-[100svh] bg-[#F9F8F4] overflow-x-clip relative z-0 flex flex-col px-6 pt-8 pb-[80px] md:px-12 md:pt-12"
     >
       {/* Background */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
@@ -205,7 +205,7 @@ const HomePage = (): ReactElement => {
         </motion.button>
       </motion.div>
 
-      {/* 4. TECH MARQUEE (Animasi FadeOnly diterapkan di dalam komponennya) */}
+      {/* 4. TECH MARQUEE */}
       <TechMarquee />
 
     </motion.div>

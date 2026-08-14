@@ -1,9 +1,27 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import type { Variants } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import StaticDotGrid from '../components/ui/StaticDotGrid';
 
+// Types
+interface WorkflowStep {
+  image: string;
+  title: string;
+  text: string;
+}
+
+interface ProjectData {
+  title: string;
+  category: string;
+  year: string;
+  link?: string;
+  overview: string;
+  description: string;
+  workflow: WorkflowStep[];
+  technologies: string[];
+}
+
+// Animation Variants
 const customEase = [0.22, 1, 0.36, 1] as const;
 
 const pageVariants: Variants = {
@@ -19,18 +37,12 @@ const titleWordVariants: Variants = {
 
 const metaContainerVariants: Variants = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { delayChildren: 0.1, staggerChildren: 0.1 } 
-  }
+  show: { opacity: 1, transition: { delayChildren: 0.1, staggerChildren: 0.1 } }
 };
 
 const listContainerVariants: Variants = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { delayChildren: 0.3, staggerChildren: 0.15 } 
-  }
+  show: { opacity: 1, transition: { delayChildren: 0.3, staggerChildren: 0.15 } }
 };
 
 const lineGrowVariants: Variants = {
@@ -43,52 +55,54 @@ const fadeUpVariants: Variants = {
   show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.8, ease: customEase } }
 };
 
-// Animasi instan tanpa delay untuk Navigasi dan blok Feature
 const instantFadeUpVariants: Variants = {
   hidden: { opacity: 0, y: 15, filter: "blur(5px)" },
   show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: customEase } }
 };
 
+// Mock Data
+const projectsData: Record<string, ProjectData> = {
+  'genre-game-classifier': {
+    title: 'Genre Game Classifier',
+    category: 'Machine Learning',
+    year: '2024',
+    link: 'https://github.com/diityanug/game-genre-classifier',
+    overview: 'Game Genre Classifier is an end-to-end Machine Learning pipeline designed to predict video game genres based on their descriptions. The project covers the entire ML lifecycle: automated data mining, an advanced NLP pipeline, a highly optimized REST API, and an interactive React-based frontend.',
+    description: 'The core NLP engine utilizes spaCy for deep text normalization and TF-IDF for feature extraction, which is fed into a GridSearchCV-tuned OneVsRest Complement Naive Bayes classifier. The backend is served via FastAPI, featuring dynamic thresholding and a unique Explainable AI logic to extract reasoning keywords. The frontend offers a sleek, animated UI with real-time probability bars, prediction history, and an interactive genre-guessing mini-game.',
+    workflow: [
+      { 
+        image: '/images/Input Desc.png', 
+        title: 'Text Input Interface', 
+        text: "Users simply input the game's title and description into a clean, minimalist form. The frontend instantly packages this text to be processed by the backend NLP engine." 
+      },
+      { 
+        image: '/images/Output.png', 
+        title: 'Results & Explainability', 
+        text: "The UI reveals real-time prediction results using animated probability bars, and highlights specific keywords from the input that heavily influenced the AI's decision." 
+      },
+      { 
+        image: '/images/history.png', 
+        title: 'Prediction History', 
+        text: 'All past predictions are automatically saved in the session history. Users can quickly access and review their previous inputs and results whenever needed.' 
+      }
+    ],
+    technologies: [
+      'Python', 'spaCy', 'Scikit-Learn', 'Pandas', 
+      'FastAPI', 'Pydantic', 'REST API',          
+      'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'
+    ],
+  },
+};
+
+// Main Component
 const ProjectDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const projects: Record<string, any> = {
-    'genre-game-classifier': {
-      title: 'Genre Game Classifier',
-      category: 'Machine Learning',
-      year: '2024',
-      link: 'https://github.com/diityanug/game-genre-classifier',
-      overview: 'Game Genre Classifier is an end-to-end Machine Learning pipeline designed to predict video game genres based on their descriptions. The project covers the entire ML lifecycle: automated data mining, an advanced NLP pipeline, a highly optimized REST API, and an interactive React-based frontend.',
-      description: 'The core NLP engine utilizes spaCy for deep text normalization and TF-IDF for feature extraction, which is fed into a GridSearchCV-tuned OneVsRest Complement Naive Bayes classifier. The backend is served via FastAPI, featuring dynamic thresholding and a unique Explainable AI logic to extract reasoning keywords. The frontend offers a sleek, animated UI with real-time probability bars, prediction history, and an interactive genre-guessing mini-game.',
-      workflow: [
-        { 
-          image: '/images/Input Desc.png', 
-          title: 'Text Input Interface', 
-          text: 'Users simply input the game\'s title and description into a clean, minimalist form. The frontend instantly packages this text to be processed by the backend NLP engine.' 
-        },
-        { 
-          image: '/images/Output.png', 
-          title: 'Results & Explainability', 
-          text: 'The UI reveals real-time prediction results using animated probability bars, and highlights specific keywords from the input that heavily influenced the AI\'s decision.' 
-        },
-        { 
-          image: '/images/history.png', 
-          title: 'Prediction History', 
-          text: 'All past predictions are automatically saved in the session history. Users can quickly access and review their previous inputs and results whenever needed.' 
-        }
-      ],
-      technologies: [
-        'Python', 'spaCy', 'Scikit-Learn', 'Pandas', 
-        'FastAPI', 'Pydantic', 'REST API',          
-        'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'
-      ],
-    },
-  };
+  const project = projectsData[slug as string];
 
-  const project = projects[slug as string];
-
+  /* 404 State */
   if (!project) {
     return (
       <motion.div 
@@ -114,6 +128,7 @@ const ProjectDetail = () => {
 
   const titleWords = project.title.split(' ');
 
+  /* Main Render */
   return (
     <>
       <motion.div
@@ -124,9 +139,10 @@ const ProjectDetail = () => {
         className="relative z-0 min-h-screen bg-[#F9F8F4] px-6 md:px-12 lg:px-20 pt-10 md:pt-28 pb-[120px] md:pb-24 overflow-x-hidden"
       >
         <StaticDotGrid />
+        
         <div className="w-full max-w-5xl mx-auto relative z-10">
           
-          {/* 1. HEADER NAVIGATION */}
+          {/* Header Navigation */}
           <motion.div 
             variants={instantFadeUpVariants} 
             initial="hidden"
@@ -152,7 +168,7 @@ const ProjectDetail = () => {
             )}
           </motion.div>
 
-          {/* 2. HERO SECTION */}
+          {/* Hero Section */}
           <div className="mb-14 md:mb-20 flex flex-col items-start">
             <motion.div 
               variants={metaContainerVariants} 
@@ -190,7 +206,7 @@ const ProjectDetail = () => {
             </motion.div>
           </div>
 
-          {/* 3. MAIN CONTENT */}
+          {/* Overview & Tech Stack */}
           <motion.div 
             variants={listContainerVariants} 
             initial="hidden"
@@ -198,7 +214,7 @@ const ProjectDetail = () => {
             viewport={{ once: true, margin: "-10%" }}
             className="flex flex-col lg:flex-row gap-10 lg:gap-16 mb-16 md:mb-24"
           >
-            {/* Left Section (The Case) */}
+            {/* The Case */}
             <motion.div variants={fadeUpVariants} className="w-full lg:w-[60%] flex flex-col gap-6 lg:pr-8">
               <h2 className="font-['Garbata'] text-[28px] md:text-[32px] text-[#1A2F24]">
                 The Case
@@ -213,7 +229,7 @@ const ProjectDetail = () => {
               </div>
             </motion.div>
 
-            {/* Right Section (Tech Stack) */}
+            {/* Tech Stack */}
             <motion.div variants={fadeUpVariants} className="w-full lg:w-[40%] flex flex-col">
               <div className="bg-white/80 backdrop-blur-sm border border-[#2E4C38]/10 rounded-[2rem] p-6 md:p-8 shadow-sm">
                 <h3 className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold mb-5 flex items-center gap-3">
@@ -242,8 +258,7 @@ const ProjectDetail = () => {
             className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#2E4C38]/10 to-transparent mb-16 md:mb-24" 
           />
 
-          {/* 4. FEATURES & WORKFLOW (Tanpa Stagger & Delay) */}
-          {/* PERUBAHAN: Dibungkus satu motion.div, margin dihapus agar langsung terpicu seketika saat masuk layar */}
+          {/* Features & Workflow */}
           <motion.div 
             variants={instantFadeUpVariants} 
             initial="hidden"
@@ -257,12 +272,10 @@ const ProjectDetail = () => {
               </h2>
             </div>
             
-            {/* PERUBAHAN: motion.div pada item dihilangkan, diubah menjadi div biasa agar muncul barengan sebagai satu kesatuan */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-8">
-              {project.workflow.map((step: any, index: number) => (
+              {project.workflow.map((step: WorkflowStep, index: number) => (
                 <div key={step.title + index} className="flex flex-col group bg-white rounded-[2rem] p-4 border border-[#2E4C38]/5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-10px_rgba(26,47,36,0.15)] transition-all duration-500 hover:-translate-y-1">
                   
-                  {/* Thumbnail Workflow */}
                   <button 
                     type="button"
                     className="w-full aspect-[4/3] rounded-[1.25rem] bg-[#F9F8F4] overflow-hidden mb-5 relative cursor-zoom-in outline-none"
@@ -281,7 +294,6 @@ const ProjectDetail = () => {
                     </div>
                   </button>
 
-                  {/* Text Workflow */}
                   <div className="flex flex-col cursor-default px-2 pb-2">
                     <h4 className="font-redhat font-bold text-[17px] md:text-[18px] text-[#1A2F24] mb-2 group-hover:text-[#4A6750] transition-colors duration-300">
                       {step.title}

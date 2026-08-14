@@ -1,10 +1,46 @@
 import { useState, type ReactElement, type SyntheticEvent } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import type { Variants } from 'framer-motion';
-
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { EDUCATION_DATA, CERTIFICATES_DATA } from '../constants/profileData';
 
-/* ICONS */
+// Types & Interfaces
+type TabKey = 'education' | 'certificates' | 'skills';
+
+interface Skill {
+  name: string;
+  slug?: string;
+}
+
+interface TechCategory {
+  title: string;
+  icon: ReactElement;
+  description: string;
+  skills: Skill[];
+}
+
+interface Certificate {
+  title?: string;
+  name?: string;
+  link?: string;
+  issuer?: string;
+  organization?: string;
+  year?: string | number;
+}
+
+interface Education {
+  period?: string;
+  year?: string;
+  date?: string;
+  institution?: string;
+  school?: string;
+  degree?: string;
+  title?: string;
+  gpa?: string | number;
+  ipk?: string | number;
+  focus?: string;
+  description?: string;
+}
+
+// Icons
 const ArrowUpRight = (): ReactElement => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
     <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -26,7 +62,7 @@ const BookIcon = (): ReactElement => (
   </svg>
 );
 
-/* ANIMATION VARIANTS */
+// Animation Variants
 const customEase = [0.22, 1, 0.36, 1] as const; 
 
 const sectionVariants: Variants = {
@@ -49,16 +85,14 @@ const photoVariants: Variants = {
   show: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: customEase, delay: 0.2 } }
 };
 
-/* DATA & TYPES TAB */
-type TabKey = 'education' | 'certificates' | 'skills';
+// Mock Data
 const tabs: { key: TabKey; label: string }[] = [
   { key: 'education', label: 'Education' },
   { key: 'certificates', label: 'Certifications' },
   { key: 'skills', label: 'Skills' },
 ];
 
-/* TECH STACK DATA + ICONS */
-const TECH_CATEGORIES = [
+const TECH_CATEGORIES: TechCategory[] = [
   {
     title: "Frontend",
     icon: (
@@ -66,13 +100,42 @@ const TECH_CATEGORIES = [
         <rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
       </svg>
     ),
-    description: "Building interfaces and microfrontend systems.",
+    description: "Building interactive interfaces and microfrontend systems.",
     skills: [
       { name: "React", slug: "react" },
       { name: "TypeScript", slug: "typescript" },
-      { name: "JavaScript", slug: "javascript" },
       { name: "Tailwind CSS", slug: "tailwindcss" },
-      { name: "Bootstrap", slug: "bootstrap" }
+      { name: "Framer Motion", slug: "framer" },
+      { name: "JavaScript", slug: "javascript" }
+    ]
+  },
+  {
+    title: "Backend & Cloud",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>
+      </svg>
+    ),
+    description: "Developing robust REST APIs and secure cloud integrations.",
+    skills: [
+      { name: "FastAPI", slug: "fastapi" },
+      { name: "Python", slug: "python" },
+      { name: "Pydantic", slug: "pydantic" },
+      { name: "AWS S3" }
+    ]
+  },
+  {
+    title: "Machine Learning",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+      </svg>
+    ),
+    description: "Building NLP pipelines and data classification models.",
+    skills: [
+      { name: "Pandas", slug: "pandas" },
+      { name: "Scikit-Learn", slug: "scikitlearn" },
+      { name: "spaCy", slug: "spacy" }
     ]
   },
   {
@@ -82,46 +145,29 @@ const TECH_CATEGORIES = [
         <path d="M12 2v4"/><path d="M12 18v4"/><path d="M4 12H2"/><path d="M22 12h-2"/><path d="M20 18h2"/><path d="M2 18h2"/><path d="M2 6h2"/><path d="M20 6h2"/><rect width="12" height="12" x="6" y="6" rx="2"/>
       </svg>
     ),
-    description: "Automating tasks and extracting web data.",
+    description: "Automating workflows and extracting web data.",
     skills: [
-      { name: "Python", slug: "python" },
       { name: "Selenium", slug: "selenium" },
       { name: "BeautifulSoup", slug: "pypi" },
-      { name: "PyAutoGUI", slug: "pypi" }
-    ]
-  },
-  {
-    title: "Runtime & Tools",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>
-      </svg>
-    ),
-    description: "Executing scripts and orchestrating services.",
-    skills: [
-      { name: "Bun", slug: "bun" },
+      { name: "PyAutoGUI", slug: "pypi" },
       { name: "n8n", slug: "n8n" }
     ]
   }
 ];
 
-/* MAIN COMPONENT */
+// Main Component
 const ProfileSection = (): ReactElement => {
-  // 1. Set default langsung tampil di 'education'
   const [activeTab, setActiveTab] = useState<TabKey>('education');
   
   const toggleTab = (tab: TabKey) => {
-    // 2. Hapus logika tutup / auto scroll, hanya ubah tab jika berbeda
-    if (activeTab !== tab) {
-      setActiveTab(tab);
-    }
+    if (activeTab !== tab) setActiveTab(tab);
   };
 
   const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.display = 'none';
   };
 
-  const renderCertCard = (cert: any, index: number) => (
+  const renderCertCard = (cert: Certificate, index: number) => (
     <a
       key={cert.title || index}
       href={cert.link || "#"}
@@ -157,12 +203,11 @@ const ProfileSection = (): ReactElement => {
       viewport={{ once: true, margin: "-100px" }}
       className="relative z-0 flex flex-col pt-10 pb-8 md:pt-24 md:pb-20 px-4 md:px-12 lg:px-20 bg-[#F9F8F4] overflow-hidden text-[#1A2F24] w-full scroll-mt-16"
     >
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
-      </div>
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-30" />
 
       <div className="w-full relative z-10 flex flex-col max-w-6xl mx-auto gap-10 md:gap-16">
         
-        {/* BIO SECTION */}
+        {/* Bio Section */}
         <div className="w-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-2xl md:rounded-[3rem] p-6 sm:p-10 md:p-12 lg:p-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-16">
           <motion.div variants={contentVariants} className="w-full lg:w-[55%] flex flex-col text-left justify-center">
             <motion.h2 variants={childVariants} className="font-seasons text-[14vw] sm:text-[60px] md:text-[75px] leading-[1.1] tracking-tight text-[#1A2F24]">
@@ -199,9 +244,8 @@ const ProfileSection = (): ReactElement => {
           </motion.div>
         </div>
 
-        {/* TABS SECTION */}
+        {/* Navigation Tabs */}
         <div id="tabs-section" className="w-full flex flex-col items-center">
-          
           <div className="inline-flex items-center justify-center bg-[#1A2F24]/5 p-1.5 rounded-2xl w-fit max-w-full overflow-x-auto scrollbar-none mb-6 md:mb-10 relative z-10 gap-1 sm:gap-1.5">
             {tabs.map((tab) => {
               const isActive = activeTab === tab.key;
@@ -224,11 +268,10 @@ const ProfileSection = (): ReactElement => {
 
           <div className="w-full overflow-hidden pt-2 pb-2">
             
-            {/* 3. GRID UTAMA: Ditambahkan min-h-[380px] md:min-h-[420px] agar layout fixed tidak bergeser */}
+            {/* Tab Contents */}
             <div className="grid grid-cols-1 items-start min-h-[360px] md:min-h-[400px]">
               <AnimatePresence>
                 
-                {/* EDUCATION TAB */}
                 {activeTab === 'education' && (
                   <motion.div
                     key="education"
@@ -238,7 +281,7 @@ const ProfileSection = (): ReactElement => {
                     transition={{ duration: 0.4, ease: customEase }}
                     className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
                   >
-                    {EDUCATION_DATA.map((edu: any, index: number) => (
+                    {EDUCATION_DATA.map((edu: Education, index: number) => (
                       <div key={index} className="bg-white/60 backdrop-blur-sm rounded-3xl md:rounded-[2rem] border border-white/80 hover:border-[#4A6750]/30 transition-all shadow-sm hover:shadow-md group flex flex-col w-[85vw] sm:w-[340px] md:w-[420px] shrink-0 h-[340px] md:h-[380px] snap-center relative overflow-hidden">
                         
                         <div className="absolute -right-6 -bottom-6 opacity-[0.03] scale-[4] transform-gpu pointer-events-none group-hover:scale-[4.5] group-hover:opacity-[0.04] transition-all duration-700">
@@ -246,7 +289,6 @@ const ProfileSection = (): ReactElement => {
                         </div>
 
                         <div className="relative z-10 flex flex-col h-full">
-                          
                           <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
                             <span className="font-redhat text-[11px] sm:text-xs font-bold text-[#4A6750] tracking-widest uppercase mb-2 block">
                               {edu.period || edu.year || edu.date}
@@ -290,7 +332,6 @@ const ProfileSection = (): ReactElement => {
                   </motion.div>
                 )}
 
-                {/* CERTIFICATES TAB */}
                 {activeTab === 'certificates' && (
                   <motion.div
                     key="certificates"
@@ -301,14 +342,13 @@ const ProfileSection = (): ReactElement => {
                     className="col-start-1 row-start-1 w-full flex flex-col"
                   >
                     <div className="grid grid-rows-2 grid-flow-col gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory">
-                      {CERTIFICATES_DATA.map((cert: any, index: number) => 
+                      {CERTIFICATES_DATA.map((cert: Certificate, index: number) => 
                         renderCertCard(cert, index)
                       )}
                     </div>
                   </motion.div>
                 )}
 
-                {/* SKILLS TAB */}
                 {activeTab === 'skills' && (
                   <motion.div
                     key="skills"
@@ -318,7 +358,7 @@ const ProfileSection = (): ReactElement => {
                     transition={{ duration: 0.4, ease: customEase }}
                     className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
                   >
-                    {TECH_CATEGORIES.map((category, index) => (
+                    {TECH_CATEGORIES.map((category: TechCategory, index: number) => (
                       <div 
                         key={index}
                         className="bg-white/60 backdrop-blur-sm rounded-3xl md:rounded-[2rem] border border-white/80 hover:border-[#4A6750]/30 transition-all shadow-sm hover:shadow-md flex flex-col w-[85vw] sm:w-[320px] md:w-[360px] shrink-0 h-[340px] md:h-[380px] snap-center group relative overflow-hidden"
@@ -328,7 +368,6 @@ const ProfileSection = (): ReactElement => {
                         </div>
 
                         <div className="relative z-10 flex flex-col h-full">
-                          
                           <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
                             <div className="flex items-center gap-3 mb-4 text-[#1A2F24] group-hover:text-[#4A6750] transition-colors">
                               <div className="opacity-80 scale-125 origin-left">{category.icon}</div>
@@ -346,7 +385,7 @@ const ProfileSection = (): ReactElement => {
                               Core Stack
                             </div>
                             <div className="flex flex-wrap gap-2 md:gap-2.5">
-                              {category.skills.map((skill, i) => (
+                              {category.skills.map((skill: Skill, i: number) => (
                                 <span 
                                   key={i}
                                   className="group/badge flex items-center gap-1.5 px-3 py-1.5 md:py-2 bg-white border border-[#1A2F24]/10 text-[#1A2F24]/80 text-[11px] md:text-xs font-redhat font-bold tracking-wide rounded-lg hover:bg-[#4A6750] hover:text-white hover:border-[#4A6750] transition-colors duration-300 cursor-default shadow-sm"
@@ -373,6 +412,7 @@ const ProfileSection = (): ReactElement => {
               </AnimatePresence>
             </div>
               
+            {/* Navigation Hint */}
             <div className="flex justify-center items-center gap-1.5 text-[10px] font-redhat tracking-widest text-[#1A2F24]/40 uppercase select-none mt-2">
               <span>Swipe sideways to explore</span>
               <span>→</span>

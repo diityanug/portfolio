@@ -191,51 +191,72 @@ const Navbar = () => {
     };
   }, [location.pathname, isCoverMode]);
 
-  // BARU: konsumsi hash target (misal "#contact") pas navigasi masuk ke "/" dari route lain (mis. ProjectDetail)
+  // BARU (v3): Konsumsi target dari React Router state, bukan URL hash.
+  // Murni internal JS, bebas dari intervensi native mobile browser dan aman dari hard-reload.
   useEffect(() => {
-    if (location.pathname !== '/' || !location.hash) return;
+    if (location.pathname !== '/') return;
 
-    const targetId = location.hash.slice(1);
+    // Ambil targetId dari state yang dikirim via handleNavigate
+    const targetId = location.state?.targetSection;
+    if (!targetId) return;
 
-    // Klik "home" dari luar "/" -> munculin cover lagi, bukan scroll ke section
     if (targetId === 'home') {
       goHome();
-      navigate('/', { replace: true });
+      navigate('/', { replace: true, state: {} }); // Bersihkan state
       return;
     }
 
-    let attempts = 0;
-    let rafId: number;
+    let settled = false;
+    let observer: MutationObserver | null = null;
+    let safetyTimer: ReturnType<typeof setTimeout> | null = null;
 
-    const tryScroll = () => {
+    const finishScroll = () => {
+      if (settled) return;
       const element = document.getElementById(targetId);
-      if (element) {
+      if (!element) return;
+      settled = true;
+      
+      observer?.disconnect();
+      if (safetyTimer) clearTimeout(safetyTimer);
+
+      setTimeout(() => {
         element.scrollIntoView({ behavior: 'smooth' });
         setActiveSection(targetId);
-        navigate(location.pathname, { replace: true }); // bersihin hash biar gak nyangkut/re-trigger
+        
+        setTimeout(() => {
+          // Bersihkan state setelah scroll selesai agar tidak re-trigger
+          navigate('/', { replace: true, state: {} }); 
+        }, 1000);
+      }, 100);
+    };
+
+    const start = () => {
+      if (document.getElementById(targetId)) {
+        finishScroll();
         return;
       }
-      if (attempts < 30) {
-        attempts += 1;
-        rafId = requestAnimationFrame(tryScroll);
-      }
+      observer = new MutationObserver(finishScroll);
+      observer.observe(document.body, { childList: true, subtree: true });
+      safetyTimer = setTimeout(() => observer?.disconnect(), 5000);
     };
 
     if (homeLocked) {
       leaveHome();
-      const timer = setTimeout(tryScroll, 1250);
-      return () => clearTimeout(timer);
+      const delay = setTimeout(start, 1250);
+      return () => clearTimeout(delay);
     }
 
-    tryScroll();
+    start();
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
+      observer?.disconnect();
+      if (safetyTimer) clearTimeout(safetyTimer);
     };
-  }, [location.pathname, location.hash, homeLocked, goHome, leaveHome, navigate]);
+  }, [location.pathname, location.state, homeLocked, goHome, leaveHome, navigate]);
 
   const handleNavigate = useCallback((id: string) => {
+    // Pindah dari sub-page: Gunakan state, bukan hash URL
     if (location.pathname !== '/') {
-      navigate(`/#${id}`);
+      navigate('/', { state: { targetSection: id } });
       return;
     }
     
