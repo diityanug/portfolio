@@ -80,24 +80,24 @@ const ProjectSection = (): ReactElement => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-10%" }}
-      className="relative z-0 flex flex-col pt-8 pb-12 md:pt-16 md:pb-20 w-full bg-[#F9F8F4] overflow-hidden scroll-mt-20"
+      className="relative z-0 flex flex-col pt-12 pb-12 md:pt-20 md:pb-20 px-6 md:px-12 lg:px-20 w-full bg-[#F9F8F4] overflow-hidden scroll-mt-20"
     >
-      <div className="w-full relative z-10 max-w-5xl mx-auto px-6 md:px-12 lg:px-20">
+      <div className="w-full relative z-10 max-w-5xl mx-auto">
         
         {/* Section Header */}
-        <motion.div variants={textVariants} className="w-full mb-6 md:mb-10 flex flex-col">
+        <motion.div variants={textVariants} className="w-full mb-4 md:mb-8 flex flex-col">
           <span className="font-redhat text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-2">
-            Portfolio
+            Personal
           </span>
           <h2 className="font-seasons text-[40px] md:text-5xl lg:text-6xl tracking-tight text-[#1A2F24] leading-none">
-            Selected Projects.
+            Projects.
           </h2>
         </motion.div>
 
         {/* Swipeable Projects Carousel */}
         <div className="w-full relative z-10">
           
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 md:gap-8 pb-6 pt-2 scrollbar-none -mx-6 px-6 md:-mx-12 md:px-12 lg:-mx-20 lg:px-20">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 md:gap-8 pb-6 pt-2 scrollbar-none -mx-6 px-6 md:mx-0 md:px-0">
             {projects.map((project) => (
               <motion.div
                 variants={itemVariants}
@@ -137,7 +137,7 @@ const ProjectSection = (): ReactElement => {
                   </div>
                   
                   {/* Project Title */}
-                  <h3 className="font-redhat font-bold text-[20px] md:text-[24px] tracking-wide leading-tight text-[#1A2F24] group-hover:text-[#4A6750] transition-colors duration-300">
+                  <h3 className="font-['Garbata'] font-bold text-[24px] md:text-[24px] tracking-wide leading-tight text-[#1A2F24] group-hover:text-[#4A6750] transition-colors duration-300">
                     {project.title}
                   </h3>
                 </div>
@@ -146,7 +146,7 @@ const ProjectSection = (): ReactElement => {
             ))}
           </div>
 
-          {/* User Hint / Swipe Indicator */}
+          {/* Swipe Indicator */}
           <div className="flex justify-start items-center gap-2 text-[9px] font-redhat tracking-widest text-[#1A2F24]/30 uppercase select-none mt-2">
             <span>Swipe to explore</span>
             <span>→</span>

@@ -113,10 +113,33 @@ html, body {
   background-color: white;
   margin: 0;
   overflow-x: clip; 
+  overscroll-behavior-y: none;
   scrollbar-width: none; 
   -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar {
   display: none; 
+}
+
+/* CUSTOM SCROLLBAR UTILITY */
+@media (min-width: 768px) {
+  .show-scrollbar::-webkit-scrollbar {
+    display: block;
+    height: 6px;
+  }
+
+  .show-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .show-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(74, 103, 80, 0.4);
+    border-radius: 10px;
+  }
+
+  .show-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(74, 103, 80, 0.4) transparent;
+  }
 }

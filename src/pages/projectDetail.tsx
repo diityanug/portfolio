@@ -45,11 +45,6 @@ const listContainerVariants: Variants = {
   show: { opacity: 1, transition: { delayChildren: 0.3, staggerChildren: 0.15 } }
 };
 
-const lineGrowVariants: Variants = {
-  hidden: { width: 0 },
-  show: { width: "100%", transition: { duration: 1.2, ease: customEase, delay: 0.4 } }
-};
-
 const fadeUpVariants: Variants = {
   hidden: { opacity: 0, y: 25, scale: 0.98, filter: "blur(5px)" },
   show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.8, ease: customEase } }
@@ -77,7 +72,7 @@ const projectsData: Record<string, ProjectData> = {
       },
       { 
         image: '/images/Output.png', 
-        title: 'Results & Explainability', 
+        title: 'Results & Explanation', 
         text: "The UI reveals real-time prediction results using animated probability bars, and highlights specific keywords from the input that heavily influenced the AI's decision." 
       },
       { 
@@ -117,7 +112,7 @@ const ProjectDetail = () => {
           <p className="font-redhat text-[#4A6750] tracking-[0.2em] uppercase text-xs md:text-sm font-bold mb-10">Project not found</p>
           <button
             onClick={() => navigate('/#projects')} 
-            className="px-8 py-4 border border-[#2E4C38]/20 text-[#1A2F24] rounded-full font-redhat text-[10px] tracking-[0.2em] uppercase font-bold hover:bg-[#1A2F24] hover:text-[#F9F8F4] transition-colors duration-500 outline-none"
+            className="px-6 py-3 border border-[#1A2F24]/10 bg-white shadow-sm text-[#1A2F24] rounded-full font-redhat text-[10px] tracking-[0.2em] uppercase font-bold hover:border-[#4A6750]/30 transition-all duration-300 outline-none"
           >
             Back to Projects
           </button>
@@ -136,24 +131,24 @@ const ProjectDetail = () => {
         initial="hidden"
         animate="show"
         exit="exit"
-        className="relative z-0 min-h-screen bg-[#F9F8F4] px-6 md:px-12 lg:px-20 pt-10 md:pt-28 pb-[120px] md:pb-24 overflow-x-hidden"
+        className="relative z-0 min-h-screen bg-[#F9F8F4] px-6 md:px-12 lg:px-20 pt-12 pb-28 md:pt-20 md:pb-20 overflow-x-hidden"
       >
         <StaticDotGrid />
         
         <div className="w-full max-w-5xl mx-auto relative z-10">
           
-          {/* Header Navigation */}
+          {/* Header Navigation Minimalist */}
           <motion.div 
             variants={instantFadeUpVariants} 
             initial="hidden"
             animate="show"
-            className="flex flex-row items-center justify-between gap-4 mb-12 md:mb-16 relative z-20"
+            className="flex flex-row items-center justify-between gap-4 mb-10 md:mb-12 relative z-20"
           >
             <button 
               onClick={() => navigate('/#projects')} 
-              className="group flex items-center gap-2 text-[9px] md:text-[10px] font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/60 hover:text-[#1A2F24] bg-white/60 hover:bg-white backdrop-blur-sm border border-[#1A2F24]/10 px-4 py-2.5 rounded-full transition-all duration-300 outline-none shadow-sm hover:shadow-md"
+              className="group flex items-center gap-1.5 text-[10px] font-redhat font-bold tracking-widest uppercase text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors outline-none"
             >
-              <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span> Back
+              <span className="text-[12px] leading-none mb-[1px] group-hover:-translate-x-1 transition-transform">←</span> Back
             </button>
 
             {project.link && (
@@ -161,27 +156,26 @@ const ProjectDetail = () => {
                 href={project.link} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="group flex items-center gap-2 text-[9px] md:text-[10px] font-redhat uppercase font-bold tracking-[0.2em] text-[#1A2F24]/60 hover:text-[#1A2F24] bg-white/60 hover:bg-white backdrop-blur-sm border border-[#1A2F24]/10 px-4 py-2.5 rounded-full transition-all duration-300 outline-none shadow-sm hover:shadow-md"
+                className="group flex items-center gap-1.5 text-[10px] font-redhat font-bold tracking-widest uppercase text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors outline-none"
               >
-                Visit Repo <span className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">↗</span>
+                Visit Repo <span className="text-[12px] leading-none mb-[1px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
             )}
           </motion.div>
 
           {/* Hero Section */}
-          <div className="mb-14 md:mb-20 flex flex-col items-start">
+          <div className="mb-12 md:mb-16 flex flex-col items-start">
             <motion.div 
               variants={metaContainerVariants} 
               initial="hidden"
               animate="show"
-              className="flex items-center gap-3 mb-5"
+              className="flex items-center gap-2 mb-6"
             >
-              <motion.span variants={fadeUpVariants} className="flex items-center gap-2 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#4A6750]">
+              <motion.span variants={fadeUpVariants} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#4A6750]/5 rounded-full border border-[#2E4C38]/10 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#4A6750]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4A6750] animate-pulse"></span>
                 {project.category}
               </motion.span>
-              <motion.span variants={fadeUpVariants} className="text-[10px] text-[#1A2F24]/30 mb-0.5">|</motion.span>
-              <motion.span variants={fadeUpVariants} className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#1A2F24]/50">
+              <motion.span variants={fadeUpVariants} className="px-3 py-1.5 bg-white rounded-full border border-[#1A2F24]/10 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#1A2F24]/40">
                 {project.year}
               </motion.span>
             </motion.div>
@@ -192,7 +186,7 @@ const ProjectDetail = () => {
               transition={{ staggerChildren: 0.1, delayChildren: 0.1 }}
               className="flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 select-none"
             >
-              <h1 className="font-seasons text-[44px] min-[375px]:text-[50px] sm:text-6xl md:text-[80px] lg:text-[100px] leading-[0.95] tracking-tight flex flex-wrap gap-x-2 md:gap-x-4">
+              <h1 className="font-seasons text-[44px] min-[375px]:text-[50px] sm:text-6xl md:text-[80px] lg:text-[90px] leading-[0.95] tracking-tight flex flex-wrap gap-x-2 md:gap-x-3">
                 {titleWords.map((word: string, wIdx: number) => (
                   <motion.div 
                     key={word + wIdx} 
@@ -206,41 +200,41 @@ const ProjectDetail = () => {
             </motion.div>
           </div>
 
-          {/* Overview & Tech Stack */}
+          {/* Overview & Tech Stack Grid */}
           <motion.div 
             variants={listContainerVariants} 
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-10%" }}
-            className="flex flex-col lg:flex-row gap-10 lg:gap-16 mb-16 md:mb-24"
+            className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 md:gap-12 mb-16 md:mb-20"
           >
             {/* The Case */}
-            <motion.div variants={fadeUpVariants} className="w-full lg:w-[60%] flex flex-col gap-6 lg:pr-8">
-              <h2 className="font-['Garbata'] text-[28px] md:text-[32px] text-[#1A2F24]">
-                The Case
+            <motion.div variants={fadeUpVariants} className="flex flex-col">
+              <h2 className="font-['Garbata'] text-[32px] md:text-[40px] tracking-tight text-[#1A2F24] leading-none mb-5">
+                Explanation
               </h2>
-              <div className="flex flex-col gap-6">
-                <p className="font-aileron text-[15px] md:text-[17px] leading-[1.85] text-[#2E4C38]/90">
+              <div className="flex flex-col gap-4">
+                <p className="font-aileron text-[14px] md:text-[15px] text-[#2E4C38]/80 leading-[1.65] md:leading-relaxed text-justify">
                   {project.overview}
                 </p>
-                <p className="font-aileron text-[15px] md:text-[17px] leading-[1.85] text-[#2E4C38]/80">
+                <p className="font-aileron text-[14px] md:text-[15px] text-[#2E4C38]/80 leading-[1.65] md:leading-relaxed text-justify">
                   {project.description}
                 </p>
               </div>
             </motion.div>
 
             {/* Tech Stack */}
-            <motion.div variants={fadeUpVariants} className="w-full lg:w-[40%] flex flex-col">
-              <div className="bg-white/80 backdrop-blur-sm border border-[#2E4C38]/10 rounded-[2rem] p-6 md:p-8 shadow-sm">
-                <h3 className="font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold mb-5 flex items-center gap-3">
+            <motion.div variants={fadeUpVariants} className="flex flex-col">
+              <div className="bg-white/60 backdrop-blur-sm border border-[#1A2F24]/10 rounded-[1.25rem] p-6 shadow-sm flex flex-col h-full">
+                <span className="font-redhat text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-5 flex items-center gap-3">
                   <span className="w-8 h-[1px] bg-[#2E4C38]/20"></span>
                   Tech Stack
-                </h3>
-                <div className="flex flex-wrap gap-2 md:gap-2.5">
+                </span>
+                <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech: string) => (
                     <span 
                       key={tech} 
-                      className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#1A2F24]/70 px-3 md:px-4 py-2 bg-[#F9F8F4] hover:bg-[#4A6750]/10 hover:text-[#4A6750] rounded-full border border-[#2E4C38]/5 shrink-0 cursor-default transition-colors duration-300"
+                      className="px-2.5 py-1.5 bg-white border border-[#1A2F24]/10 text-[#1A2F24]/80 text-[10.5px] md:text-xs font-redhat font-bold tracking-wide rounded-lg shadow-sm"
                     >
                       {tech}
                     </span>
@@ -250,13 +244,7 @@ const ProjectDetail = () => {
             </motion.div>
           </motion.div>
 
-          <motion.div 
-            variants={lineGrowVariants} 
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#2E4C38]/10 to-transparent mb-16 md:mb-24" 
-          />
+          <motion.div className="w-full h-px bg-[#1A2F24]/10 mb-12 md:mb-16" />
 
           {/* Features & Workflow */}
           <motion.div 
@@ -266,19 +254,19 @@ const ProjectDetail = () => {
             viewport={{ once: true }}
             className="flex flex-col w-full"
           >
-            <div className="mb-10 md:mb-12 text-center md:text-left">
-              <h2 className="font-['Garbata'] text-[28px] md:text-[32px] text-[#1A2F24]">
-                Features & Workflow
+            <div className="mb-6 md:mb-8 text-left">
+              <h2 className="font-['Garbata'] text-[32px] md:text-[40px] tracking-tight text-[#1A2F24] leading-none">
+                Workflow
               </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
               {project.workflow.map((step: WorkflowStep, index: number) => (
-                <div key={step.title + index} className="flex flex-col group bg-white rounded-[2rem] p-4 border border-[#2E4C38]/5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-10px_rgba(26,47,36,0.15)] transition-all duration-500 hover:-translate-y-1">
+                <div key={step.title + index} className="bg-white border border-[#1A2F24]/10 rounded-[1.25rem] p-5 shadow-sm transition-colors duration-300 hover:border-[#4A6750]/30 flex flex-col group">
                   
                   <button 
                     type="button"
-                    className="w-full aspect-[4/3] rounded-[1.25rem] bg-[#F9F8F4] overflow-hidden mb-5 relative cursor-zoom-in outline-none"
+                    className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 relative bg-[#F9F8F4] border border-[#1A2F24]/5 cursor-zoom-in outline-none"
                     onClick={() => setSelectedImage(step.image)}
                     aria-label={`Enlarge ${step.title}`}
                   >
@@ -287,21 +275,22 @@ const ProjectDetail = () => {
                       src={step.image} 
                       alt={step.title} 
                       className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 group-hover:scale-105 transition-transform duration-700" 
-                      onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x450/f8f9fa/adb5bd?text=Feature+Preview'; }} 
+                      onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x450/f8f9fa/adb5bd?text=Preview'; }} 
                     />
-                    <div className="absolute top-3 left-3 z-20 bg-white/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center border border-[#2E4C38]/10 pointer-events-none shadow-sm">
-                      <span className="font-redhat text-[10px] text-[#1A2F24] font-bold">0{index + 1}</span>
-                    </div>
                   </button>
 
-                  <div className="flex flex-col cursor-default px-2 pb-2">
-                    <h4 className="font-redhat font-bold text-[17px] md:text-[18px] text-[#1A2F24] mb-2 group-hover:text-[#4A6750] transition-colors duration-300">
+                  <div className="flex flex-col flex-1 pr-1">
+                    <h4 className="font-aileron text-[14px] md:text-[15px] font-bold text-[#1A2F24] mb-3 border-b border-[#1A2F24]/5 pb-3 flex items-center gap-2.5">
+                      <span className="text-[#4A6750] bg-[#4A6750]/10 p-1.5 rounded-lg shrink-0 font-redhat text-[10px] leading-none">
+                        0{index + 1}
+                      </span>
                       {step.title}
                     </h4>
-                    <p className="font-aileron text-[14px] text-[#2E4C38]/70 leading-[1.65]">
+                    <p className="font-aileron text-[13px] text-[#2E4C38]/80 leading-[1.5] text-justify">
                       {step.text}
                     </p>
                   </div>
+
                 </div>
               ))}
             </div>
@@ -310,7 +299,7 @@ const ProjectDetail = () => {
         </div>
       </motion.div>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox Modal Minimalist */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -331,14 +320,14 @@ const ProjectDetail = () => {
               <img
                 src={selectedImage}
                 alt="Enlarged view"
-                className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
+                className="max-w-full max-h-[90vh] object-contain rounded-[1.25rem] shadow-2xl"
               />
               <button
-                className="absolute -top-12 right-0 md:-top-6 md:-right-6 text-[#1A2F24] bg-[#F9F8F4] hover:bg-white hover:scale-105 rounded-full p-2.5 md:p-3 shadow-xl transition-all duration-300 outline-none"
+                className="absolute -top-12 right-0 md:-top-6 md:-right-6 text-[#1A2F24] bg-white hover:scale-105 rounded-full p-2.5 md:p-3 shadow-xl transition-all duration-300 outline-none border border-[#1A2F24]/10"
                 onClick={() => setSelectedImage(null)}
                 aria-label="Close popup"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>

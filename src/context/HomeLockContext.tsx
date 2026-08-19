@@ -37,7 +37,7 @@ export const HomeLockProvider = ({ children }: { children: ReactNode }) => {
     const timer = setTimeout(() => {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-    }, 1200); 
+    }, 120); 
     
     return () => clearTimeout(timer);
   }
@@ -54,7 +54,7 @@ export const HomeLockProvider = ({ children }: { children: ReactNode }) => {
     // Reset scroll posisi secara diam-diam setelah layar sepenuhnya tertutup animasi (800ms)
     setTimeout(() => {
       window.scrollTo(0, 0);
-    }, 1700);
+    }, 1400);
   }, []);
 
   return (

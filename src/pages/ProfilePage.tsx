@@ -96,8 +96,10 @@ const TECH_CATEGORIES: TechCategory[] = [
   {
     title: "Frontend",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="3" y1="9" x2="21" y2="9"></line>
+        <line x1="9" y1="21" x2="9" y2="9"></line>
       </svg>
     ),
     description: "Building interactive interfaces and microfrontend systems.",
@@ -106,43 +108,61 @@ const TECH_CATEGORIES: TechCategory[] = [
       { name: "TypeScript", slug: "typescript" },
       { name: "Tailwind CSS", slug: "tailwindcss" },
       { name: "Framer Motion", slug: "framer" },
-      { name: "JavaScript", slug: "javascript" }
+      { name: "JavaScript", slug: "javascript" },
+      { name: "HTML", slug: "html5" },
+      { name: "Microfrontend Architecture", slug: "webpack" },
     ]
   },
   {
     title: "Backend & Cloud",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+        <line x1="6" y1="18" x2="6.01" y2="18"></line>
       </svg>
     ),
     description: "Developing robust REST APIs and secure cloud integrations.",
     skills: [
       { name: "FastAPI", slug: "fastapi" },
+      { name: "REST APIs", slug: "openapiinitiative" },
       { name: "Python", slug: "python" },
-      { name: "Pydantic", slug: "pydantic" },
-      { name: "AWS S3" }
+      { name: "Haskell", slug: "haskell" },
+      { name: "AWS Cloud"},
+      { name: "AWS S3"},
+      { name: "DevOps", slug: "docker" }
     ]
   },
   {
-    title: "Machine Learning",
+    title: "Machine Learning & Data",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
       </svg>
     ),
     description: "Building NLP pipelines and data classification models.",
     skills: [
       { name: "Pandas", slug: "pandas" },
       { name: "Scikit-Learn", slug: "scikitlearn" },
-      { name: "spaCy", slug: "spacy" }
+      { name: "spaCy", slug: "spacy" },
+      { name: "Natural Language Processing" },
+      { name: "TF-IDF" },
+      { name: "Multi-Label Classification" },
+      { name: "Data Visualization" },
     ]
   },
   {
     title: "Automation",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2v4"/><path d="M12 18v4"/><path d="M4 12H2"/><path d="M22 12h-2"/><path d="M20 18h2"/><path d="M2 18h2"/><path d="M2 6h2"/><path d="M20 6h2"/><rect width="12" height="12" x="6" y="6" rx="2"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+        <circle cx="12" cy="5" r="2"></circle>
+        <path d="M12 7v4"></path>
+        <line x1="8" y1="16" x2="8" y2="16"></line>
+        <line x1="16" y1="16" x2="16" y2="16"></line>
       </svg>
     ),
     description: "Automating workflows and extracting web data.",
@@ -150,7 +170,6 @@ const TECH_CATEGORIES: TechCategory[] = [
       { name: "Selenium", slug: "selenium" },
       { name: "BeautifulSoup", slug: "pypi" },
       { name: "PyAutoGUI", slug: "pypi" },
-      { name: "n8n", slug: "n8n" }
     ]
   }
 ];
@@ -201,15 +220,19 @@ const ProfileSection = (): ReactElement => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-100px" }}
-      className="relative z-0 flex flex-col pt-10 pb-8 md:pt-24 md:pb-20 px-4 md:px-12 lg:px-20 bg-[#F9F8F4] overflow-hidden text-[#1A2F24] w-full scroll-mt-16"
+      className="relative z-0 isolate flex flex-col pt-16 pb-12 md:pt-20 md:pb-20 px-4 md:px-12 lg:px-20 bg-[#F9F8F4] overflow-hidden text-[#1A2F24] w-full scroll-mt-20"
     >
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30" />
 
       <div className="w-full relative z-10 flex flex-col max-w-6xl mx-auto gap-10 md:gap-16">
         
         {/* Bio Section */}
-        <div className="w-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-2xl md:rounded-[3rem] p-6 sm:p-10 md:p-12 lg:p-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-16">
-          <motion.div variants={contentVariants} className="w-full lg:w-[55%] flex flex-col text-left justify-center">
+        <div className="w-full bg-white/70 backdrop-blur-none md:bg-white/40 md:backdrop-blur-xl border border-white/60 shadow-[0_16px_24px_-8px_rgb(0,0,0,0.03)] rounded-2xl md:rounded-[3rem] p-6 sm:p-10 md:p-12 lg:p-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-16">
+          <motion.div
+            variants={contentVariants}
+            style={{ willChange: 'filter, opacity, transform' }}
+            className="w-full lg:w-[55%] flex flex-col text-left justify-center"
+          >
             <motion.h2 variants={childVariants} className="font-seasons text-[14vw] sm:text-[60px] md:text-[75px] leading-[1.1] tracking-tight text-[#1A2F24]">
               Hi <span className="italic text-[#4A6750]">There!</span>
             </motion.h2>
@@ -232,7 +255,11 @@ const ProfileSection = (): ReactElement => {
             </motion.div>
           </motion.div>
 
-          <motion.div variants={photoVariants} className="w-full lg:w-[45%] flex justify-center lg:justify-end">
+          <motion.div
+            variants={photoVariants}
+            style={{ willChange: 'filter, opacity, transform' }}
+            className="w-full lg:w-[45%] flex justify-center lg:justify-end"
+          >
             <div className="relative w-full max-w-[220px] sm:max-w-[260px] lg:max-w-[320px] aspect-[4/5] group">
               <div className="absolute inset-0 bg-[#4A6750] rounded-3xl rotate-6 opacity-10 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-105" />
               <div className="absolute inset-0 border border-[#1A2F24]/20 rounded-3xl -rotate-3 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105" />
@@ -279,7 +306,7 @@ const ProfileSection = (): ReactElement => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.4, ease: customEase }}
-                    className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
+                    className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 show-scrollbar snap-x snap-mandatory"
                   >
                     {EDUCATION_DATA.map((edu: Education, index: number) => (
                       <div key={index} className="bg-white/60 backdrop-blur-sm rounded-3xl md:rounded-[2rem] border border-white/80 hover:border-[#4A6750]/30 transition-all shadow-sm hover:shadow-md group flex flex-col w-[85vw] sm:w-[340px] md:w-[420px] shrink-0 h-[340px] md:h-[380px] snap-center relative overflow-hidden">
@@ -341,7 +368,7 @@ const ProfileSection = (): ReactElement => {
                     transition={{ duration: 0.4, ease: customEase }}
                     className="col-start-1 row-start-1 w-full flex flex-col"
                   >
-                    <div className="grid grid-rows-2 grid-flow-col gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory">
+                    <div className="grid grid-rows-2 grid-flow-col gap-4 md:gap-6 w-full overflow-x-auto pb-4 show-scrollbar snap-x snap-mandatory">
                       {CERTIFICATES_DATA.map((cert: Certificate, index: number) => 
                         renderCertCard(cert, index)
                       )}
@@ -356,7 +383,7 @@ const ProfileSection = (): ReactElement => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.4, ease: customEase }}
-                    className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory"
+                    className="col-start-1 row-start-1 flex flex-row gap-4 md:gap-6 w-full overflow-x-auto pb-4 show-scrollbar snap-x snap-mandatory"
                   >
                     {TECH_CATEGORIES.map((category: TechCategory, index: number) => (
                       <div 
@@ -368,33 +395,33 @@ const ProfileSection = (): ReactElement => {
                         </div>
 
                         <div className="relative z-10 flex flex-col h-full">
-                          <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
-                            <div className="flex items-center gap-3 mb-4 text-[#1A2F24] group-hover:text-[#4A6750] transition-colors">
-                              <div className="opacity-80 scale-125 origin-left">{category.icon}</div>
+                          <div className="p-5 md:p-6 flex-1 flex flex-col justify-center">
+                            <div className="flex items-center gap-3 mb-3 text-[#1A2F24] group-hover:text-[#4A6750] transition-colors">
+                              <div className="opacity-80 scale-110 origin-left">{category.icon}</div>
                               <h3 className="font-redhat text-lg md:text-xl font-bold">
                                 {category.title}
                               </h3>
                             </div>
-                            <p className="font-redhat text-[13.5px] md:text-[14.5px] text-[#1A2F24]/70 mb-2 leading-relaxed text-left">
+                            <p className="font-redhat text-[13.5px] md:text-[14.5px] text-[#1A2F24]/70 mb-0 leading-relaxed text-left">
                               {category.description}
                             </p>
                           </div>
                           
-                          <div className="mt-auto bg-white/40 border-t border-white/60 shadow-[0_-2px_15px_rgb(0,0,0,0.02)] p-6 md:p-8 group-hover:bg-white/60 transition-colors w-full">
-                            <div className="font-redhat text-[10px] md:text-[11px] font-bold tracking-widest text-[#4A6750]/60 uppercase mb-3">
+                          <div className="mt-auto bg-white/40 border-t border-white/60 shadow-[0_-2px_15px_rgb(0,0,0,0.02)] p-5 md:p-6 group-hover:bg-white/60 transition-colors w-full">
+                            <div className="font-redhat text-[10px] md:text-[11px] font-bold tracking-widest text-[#4A6750]/60 uppercase mb-2.5">
                               Core Stack
                             </div>
-                            <div className="flex flex-wrap gap-2 md:gap-2.5">
+                            <div className="flex flex-wrap gap-1.5 md:gap-2 max-h-[150px] overflow-y-auto show-scrollbar pr-1">
                               {category.skills.map((skill: Skill, i: number) => (
                                 <span 
                                   key={i}
-                                  className="group/badge flex items-center gap-1.5 px-3 py-1.5 md:py-2 bg-white border border-[#1A2F24]/10 text-[#1A2F24]/80 text-[11px] md:text-xs font-redhat font-bold tracking-wide rounded-lg hover:bg-[#4A6750] hover:text-white hover:border-[#4A6750] transition-colors duration-300 cursor-default shadow-sm"
+                                  className="group/badge flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-[#1A2F24]/10 text-[#1A2F24]/80 text-[10.5px] md:text-xs font-redhat font-bold tracking-wide rounded-lg hover:bg-[#4A6750] hover:text-white hover:border-[#4A6750] transition-colors duration-300 cursor-default shadow-sm"
                                 >
                                   {skill.slug && (
                                     <img 
                                       src={`https://cdn.simpleicons.org/${skill.slug}/1A2F24`} 
                                       alt={skill.name}
-                                      className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70 group-hover/badge:brightness-0 group-hover/badge:invert group-hover/badge:opacity-100 transition-all duration-300"
+                                      className="w-3.5 h-3.5 opacity-70 group-hover/badge:brightness-0 group-hover/badge:invert group-hover/badge:opacity-100 transition-all duration-300"
                                       loading="lazy"
                                     />
                                   )}

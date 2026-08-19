@@ -44,13 +44,13 @@ const experiences = [
     location: 'Central Jakarta, Indonesia',
     period: 'JUNE 2025 — PRESENT',
     logo: lgSinarmasLogo,
-    tags: ['React', 'TypeScript', 'AWS S3', 'Microfrontend'],
+    tags: ['React', 'TypeScript', 'Javascript' ,'AWS S3', 'Microfrontend', 'Factova'],
     description: "Contributing to Smart Factory operations through equipment modeling, server monitoring, and equipment alarm maintenance, while developing scalable internal enterprise applications using React, TypeScript, and Microfrontend Architecture.",
     contributions: [
       { system: "APC (Process Control)", icon: <GearIcon />, points: ["Registered manufacturing equipment using Factova.", "Monitored server and equipment status across sites.", "Investigated and resolved equipment alarms."] },
       { system: "FDC (Fault Detection)", icon: <SearchIcon />, points: ["User access administration within the FDC system", "Assigning and adjusting user roles based on requests"] },
-      { system: "HRIS", icon: <UsersIcon />, points: ["Developed asset management features", "Integrated secure cloud storage modules using AWS S3", "Implemented precise Role-Based Access Control"] },
-      { system: "LMS", icon: <BookIcon />, points: ["Fixed bugs to improve system stability.", "Revamped the Learning Management page."] },
+      { system: "HRIS (Human Resource Integrated System)", icon: <UsersIcon />, points: ["Developed asset management features", "Integrated secure cloud storage modules using AWS S3", "Implemented precise Role-Based Access Control"] },
+      { system: "LMS (Learning Management System)", icon: <BookIcon />, points: ["Fixed bugs to improve system stability.", "Revamped the Learning Management page."] },
       { system: "Job Portal", icon: <BriefcaseIcon />, points: ["Developed new features to support recruitment.", "Redesigned the Applicant Management interface."] }
     ],
     culture: [
@@ -83,7 +83,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
   return (
     <motion.article
       variants={itemVariants}
-      className="w-full pt-6 pb-10 flex flex-col gap-5 border-t border-[#1A2F24]/10"
+      className="w-full pt-6 pb-0 flex flex-col gap-5 border-t border-[#1A2F24]/10"
     >
       {/* 1. COMPACT HEADER: Logo, Role, Company, Period */}
       <div className="flex items-start gap-4">
@@ -106,7 +106,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
       </p>
 
       {/* 3. TAGS - Scrollable Horizontal (Biar hemat tempat) */}
-      <div className="flex overflow-x-auto scrollbar-none gap-2 pb-2 -mx-6 px-6 md:mx-0 md:px-0">
+      <div className="flex overflow-x-auto show-scrollbar gap-2 pb-2 -mx-6 px-6 md:mx-0 md:px-0">
         {exp.tags.map((tag, idx) => (
           <span key={idx} className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#4A6750] px-3 py-1.5 bg-[#4A6750]/5 rounded-full border border-[#2E4C38]/10 shrink-0">
             {tag}
@@ -149,7 +149,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
                 exit={{ opacity: 0, x: 10 }}
                 transition={{ duration: 0.3, ease: customEase }}
                 // "-mx-6 px-6" agar area swipe meluber sampai ujung bezel HP
-                className="col-start-1 row-start-1 flex gap-4 overflow-x-auto pb-4 pt-1 scrollbar-none snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0"
+                className="col-start-1 row-start-1 flex gap-4 overflow-x-auto pb-4 pt-1 show-scrollbar snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0"
               >
                 {exp.contributions.map((contrib, idx) => (
                   <div key={idx} className="bg-white border border-[#1A2F24]/10 rounded-[1.25rem] p-5 w-[75vw] sm:w-[300px] shrink-0 snap-center flex flex-col h-[240px] md:h-[260px] shadow-sm">
@@ -157,7 +157,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
                       <span className="text-[#4A6750] bg-[#4A6750]/10 p-1.5 rounded-lg shrink-0">{contrib.icon}</span>
                       {contrib.system}
                     </h4>
-                    <div className="overflow-y-auto scrollbar-none flex-1 pr-1">
+                    <div className="overflow-y-auto show-scrollbar flex-1 pr-1">
                       <ul className="flex flex-col gap-2.5">
                         {contrib.points.map((point, pIdx) => (
                           <li key={pIdx} className="flex items-start gap-2.5 text-[13px] text-[#2E4C38]/80 leading-[1.5] font-aileron">
@@ -180,7 +180,7 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ duration: 0.3, ease: customEase }}
-                className="col-start-1 row-start-1 flex gap-4 overflow-x-auto pb-4 pt-1 scrollbar-none snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0"
+                className="col-start-1 row-start-1 flex gap-4 overflow-x-auto pb-4 pt-1 show-scrollbar snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0"
               >
                 {exp.culture.map((item) => (
                   <div key={item.id} className="w-[75vw] sm:w-[300px] shrink-0 snap-center rounded-[1.25rem] overflow-hidden border border-[#1A2F24]/10 bg-white shadow-sm flex flex-col h-[240px] md:h-[260px]">
@@ -219,13 +219,13 @@ const ExperienceSection = (): ReactElement => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-10%" }}
-      className="relative z-0 flex flex-col pt-8 pb-12 md:pt-16 md:pb-20 px-6 md:px-12 lg:px-20 w-full bg-[#F9F8F4] overflow-hidden font-sans text-gray-800 scroll-mt-20"
+      className="relative z-0 flex flex-col pt-12 pb-12 md:pt-20 md:pb-20 px-6 md:px-12 lg:px-20 w-full bg-[#F9F8F4] overflow-hidden font-sans text-gray-800 scroll-mt-20"
     >
       <div className="w-full relative z-10 max-w-5xl mx-auto">
         
         {/* Header Section Minimalis */}
         <motion.div variants={textVariants} className="w-full mb-8 md:mb-12 flex flex-col">
-          <span className="font-redhat text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-2">Career</span>
+          <span className="font-redhat text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-2">Work</span>
           <h2 className="font-seasons text-[40px] md:text-5xl lg:text-6xl tracking-tight text-[#1A2F24] leading-none">
             Experience.
           </h2>

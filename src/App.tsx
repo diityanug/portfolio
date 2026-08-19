@@ -7,7 +7,6 @@ import { HomeLockProvider, useHomeLock } from './context/HomeLockContext';
 
 import Navbar from './components/layout/Navbar';
 import PageWrapper from './components/layout/PageWrapper';
-import BackgroundTexture from './components/ui/BackgroundTexture';
 
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
@@ -102,7 +101,6 @@ function App() {
     <Router>
       <HomeLockProvider>
         <div className="relative z-0 min-h-screen bg-[#F9F8F4] overflow-x-hidden scroll-smooth">
-          <BackgroundTexture />
           <Navbar />
           <AnimatedRoutes />
         </div>
