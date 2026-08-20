@@ -46,7 +46,7 @@ const projects: Project[] = [
     title: "Genre Game Classifier",
     category: "Machine Learning",
     year: "2024",
-    image: "/images/Cover.png",
+    image: "/images/Cover Project.webp",
     slug: "genre-game-classifier"
   },
 ];
@@ -117,7 +117,7 @@ const ProjectSection = (): ReactElement => {
                     onError={handleImageError}
                   />
                   
-                  {/* Floating Action Button */}
+                  {/* Action Button */}
                   <div className="absolute bottom-4 right-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-md text-[#1A2F24] flex items-center justify-center shadow-sm z-20 transition-all duration-300 group-hover:bg-[#1A2F24] group-hover:text-[#F9F8F4] active:scale-95 border border-[#1A2F24]/5">
                     <ArrowRight />
                   </div>
@@ -127,17 +127,18 @@ const ProjectSection = (): ReactElement => {
                 <div className="flex flex-col px-1">
                   
                   {/* Metadata Tags */}
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#4A6750] px-3 py-1.5 bg-[#4A6750]/5 rounded-full border border-[#2E4C38]/10 shrink-0">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="font-['Aileron'] text-[11px] md:text-[12px] font-medium tracking-wide text-[#4A6750]">
                       {project.category}
                     </span>
-                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#1A2F24]/40 px-3 py-1.5 bg-white rounded-full border border-[#1A2F24]/10 shrink-0">
+                    <span className="text-[#1A2F24]/20 text-[10px]">|</span>
+                    <span className="font-['Aileron'] text-[11px] md:text-[12px] text-[#1A2F24]/50">
                       {project.year}
                     </span>
                   </div>
                   
                   {/* Project Title */}
-                  <h3 className="font-['Garbata'] font-bold text-[24px] md:text-[24px] tracking-wide leading-tight text-[#1A2F24] group-hover:text-[#4A6750] transition-colors duration-300">
+                  <h3 className="font-['Poppins_Light'] font-bold text-[24px] md:text-[24px] tracking-wide leading-tight text-[#1A2F24] group-hover:text-[#4A6750] transition-colors duration-300">
                     {project.title}
                   </h3>
                 </div>

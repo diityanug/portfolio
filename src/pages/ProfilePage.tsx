@@ -123,7 +123,7 @@ const TECH_CATEGORIES: TechCategory[] = [
         <line x1="6" y1="18" x2="6.01" y2="18"></line>
       </svg>
     ),
-    description: "Developing robust REST APIs and secure cloud integrations.",
+    description: "Exploring backend development, APIs, and cloud technologies.",
     skills: [
       { name: "FastAPI", slug: "fastapi" },
       { name: "REST APIs", slug: "openapiinitiative" },
@@ -143,14 +143,14 @@ const TECH_CATEGORIES: TechCategory[] = [
         <line x1="12" y1="22.08" x2="12" y2="12"></line>
       </svg>
     ),
-    description: "Building NLP pipelines and data classification models.",
+    description: "Exploring NLP, text preprocessing, and classification models.",
     skills: [
       { name: "Pandas", slug: "pandas" },
       { name: "Scikit-Learn", slug: "scikitlearn" },
       { name: "spaCy", slug: "spacy" },
       { name: "Natural Language Processing" },
       { name: "TF-IDF" },
-      { name: "Multi-Label Classification" },
+      { name: "Naive Bayes" },
       { name: "Data Visualization" },
     ]
   },
@@ -165,7 +165,7 @@ const TECH_CATEGORIES: TechCategory[] = [
         <line x1="16" y1="16" x2="16" y2="16"></line>
       </svg>
     ),
-    description: "Automating workflows and extracting web data.",
+    description: "Automating workflows and exploring process automation.",
     skills: [
       { name: "Selenium", slug: "selenium" },
       { name: "BeautifulSoup", slug: "pypi" },
@@ -245,12 +245,29 @@ const ProfileSection = (): ReactElement => {
               className="h-[2px] bg-[#4A6750]/30 mt-5 mb-6 md:mt-8 md:mb-10 rounded-full" 
             />
 
-            <motion.div variants={childVariants} className="flex flex-col gap-4 md:gap-5 w-full font-redhat text-left tracking-wide">
-              <p className="text-[14px] md:text-[16px] leading-[1.8] text-[#2E4C38]/80 font-medium">
-                I'm <span className="text-[#4A6750] font-bold border-b border-[#4A6750]/30 pb-0.5">Aditya</span>! 👋 a Software Engineer bridging <strong className="text-[#1A2F24] font-bold">Smart Factory</strong> systems and modern <strong className="text-[#1A2F24] font-bold">Frontend Development</strong>. My work involves maintaining critical equipment monitoring systems to ensure reliable manufacturing operations.
+            <motion.div variants={childVariants} className="flex flex-col gap-4 md:gap-5 w-full font-redhat text-justify tracking-wide">
+              <p className="text-[14px] font-medium leading-[1.8] text-[#2E4C38]/80 md:text-[16px]">
+                I&apos;m{' '}
+                <span className="border-b border-[#4A6750]/30 pb-0.5 font-bold text-[#4A6750]">
+                  Aditya
+                </span>
+                , a Software Engineer working across{' '}
+                <strong className="font-bold text-[#1A2F24]">Smart Factory</strong>{' '}
+                operations and modern{' '}
+                <strong className="font-bold text-[#1A2F24]">
+                  Frontend Development
+                </strong>
+                . I work with equipment modeling, server monitoring, and alarm
+                maintenance to support reliable manufacturing operations.
               </p>
-              <p className="text-[13.5px] md:text-[15px] leading-[1.8] text-[#2E4C38]/60 font-medium">
-                Alongside building scalable microfrontends with <strong className="text-[#1A2F24]/80 font-bold">React & TypeScript</strong>, I actively explore cloud technologies, automation, and machine learning.
+
+              <p className="text-[13.5px] font-medium leading-[1.8] text-[#2E4C38]/60 md:text-[15px]">
+                I also build scalable internal applications using{' '}
+                <strong className="font-bold text-[#1A2F24]/80">
+                  React &amp; TypeScript
+                </strong>
+                , including microfrontend-based systems, while exploring cloud
+                technologies, automation, and machine learning.
               </p>
             </motion.div>
           </motion.div>
@@ -339,7 +356,7 @@ const ProfileSection = (): ReactElement => {
                           
                           <div className="mt-auto bg-white/40 border-t border-white/60 shadow-[0_-2px_15px_rgb(0,0,0,0.02)] p-6 md:p-8 group-hover:bg-white/60 transition-colors w-full">
                             <div className="font-redhat text-[10px] md:text-[11px] font-bold tracking-widest text-[#4A6750]/60 uppercase mb-2.5">
-                              Focus & Detail
+                              Focus
                             </div>
                             {edu.focus && (
                               <div className="font-redhat text-[#1A2F24] text-[13.5px] md:text-[14.5px] leading-relaxed font-bold">

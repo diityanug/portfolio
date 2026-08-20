@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
-import StaticDotGrid from '../components/ui/StaticDotGrid';
+import StaticDotGrid from '../components/ui/DotGrid';
 
 // Types
 interface WorkflowStep {

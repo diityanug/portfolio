@@ -7,16 +7,16 @@ interface SocialButtonProps {
 }
 
 export const SocialButton = ({ url, icon, label }: SocialButtonProps): ReactElement => (
-  <a 
-    href={url} 
-    target="_blank" 
-    rel="noopener noreferrer" 
-    className="group flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-black/10 bg-white hover:border-[#5E7657] hover:bg-[#5E7657] hover:text-white transition-all duration-300 shadow-sm"
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group inline-flex items-center gap-1.5 rounded-full border border-[#2E4C38]/10 bg-[#4A6750]/5 px-3 py-1.5 text-[#4A6750] transition-colors duration-300 hover:border-[#4A6750] hover:bg-[#4A6750] hover:text-white"
   >
-    <span className="text-[#2A2320] group-hover:text-white transition-colors duration-300">
+    <span className="shrink-0 text-[#4A6750] transition-colors duration-300 group-hover:text-white">
       {icon}
     </span>
-    <span className="font-poppins font-medium text-[10px] md:text-xs tracking-widest uppercase text-[#2A2320] group-hover:text-white transition-colors duration-300">
+    <span className="font-redhat text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 group-hover:text-white">
       {label}
     </span>
   </a>

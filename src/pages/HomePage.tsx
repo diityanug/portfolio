@@ -5,7 +5,7 @@ import type { Variants } from 'framer-motion';
 import { useHomeLock } from '../context/HomeLockContext';
 
 import DotGrid from '../components/ui/DotGrid';
-import Logo from '../assets/Logo.svg';
+import Logo from "../assets/logo-animated.svg";
 
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
@@ -46,18 +46,18 @@ const fadeOnly: Variants = {
   }
 };
 
-const ArrowDown = (): ReactElement => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2.5"
-    strokeLinecap="round" strokeLinejoin="round"
-    className="transition-transform duration-300 group-hover:translate-y-1"
-  >
-    <line x1="12" y1="5" x2="12" y2="19"></line>
-    <polyline points="19 12 12 19 5 12"></polyline>
-  </svg>
-);
+// const ArrowDown = (): ReactElement => (
+//   <svg
+//     xmlns="http://www.w3.org/2000/svg"
+//     width="16" height="16" viewBox="0 0 24 24"
+//     fill="none" stroke="currentColor" strokeWidth="2.5"
+//     strokeLinecap="round" strokeLinejoin="round"
+//     className="transition-transform duration-300 group-hover:translate-y-1"
+//   >
+//     <line x1="12" y1="5" x2="12" y2="19"></line>
+//     <polyline points="19 12 12 19 5 12"></polyline>
+//   </svg>
+// );
 
 const STACK_ITEMS = [
   'REACT', 'TYPESCRIPT', 'JAVASCRIPT', 'TAILWIND CSS', 'BOOTSTRAP',
@@ -186,14 +186,18 @@ const HomePage = (): ReactElement => {
         <motion.button
           onClick={handleNavigate}
           whileTap={{ scale: 0.95 }}
-          className="group inline-flex items-center gap-3 bg-[#1A2F24] text-[#F9F8F4] py-1.5 px-4 md:py-2 md:px-5 rounded-full shadow-[0_8px_20px_rgba(26,47,36,0.15)] hover:bg-[#4A6750] transition-colors duration-300 outline-none"
+          whileHover={{ scale: 1.05 }}
+          aria-label="Let's Explore"
+          className="group flex items-center gap-4 px-6 py-3 md:px-8 md:py-4 rounded-full bg-[#1A2F24] shadow-[0_8px_20px_rgba(26,47,36,0.15)] hover:bg-[#4A6750] transition-colors duration-300 outline-none"
         >
-          <span className="font-redhat text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase mt-[1px]">
-            Explore More
+          <img 
+            src={Logo} 
+            alt="Logo" 
+            className="h-7 md:h-8 w-auto invert brightness-0 transition-transform duration-300 group-hover:-rotate-12"
+          />
+          <span className="font-redhat text-[10px] md:text-[12px] font-bold tracking-[0.2em] uppercase text-[#F9F8F4] mt-[2px]">
+            Let's Explore
           </span>
-          <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-[#4A6750] transition-colors duration-300">
-            <ArrowDown />
-          </div>
         </motion.button>
       </motion.div>
 

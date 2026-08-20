@@ -1,14 +1,13 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Transition } from 'framer-motion';
-import { Home, User, Briefcase, Code, Mail } from 'lucide-react';
+import type { CSSProperties, ReactElement } from 'react';
 import { useHomeLock } from '../../context/HomeLockContext';
 
-import iconIdle from '../../assets/iconIdle.svg';
-import iconHover from '../../assets/iconHover.svg';
+import LogoAnimated from '../../assets/logo-animated.svg';
 
 /* TYPES & CONSTANTS */
+
 interface NavLink {
   name: string;
   id: string;
@@ -24,62 +23,84 @@ const RIGHT_LINKS: readonly NavLink[] = [
   { name: 'Contact', id: 'contact' },
 ] as const;
 
-const syncTransition: Transition = {
-  type: "tween",
-  duration: 0.7,
-  ease: [0.16, 1, 0.3, 1],
+const logoMaskStyle: CSSProperties = {
+  maskImage: `url(${LogoAnimated})`,
+  WebkitMaskImage: `url(${LogoAnimated})`,
+  maskRepeat: 'no-repeat',
+  WebkitMaskRepeat: 'no-repeat',
+  maskPosition: 'center',
+  WebkitMaskPosition: 'center',
+  maskSize: 'contain',
+  WebkitMaskSize: 'contain',
 };
 
-const smoothCssTransition = 'transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]';
+
+/* CUSTOM ICONS */
+
+const ProfileIcon = (): ReactElement => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);
+
+const ExperienceIcon = (): ReactElement => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+  </svg>
+);
+
+const ProjectsIcon = (): ReactElement => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+    <rect x="14" y="14" width="7" height="7" rx="1.5" />
+    <rect x="3" y="14" width="7" height="7" rx="1.5" />
+  </svg>
+);
+
+const ContactIcon = (): ReactElement => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+  </svg>
+);
 
 const getMenuIcon = (name: string) => {
   switch (name.toLowerCase()) {
-    case 'home': return <Home size={18} strokeWidth={2.5} />;
-    case 'profile': return <User size={18} strokeWidth={2.5} />;
-    case 'experience': return <Briefcase size={18} strokeWidth={2.5} />;
-    case 'projects': return <Code size={18} strokeWidth={2.5} />;
-    case 'contact': return <Mail size={18} strokeWidth={2.5} />;
+    case 'profile': return <ProfileIcon />;
+    case 'experience': return <ExperienceIcon />;
+    case 'projects': return <ProjectsIcon />;
+    case 'contact': return <ContactIcon />;
     default: return null;
   }
 };
 
-/* COMPONENT: DESKTOP NAV GROUP (Teks) */
+
+/* SUB-COMPONENTS */
+
+// Component for Desktop Navigation Group
 const NavGroup = memo(({ links, activeSection, onNavigate }: { links: readonly NavLink[]; activeSection: string; onNavigate: (id: string) => void }) => (
-  <div className="flex items-center gap-2 md:gap-4 font-redhat text-[10px] md:text-xs tracking-[0.2em] uppercase">
+  <div className="flex items-center gap-3 md:gap-6 font-redhat text-[10px] md:text-[11px] tracking-[0.2em] uppercase">
     {links.map((link) => {
       const isActive = activeSection === link.id;
       return (
         <button
           key={link.id}
           onClick={() => onNavigate(link.id)}
-          className={`relative py-1 md:py-1.5 px-2 transition-colors duration-500 ease-out flex flex-col items-center justify-center group ${
-            isActive 
-              ? 'text-[#1A2F24]' 
-              : 'text-[#2E4C38]/80 hover:text-[#1A2F24]'
+          className={`relative py-1 md:py-1.5 px-2 transition-colors duration-500 ease-out flex flex-col items-center justify-center ${
+            isActive ? 'text-[#1A2F24]' : 'text-[#2E4C38]/80 hover:text-[#1A2F24]'
           }`}
         >
           <span 
-            data-text={link.name}
+            data-text={link.name.toUpperCase()}
             className={`relative flex flex-col items-center justify-center before:content-[attr(data-text)] before:font-extrabold before:invisible before:h-0 ${
               isActive ? 'font-extrabold' : 'font-medium'
             }`}
           >
-            {link.name}
+            {link.name.toUpperCase()}
           </span>
-          
-          {/* Dot Desktop */}
-          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2">
-            {isActive ? (
-              <motion.div
-                layoutId="desktopDot"
-                layout="position"
-                className="w-1 h-1 bg-[#1A2F24] rounded-full"
-                transition={{ type: "spring", stiffness: 80, damping: 20 }}
-              />
-            ) : (
-              <div className="w-1 h-1 bg-[#4A6750]/40 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 absolute top-0 left-0" />
-            )}
-          </div>
         </button>
       );
     })}
@@ -87,49 +108,52 @@ const NavGroup = memo(({ links, activeSection, onNavigate }: { links: readonly N
 ));
 NavGroup.displayName = 'NavGroup';
 
-/* COMPONENT: MOBILE NAV ITEM (Icon) */
+// Component for Mobile Navigation Item
 const MobileNavItem = memo(({ link, isActive, onNavigate }: { link: NavLink; isActive: boolean; onNavigate: (id: string) => void }) => (
   <button
     onClick={() => onNavigate(link.id)}
-    className={`relative flex-1 flex flex-col items-center justify-center h-full gap-1 transition-colors duration-300 ${
-      isActive ? 'text-[#1A2F24]' : 'text-[#2E4C38]/40 hover:text-[#1A2F24]'
+    className={`relative flex items-center justify-center w-14 h-10 rounded-full transition-colors duration-300 z-10 ${
+      isActive ? 'text-white' : 'text-[#2E4C38]/50 hover:text-[#1A2F24]'
     }`}
     aria-label={link.name}
   >
-    <span className={`transition-transform duration-300 ${isActive ? 'scale-110 -translate-y-1' : 'scale-100'}`}>
-      {getMenuIcon(link.name)}
-    </span>
-    {/* Dot Mobile */}
     {isActive && (
       <motion.div
-        layoutId="mobileDot"
-        className="absolute bottom-2.5 w-1 h-1 bg-[#1A2F24] rounded-full"
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        layoutId="mobileActiveBackground"
+        className="absolute inset-0 bg-[#1A2F24] rounded-full -z-10"
+        transition={{ type: "spring", stiffness: 450, damping: 30 }}
       />
     )}
+    <span className="relative z-10 flex items-center justify-center">
+      {getMenuIcon(link.name)}
+    </span>
   </button>
 ));
 MobileNavItem.displayName = 'MobileNavItem';
 
-/* MAIN NAVBAR */
+
+/* MAIN COMPONENT: NAVBAR */
+
 const Navbar = () => {
+  // Hooks & Context
   const location = useLocation();
   const navigate = useNavigate();
   const { homeLocked, leaveHome, goHome } = useHomeLock();
   
-  // Status untuk mendeteksi apakah kita sedang di layar Cover
+  // States
   const isCoverMode = homeLocked && location.pathname === '/';
-  
   const [isScrolled, setIsScrolled] = useState<boolean>(
     () => typeof window !== 'undefined' && window.scrollY > 30
   );
-  const [hasMounted, setHasMounted] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('about');
-  
+  const [isLogoReversing, setIsLogoReversing] = useState<boolean>(false);
+
+  // Refs
   const rafRef = useRef<number | null>(null);
 
+  /* EFFECTS */
+
   useEffect(() => {
-    setHasMounted(true);
     const handleScroll = () => {
       if (rafRef.current !== null) return;
       rafRef.current = requestAnimationFrame(() => {
@@ -148,7 +172,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // PERBAIKAN BUG OBSERVER: Deteksi lebih akurat + Fallback scroll ke atas
   useEffect(() => {
     if (location.pathname !== '/' || isCoverMode) return; 
 
@@ -163,7 +186,6 @@ const Navbar = () => {
             }
           });
         },
-        // Root margin diubah agar bertindak seperti "laser" di pertengahan atas layar
         { threshold: 0.1, rootMargin: "-30% 0px -50% 0px" } 
       );
 
@@ -174,14 +196,10 @@ const Navbar = () => {
       });
     }, 800);
 
-    // FALLBACK ANTI-BUG: Jika user men-scroll mentok sampai paling atas, paksa nyalakan icon Profile
     const handleScrollTop = () => {
-      if (window.scrollY < 100) {
-        setActiveSection('about');
-      }
+      if (window.scrollY < 100) setActiveSection('about');
     };
     
-    // Tambahkan event listener scroll khusus untuk mengecek batas atas
     window.addEventListener('scroll', handleScrollTop, { passive: true });
 
     return () => {
@@ -191,18 +209,15 @@ const Navbar = () => {
     };
   }, [location.pathname, isCoverMode]);
 
-  // BARU (v3): Konsumsi target dari React Router state, bukan URL hash.
-  // Murni internal JS, bebas dari intervensi native mobile browser dan aman dari hard-reload.
   useEffect(() => {
     if (location.pathname !== '/') return;
 
-    // Ambil targetId dari state yang dikirim via handleNavigate
     const targetId = location.state?.targetSection;
     if (!targetId) return;
 
     if (targetId === 'home') {
       goHome();
-      navigate('/', { replace: true, state: {} }); // Bersihkan state
+      navigate('/', { replace: true, state: {} });
       return;
     }
 
@@ -214,8 +229,8 @@ const Navbar = () => {
       if (settled) return;
       const element = document.getElementById(targetId);
       if (!element) return;
-      settled = true;
       
+      settled = true;
       observer?.disconnect();
       if (safetyTimer) clearTimeout(safetyTimer);
 
@@ -224,7 +239,6 @@ const Navbar = () => {
         setActiveSection(targetId);
         
         setTimeout(() => {
-          // Bersihkan state setelah scroll selesai agar tidak re-trigger
           navigate('/', { replace: true, state: {} }); 
         }, 1000);
       }, 100);
@@ -253,18 +267,22 @@ const Navbar = () => {
     };
   }, [location.pathname, location.state, homeLocked, goHome, leaveHome, navigate]);
 
+
+  /* HANDLERS */
+
   const handleNavigate = useCallback((id: string) => {
-    // Pindah dari sub-page: Gunakan state, bukan hash URL
     if (location.pathname !== '/') {
       navigate('/', { state: { targetSection: id } });
       return;
     }
     
     if (id === 'home') {
+      setIsLogoReversing(true);
       goHome();
+      setIsLogoReversing(false);
       return;
     }
-    
+
     if (homeLocked) {
       leaveHome();
       setActiveSection(id);
@@ -283,124 +301,77 @@ const Navbar = () => {
     }
   }, [location.pathname, navigate, homeLocked, goHome, leaveHome]);
 
+
   return (
     <AnimatePresence>
       {!isCoverMode && (
         <>
-          {/* =======================
-              DESKTOP NAVBAR (TOP)
-              ======================= */}
+          {/* DESKTOP NAVBAR */}
           <motion.nav
             initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40, transition: { duration: 0.4 } }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className={`hidden md:flex fixed top-0 left-0 w-full z-50 justify-center pointer-events-none ${
-              hasMounted ? smoothCssTransition : ''
-            } ${isScrolled ? 'pt-4 px-4' : 'pt-0 px-0'}`}
+            className="hidden md:flex fixed top-6 left-0 w-full z-50 justify-center pointer-events-none"
           >
-            <div 
-              className={`relative flex items-center justify-between border ${
-                hasMounted ? smoothCssTransition : ''
-              } ${
-                isScrolled 
-                  ? 'w-full md:w-[90%] max-w-[620px] h-12 md:h-14 border-transparent md:border-white/60 shadow-none md:shadow-[0_10px_30px_-10px_rgba(46,76,56,0.15)] rounded-full px-4 md:px-6 pointer-events-auto' 
-                  : 'w-full h-20 md:h-24 border-transparent shadow-none rounded-none px-4 md:px-12 pointer-events-auto'
-              }`}
-            >
-              {/* GLASS OVERLAY */}
-              <motion.div
-                aria-hidden="true"
-                initial={false}
-                animate={{
-                  opacity: isScrolled ? 1 : 0,
-                  backdropFilter: isScrolled ? 'blur(24px)' : 'blur(0px)',
-                }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-0 -z-10 rounded-[inherit] bg-white/60"
-              />
-              
-              {/* KIRI */}
-              <div className="flex-1 flex justify-end items-center h-full overflow-hidden">
-                <div className={`flex items-center h-full mr-4 transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex-1 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
-                  <div className={`w-full h-[2px] origin-right bg-gradient-to-r from-transparent via-[#2E4C38]/20 to-[#2E4C38]/40 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isScrolled ? 'scale-x-150 scale-y-50' : 'scale-x-100 scale-y-50'}`} />
-                </div>
-                <motion.div initial={false} animate={{ width: 'auto' }} transition={syncTransition} className="flex justify-start overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto">
-                  <div className="shrink-0 flex items-center">
-                    <NavGroup links={LEFT_LINKS} activeSection={activeSection} onNavigate={handleNavigate} />
-                  </div>
-                </motion.div>
-              </div>
+            <div className="relative flex items-center justify-center w-full max-w-[1200px] px-8 pointer-events-none">
 
-              {/* TENGAH (Kucing) Desktop */}
-              <div className="relative z-20 flex items-center justify-center px-2 md:px-4 shrink-0 pointer-events-auto">
+              <div className={`flex-1 h-[2px] bg-gradient-to-r from-transparent via-[#2E4C38]/20 to-[#2E4C38]/40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-right ${isScrolled ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100'}`} />
+              <div
+                className={`flex items-center shrink-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-auto h-14 ${
+                  isScrolled
+                    ? 'px-8 bg-white/90 backdrop-blur-md border border-[#1A2F24]/10 shadow-[0_8px_32px_rgba(26,47,36,0.08)] rounded-full mx-0'
+                    : 'px-4 bg-transparent border-transparent mx-4'
+                }`}
+              >
+                <NavGroup links={LEFT_LINKS} activeSection={activeSection} onNavigate={handleNavigate} />
+
+                {/* Home Button Desktop */}
                 <button
                   onClick={() => handleNavigate('home')}
-                  className={`group flex items-center justify-center shrink-0 relative transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-90 aspect-square ${
-                    isScrolled ? 'h-10' : 'h-14 md:h-16'
-                  }`}
+                  className="relative group flex items-center justify-center mx-8 active:scale-90 transition-transform duration-300 shrink-0"
+                  aria-label="Home"
                 >
-                  <div className="absolute inset-0 bg-[#4A6750]/20 rounded-full blur-xl scale-50 group-hover:scale-150 transition-transform duration-700 ease-out opacity-0 group-hover:opacity-100" />
-                  <motion.img 
-                    animate={{ y: [-2, 2, -2] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                    src={iconIdle} alt="Logo" draggable={false} 
-                    className="h-full w-full object-contain select-none transition-opacity duration-700 group-hover:opacity-0 relative z-10" 
-                  />
-                  <motion.img 
-                    animate={{ y: [-2, 2, -2] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                    src={iconHover} alt="Logo Hover" draggable={false} 
-                    className="absolute inset-0 m-auto h-full w-full object-contain select-none transition-opacity duration-700 opacity-0 group-hover:opacity-100 drop-shadow-[0_0_10px_rgba(74,103,80,0.5)] z-10" 
+                  <div
+                    style={logoMaskStyle}
+                    className={`w-9 h-9 bg-[#1A2F24] group-hover:bg-[#4A6750] transition-colors duration-300 ${isLogoReversing ? 'animate-logo-reverse' : 'animate-logo-forward'}`}
                   />
                 </button>
+
+                <NavGroup links={RIGHT_LINKS} activeSection={activeSection} onNavigate={handleNavigate} />
               </div>
 
-              {/* KANAN */}
-              <div className="flex-1 flex justify-start items-center h-full overflow-hidden">
-                <motion.div initial={false} animate={{ width: 'auto' }} transition={syncTransition} className="flex justify-end overflow-hidden whitespace-nowrap shrink-0 pointer-events-auto">
-                  <div className="shrink-0 flex items-center">
-                    <NavGroup links={RIGHT_LINKS} activeSection={activeSection} onNavigate={handleNavigate} />
-                  </div>
-                </motion.div>
-                <div className={`flex items-center h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isScrolled ? 'max-w-0 opacity-0 ml-0' : 'max-w-[1000px] flex-1 opacity-100 ml-4'}`}>
-                  <div className={`w-full h-[2px] origin-left bg-gradient-to-l from-transparent via-[#2E4C38]/20 to-[#2E4C38]/40 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isScrolled ? 'scale-x-150 scale-y-50' : 'scale-x-100 scale-y-50'}`} />
-                </div>
-              </div>
+              <div className={`flex-1 h-[2px] bg-gradient-to-l from-transparent via-[#2E4C38]/20 to-[#2E4C38]/40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left ${isScrolled ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100'}`} />
+            
             </div>
           </motion.nav>
 
-          {/* =======================
-              MOBILE DOCK (BOTTOM)
-              ======================= */}
+
+          {/* MOBILE DOCK */}
           <motion.nav 
             initial={{ opacity: 0, y: 50, x: "-50%" }}
             animate={{ opacity: 1, y: 0, x: "-50%" }}
-            exit={{ opacity: 0, y: 50, x: "-50%", transition: { duration: 0.4 } }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="md:hidden fixed bottom-5 left-1/2 w-[92%] max-w-[380px] h-[52px] bg-white/90 backdrop-blur-xl border border-white/60 shadow-[0_10px_35px_-10px_rgba(46,76,56,0.25)] rounded-full z-50 flex items-center justify-between px-2 pointer-events-auto"
+            exit={{ opacity: 0, y: 50, x: "-50%", transition: { duration: 0.3 } }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden fixed bottom-6 left-1/2 w-max p-1.5 bg-white/90 backdrop-blur-xl border border-[#1A2F24]/5 shadow-[0_8px_32px_rgba(26,47,36,0.12)] rounded-full z-50 flex items-center gap-1 pointer-events-auto"
           >
-            <div className="flex-1 flex justify-evenly h-full items-center">
-              <MobileNavItem link={LEFT_LINKS[0]} isActive={activeSection === 'about'} onNavigate={handleNavigate} />
-              <MobileNavItem link={LEFT_LINKS[1]} isActive={activeSection === 'experience'} onNavigate={handleNavigate} />
-            </div>
-
-            {/* Home / Kucing */}
+            <MobileNavItem link={LEFT_LINKS[0]} isActive={activeSection === 'about'} onNavigate={handleNavigate} />
+            <MobileNavItem link={LEFT_LINKS[1]} isActive={activeSection === 'experience'} onNavigate={handleNavigate} />
+            
+            {/* Home Button Mobile */}
             <button
               onClick={() => handleNavigate('home')}
-              className="relative group w-[56px] h-[56px] flex items-center justify-center shrink-0 -mt-6 bg-[#F9F8F4] rounded-full border-[4px] border-white shadow-[0_8px_16px_-6px_rgba(46,76,56,0.25)] active:scale-95 transition-all duration-300 z-10"
+              className="relative flex items-center justify-center w-14 h-10 active:scale-90 transition-transform duration-300"
+              aria-label="Home"
             >
-              <motion.img 
-                animate={{ y: [-2, 2, -2] }}
-                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                src={iconIdle} 
-                alt="Home" 
-                className="w-[28px] h-[28px] object-contain drop-shadow-sm" 
+              <div
+                style={logoMaskStyle}
+                className={`w-8 h-8 bg-[#1A2F24] ${isLogoReversing ? 'animate-logo-reverse' : 'animate-logo-forward'}`}
               />
             </button>
 
-            <div className="flex-1 flex justify-evenly h-full items-center">
-              <MobileNavItem link={RIGHT_LINKS[0]} isActive={activeSection === 'projects'} onNavigate={handleNavigate} />
-              <MobileNavItem link={RIGHT_LINKS[1]} isActive={activeSection === 'contact'} onNavigate={handleNavigate} />
-            </div>
+            <MobileNavItem link={RIGHT_LINKS[0]} isActive={activeSection === 'projects'} onNavigate={handleNavigate} />
+            <MobileNavItem link={RIGHT_LINKS[1]} isActive={activeSection === 'contact'} onNavigate={handleNavigate} />
           </motion.nav>
         </>
       )}
