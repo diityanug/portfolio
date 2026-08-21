@@ -7,6 +7,7 @@ import { useHomeLock } from '../context/HomeLockContext';
 import DotGrid from '../components/ui/DotGrid';
 import Logo from "../assets/logo-animated.svg";
 
+// Animation configurations
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
 const containerVariants: Variants = {
@@ -46,19 +47,7 @@ const fadeOnly: Variants = {
   }
 };
 
-// const ArrowDown = (): ReactElement => (
-//   <svg
-//     xmlns="http://www.w3.org/2000/svg"
-//     width="16" height="16" viewBox="0 0 24 24"
-//     fill="none" stroke="currentColor" strokeWidth="2.5"
-//     strokeLinecap="round" strokeLinejoin="round"
-//     className="transition-transform duration-300 group-hover:translate-y-1"
-//   >
-//     <line x1="12" y1="5" x2="12" y2="19"></line>
-//     <polyline points="19 12 12 19 5 12"></polyline>
-//   </svg>
-// );
-
+// Tech stack data for marquee
 const STACK_ITEMS = [
   'REACT', 'TYPESCRIPT', 'JAVASCRIPT', 'TAILWIND CSS', 'BOOTSTRAP',
   'PYTHON', 'SELENIUM', 'BEAUTIFULSOUP', 'PYAUTOGUI',
@@ -66,6 +55,7 @@ const STACK_ITEMS = [
   'HTML', 'CSS', 'JSON', 'REST API', 'FASTAPI', 'HASKELL'
 ];
 
+// Component: Infinite scrolling tech stack marquee
 const TechMarquee = (): ReactElement => {
   const prefersReducedMotion = useReducedMotion();
   const items = [...STACK_ITEMS, ...STACK_ITEMS];
@@ -94,6 +84,7 @@ const TechMarquee = (): ReactElement => {
   );
 };
 
+// Component: Main Home Page
 const HomePage = (): ReactElement => {
   const { leaveHome } = useHomeLock();
 
@@ -111,12 +102,12 @@ const HomePage = (): ReactElement => {
       animate="show"
       className="w-full min-h-[100svh] bg-[#F9F8F4] overflow-x-clip relative z-0 flex flex-col px-6 pt-8 pb-[80px] md:px-12 md:pt-12"
     >
-      {/* Background */}
+      {/* Background pattern */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
         <DotGrid />
       </div>
 
-      {/* 1. TOP BAR */}
+      {/* Header info */}
       <motion.div 
         variants={itemFadeUp}
         className="relative z-10 flex justify-between items-center w-full max-w-5xl mx-auto"
@@ -140,9 +131,8 @@ const HomePage = (): ReactElement => {
         </div>
       </motion.div>
 
-      {/* 2. HERO CONTENT */}
+      {/* Hero content */}
       <div className="relative z-10 flex flex-col justify-center flex-1 w-full max-w-5xl mx-auto py-6">
-        
         <motion.div variants={itemFadeUp} className="mb-3">
           <span className="font-redhat text-[10px] md:text-[11px] tracking-[0.3em] uppercase text-[#4A6750] font-bold">
             Hello, I'm
@@ -178,7 +168,7 @@ const HomePage = (): ReactElement => {
         </motion.p>
       </div>
 
-      {/* 3. CTA BUTTON */}
+      {/* CTA Button */}
       <motion.div 
         variants={itemFadeUp} 
         className="relative z-20 w-full max-w-5xl mx-auto mt-auto mb-4 flex justify-start"
@@ -201,7 +191,6 @@ const HomePage = (): ReactElement => {
         </motion.button>
       </motion.div>
 
-      {/* 4. TECH MARQUEE */}
       <TechMarquee />
 
     </motion.div>

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import StaticDotGrid from '../components/ui/DotGrid';
 
-// Types
+// Types & Interfaces
 interface WorkflowStep {
   image: string;
   title: string;
@@ -21,7 +21,7 @@ interface ProjectData {
   technologies: string[];
 }
 
-// Animation Variants
+// Animation configurations
 const customEase = [0.22, 1, 0.36, 1] as const;
 
 const pageVariants: Variants = {
@@ -55,7 +55,7 @@ const instantFadeUpVariants: Variants = {
   show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: customEase } }
 };
 
-// Mock Data
+// Local Data
 const projectsData: Record<string, ProjectData> = {
   'genre-game-classifier': {
     title: 'Genre Game Classifier',
@@ -89,7 +89,7 @@ const projectsData: Record<string, ProjectData> = {
   },
 };
 
-// Main Component
+// Main Component: Project Detail
 const ProjectDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ const ProjectDetail = () => {
 
   const project = projectsData[slug as string];
 
-  /* 404 State */
+  // Handle 404 - Project not found
   if (!project) {
     return (
       <motion.div 
@@ -123,7 +123,6 @@ const ProjectDetail = () => {
 
   const titleWords = project.title.split(' ');
 
-  /* Main Render */
   return (
     <>
       <motion.div
@@ -137,7 +136,7 @@ const ProjectDetail = () => {
         
         <div className="w-full max-w-5xl mx-auto relative z-10">
           
-          {/* Header Navigation Minimalist */}
+          {/* Navigation */}
           <motion.div 
             variants={instantFadeUpVariants} 
             initial="hidden"
@@ -200,7 +199,7 @@ const ProjectDetail = () => {
             </motion.div>
           </div>
 
-          {/* Overview & Tech Stack Grid */}
+          {/* Explanation & Tech Stack */}
           <motion.div 
             variants={listContainerVariants} 
             initial="hidden"
@@ -208,7 +207,7 @@ const ProjectDetail = () => {
             viewport={{ once: true, margin: "-10%" }}
             className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 md:gap-12 mb-16 md:mb-20"
           >
-            {/* The Case */}
+            {/* Overview */}
             <motion.div variants={fadeUpVariants} className="flex flex-col">
               <h2 className="font-['Garbata'] text-[32px] md:text-[40px] tracking-tight text-[#1A2F24] leading-none mb-5">
                 Explanation
@@ -246,7 +245,7 @@ const ProjectDetail = () => {
 
           <motion.div className="w-full h-px bg-[#1A2F24]/10 mb-12 md:mb-16" />
 
-          {/* Features & Workflow */}
+          {/* Workflow Gallery */}
           <motion.div 
             variants={instantFadeUpVariants} 
             initial="hidden"
@@ -299,7 +298,7 @@ const ProjectDetail = () => {
         </div>
       </motion.div>
 
-      {/* Lightbox Modal Minimalist */}
+      {/* Lightbox Modal */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div

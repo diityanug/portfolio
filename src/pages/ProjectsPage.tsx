@@ -11,7 +11,7 @@ interface Project {
   slug: string;
 }
 
-// Animation Variants
+// Animation configurations
 const customEase = [0.22, 1, 0.36, 1] as const;
 
 const containerVariants: Variants = {
@@ -40,7 +40,7 @@ const itemVariants: Variants = {
   },
 };
 
-// Mock Data
+// Local Data
 const projects: Project[] = [
   {
     title: "Genre Game Classifier",
@@ -51,7 +51,7 @@ const projects: Project[] = [
   },
 ];
 
-//  Sub-components 
+// UI Icons
 const ArrowRight = (): ReactElement => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
@@ -65,7 +65,7 @@ const ArrowRight = (): ReactElement => (
   </svg>
 );
 
-//  Main Component 
+// Main Component: Project Section
 const ProjectSection = (): ReactElement => {
   const navigate = useNavigate();
 
@@ -96,7 +96,6 @@ const ProjectSection = (): ReactElement => {
 
         {/* Swipeable Projects Carousel */}
         <div className="w-full relative z-10">
-          
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 md:gap-8 pb-6 pt-2 scrollbar-none -mx-6 px-6 md:mx-0 md:px-0">
             {projects.map((project) => (
               <motion.div
@@ -147,7 +146,7 @@ const ProjectSection = (): ReactElement => {
             ))}
           </div>
 
-          {/* Swipe Indicator */}
+          {/* Navigation Hint */}
           <div className="flex justify-start items-center gap-2 text-[9px] font-redhat tracking-widest text-[#1A2F24]/30 uppercase select-none mt-2">
             <span>Swipe to explore</span>
             <span>→</span>

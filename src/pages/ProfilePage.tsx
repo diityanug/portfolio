@@ -40,7 +40,7 @@ interface Education {
   description?: string;
 }
 
-// Icons
+// UI Icons
 const ArrowUpRight = (): ReactElement => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
     <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -62,7 +62,7 @@ const BookIcon = (): ReactElement => (
   </svg>
 );
 
-// Animation Variants
+// Animation configurations
 const customEase = [0.22, 1, 0.36, 1] as const; 
 
 const sectionVariants: Variants = {
@@ -85,7 +85,7 @@ const photoVariants: Variants = {
   show: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: customEase, delay: 0.2 } }
 };
 
-// Mock Data
+// Local Data
 const tabs: { key: TabKey; label: string }[] = [
   { key: 'education', label: 'Education' },
   { key: 'certificates', label: 'Certifications' },
@@ -174,10 +174,11 @@ const TECH_CATEGORIES: TechCategory[] = [
   }
 ];
 
-// Main Component
+// Profile Section
 const ProfileSection = (): ReactElement => {
   const [activeTab, setActiveTab] = useState<TabKey>('education');
   
+  // Handlers
   const toggleTab = (tab: TabKey) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
@@ -186,6 +187,7 @@ const ProfileSection = (): ReactElement => {
     e.currentTarget.style.display = 'none';
   };
 
+  // Certificate Card
   const renderCertCard = (cert: Certificate, index: number) => (
     <a
       key={cert.title || index}
@@ -316,6 +318,7 @@ const ProfileSection = (): ReactElement => {
             <div className="grid grid-cols-1 items-start min-h-[360px] md:min-h-[400px]">
               <AnimatePresence>
                 
+                {/* Education Tab */}
                 {activeTab === 'education' && (
                   <motion.div
                     key="education"
@@ -376,6 +379,7 @@ const ProfileSection = (): ReactElement => {
                   </motion.div>
                 )}
 
+                {/* Certificates Tab */}
                 {activeTab === 'certificates' && (
                   <motion.div
                     key="certificates"
@@ -393,6 +397,7 @@ const ProfileSection = (): ReactElement => {
                   </motion.div>
                 )}
 
+                {/* Skills Tab */}
                 {activeTab === 'skills' && (
                   <motion.div
                     key="skills"

@@ -278,6 +278,7 @@ const Navbar = () => {
     
     if (id === 'home') {
       setIsLogoReversing(true);
+      setActiveSection('about');
       goHome();
       setIsLogoReversing(false);
       return;

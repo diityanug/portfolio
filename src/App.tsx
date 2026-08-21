@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import type { Transition } from 'framer-motion';
+import { AnimatePresence, motion, type Transition } from 'framer-motion';
 
 import { HomeLockProvider, useHomeLock } from './context/HomeLockContext';
 
@@ -15,10 +14,12 @@ import ProjectsPage from './pages/ProjectsPage';
 import ContactPage from './pages/ContactPage';
 import ProjectDetail from './pages/projectDetail';
 
+// Component: Main Portfolio Layout
 const MainPortfolio = () => {
   const { homeLocked } = useHomeLock();
   const [hasRevealedOnce, setHasRevealedOnce] = useState(!homeLocked);
   
+  // Prevent scaling issues when homepage cover is locked
   useEffect(() => {
     const viewportMeta = document.querySelector('meta[name="viewport"]');
     if (!viewportMeta) return;
@@ -41,7 +42,7 @@ const MainPortfolio = () => {
   return (
     <div className="relative w-full bg-[#F9F8F4]">
       
-      {/* Main Portfolio Sections */}
+      {/* Main Content Sections */}
       <div className="flex flex-col w-full bg-[#F9F8F4]">
         <section id="about"><ProfilePage /></section>
         <section id="experience"><ExperiencePage /></section>
@@ -71,6 +72,7 @@ const MainPortfolio = () => {
   );
 };
 
+// Component: Routing with page transitions
 const AnimatedRoutes = () => {
   const location = useLocation();
   
@@ -90,7 +92,9 @@ const AnimatedRoutes = () => {
   );
 };
 
+// Main App Entry
 function App() {
+  // Disable automatic scroll restoration on reload
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
