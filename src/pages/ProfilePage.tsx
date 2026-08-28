@@ -222,7 +222,7 @@ const ProfileSection = (): ReactElement => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-100px" }}
-      className="relative z-0 isolate flex flex-col pt-16 pb-12 md:pt-20 md:pb-20 px-4 md:px-12 lg:px-20 bg-[#F9F8F4] overflow-hidden text-[#1A2F24] w-full scroll-mt-20"
+      className="relative z-0 isolate flex flex-col pt-12 pb-12 md:pt-20 md:pb-20 px-6 md:px-12 lg:px-20 bg-[#F9F8F4] overflow-hidden text-[#1A2F24] w-full scroll-mt-20"
     >
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30" />
 
@@ -240,10 +240,10 @@ const ProfileSection = (): ReactElement => {
             </motion.h2>
 
             <motion.div 
-              initial={{ width: 0, opacity: 0 }}
-              whileInView={{ width: "80px", opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6, duration: 0.8, ease: customEase }}
+              variants={{
+                hidden: { width: 0, opacity: 0 },
+                show: { width: "80px", opacity: 1, transition: { delay: 0.6, duration: 0.8, ease: customEase } }
+              }}
               className="h-[2px] bg-[#4A6750]/30 mt-5 mb-6 md:mt-8 md:mb-10 rounded-full" 
             />
 

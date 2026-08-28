@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import type { ReactElement } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { useHomeLock } from '../context/HomeLockContext';
+import { useNavigate } from 'react-router-dom';
 
 import DotGrid from '../components/ui/DotGrid';
 import Logo from "../assets/logo-animated.svg";
@@ -63,20 +63,20 @@ const TechMarquee = (): ReactElement => {
   return (
     <motion.div 
       variants={fadeOnly}
-      className="absolute bottom-0 inset-x-0 z-10 border-t border-[#1A2F24]/10 bg-[#F9F8F4]/80 backdrop-blur-sm overflow-hidden"
+      className="absolute bottom-4 inset-x-0 z-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pointer-events-none"
     >
       <motion.div
-        className="flex items-center gap-8 py-3 md:py-4 whitespace-nowrap w-max px-4"
+        className="flex items-center gap-6 py-2 w-max px-4"
         animate={prefersReducedMotion ? undefined : { x: ['0%', '-50%'] }}
-        transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
       >
         {items.map((item, i) => (
           <span
             key={`${item}-${i}`}
-            className="flex items-center gap-8 font-redhat text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-[#4A6750]/70 font-bold"
+            className="flex items-center gap-6 font-redhat text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-[#1A2F24]/50 font-bold"
           >
             {item}
-            <span className="text-[#E0BA5C]">•</span>
+            <span className="text-[#1A2F24]/20 text-[12px] leading-none">•</span>
           </span>
         ))}
       </motion.div>
@@ -86,21 +86,19 @@ const TechMarquee = (): ReactElement => {
 
 // Component: Main Home Page
 const HomePage = (): ReactElement => {
-  const { leaveHome } = useHomeLock();
+  const navigate = useNavigate();
 
   const handleNavigate = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    window.scrollTo(0, 0);
-    leaveHome();
+    navigate('/', { state: { targetSection: 'about' } });
     e.currentTarget.blur();
-  }, [leaveHome]);
+  }, [navigate]);
 
   return (
     <motion.div
-      key="home-page"
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="w-full min-h-[100svh] bg-[#F9F8F4] overflow-x-clip relative z-0 flex flex-col px-6 pt-8 pb-[80px] md:px-12 md:pt-12"
+      className="w-full min-h-[100svh] bg-[#F9F8F4] overflow-x-clip relative z-0 flex flex-col pt-8 md:pt-16 px-6 md:px-12 lg:px-20"
     >
       {/* Background pattern */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
@@ -171,13 +169,13 @@ const HomePage = (): ReactElement => {
       {/* CTA Button */}
       <motion.div 
         variants={itemFadeUp} 
-        className="relative z-20 w-full max-w-5xl mx-auto mt-auto mb-4 flex justify-start"
+        className="relative z-20 w-full max-w-5xl mx-auto mt-auto mb-28 md:mb-20 flex justify-start"
       >
         <motion.button
           onClick={handleNavigate}
           whileTap={{ scale: 0.95 }}
           whileHover={{ scale: 1.05 }}
-          aria-label="Let's Explore"
+          aria-label="Scroll to Profile section"
           className="group flex items-center gap-4 px-6 py-3 md:px-8 md:py-4 rounded-full bg-[#1A2F24] shadow-[0_8px_20px_rgba(26,47,36,0.15)] hover:bg-[#4A6750] transition-colors duration-300 outline-none"
         >
           <img 
