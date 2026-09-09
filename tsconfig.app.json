@@ -7,7 +7,6 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
     
-    /* Tambahkan ini untuk menghilangkan warning */
     "ignoreDeprecations": "6.0",
     "baseUrl": ".",
 

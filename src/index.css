@@ -4,108 +4,39 @@
 
 /* FONTS */
 @font-face {
-  font-family: 'Poppins Light';
-  src: url('/fonts/Poppins-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Le Jour Serif';
-  src: url('/fonts/Le%20Jour%20Serif%20Personal%20Use%20Only.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'The_Seasons_Regular';
-  src: url('/fonts/The%20Seasons%20Regular.ttf') format('truetype'); 
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Atteron';
-  src: url('/fonts/Atteron%20Personal%20Use%20Only.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Cardo';
-  src: url('/fonts/Cardo-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Cardo Italic';
-  src: url('/fonts/Cardo-Italic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'CMU Roman';
-  src: url('/fonts/cmunrm.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'CMU Italic';
-  src: url('/fonts/cmunti.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Nove';
-  src: url('/fonts/Nove.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Red_Hat_Display';
-  src: url('/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Red Hat Display';
+  src: url('/fonts/RedHatDisplay-VariableFont_wght.woff2') format('woff2'),
+       url('/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Tan Mon Cheri';
-  src: url('/fonts/TAN-MON%20CHERI-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'PP Hatton';
-  src: url('/fonts/PP%20Hatton%20Medium%20500.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Garbata';
-  src: url('/fonts/Garbata-Regular.ttf') format('truetype');
+  font-family: 'Overlock';
+  src: url('/fonts/Overlock-Regular.woff2') format('woff2'),
+       url('/fonts/Overlock-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Aileron';
-  src: url('/fonts/aileron.regular.otf') format('opentype');
+  font-family: 'Autour One';
+  src: url('/fonts/AutourOne-Regular.woff2') format('woff2'),
+       url('/fonts/AutourOne-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Migra';
-  src: url('/fonts/Migra.otf') format('opentype');
-  font-weight: normal;
+  font-family: 'Karla';
+  src: url('/fonts/Karla-VariableFont_wght.woff2') format('woff2'),
+       url('/fonts/Karla-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
   font-style: normal;
+  font-display: swap;
 }
 
 /* GLOBAL BASE */

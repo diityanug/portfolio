@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import RouteErrorBoundary from './components/ErrorBoundary';
 
 import Navbar from './components/layout/Navbar';
 
@@ -9,7 +10,8 @@ import ProfilePage from './pages/ProfilePage';
 import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ContactPage from './pages/ContactPage';
-import ProjectDetail from './pages/projectDetail';
+
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 
 const pageVariants: Variants = {
   initial: { opacity: 0, y: 10 },
@@ -17,6 +19,11 @@ const pageVariants: Variants = {
   out: { opacity: 0, y: -10, transition: { duration: 0.3, ease: 'easeIn' } }
 };
 
+const RouteLoadingFallback = () => (
+  <div className="w-full min-h-dvh flex items-center justify-center bg-[#F9F8F4]">
+    <div className="w-8 h-8 rounded-full border-2 border-[#1A2F24]/20 border-t-[#4A6750] animate-spin" />
+  </div>
+);
 const MainPortfolio = () => {
   return (
     <motion.main
@@ -52,7 +59,11 @@ const AnimatedRoutes = () => {
               variants={pageVariants}
               className="w-full min-h-dvh"
             >
-              <ProjectDetail />
+              <RouteErrorBoundary>
+                <Suspense fallback={<RouteLoadingFallback />}>
+                  <ProjectDetail />
+                </Suspense>
+              </RouteErrorBoundary>
             </motion.div>
           }
         />

@@ -1,16 +1,22 @@
-import { useState, useEffect, useCallback, useRef, memo } from 'react';
+import { useState, useEffect, useCallback, useRef, memo, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import type { CSSProperties, ReactElement } from 'react';
 
 import LogoAnimated from '../../assets/logo-animated.svg';
-
-/* TYPES & CONSTANTS */
 
 interface NavLink {
   name: string;
   id: string;
 }
+
+interface NavigationState {
+  targetSection?: string;
+}
+
+const SECTION_IDS = ['home', 'about', 'experience', 'projects', 'contact'] as const;
+
+const BUILD_ID = '2026-09-08';
 
 const LEFT_LINKS: readonly NavLink[] = [
   { name: 'Profile', id: 'about' },
@@ -22,19 +28,7 @@ const RIGHT_LINKS: readonly NavLink[] = [
   { name: 'Contact', id: 'contact' },
 ] as const;
 
-const logoMaskStyle: CSSProperties = {
-  maskImage: `url(${LogoAnimated})`,
-  WebkitMaskImage: `url(${LogoAnimated})`,
-  maskRepeat: 'no-repeat',
-  WebkitMaskRepeat: 'no-repeat',
-  maskPosition: 'center',
-  WebkitMaskPosition: 'center',
-  maskSize: 'contain',
-  WebkitMaskSize: 'contain',
-};
-
-
-/* CUSTOM ICONS */
+const ALL_LINKS = [...LEFT_LINKS, ...RIGHT_LINKS] as const;
 
 const ProfileIcon = (): ReactElement => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
@@ -66,72 +60,45 @@ const ContactIcon = (): ReactElement => (
   </svg>
 );
 
-const getMenuIcon = (name: string) => {
-  switch (name.toLowerCase()) {
-    case 'profile': return <ProfileIcon />;
-    case 'experience': return <ExperienceIcon />;
-    case 'projects': return <ProjectsIcon />;
-    case 'contact': return <ContactIcon />;
-    default: return null;
-  }
+// Dipetakan berdasarkan section id (type-safe), bukan string name yang rawan typo.
+const ICON_MAP: Record<string, () => ReactElement> = {
+  about: ProfileIcon,
+  experience: ExperienceIcon,
+  projects: ProjectsIcon,
+  contact: ContactIcon,
 };
 
+const getMenuIcon = (id: string) => {
+  const Icon = ICON_MAP[id];
+  return Icon ? <Icon /> : null;
+};
 
-/* SUB-COMPONENTS */
-
-const NavGroup = memo(({ links, activeSection, onNavigate }: { links: readonly NavLink[]; activeSection: string; onNavigate: (id: string) => void }) => (
-  <div className="flex items-center gap-3 md:gap-6 font-redhat text-[10px] md:text-[11px] tracking-[0.2em] uppercase">
-    {links.map((link) => {
-      const isActive = activeSection === link.id;
-      return (
-        <button
-          key={link.id}
-          onClick={() => onNavigate(link.id)}
-          aria-current={isActive ? 'page' : undefined}
-          className={`relative py-1 md:py-1.5 px-2 transition-colors duration-500 ease-out flex flex-col items-center justify-center ${
-            isActive ? 'text-[#1A2F24]' : 'text-[#2E4C38]/80 hover:text-[#1A2F24]'
-          }`}
-        >
-          <span
-            data-text={link.name.toUpperCase()}
-            className={`relative flex flex-col items-center justify-center before:content-[attr(data-text)] before:font-extrabold before:invisible before:h-0 ${
-              isActive ? 'font-extrabold' : 'font-medium'
-            }`}
-          >
-            {link.name.toUpperCase()}
-          </span>
-        </button>
-      );
-    })}
-  </div>
-));
-NavGroup.displayName = 'NavGroup';
-
-const MobileNavItem = memo(({ link, isActive, onNavigate }: { link: NavLink; isActive: boolean; onNavigate: (id: string) => void }) => (
+const MobileNavItem = memo(({ link, isActive, onNavigate, isInitial, suppressSlide }: { link: NavLink; isActive: boolean; onNavigate: (id: string) => void; isInitial?: boolean; suppressSlide?: boolean }) => (
   <button
     onClick={() => onNavigate(link.id)}
-    aria-current={isActive ? 'page' : undefined}
-    className={`relative flex items-center justify-center w-14 h-10 rounded-full transition-colors duration-300 z-10 ${
-      isActive ? 'text-white' : 'text-[#2E4C38]/50 hover:text-[#1A2F24]'
+    className={`relative flex items-center justify-center w-11 h-11 transition-colors z-10 rounded-full ${
+      isActive ? 'text-white' : 'text-[#2E4C38]/50'
     }`}
-    aria-label={link.name}
   >
     {isActive && (
       <motion.div
         layoutId="mobileActiveBackground"
-        className="absolute inset-0 bg-[#1A2F24] rounded-full -z-10"
-        transition={{ type: "spring", stiffness: 450, damping: 30 }}
+        initial={isInitial ? { opacity: 0, scale: 0 } : false}
+        animate={{ opacity: 1, scale: 1 }}
+        className="absolute inset-0 bg-[#1A2F24] -z-10"
+        style={{ borderRadius: 9999 }}
+        transition={{
+          layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
+          default: { type: "spring", stiffness: 300, damping: 30 },
+        }}
       />
     )}
     <span className="relative z-10 flex items-center justify-center">
-      {getMenuIcon(link.name)}
+      {getMenuIcon(link.id)}
     </span>
   </button>
 ));
 MobileNavItem.displayName = 'MobileNavItem';
-
-
-/* MAIN COMPONENT: NAVBAR */
 
 const Navbar = () => {
   const location = useLocation();
@@ -141,205 +108,401 @@ const Navbar = () => {
     () => typeof window !== 'undefined' && window.scrollY > 30
   );
   const [activeSection, setActiveSection] = useState<string>('home');
-  const [isLogoReversing, setIsLogoReversing] = useState<boolean>(false);
+  const [isInitial, setIsInitial] = useState(true);
+  useEffect(() => setIsInitial(false), []);
 
-  const rafRef = useRef<number | null>(null);
+  const [suppressSlide, setSuppressSlide] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => setSuppressSlide(false), 600);
+    return () => clearTimeout(t);
+  }, []);
+
   const isNavigating = useRef<boolean>(false);
-  const scrollEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const prevPathRef = useRef<string>(location.pathname);
+  const isFirstLoad = useRef<boolean>(true);
 
-  /* EFFECTS */
+  // Cache elemen section supaya tidak query DOM di setiap scroll tick.
+  const sectionElsRef = useRef<Map<string, HTMLElement>>(new Map());
 
-  // Deteksi section aktif saat scroll manual menggunakan kalkulasi posisi elemen
+  const logoMaskStyle = useMemo<CSSProperties>(() => {
+    // Query param unik dibutuhkan agar browser fetch ulang resource sebagai instance baru,
+    // sehingga animasi draw-on (stroke-dashoffset) di dalam SVG restart tiap mount —
+    // tanpa ini browser bisa reuse SVG yang sudah di-cache dalam state "selesai animasi".
+    // useMemo dengan deps kosong -> hanya dihitung sekali per mount (reload/first load), bukan per render.
+    const url = `url(${LogoAnimated}?v=${BUILD_ID})`;
+    return {
+      maskImage: url,
+      WebkitMaskImage: url,
+      maskRepeat: 'no-repeat',
+      WebkitMaskRepeat: 'no-repeat',
+      maskPosition: 'center',
+      WebkitMaskPosition: 'center',
+      maskSize: 'contain',
+      WebkitMaskSize: 'contain',
+    };
+  }, []);
+
+  // Populate cache elemen section saat berada di halaman utama.
+  // Dijalankan lagi via rAF sekali untuk menangani section yang mount belakangan.
   useEffect(() => {
     if (location.pathname !== '/') return;
 
-    const handleScrollTracking = () => {
-      if (isNavigating.current) return;
-
-      const sectionIds = ['home', 'about', 'experience', 'projects', 'contact'];
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
-
-      for (const id of sectionIds) {
+    const populate = () => {
+      const map = sectionElsRef.current;
+      map.clear();
+      for (const id of SECTION_IDS) {
         const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(id);
-            break;
-          }
-        }
+        if (el) map.set(id, el);
       }
     };
 
-    window.addEventListener('scroll', handleScrollTracking, { passive: true });
-    handleScrollTracking();
+    // Retry sampai semua section ketemu (maks ~0.5s), bukan cuma 1x rAF.
+    // Perlu karena saat balik dari /projects/:slug ke '/', elemen section
+    // bisa belum ter-mount tepat di frame pertama route berubah — kalau cache
+    // telanjur kosong dan tidak di-retry, computeActiveSection akan selalu
+    // fallback ke 'home' walau posisi scroll sudah di section lain.
+    let attempts = 0;
+    let raf: number | null = null;
+    const MAX_ATTEMPTS = 30;
 
+    const tryPopulate = () => {
+      populate();
+      attempts += 1;
+      if (sectionElsRef.current.size < SECTION_IDS.length && attempts < MAX_ATTEMPTS) {
+        raf = requestAnimationFrame(tryPopulate);
+      }
+    };
+
+    tryPopulate();
     return () => {
-      window.removeEventListener('scroll', handleScrollTracking);
+      if (raf !== null) cancelAnimationFrame(raf);
     };
   }, [location.pathname]);
 
+  const computeActiveSection = useCallback(() => {
+    if (isNavigating.current) return;
+
+    // Fallback: kalau cache kosong (elemen belum sempat ke-cache saat effect populate jalan),
+    // ambil langsung dari DOM sekali saat itu juga — mencegah macet permanen di 'home'.
+    if (sectionElsRef.current.size === 0) {
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (el) sectionElsRef.current.set(id, el);
+      }
+    }
+
+    const scrollPosition = window.scrollY + window.innerHeight / 3;
+    let current = 'home';
+
+    for (const id of SECTION_IDS) {
+      const el = sectionElsRef.current.get(id);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      if (scrollPosition >= top) {
+        current = id;
+      }
+    }
+
+    setActiveSection((prev) => (prev === current ? prev : current));
+  }, []);
+
+  // Satu scroll listener untuk isScrolled + active section tracking, satu rAF throttle.
   useEffect(() => {
-    if (location.pathname.startsWith('/projects/')) {
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 30);
+        if (location.pathname === '/') computeActiveSection();
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [location.pathname, computeActiveSection]);
+
+  const waitForScrollEnd = useCallback((onSettled: () => void) => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+
+    let lastY = window.scrollY;
+    let stableFrames = 0;
+    const start = performance.now();
+    const STABLE_FRAMES_REQUIRED = 6;
+    const MAX_WAIT_MS = 3000;
+
+    const tick = () => {
+      const currentY = window.scrollY;
+      if (Math.abs(currentY - lastY) < 0.5) {
+        stableFrames += 1;
+      } else {
+        stableFrames = 0;
+        lastY = currentY;
+      }
+
+      const timedOut = performance.now() - start > MAX_WAIT_MS;
+      if (stableFrames >= STABLE_FRAMES_REQUIRED || timedOut) {
+        rafRef.current = null;
+        onSettled();
+        return;
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+  }, []);
+
+  const performScroll = useCallback((id: string) => {
+    isNavigating.current = true;
+    setActiveSection(id);
+
+    if (id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    waitForScrollEnd(() => {
+      isNavigating.current = false;
+    });
+  }, [waitForScrollEnd]);
+
+  // Effect ini WAJIB dideklarasikan sebelum effect first-load di bawah.
+  // isFirstLoad.current baru boleh dibaca di sini sebelum effect first-load
+  // sempat mem-flip-nya jadi false pada commit yang sama — kalau urutannya kebalik,
+  // reload langsung di /projects/:slug akan salah kira "bukan first load" dan
+  // sempat men-set activeSection('projects') sesaat sebelum di-redirect balik ke
+  // 'home', bikin fill indicator loncat dua kali (home -> projects -> home).
+  useEffect(() => {
+    if (!isFirstLoad.current && location.pathname.startsWith('/projects/')) {
       setActiveSection('projects');
     }
   }, [location.pathname]);
 
   useEffect(() => {
-    if (location.pathname !== '/') return;
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
 
-    const targetId = location.state?.targetSection;
-    if (!targetId) return;
-
-    let settled = false;
-    let observer: MutationObserver | null = null;
-    let safetyTimer: ReturnType<typeof setTimeout> | null = null;
-
-    const finishScroll = () => {
-      if (settled) return;
-
-      if (targetId === 'home') {
-        settled = true;
-        isNavigating.current = true;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setActiveSection('home');
-        setTimeout(() => navigate('/', { replace: true, state: {} }), 100);
-        return;
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual';
       }
 
-      const element = document.getElementById(targetId);
-      if (!element) return;
+      const timer = setTimeout(() => {
+        setActiveSection('home');
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      }, 500);
 
-      settled = true;
-      isNavigating.current = true;
-      observer?.disconnect();
-      if (safetyTimer) clearTimeout(safetyTimer);
+      if (location.pathname !== '/' || location.state) {
+        prevPathRef.current = '/';
+        navigate('/', { replace: true, state: {} });
+      }
 
-      setTimeout(() => {
-        element.scrollIntoView({ behavior: 'smooth' });
-        setActiveSection(targetId);
-        setTimeout(() => navigate('/', { replace: true, state: {} }), 100);
-      }, 100);
-    };
-
-    if (targetId === 'home' || document.getElementById(targetId)) {
-      finishScroll();
-    } else {
-      observer = new MutationObserver(finishScroll);
-      observer.observe(document.body, { childList: true, subtree: true });
-      safetyTimer = setTimeout(() => observer?.disconnect(), 5000);
+      return () => clearTimeout(timer);
     }
-
-    return () => {
-      observer?.disconnect();
-      if (safetyTimer) clearTimeout(safetyTimer);
-    };
   }, [location.pathname, location.state, navigate]);
 
+  useEffect(() => {
+    if (isFirstLoad.current) return;
 
-  /* HANDLERS */
-
-  const handleNavigate = useCallback((id: string) => {
     if (location.pathname !== '/') {
-      navigate('/', { state: { targetSection: id } });
+      prevPathRef.current = location.pathname;
       return;
     }
 
-    isNavigating.current = true;
-    setActiveSection(id);
+    const cameFromSlug = prevPathRef.current.startsWith('/projects/');
+    const targetId = (location.state as NavigationState | null)?.targetSection;
+    prevPathRef.current = location.pathname;
 
-    if (id === 'home') {
-      setIsLogoReversing(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!targetId && !cameFromSlug) return;
+
+    const finalTargetId = targetId || 'home';
+
+    let cancelled = false;
+
+    const run = () => {
+      if (cancelled) return;
+      requestAnimationFrame(() => {
+        if (cancelled) return;
+        performScroll(finalTargetId);
+        if (targetId) navigate('/', { replace: true, state: {} });
+      });
+    };
+
+    // Polling rAF ringan untuk menunggu elemen target muncul,
+    // menggantikan MutationObserver yang sebelumnya mengamati seluruh document.body.
+    const waitForElement = (id: string, onFound: () => void) => {
+      const start = performance.now();
+      const MAX_WAIT_MS = 5000;
+
+      const check = () => {
+        if (cancelled) return;
+        if (document.getElementById(id)) {
+          onFound();
+          return;
+        }
+        if (performance.now() - start > MAX_WAIT_MS) return;
+        requestAnimationFrame(check);
+      };
+
+      check();
+    };
+
+    if (finalTargetId === 'home' || document.getElementById(finalTargetId)) {
+      run();
     } else {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      waitForElement(finalTargetId, run);
     }
 
-    if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
-    scrollEndTimer.current = setTimeout(() => {
-      isNavigating.current = false;
-    }, 1000);
+    return () => {
+      cancelled = true;
+    };
+  }, [location.pathname, location.state, navigate, performScroll]);
 
-  }, [location.pathname, navigate]);
+  const handleNavigate = useCallback((id: string) => {
+    if (location.pathname !== '/') {
+      isNavigating.current = true;
+      setActiveSection(id);
+      navigate('/', { state: { targetSection: id } });
+      return;
+    }
+    performScroll(id);
+  }, [location.pathname, navigate, performScroll]);
 
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   return (
     <>
-      {/* DESKTOP NAVBAR */}
       <motion.nav
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-        className="hidden md:flex fixed top-6 left-0 w-full z-50 justify-center pointer-events-none"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
       >
-        <div className="relative flex items-center justify-center w-full max-w-[1200px] px-8 pointer-events-none">
-
-          <div className={`flex-1 h-[2px] bg-gradient-to-r from-transparent via-[#2E4C38]/20 to-[#2E4C38]/40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-right ${isScrolled ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100'}`} />
-          <div
-            className={`flex items-center shrink-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-auto h-14 ${
-              isScrolled
-                ? 'px-8 bg-white/90 backdrop-blur-md border border-[#1A2F24]/10 shadow-[0_8px_32px_rgba(26,47,36,0.08)] rounded-full mx-0'
-                : 'px-4 bg-transparent border-transparent mx-4'
-            }`}
-          >
-            <NavGroup links={LEFT_LINKS} activeSection={activeSection} onNavigate={handleNavigate} />
-
+        <div
+          className={`pointer-events-auto flex items-center gap-1 p-1.5 rounded-full transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ${
+            isScrolled
+              ? 'bg-white/90 backdrop-blur-sm shadow-lg border border-[#1A2F24]/10'
+              : 'bg-white/50 border border-transparent'
+          }`}
+        >
+          <LayoutGroup>
             <button
               onClick={() => handleNavigate('home')}
-              className="relative group flex items-center justify-center mx-8 active:scale-90 transition-transform duration-300 shrink-0"
+              className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-300 mr-1 z-10 ${
+                activeSection === 'home' ? '' : 'bg-[#1A2F24]/10 hover:bg-[#1A2F24]/20'
+              }`}
               aria-label="Home"
             >
+              {activeSection === 'home' && (
+                <motion.div
+                  layoutId="desktopActiveFill"
+                  initial={false}
+                  className="absolute inset-0 bg-[#1A2F24] -z-10"
+                  style={{ borderRadius: 9999 }}
+                  transition={{
+                    layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
+                    default: { type: "spring", stiffness: 300, damping: 30 },
+                  }}
+                />
+              )}
               <div
                 style={logoMaskStyle}
-                className={`w-9 h-9 transition-colors duration-300 ${activeSection === 'home' ? 'bg-[#1A2F24] scale-110' : 'bg-[#1A2F24]/50 group-hover:bg-[#1A2F24]'} ${isLogoReversing ? 'animate-logo-reverse' : 'animate-logo-forward'}`}
-                onAnimationEnd={() => setIsLogoReversing(false)}
+                className={`relative z-10 w-5 h-5 transition-colors duration-300 ${
+                  activeSection === 'home' ? 'bg-white' : 'bg-[#1A2F24]'
+                }`}
               />
             </button>
 
-            <NavGroup links={RIGHT_LINKS} activeSection={activeSection} onNavigate={handleNavigate} />
-          </div>
-
-          <div className={`flex-1 h-[2px] bg-gradient-to-l from-transparent via-[#2E4C38]/20 to-[#2E4C38]/40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left ${isScrolled ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100'}`} />
-
+            {ALL_LINKS.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => handleNavigate(link.id)}
+                  className={`relative px-4 py-2 text-[11px] font-redhat tracking-[0.15em] uppercase transition-colors duration-300 z-10 rounded-full ${
+                    isActive ? 'text-white font-bold' : 'text-[#1A2F24]/60 font-medium hover:text-[#1A2F24] hover:bg-[#1A2F24]/5'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="desktopActiveFill"
+                      initial={false}
+                      className="absolute inset-0 bg-[#1A2F24] -z-10"
+                      style={{ borderRadius: 9999 }}
+                      transition={{
+                        layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
+                        default: { type: "spring", stiffness: 300, damping: 30 },
+                      }}
+                    />
+                  )}
+                  <span className="relative z-10">
+                    {link.name}
+                  </span>
+                </button>
+              );
+            })}
+          </LayoutGroup>
         </div>
       </motion.nav>
 
-
-      {/* MOBILE DOCK */}
       <motion.nav
-        initial={{ opacity: 0, y: 25, x: "-50%" }}
+        initial={{ opacity: 0, y: 20, x: "-50%" }}
         animate={{ opacity: 1, y: 0, x: "-50%" }}
-        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-        className="md:hidden fixed bottom-6 left-1/2 w-max p-1.5 bg-white/90 backdrop-blur-xl border border-[#1A2F24]/5 shadow-[0_8px_32px_rgba(26,47,36,0.12)] rounded-full z-50 flex items-center gap-1 pointer-events-auto"
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-max z-50"
       >
-        <MobileNavItem link={LEFT_LINKS[0]} isActive={activeSection === 'about'} onNavigate={handleNavigate} />
-        <MobileNavItem link={LEFT_LINKS[1]} isActive={activeSection === 'experience'} onNavigate={handleNavigate} />
-
-        <button
-          onClick={() => handleNavigate('home')}
-          className="relative flex items-center justify-center w-14 h-10 rounded-full active:scale-90 transition-transform duration-300 z-10"
-          aria-label="Home"
+        <div
+          className={`px-2 py-2 border rounded-full flex items-center gap-2 transition-[background-color,border-color,box-shadow] duration-500 ${
+            isScrolled 
+              ? 'bg-[#F9F8F4] shadow-md border-[#1A2F24]/10' 
+              : 'bg-[#F9F8F4] border-transparent'
+          }`}
         >
-          {activeSection === 'home' && (
-            <motion.div
-              layoutId="mobileActiveBackground"
-              className="absolute inset-0 bg-[#1A2F24] rounded-full -z-10"
-              transition={{ type: "spring", stiffness: 450, damping: 30 }}
-            />
-          )}
-          <div
-            style={logoMaskStyle}
-            className={`w-8 h-8 transition-colors duration-300 ${activeSection === 'home' ? 'bg-white' : 'bg-[#1A2F24]'} ${isLogoReversing ? 'animate-logo-reverse' : 'animate-logo-forward'}`}
-            onAnimationEnd={() => setIsLogoReversing(false)}
-          />
-        </button>
+          <LayoutGroup>
+            <MobileNavItem link={LEFT_LINKS[0]} isActive={activeSection === 'about'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
+            <MobileNavItem link={LEFT_LINKS[1]} isActive={activeSection === 'experience'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
 
-        <MobileNavItem link={RIGHT_LINKS[0]} isActive={activeSection === 'projects'} onNavigate={handleNavigate} />
-        <MobileNavItem link={RIGHT_LINKS[1]} isActive={activeSection === 'contact'} onNavigate={handleNavigate} />
+            <button
+              onClick={() => handleNavigate('home')}
+              className="relative flex items-center justify-center w-11 h-11 rounded-full z-10"
+            >
+              {activeSection === 'home' && (
+                <motion.div
+                  layoutId="mobileActiveBackground"
+                  initial={isInitial ? { opacity: 0, scale: 0 } : false}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="absolute inset-0 bg-[#1A2F24] -z-10"
+                  style={{ borderRadius: 9999 }}
+                  transition={{
+                    layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
+                    default: { type: "spring", stiffness: 300, damping: 30 },
+                  }}
+                />
+              )}
+              <div
+                style={logoMaskStyle}
+                className={`relative z-10 w-6 h-6 transition-colors duration-200 ${
+                  activeSection === 'home' ? 'bg-white' : 'bg-[#1A2F24]/50'
+                }`}
+              />
+            </button>
+
+            <MobileNavItem link={RIGHT_LINKS[0]} isActive={activeSection === 'projects'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
+            <MobileNavItem link={RIGHT_LINKS[1]} isActive={activeSection === 'contact'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
+          </LayoutGroup>
+        </div>
       </motion.nav>
     </>
   );

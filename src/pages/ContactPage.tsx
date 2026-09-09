@@ -1,7 +1,6 @@
-import { type ReactElement, type MouseEvent } from 'react';
+import { type ReactElement, type ReactNode, type MouseEvent } from 'react';
 import { motion, type Variants } from 'framer-motion';
 
-import { SocialButton } from '../components/ui/SocialButton';
 import {
   SOCIAL_LINKS,
   EMAIL_MAILTO,
@@ -9,7 +8,24 @@ import {
   RESUME_LINK,
 } from '../constants/contactData';
 
-// Animation configurations
+interface SocialButtonProps {
+  readonly url: string;
+  readonly icon: ReactNode;
+  readonly label: string;
+}
+
+const SocialButton = ({ url, icon, label }: SocialButtonProps): ReactElement => (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex items-center gap-2 rounded-full border border-[#1A2F24]/15 bg-transparent px-4 py-2 text-[#1A2F24] transition-all duration-300 hover:border-[#1A2F24] hover:bg-[#1A2F24] hover:text-[#F9F8F4]"
+  >
+    <span className="shrink-0">{icon}</span>
+    <span className="font-karla text-[13px] font-bold tracking-wide">{label}</span>
+  </a>
+);
+
 const customEase = [0.22, 1, 0.36, 1] as const;
 
 const containerVariants: Variants = {
@@ -38,16 +54,15 @@ const itemVariants: Variants = {
   },
 };
 
-// UI Icons
 const MailIcon = (): ReactElement => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
     <polyline points="22,6 12,13 2,6" />
   </svg>
 );
 
 const UsersIcon = (): ReactElement => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
     <circle cx="9" cy="7" r="4" />
     <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -56,7 +71,7 @@ const UsersIcon = (): ReactElement => (
 );
 
 const FileIcon = (): ReactElement => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
     <polyline points="14 2 14 8 20 8" />
     <line x1="16" y1="13" x2="8" y2="13" />
@@ -66,14 +81,13 @@ const FileIcon = (): ReactElement => (
 );
 
 const ArrowIcon = (): ReactElement => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M7 17L17 7" />
-    <path d="M7 7h10v10" />
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
   </svg>
 );
 
 const ContactSection = (): ReactElement => {
-  // Route email action
   const handleEmailClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -91,120 +105,94 @@ const ContactSection = (): ReactElement => {
       variants={containerVariants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: '-10%' }}
-      className="relative z-0 flex w-full scroll-mt-20 flex-col overflow-hidden bg-[#F9F8F4] px-6 pt-12 pb-28 font-sans text-gray-800 md:px-12 md:pt-20 md:pb-20 lg:px-20"
+      viewport={{ once: true, margin: '-100px' }}
+      className="relative z-0 flex w-full scroll-mt-20 flex-col overflow-hidden bg-[#F9F8F4] px-6 pt-12 pb-24 md:py-20 lg:py-24 md:px-12 lg:px-24 font-sans text-[#1A2F24]"
     >
-      <div className="relative z-10 mx-auto w-full max-w-5xl">
+      <div className="relative z-10 mx-auto w-full max-w-7xl flex flex-col gap-16 lg:gap-20">
         
-        {/* Header */}
-        <motion.div variants={textVariants} className="mb-8 flex w-full flex-col md:mb-12">
-          <span className="font-redhat mb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#4A6750]">
-            Contact
-          </span>
-          <h2 className="font-seasons text-[40px] leading-none tracking-tight text-[#1A2F24] md:text-5xl lg:text-6xl">
-            Let&apos;s talk.
-          </h2>
-          <p className="font-aileron mt-4 max-w-2xl text-justify text-[14px] leading-[1.65] text-[#2E4C38]/80 md:text-[15px] md:leading-relaxed">
-            Have a project, an idea, or just want to say hi? I&apos;m always
-            open for a good conversation — pick whichever channel works
-            best for you.
-          </p>
-        </motion.div>
-
-        {/* Status Badge */}
-        <motion.div
-          variants={itemVariants}
-          className="show-scrollbar mb-2 -mx-6 flex gap-2 overflow-x-auto px-6 pb-2 md:mx-0 md:px-0"
-        >
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#2E4C38]/10 bg-[#4A6750]/5 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-[#4A6750]">
-            <span className="relative flex h-1 w-1">
-              <span className="absolute inset-0 animate-ping rounded-full bg-[#4A6750]/40" />
-              <span className="relative h-1 w-1 rounded-full bg-[#4A6750]" />
+        <div className="flex flex-col">
+          <motion.div variants={textVariants} className="flex flex-col text-left">
+            <span className="font-redhat mb-3 md:mb-4 text-[10px] font-bold uppercase tracking-[0.25em] text-[#4A6750]">
+              Contact
             </span>
-            Available for work
-          </span>
-        </motion.div>
+            <h2 className="font-autour text-[35px] sm:text-[54px] lg:text-[64px] leading-[1.1] tracking-tight text-[#1A2F24]">
+              Let&apos;s <span className="text-[#4A6750]">talk</span>
+            </h2>
+            <p className="font-karla mt-5 max-w-xl text-[15px] sm:text-[16px] lg:text-[17px] leading-[1.7] text-[#2E4C38]/80 font-medium text-justify">
+              Have a project, an idea, or just want to say hi? I&apos;m always
+              open for a good conversation — pick whichever channel works
+              best for you.
+            </p>
+          </motion.div>
+        </div>
 
-        {/* Contact Cards */}
-        <motion.div variants={itemVariants} className="mt-4 w-full overflow-hidden">
-          <div className="show-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 pt-1 md:mx-0 md:px-0">
-            
-            {/* Email */}
-            <a
-              href={EMAIL_MAILTO}
-              onClick={handleEmailClick}
-              className="group flex h-[180px] w-[75vw] shrink-0 snap-center flex-col rounded-[1.25rem] border border-[#1A2F24]/10 bg-white p-5 shadow-sm transition-colors duration-300 hover:border-[#4A6750]/30 sm:w-[300px] md:h-[190px]"
-            >
-              <h4 className="font-aileron mb-3 flex items-center gap-2.5 border-b border-[#1A2F24]/5 pb-3 text-[14px] font-bold text-[#1A2F24] md:text-[15px]">
-                <span className="shrink-0 rounded-lg bg-[#4A6750]/10 p-1.5 text-[#4A6750]">
-                  <MailIcon />
-                </span>
-                Email
-              </h4>
-              <div className="flex flex-1 flex-col justify-between">
-                <p className="font-aileron text-[13px] leading-[1.5] text-[#2E4C38]/80">
-                  Hit me up if you want to discuss a project or just say hello.
-                </p>
-                <span className="font-redhat mt-3 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-[#4A6750] transition-colors duration-300 group-hover:text-[#E0BA5C]">
-                  Send a message <ArrowIcon />
-                </span>
-              </div>
-            </a>
-
-            {/* Socials */}
-            <div className="flex h-[180px] w-[75vw] shrink-0 snap-center flex-col rounded-[1.25rem] border border-[#1A2F24]/10 bg-white p-5 shadow-sm sm:w-[300px] md:h-[190px]">
-              <h4 className="font-aileron mb-3 flex items-center gap-2.5 border-b border-[#1A2F24]/5 pb-3 text-[14px] font-bold text-[#1A2F24] md:text-[15px]">
-                <span className="shrink-0 rounded-lg bg-[#4A6750]/10 p-1.5 text-[#4A6750]">
-                  <UsersIcon />
-                </span>
-                Socials
-              </h4>
-              <div className="flex flex-1 flex-col justify-between">
-                <p className="font-aileron text-[13px] leading-[1.5] text-[#2E4C38]/80">
-                  Let's link up! You can find my profile and repos here.
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {SOCIAL_LINKS.map((social) => (
-                    <SocialButton
-                      key={social.name}
-                      url={social.url}
-                      icon={social.icon}
-                      label={social.name}
-                    />
-                  ))}
-                </div>
-              </div>
+        <motion.div variants={itemVariants} className="w-full flex flex-col border-t border-[#1A2F24]/10">
+          
+          <a
+            href={EMAIL_MAILTO}
+            onClick={handleEmailClick}
+            className="group/row flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-7 md:py-10 border-b border-[#1A2F24]/10 transition-colors hover:bg-white/40 -mx-4 px-4 rounded-xl"
+          >
+            <div className="flex items-center gap-4 md:w-1/4 shrink-0 text-[#1A2F24]">
+              <MailIcon />
+              <h4 className="font-overlock text-[18px] md:text-[22px] font-bold">Email</h4>
             </div>
+            <div className="md:w-1/2">
+              <p className="font-karla text-[14px] md:text-[16px] leading-relaxed text-[#2E4C38]/70">
+                Hit me up to discuss a project, collaboration, or just say hello.
+              </p>
+            </div>
+            <div className="md:w-1/4 flex md:justify-end mt-3 md:mt-0">
+              <span className="font-karla inline-flex items-center gap-2.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-[#4A6750] transition-transform duration-300 group-hover/row:translate-x-1 group-hover/row:text-[#1A2F24]">
+                Send Message <ArrowIcon />
+              </span>
+            </div>
+          </a>
 
-            {/* CV */}
-            <a
-              href={RESUME_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex h-[180px] w-[75vw] shrink-0 snap-center flex-col rounded-[1.25rem] border border-[#1A2F24]/10 bg-white p-5 shadow-sm transition-colors duration-300 hover:border-[#4A6750]/30 sm:w-[300px] md:h-[190px]"
-            >
-              <h4 className="font-aileron mb-3 flex items-center gap-2.5 border-b border-[#1A2F24]/5 pb-3 text-[14px] font-bold text-[#1A2F24] md:text-[15px]">
-                <span className="shrink-0 rounded-lg bg-[#4A6750]/10 p-1.5 text-[#4A6750]">
-                  <FileIcon />
-                </span>
-                Curiculum Vitae
-              </h4>
-              <div className="flex flex-1 flex-col justify-between">
-                <p className="font-aileron text-[13px] leading-[1.5] text-[#2E4C38]/80">
-                  Grab a copy of my CV to see the full list of my experience.
-                </p>
-                <span className="font-redhat mt-3 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-[#4A6750] transition-colors duration-300 group-hover:text-[#E0BA5C]">
-                  Download <ArrowIcon />
-                </span>
-              </div>
-            </a>
-
+          <div className="group/row flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-7 md:py-10 border-b border-[#1A2F24]/10 transition-colors hover:bg-white/40 -mx-4 px-4 rounded-xl">
+            <div className="flex items-center gap-4 md:w-1/4 shrink-0 text-[#1A2F24]">
+              <UsersIcon />
+              <h4 className="font-overlock text-[18px] md:text-[22px] font-bold">Socials</h4>
+            </div>
+            <div className="md:w-1/2">
+              <p className="font-karla text-[14px] md:text-[16px] leading-relaxed text-[#2E4C38]/70">
+                Let&apos;s link up! Find my professional profile and code repositories here.
+              </p>
+            </div>
+            <div className="md:w-1/4 flex md:justify-end gap-2 flex-wrap mt-3 md:mt-0">
+              {SOCIAL_LINKS.map((social) => (
+                <SocialButton
+                  key={social.name}
+                  url={social.url}
+                  icon={social.icon}
+                  label={social.name}
+                />
+              ))}
+            </div>
           </div>
 
-          <div className="font-redhat mt-1 flex select-none items-center justify-start gap-2 text-[9px] uppercase tracking-widest text-[#1A2F24]/30">
-            <span>Swipe to explore</span>
-            <span>→</span>
-          </div>
+          <a
+            href={RESUME_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/row flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-7 md:py-10 border-b border-[#1A2F24]/10 transition-colors hover:bg-white/40 -mx-4 px-4 rounded-xl"
+          >
+            <div className="flex items-center gap-4 md:w-1/4 shrink-0 text-[#1A2F24]">
+              <FileIcon />
+              <h4 className="font-overlock text-[18px] md:text-[22px] font-bold">Resume</h4>
+            </div>
+            <div className="md:w-1/2">
+              <p className="font-karla text-[14px] md:text-[16px] leading-relaxed text-[#2E4C38]/70">
+                Grab a copy of my CV to see the full list of my experience and skills.
+              </p>
+            </div>
+            <div className="md:w-1/4 flex md:justify-end mt-3 md:mt-0">
+              <span className="font-karla inline-flex items-center gap-2.5 text-[11px] md:text-xs font-bold uppercase tracking-[0.1em] text-[#4A6750] transition-transform duration-300 group-hover/row:translate-x-1 group-hover/row:text-[#1A2F24]">
+                Download PDF <ArrowIcon />
+              </span>
+            </div>
+          </a>
+
         </motion.div>
 
       </div>

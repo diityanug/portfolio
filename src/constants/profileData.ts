@@ -6,7 +6,7 @@ export const EDUCATION_DATA: readonly EducationItem[] = [
     school: 'President University',
     period: '2023 - 2025',
     gpa: '3.64',
-    focus: 'Business Intelligence.',
+    focus: 'Business Intelligence',
     link: '#'
   },
   {
@@ -14,13 +14,16 @@ export const EDUCATION_DATA: readonly EducationItem[] = [
     school: 'Tadulako University',
     period: '2017 - 2022',
     gpa: '3.71',
-    focus: 'Financial Accounting and Taxation.',
+    focus: 'Financial Accounting and Taxation',
     link: '#'
   }
 ] as const;
 
 export const CERTIFICATES_DATA: readonly CertificateItem[] = [
-  { title: 'Fundamentals of Software Design and Architecture Course', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-37fc4f6c-08ab-4881-9246-3f561902b2b3/' },
+  // { title: '', issuer: 'Udemy', year: '2026', link: '' },
+  { title: 'SOLID Principles: Introducing Software Architecture & Design', issuer: 'Udemy', year: '2026', link: 'https://www.udemy.com/certificate/UC-6ff76bda-84e8-4650-82d7-af2298bbe167/' },
+  { title: 'Clean Code', issuer: 'Udemy', year: '2026', link: 'https://www.udemy.com/certificate/UC-f9a43bb7-cae6-402f-88c9-10ce63c25d24/' },
+  { title: 'Fundamentals of Software Design and Architecture Course', issuer: 'Udemy', year: '2026', link: 'https://www.udemy.com/certificate/UC-37fc4f6c-08ab-4881-9246-3f561902b2b3/' },
   { title: 'Team Agility through Agile Ways of Working', issuer: 'Agile Academy Indonesia', year: '2025', link: 'https://drive.google.com/drive/folders/1zNRpF_mX7S5pA-MK-BZbmYDiXlbBdhH0?usp=sharing' },
   { title: 'C# Basics for Beginners: Learn C# Fundamentals by Coding', issuer: 'Udemy', year: '2026', link: 'https://www.udemy.com/certificate/UC-f5ec86b8-bde2-459f-b596-bf83c536b2ab/' },
   { title: 'Belajar Frontend Website (HTML, CSS dan Javascript)', issuer: 'Udemy', year: '2025', link: 'https://www.udemy.com/certificate/UC-3b379b97-a4bd-4981-b1c5-9375dc8924f4/' },
