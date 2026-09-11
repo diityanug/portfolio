@@ -1,4 +1,4 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import RouteErrorBoundary from './components/ErrorBoundary';
@@ -11,7 +11,7 @@ import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ContactPage from './pages/ContactPage';
 
-const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+import ProjectDetail from './pages/projectDetail';
 
 const pageVariants: Variants = {
   initial: { opacity: 0, y: 10 },
@@ -20,8 +20,8 @@ const pageVariants: Variants = {
 };
 
 const RouteLoadingFallback = () => (
-  <div className="w-full min-h-dvh flex items-center justify-center bg-[#F9F8F4]">
-    <div className="w-8 h-8 rounded-full border-2 border-[#1A2F24]/20 border-t-[#4A6750] animate-spin" />
+  <div className="w-full min-h-dvh flex items-center justify-center bg-[#f7f4ed]">
+    <div className="w-8 h-8 rounded-full border-2 border-black/10 border-t-black animate-spin" />
   </div>
 );
 const MainPortfolio = () => {
@@ -31,13 +31,13 @@ const MainPortfolio = () => {
       animate="in"
       exit="out"
       variants={pageVariants}
-      className="flex flex-col w-full bg-[#F9F8F4]"
+      className="flex flex-col w-full bg-[#f7f4ed]"
     >
-      <section id="home"><HomePage /></section>
-      <section id="about"><ProfilePage /></section>
-      <section id="experience"><ExperiencePage /></section>
-      <section id="projects"><ProjectsPage /></section>
-      <section id="contact"><ContactPage /></section>
+      <HomePage />
+      <ProfilePage />
+      <ExperiencePage />
+      <ProjectsPage />
+      <ContactPage />
     </motion.main>
   );
 };
@@ -81,7 +81,7 @@ function App() {
 
   return (
     <Router>
-      <div className="relative z-0 min-h-dvh bg-[#F9F8F4] overflow-x-hidden">
+      <div className="relative z-0 min-h-dvh bg-[#f7f4ed] text-[#1c1c1c] overflow-x-hidden">
         <Navbar />
         <AnimatedRoutes />
       </div>

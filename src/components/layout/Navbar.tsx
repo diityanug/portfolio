@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, useRef, memo, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { motion, LayoutGroup } from 'framer-motion';
-import type { CSSProperties, ReactElement } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { CSSProperties } from 'react';
 
 import LogoAnimated from '../../assets/logo-animated.svg';
 
@@ -18,118 +18,30 @@ const SECTION_IDS = ['home', 'about', 'experience', 'projects', 'contact'] as co
 
 const BUILD_ID = '2026-09-08';
 
-const LEFT_LINKS: readonly NavLink[] = [
-  { name: 'Profile', id: 'about' },
-  { name: 'Experience', id: 'experience' },
+const NAV_LINKS: readonly NavLink[] = [
+  { name: 'PROFILE', id: 'about' },
+  { name: 'EXPERIENCE', id: 'experience' },
+  { name: 'PROJECTS', id: 'projects' },
+  { name: 'CONTACT', id: 'contact' },
 ] as const;
-
-const RIGHT_LINKS: readonly NavLink[] = [
-  { name: 'Projects', id: 'projects' },
-  { name: 'Contact', id: 'contact' },
-] as const;
-
-const ALL_LINKS = [...LEFT_LINKS, ...RIGHT_LINKS] as const;
-
-const ProfileIcon = (): ReactElement => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-    <circle cx="12" cy="7" r="4" />
-  </svg>
-);
-
-const ExperienceIcon = (): ReactElement => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-  </svg>
-);
-
-const ProjectsIcon = (): ReactElement => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="7" rx="1.5" />
-    <rect x="14" y="3" width="7" height="7" rx="1.5" />
-    <rect x="14" y="14" width="7" height="7" rx="1.5" />
-    <rect x="3" y="14" width="7" height="7" rx="1.5" />
-  </svg>
-);
-
-const ContactIcon = (): ReactElement => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="4" width="20" height="16" rx="2" />
-    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-  </svg>
-);
-
-// Dipetakan berdasarkan section id (type-safe), bukan string name yang rawan typo.
-const ICON_MAP: Record<string, () => ReactElement> = {
-  about: ProfileIcon,
-  experience: ExperienceIcon,
-  projects: ProjectsIcon,
-  contact: ContactIcon,
-};
-
-const getMenuIcon = (id: string) => {
-  const Icon = ICON_MAP[id];
-  return Icon ? <Icon /> : null;
-};
-
-const MobileNavItem = memo(({ link, isActive, onNavigate, isInitial, suppressSlide }: { link: NavLink; isActive: boolean; onNavigate: (id: string) => void; isInitial?: boolean; suppressSlide?: boolean }) => (
-  <button
-    onClick={() => onNavigate(link.id)}
-    className={`relative flex items-center justify-center w-11 h-11 transition-colors z-10 rounded-full ${
-      isActive ? 'text-white' : 'text-[#2E4C38]/50'
-    }`}
-  >
-    {isActive && (
-      <motion.div
-        layoutId="mobileActiveBackground"
-        initial={isInitial ? { opacity: 0, scale: 0 } : false}
-        animate={{ opacity: 1, scale: 1 }}
-        className="absolute inset-0 bg-[#1A2F24] -z-10"
-        style={{ borderRadius: 9999 }}
-        transition={{
-          layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
-          default: { type: "spring", stiffness: 300, damping: 30 },
-        }}
-      />
-    )}
-    <span className="relative z-10 flex items-center justify-center">
-      {getMenuIcon(link.id)}
-    </span>
-  </button>
-));
-MobileNavItem.displayName = 'MobileNavItem';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [isScrolled, setIsScrolled] = useState<boolean>(
-    () => typeof window !== 'undefined' && window.scrollY > 30
+    () => typeof window !== 'undefined' && window.scrollY > 20
   );
   const [activeSection, setActiveSection] = useState<string>('home');
-  const [isInitial, setIsInitial] = useState(true);
-  useEffect(() => setIsInitial(false), []);
-
-  const [suppressSlide, setSuppressSlide] = useState(true);
-  useEffect(() => {
-    const t = setTimeout(() => setSuppressSlide(false), 600);
-    return () => clearTimeout(t);
-  }, []);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isNavigating = useRef<boolean>(false);
   const rafRef = useRef<number | null>(null);
   const prevPathRef = useRef<string>(location.pathname);
   const isFirstLoad = useRef<boolean>(true);
-
-  // Cache elemen section supaya tidak query DOM di setiap scroll tick.
   const sectionElsRef = useRef<Map<string, HTMLElement>>(new Map());
 
   const logoMaskStyle = useMemo<CSSProperties>(() => {
-    // Query param unik dibutuhkan agar browser fetch ulang resource sebagai instance baru,
-    // sehingga animasi draw-on (stroke-dashoffset) di dalam SVG restart tiap mount —
-    // tanpa ini browser bisa reuse SVG yang sudah di-cache dalam state "selesai animasi".
-    // useMemo dengan deps kosong -> hanya dihitung sekali per mount (reload/first load), bukan per render.
     const url = `url(${LogoAnimated}?v=${BUILD_ID})`;
     return {
       maskImage: url,
@@ -143,8 +55,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // Populate cache elemen section saat berada di halaman utama.
-  // Dijalankan lagi via rAF sekali untuk menangani section yang mount belakangan.
   useEffect(() => {
     if (location.pathname !== '/') return;
 
@@ -157,11 +67,6 @@ const Navbar = () => {
       }
     };
 
-    // Retry sampai semua section ketemu (maks ~0.5s), bukan cuma 1x rAF.
-    // Perlu karena saat balik dari /projects/:slug ke '/', elemen section
-    // bisa belum ter-mount tepat di frame pertama route berubah — kalau cache
-    // telanjur kosong dan tidak di-retry, computeActiveSection akan selalu
-    // fallback ke 'home' walau posisi scroll sudah di section lain.
     let attempts = 0;
     let raf: number | null = null;
     const MAX_ATTEMPTS = 30;
@@ -183,8 +88,6 @@ const Navbar = () => {
   const computeActiveSection = useCallback(() => {
     if (isNavigating.current) return;
 
-    // Fallback: kalau cache kosong (elemen belum sempat ke-cache saat effect populate jalan),
-    // ambil langsung dari DOM sekali saat itu juga — mencegah macet permanen di 'home'.
     if (sectionElsRef.current.size === 0) {
       for (const id of SECTION_IDS) {
         const el = document.getElementById(id);
@@ -207,7 +110,6 @@ const Navbar = () => {
     setActiveSection((prev) => (prev === current ? prev : current));
   }, []);
 
-  // Satu scroll listener untuk isScrolled + active section tracking, satu rAF throttle.
   useEffect(() => {
     let ticking = false;
 
@@ -215,8 +117,10 @@ const Navbar = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 30);
-        if (location.pathname === '/') computeActiveSection();
+        setIsScrolled(window.scrollY > 15);
+        if (location.pathname === '/') {
+          computeActiveSection();
+        }
         ticking = false;
       });
     };
@@ -267,7 +171,12 @@ const Navbar = () => {
     if (id === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      const el = document.getElementById(id);
+      if (el) {
+        const yOffset = -54; // Offset for 54px header
+        const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     }
 
     waitForScrollEnd(() => {
@@ -275,12 +184,6 @@ const Navbar = () => {
     });
   }, [waitForScrollEnd]);
 
-  // Effect ini WAJIB dideklarasikan sebelum effect first-load di bawah.
-  // isFirstLoad.current baru boleh dibaca di sini sebelum effect first-load
-  // sempat mem-flip-nya jadi false pada commit yang sama — kalau urutannya kebalik,
-  // reload langsung di /projects/:slug akan salah kira "bukan first load" dan
-  // sempat men-set activeSection('projects') sesaat sebelum di-redirect balik ke
-  // 'home', bikin fill indicator loncat dua kali (home -> projects -> home).
   useEffect(() => {
     if (!isFirstLoad.current && location.pathname.startsWith('/projects/')) {
       setActiveSection('projects');
@@ -324,7 +227,6 @@ const Navbar = () => {
     if (!targetId && !cameFromSlug) return;
 
     const finalTargetId = targetId || 'home';
-
     let cancelled = false;
 
     const run = () => {
@@ -336,8 +238,6 @@ const Navbar = () => {
       });
     };
 
-    // Polling rAF ringan untuk menunggu elemen target muncul,
-    // menggantikan MutationObserver yang sebelumnya mengamati seluruh document.body.
     const waitForElement = (id: string, onFound: () => void) => {
       const start = performance.now();
       const MAX_WAIT_MS = 5000;
@@ -367,14 +267,28 @@ const Navbar = () => {
   }, [location.pathname, location.state, navigate, performScroll]);
 
   const handleNavigate = useCallback((id: string) => {
-    if (location.pathname !== '/') {
-      isNavigating.current = true;
-      setActiveSection(id);
-      navigate('/', { state: { targetSection: id } });
-      return;
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+      // Wait for drawer to animate out before measuring scroll targets
+      setTimeout(() => {
+        if (location.pathname !== '/') {
+          isNavigating.current = true;
+          setActiveSection(id);
+          navigate('/', { state: { targetSection: id } });
+        } else {
+          performScroll(id);
+        }
+      }, 350); 
+    } else {
+      if (location.pathname !== '/') {
+        isNavigating.current = true;
+        setActiveSection(id);
+        navigate('/', { state: { targetSection: id } });
+      } else {
+        performScroll(id);
+      }
     }
-    performScroll(id);
-  }, [location.pathname, navigate, performScroll]);
+  }, [location.pathname, navigate, performScroll, mobileMenuOpen]);
 
   useEffect(() => {
     return () => {
@@ -383,128 +297,126 @@ const Navbar = () => {
   }, []);
 
   return (
-    <>
-      <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+    <header className="fixed top-0 left-0 right-0 z-50 flex flex-col w-full">
+      {/* Dynamic Minimal Navbar (54px) */}
+      <nav 
+        aria-label="Main Navigation"
+        className={`w-full h-[54px] transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-[#f7f4ed]/85 backdrop-blur-xl border-b border-[#eceae4] shadow-[0_1px_8px_rgba(0,0,0,0.05)]' 
+            : 'bg-[#f7f4ed]/50 backdrop-blur-md border-b border-transparent'
+        }`}
       >
-        <div
-          className={`pointer-events-auto flex items-center gap-1 p-1.5 rounded-full transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ${
-            isScrolled
-              ? 'bg-white/90 backdrop-blur-sm shadow-lg border border-[#1A2F24]/10'
-              : 'bg-white/50 border border-transparent'
-          }`}
-        >
-          <LayoutGroup>
+        <div className="max-w-7xl w-full mx-auto h-full px-4 md:px-12 flex items-center justify-between">
+          {/* Brand Logo & Title */}
+          <div className="flex items-center gap-4">
             <button
               onClick={() => handleNavigate('home')}
-              className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-300 mr-1 z-10 ${
-                activeSection === 'home' ? '' : 'bg-[#1A2F24]/10 hover:bg-[#1A2F24]/20'
-              }`}
-              aria-label="Home"
+              className="flex items-center gap-3 group outline-none cursor-pointer"
+              aria-label="Aditya Nugraha Home"
             >
-              {activeSection === 'home' && (
-                <motion.div
-                  layoutId="desktopActiveFill"
-                  initial={false}
-                  className="absolute inset-0 bg-[#1A2F24] -z-10"
-                  style={{ borderRadius: 9999 }}
-                  transition={{
-                    layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
-                    default: { type: "spring", stiffness: 300, damping: 30 },
-                  }}
-                />
-              )}
               <div
                 style={logoMaskStyle}
-                className={`relative z-10 w-5 h-5 transition-colors duration-300 ${
-                  activeSection === 'home' ? 'bg-white' : 'bg-[#1A2F24]'
-                }`}
+                className="w-4 h-4 transition-colors duration-300 bg-[#1c1c1c]"
               />
+              <span className="font-sans font-semibold text-[15px] sm:text-[16px] tracking-tight text-[#1c1c1c]">
+                Aditya Nugraha
+              </span>
             </button>
+            <span className="hidden sm:inline-block font-sans text-xs tracking-wide text-[#5f5f5d]">
+              Software Engineer
+            </span>
+          </div>
 
-            {ALL_LINKS.map((link) => {
+          {/* Center / Desktop Links */}
+          <div className="hidden md:flex items-center gap-2">
+            {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.id;
               return (
                 <button
                   key={link.id}
                   onClick={() => handleNavigate(link.id)}
-                  className={`relative px-4 py-2 text-[11px] font-redhat tracking-[0.15em] uppercase transition-colors duration-300 z-10 rounded-full ${
-                    isActive ? 'text-white font-bold' : 'text-[#1A2F24]/60 font-medium hover:text-[#1A2F24] hover:bg-[#1A2F24]/5'
+                  className={`px-3 py-1.5 rounded-md font-sans text-xs tracking-wide transition-all outline-none cursor-pointer border ${
+                    isActive
+                      ? 'bg-white border-[#eceae4] text-[#1c1c1c] shadow-sm'
+                      : 'bg-transparent border-transparent text-[#5f5f5d] hover:text-[#1c1c1c] hover:bg-black/5'
                   }`}
                 >
-                  {isActive && (
-                    <motion.div
-                      layoutId="desktopActiveFill"
-                      initial={false}
-                      className="absolute inset-0 bg-[#1A2F24] -z-10"
-                      style={{ borderRadius: 9999 }}
-                      transition={{
-                        layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
-                        default: { type: "spring", stiffness: 300, damping: 30 },
-                      }}
-                    />
-                  )}
-                  <span className="relative z-10">
-                    {link.name}
-                  </span>
+                  {link.name}
                 </button>
               );
             })}
-          </LayoutGroup>
-        </div>
-      </motion.nav>
+          </div>
 
-      <motion.nav
-        initial={{ opacity: 0, y: 20, x: "-50%" }}
-        animate={{ opacity: 1, y: 0, x: "-50%" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-max z-50"
-      >
-        <div
-          className={`px-2 py-2 border rounded-full flex items-center gap-2 transition-[background-color,border-color,box-shadow] duration-500 ${
-            isScrolled 
-              ? 'bg-[#F9F8F4] shadow-md border-[#1A2F24]/10' 
-              : 'bg-[#F9F8F4] border-transparent'
-          }`}
-        >
-          <LayoutGroup>
-            <MobileNavItem link={LEFT_LINKS[0]} isActive={activeSection === 'about'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
-            <MobileNavItem link={LEFT_LINKS[1]} isActive={activeSection === 'experience'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
-
+          {/* Right Utility: Mobile Hamburger */}
+          <div className="flex items-center gap-4">
+            {/* Mobile Hamburger Button */}
             <button
-              onClick={() => handleNavigate('home')}
-              className="relative flex items-center justify-center w-11 h-11 rounded-full z-10"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1 outline-none cursor-pointer"
+              aria-label="Toggle Navigation Menu"
             >
-              {activeSection === 'home' && (
-                <motion.div
-                  layoutId="mobileActiveBackground"
-                  initial={isInitial ? { opacity: 0, scale: 0 } : false}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="absolute inset-0 bg-[#1A2F24] -z-10"
-                  style={{ borderRadius: 9999 }}
-                  transition={{
-                    layout: suppressSlide ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 },
-                    default: { type: "spring", stiffness: 300, damping: 30 },
-                  }}
-                />
-              )}
-              <div
-                style={logoMaskStyle}
-                className={`relative z-10 w-6 h-6 transition-colors duration-200 ${
-                  activeSection === 'home' ? 'bg-white' : 'bg-[#1A2F24]/50'
-                }`}
+              <span
+                className={`w-4 h-[1.5px] bg-[#1c1c1c] transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''}`}
+              />
+              <span
+                className={`w-4 h-[1.5px] bg-[#1c1c1c] transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''}`}
               />
             </button>
-
-            <MobileNavItem link={RIGHT_LINKS[0]} isActive={activeSection === 'projects'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
-            <MobileNavItem link={RIGHT_LINKS[1]} isActive={activeSection === 'contact'} onNavigate={handleNavigate} isInitial={isInitial} suppressSlide={suppressSlide} />
-          </LayoutGroup>
+          </div>
         </div>
-      </motion.nav>
-    </>
+      </nav>
+
+      {/* Mobile Drawer Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden w-full backdrop-blur-2xl border-b px-6 py-6 flex flex-col gap-6 overflow-hidden transition-colors duration-300 bg-[#f7f4ed]/98 border-[#eceae4] text-[#1c1c1c] relative"
+          >
+            {/* Background Grid for Drawer */}
+            <div className="absolute inset-0 z-[-1] bg-[url('https://cdn.tailwindcss.com/bg-grid-black.svg')] bg-center opacity-[0.02]" style={{ backgroundSize: '24px 24px' }}></div>
+
+            <div className="flex flex-col gap-2 pb-6">
+              <span className="font-sans text-xs uppercase tracking-widest text-[#5f5f5d] mb-2">
+                Navigation
+              </span>
+              <button
+                onClick={() => handleNavigate('home')}
+                className={`text-left font-sans text-2xl font-medium py-2 transition-colors cursor-pointer flex items-center gap-3 ${
+                  activeSection === 'home'
+                    ? 'text-[#1c1c1c]'
+                    : 'text-[#5f5f5d] hover:text-[#1c1c1c]/80'
+                }`}
+              >
+                {activeSection === 'home' && <span className="w-1.5 h-1.5 bg-[#1c1c1c] rounded-full"></span>}
+                Home
+              </button>
+              {NAV_LINKS.map((link) => {
+                const isActive = activeSection === link.id;
+                return (
+                  <button
+                    key={link.id}
+                    onClick={() => handleNavigate(link.id)}
+                    className={`text-left font-sans text-2xl font-medium py-2 transition-colors cursor-pointer flex items-center gap-3 ${
+                      isActive
+                        ? 'text-[#1c1c1c]'
+                        : 'text-[#5f5f5d] hover:text-[#1c1c1c]/80'
+                    }`}
+                  >
+                    {isActive && <span className="w-1.5 h-1.5 bg-[#1c1c1c] rounded-full"></span>}
+                    {link.name}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
 

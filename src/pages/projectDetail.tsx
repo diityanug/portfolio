@@ -22,17 +22,17 @@ interface ProjectData {
 }
 
 // Animation configurations
-const customEase = [0.22, 1, 0.36, 1] as const;
+const customEase = [0.16, 1, 0.3, 1] as const;
 
 const getPageVariants = (skipBlur: boolean): Variants => ({
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.5 } },
-  exit: { opacity: 0, y: -20, ...(skipBlur ? {} : { filter: "blur(10px)" }), transition: { duration: 0.5, ease: customEase } }
+  exit: { opacity: 0, y: -10, ...(skipBlur ? {} : { filter: "blur(8px)" }), transition: { duration: 0.5, ease: customEase } }
 });
 
 const getTitleWordVariants = (skipBlur: boolean): Variants => ({
-  hidden: { opacity: 0, y: 30, ...(skipBlur ? {} : { filter: "blur(12px)" }) },
-  show: { opacity: 1, y: 0, ...(skipBlur ? {} : { filter: "blur(0px)" }), transition: { duration: 1, ease: customEase } }
+  hidden: { opacity: 0, y: 20, ...(skipBlur ? {} : { filter: "blur(8px)" }) },
+  show: { opacity: 1, y: 0, ...(skipBlur ? {} : { filter: "blur(0px)" }), transition: { duration: 0.8, ease: customEase } }
 });
 
 const metaContainerVariants: Variants = {
@@ -42,16 +42,16 @@ const metaContainerVariants: Variants = {
 
 const listContainerVariants: Variants = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { delayChildren: 0.3, staggerChildren: 0.15 } }
+  show: { opacity: 1, transition: { delayChildren: 0.2, staggerChildren: 0.12 } }
 };
 
 const getFadeUpVariants = (skipBlur: boolean): Variants => ({
-  hidden: { opacity: 0, y: 25, scale: 0.98, ...(skipBlur ? {} : { filter: "blur(5px)" }) },
+  hidden: { opacity: 0, y: 15, scale: 0.98, ...(skipBlur ? {} : { filter: "blur(4px)" }) },
   show: { opacity: 1, y: 0, scale: 1, ...(skipBlur ? {} : { filter: "blur(0px)" }), transition: { duration: 0.8, ease: customEase } }
 });
 
 const getInstantFadeUpVariants = (skipBlur: boolean): Variants => ({
-  hidden: { opacity: 0, y: 15, ...(skipBlur ? {} : { filter: "blur(5px)" }) },
+  hidden: { opacity: 0, y: 10, ...(skipBlur ? {} : { filter: "blur(4px)" }) },
   show: { opacity: 1, y: 0, ...(skipBlur ? {} : { filter: "blur(0px)" }), transition: { duration: 0.6, ease: customEase } }
 });
 
@@ -89,6 +89,14 @@ const projectsData: Record<string, ProjectData> = {
   },
 };
 
+// UI Icons
+const TerminalIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="4 17 10 11 4 5"></polyline>
+    <line x1="12" y1="19" x2="20" y2="19"></line>
+  </svg>
+);
+
 // Main Component: Project Detail
 const ProjectDetail = () => {
   const { slug } = useParams();
@@ -111,16 +119,17 @@ const ProjectDetail = () => {
         initial="hidden"
         animate="show"
         exit="exit"
-        className="min-h-screen flex flex-col items-center justify-center bg-[#F9F8F4] px-8 relative overflow-hidden"
+        className="min-h-[100svh] flex flex-col items-center justify-center bg-[#f7f4ed] px-8 relative overflow-hidden"
       >
-        <motion.div variants={fadeUpVariants} initial="hidden" animate="show" className="text-center z-10">
-          <h1 className="font-overlock text-8xl md:text-[120px] text-[#1A2F24] mb-2 leading-none">404</h1>
-          <p className="font-overlock text-[#4A6750] tracking-[0.2em] uppercase text-xs md:text-sm font-bold mb-10">Project not found</p>
+        <div className="absolute inset-0 z-[-1] bg-[url('https://cdn.tailwindcss.com/bg-grid-black.svg')] bg-center opacity-[0.02]" style={{ backgroundSize: '24px 24px' }}></div>
+        <motion.div variants={fadeUpVariants} initial="hidden" animate="show" className="text-center z-10 flex flex-col items-center">
+          <h1 className="font-mono text-8xl md:text-[110px] font-semibold text-[#1c1c1c] mb-4 leading-none">404</h1>
+          <p className="text-[#5f5f5d] font-mono tracking-widest uppercase text-xs md:text-sm mb-8">ERR_PROJECT_NOT_FOUND</p>
           <button
             onClick={() => navigate('/#projects')}
-            className="px-6 py-3 border border-[#1A2F24]/10 bg-white shadow-sm text-[#1A2F24] rounded-full font-autour text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:border-[#4A6750]/30 hover:bg-[#4A6750] hover:text-white transition-all duration-300 outline-none"
+            className="px-6 py-2.5 bg-[#eceae4] border border-[#eceae4] text-[#1c1c1c] rounded-md font-mono text-xs uppercase tracking-widest hover:bg-black/5 hover:border-[#eceae4] transition-all outline-none flex items-center gap-2"
           >
-            Back to Projects
+            <span>←</span> RETURN_TO_DIRECTORY
           </button>
         </motion.div>
       </motion.div>
@@ -136,23 +145,20 @@ const ProjectDetail = () => {
         initial="hidden"
         animate="show"
         exit="exit"
-        className="relative z-0 min-h-screen bg-[#F9F8F4] px-6 md:px-12 lg:px-24 pt-12 pb-24 md:pt-20 md:pb-32 overflow-x-hidden text-[#1A2F24]"
+        className="relative z-0 min-h-[100svh] bg-[#f7f4ed] text-[#1c1c1c] pt-28 pb-24 md:pt-36 md:pb-32 overflow-x-hidden"
       >
-        
-        <div className="w-full max-w-7xl mx-auto relative z-10 flex flex-col gap-10 md:gap-14">
-          
-          {/* Navigation */}
-          <motion.div 
-            variants={instantFadeUpVariants} 
-            initial="hidden"
-            animate="show"
-            className="flex flex-row items-center justify-between gap-4 relative z-20"
-          >
+        {/* Background Mesh */}
+        <div className="absolute inset-0 z-[-1] bg-[url('https://cdn.tailwindcss.com/bg-grid-black.svg')] bg-center opacity-[0.02]" style={{ backgroundSize: '24px 24px' }}></div>
+
+        {/* Sticky Sub-nav Bar */}
+        <div className="w-full bg-[#f7f4ed]/80 backdrop-blur-xl border-b border-[#eceae4] sticky top-[44px] z-30 transition-all">
+          <div className="max-w-7xl w-full mx-auto h-[52px] px-4 md:px-12 flex items-center justify-between">
             <button 
               onClick={() => navigate('/#projects')} 
-              className="group flex items-center gap-2 text-[10px] md:text-[11px] font-karla font-bold tracking-[0.15em] uppercase text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors outline-none"
+              className="group inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-[#5f5f5d] hover:text-[#1c1c1c] transition-colors outline-none"
             >
-              <span className="text-[12px] leading-none mb-[1px] group-hover:-translate-x-1 transition-transform">←</span> Back
+              <span className="text-[14px] leading-none group-hover:-translate-x-1 transition-transform">←</span>
+              <span>DIR_BACK</span>
             </button>
 
             {project.link && (
@@ -160,27 +166,31 @@ const ProjectDetail = () => {
                 href={project.link} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="group flex items-center gap-2 text-[10px] md:text-[11px] font-karla font-bold tracking-[0.15em] uppercase text-[#1A2F24]/50 hover:text-[#4A6750] transition-colors outline-none"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-md bg-white text-neutral-950 hover:bg-[#eceae4] transition-all font-mono text-[10px] sm:text-xs font-semibold uppercase tracking-widest outline-none"
               >
-                Visit Repo <span className="text-[12px] leading-none mb-[1px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                <span>INIT_REPO</span>
+                <span className="text-[14px] leading-none">↗</span>
               </a>
             )}
-          </motion.div>
+          </div>
+        </div>
 
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-12 pt-12 flex flex-col gap-12 lg:gap-20">
+          
           {/* Hero Section */}
-          <div className="flex flex-col items-start mb-4 md:mb-6">
+          <div className="flex flex-col items-start border-b border-[#eceae4]/60 pb-12">
             <motion.div 
               variants={metaContainerVariants} 
               initial="hidden"
               animate="show"
-              className="flex items-center gap-3 mb-6 md:mb-8"
+              className="flex flex-wrap items-center gap-3 mb-6"
             >
-              <motion.span variants={fadeUpVariants} className="font-karla inline-flex items-center gap-2 px-3.5 py-1.5 md:py-2 bg-[#4A6750]/5 rounded-xl border border-[#2E4C38]/10 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-[#4A6750] shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#4A6750] animate-pulse"></span>
+              <motion.span variants={fadeUpVariants} className="inline-flex items-center gap-2 px-3 py-1 bg-[#eceae4] border border-[#eceae4] rounded-md font-mono text-[10px] font-semibold uppercase tracking-widest text-[#1c1c1c]">
+                <TerminalIcon />
                 {project.category}
               </motion.span>
-              <motion.span variants={fadeUpVariants} className="font-karla px-3.5 py-1.5 md:py-2 bg-white rounded-xl border border-[#1A2F24]/10 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-[#1A2F24]/40 shadow-sm">
-                {project.year}
+              <motion.span variants={fadeUpVariants} className="px-3 py-1 bg-[#eceae4]/50 border border-[#eceae4] rounded-md font-mono text-[10px] font-medium uppercase tracking-widest text-[#5f5f5d]">
+                TS_{project.year}
               </motion.span>
             </motion.div>
 
@@ -188,17 +198,17 @@ const ProjectDetail = () => {
               initial="hidden"
               animate="show"
               transition={{ staggerChildren: 0.1, delayChildren: 0.1 }}
-              className="flex flex-wrap gap-x-2 md:gap-x-4 gap-y-1 select-none"
+              className="select-none max-w-4xl"
             >
-              <h1 className="font-autour text-[34px] sm:text-[60px] md:text-[80px] lg:text-[96px] leading-[1.05] tracking-tight flex flex-wrap gap-x-2 md:gap-x-4">
+              <h1 className="font-sans text-5xl sm:text-6xl lg:text-[72px] font-semibold leading-[1.05] tracking-tight text-[#1c1c1c] flex flex-wrap gap-x-4">
                 {titleWords.map((word: string, wIdx: number) => (
-                  <motion.div 
+                  <motion.span 
                     key={word + wIdx} 
                     variants={titleWordVariants} 
-                    className={`inline-block ${wIdx === titleWords.length - 1 ? 'text-[#4A6750] pr-2' : 'text-[#1A2F24]'}`}
+                    className="inline-block"
                   >
                     {word}
-                  </motion.div>
+                  </motion.span>
                 ))}
               </h1>
             </motion.div>
@@ -210,40 +220,42 @@ const ProjectDetail = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 lg:gap-16"
+            className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 lg:gap-16 items-start"
           >
             {/* Overview */}
             <motion.div variants={fadeUpVariants} className="flex flex-col">
               <div className="w-full flex flex-col text-left mb-6">
-                <span className="font-karla text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-1 md:mb-4">
-                  Overview
-                </span>
-                <h2 className="font-overlock text-[29px] sm:text-[54px] lg:text-[64px] font-bold leading-[1.1] tracking-tight text-[#1A2F24]">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#eceae4]"></div>
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-[#5f5f5d]">
+                    SYS_OVERVIEW
+                  </span>
+                </div>
+                <h2 className="font-sans text-3xl sm:text-4xl font-semibold leading-tight tracking-tight text-[#1c1c1c]">
                   Project Details
                 </h2>
               </div>
-              <div className="flex flex-col gap-5 md:gap-6 font-karla">
-                <p className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#2E4C38]/80 font-medium leading-[1.7] text-justify">
+              <div className="flex flex-col gap-6 font-sans text-[#5f5f5d]">
+                <p className="text-lg leading-relaxed font-normal">
                   {project.overview}
                 </p>
-                <p className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#2E4C38]/80 font-medium leading-[1.7] text-justify">
+                <p className="text-lg leading-relaxed font-normal">
                   {project.description}
                 </p>
               </div>
             </motion.div>
 
-            {/* Tech Stack */}
-            <motion.div variants={fadeUpVariants} className="flex flex-col lg:pt-24">
-              <div className="bg-white/60 backdrop-blur-sm border border-white/80 rounded-[1.5rem] md:rounded-[2rem] p-7 md:p-8 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow">
-                <span className="font-karla text-[11px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-6 flex items-center gap-3">
-                  <span className="w-8 h-[1px] bg-[#2E4C38]/20"></span>
-                  Tech Stack
+            {/* Tech Stack Card */}
+            <motion.div variants={fadeUpVariants} className="flex flex-col">
+              <div className="bg-[#eceae4]/30 border border-[#eceae4] rounded-2xl p-6 sm:p-8 flex flex-col backdrop-blur-sm">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-[#5f5f5d] mb-6 flex items-center gap-2">
+                  <TerminalIcon /> TECH_STACK_MODULES
                 </span>
-                <div className="flex flex-wrap gap-2 md:gap-2.5">
+                <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech: string) => (
                     <span 
                       key={tech} 
-                      className="px-3 py-1.5 md:py-2 bg-white border border-[#1A2F24]/10 text-[#1A2F24]/80 text-[11px] md:text-xs font-karla font-semibold tracking-wide rounded-xl shadow-sm hover:bg-[#4A6750] hover:text-white hover:border-[#4A6750] transition-colors duration-300 cursor-default"
+                      className="px-3 py-1.5 bg-[#eceae4] border border-[#eceae4] text-[#1c1c1c] font-mono text-[11px] uppercase tracking-wider rounded-md hover:border-[#eceae4] hover:text-[#1c1c1c] transition-colors cursor-default"
                     >
                       {tech}
                     </span>
@@ -253,7 +265,7 @@ const ProjectDetail = () => {
             </motion.div>
           </motion.div>
 
-          <motion.div className="w-full h-px bg-[#1A2F24]/10 my-6 lg:my-8" />
+          <div className="w-full h-px bg-black/5/60" />
 
           {/* Workflow Gallery */}
           <motion.div 
@@ -263,48 +275,53 @@ const ProjectDetail = () => {
             viewport={{ once: true }}
             className="flex flex-col w-full"
           >
-            <div className="w-full flex flex-col text-left mb-8 md:mb-10">
-              <span className="font-karla text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-1 md:mb-4">
-                Architecture
-              </span>
-              <h2 className="font-overlock text-[32px] sm:text-[54px] lg:text-[64px] font-bold leading-[1.1] tracking-tight text-[#1A2F24]">
+            <div className="w-full flex flex-col text-left mb-10">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#eceae4]"></div>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-[#5f5f5d]">
+                  SYS_ARCHITECTURE
+                </span>
+              </div>
+              <h2 className="font-sans text-3xl sm:text-4xl font-semibold leading-tight tracking-tight text-[#1c1c1c]">
                 Process Workflow
               </h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {project.workflow.map((step: WorkflowStep, index: number) => (
-                <div key={step.title + index} className="bg-white/60 backdrop-blur-sm border border-white/80 rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-7 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#4A6750]/30 flex flex-col group">
-                  
+                <div 
+                  key={step.title + index} 
+                  className="bg-[#f7f4ed] border border-[#eceae4] rounded-xl p-4 flex flex-col justify-between group hover:border-[#eceae4] transition-all duration-300"
+                >
                   <button 
                     type="button"
-                    className="w-full aspect-[4/3] rounded-[1.25rem] overflow-hidden mb-5 relative bg-white border border-[#1A2F24]/5 cursor-zoom-in outline-none"
+                    className="w-full aspect-[4/3] rounded-lg overflow-hidden mb-5 relative bg-[#eceae4] border border-[#eceae4] cursor-zoom-in outline-none group-hover:scale-[1.02] transition-transform duration-500"
                     onClick={() => setSelectedImage(step.image)}
                     aria-label={`Enlarge ${step.title}`}
                   >
-                    <div className="absolute inset-0 bg-[#1A2F24]/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
                     <img 
                       src={step.image} 
                       alt={step.title} 
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 group-hover:scale-105 transition-transform duration-700" 
-                      onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x450/f8f9fa/adb5bd?text=Preview'; }} 
+                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
+                      onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x450/171717/404040?text=IMG_ERR'; }} 
                     />
                   </button>
 
-                  <div className="flex flex-col flex-1 pr-1">
-                    <h4 className="font-overlock text-[16px] md:text-[17px] font-bold text-[#1A2F24] mb-3 border-b border-white/80 pb-3 flex items-center gap-3 tracking-wider">
-                      <span className="text-[#4A6750] bg-white border border-[#4A6750]/10 p-2 rounded-xl shrink-0 font-karla text-[10px] md:text-[11px] leading-none shadow-sm">
-                        0{index + 1}
+                  <div className="flex flex-col flex-1 px-2 pb-2">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="font-mono text-[10px] font-semibold text-[#5f5f5d] uppercase tracking-widest">
+                        STEP_0{index + 1}
                       </span>
+                    </div>
+                    <h4 className="font-sans text-lg font-medium text-[#1c1c1c] mb-2 tracking-tight">
                       {step.title}
                     </h4>
-                    <p className="font-karla text-[14px] md:text-[15px] text-[#2E4C38]/80 font-medium leading-[1.6] text-justify mt-1">
+                    <p className="font-sans text-sm text-[#5f5f5d] leading-relaxed">
                       {step.text}
                     </p>
                   </div>
-
                 </div>
               ))}
             </div>
@@ -321,23 +338,23 @@ const ProjectDetail = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A2F24]/90 backdrop-blur-md p-4 md:p-8 cursor-zoom-out"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 md:p-8 cursor-zoom-out"
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              initial={{ scale: 0.96, opacity: 0, y: 10 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative max-w-6xl w-full max-h-[90vh] flex items-center justify-center"
+              exit={{ scale: 0.96, opacity: 0, y: 10 }}
+              transition={{ type: "spring", damping: 30, stiffness: 350 }}
+              className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center"
               onClick={(e) => e.stopPropagation()} 
             >
               <img
                 src={selectedImage}
                 alt="Enlarged view"
-                className="max-w-full max-h-[90vh] object-contain rounded-[1.5rem] shadow-2xl"
+                className="max-w-full max-h-[85vh] object-contain rounded-xl border border-[#eceae4] shadow-2xl"
               />
               <button
-                className="absolute -top-12 right-0 md:-top-6 md:-right-6 text-[#1A2F24] bg-white hover:scale-105 rounded-full p-2.5 md:p-3 shadow-xl transition-all duration-300 outline-none border border-[#1A2F24]/10"
+                className="absolute -top-12 right-0 md:-top-4 md:-right-4 text-[#5f5f5d] bg-[#eceae4] border border-[#eceae4] hover:bg-black/5 hover:text-[#1c1c1c] rounded-full p-2.5 transition-all outline-none"
                 onClick={() => setSelectedImage(null)}
                 aria-label="Close popup"
               >

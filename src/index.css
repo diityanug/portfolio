@@ -40,13 +40,26 @@
 }
 
 /* GLOBAL BASE */
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
-  background-color: white;
+  background-color: #ffffff;
+  color: #1d1d1f;
+  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
   margin: 0;
   overflow-x: clip; 
   overscroll-behavior-y: none;
   scrollbar-width: none; 
   -ms-overflow-style: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(0, 102, 204, 0.2);
+  color: #0066cc;
 }
 
 ::-webkit-scrollbar {
@@ -57,7 +70,8 @@ html, body {
 @media (min-width: 768px) {
   .show-scrollbar::-webkit-scrollbar {
     display: block;
-    height: 6px;
+    height: 5px;
+    width: 5px;
   }
 
   .show-scrollbar::-webkit-scrollbar-track {
@@ -65,12 +79,32 @@ html, body {
   }
 
   .show-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(74, 103, 80, 0.4);
-    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.18);
+    border-radius: 9999px;
+  }
+
+  .show-scrollbar-dark::-webkit-scrollbar {
+    display: block;
+    height: 5px;
+    width: 5px;
+  }
+
+  .show-scrollbar-dark::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .show-scrollbar-dark::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
   }
 
   .show-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: rgba(74, 103, 80, 0.4) transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+  }
+
+  .show-scrollbar-dark {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
   }
 }

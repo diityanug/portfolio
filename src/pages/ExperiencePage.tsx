@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactElement, type SyntheticEvent } from 'react';
+import { useState, type ReactElement, type SyntheticEvent } from 'react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import lgSinarmasLogo from '../assets/LG_Sinarmas_Logo_Vector.svg';
 
@@ -43,7 +43,7 @@ const experiences = [
     location: 'Central Jakarta, Indonesia',
     period: 'JUNE 2025 — PRESENT',
     logo: lgSinarmasLogo,
-    tags: ['React', 'TypeScript', 'Javascript' ,'AWS S3', 'Microfrontend Architecture', 'Factova'],
+    tags: ['React', 'TypeScript', 'Javascript', 'AWS S3', 'Microfrontend', 'Factova'],
     description: "Supporting Smart Factory operations through equipment modeling, server monitoring, and equipment alarm maintenance, while developing scalable internal enterprise applications using React, TypeScript, and Microfrontend Architecture.",
     contributions: [
       { system: "APC (Autonomous Process Control)", icon: <GearIcon />, points: ["Modeled manufacturing equipment using Factova.", "Monitored server and equipment status across sites.", "Investigated and resolved equipment alarms."] },
@@ -53,29 +53,20 @@ const experiences = [
       { system: "Job Portal", icon: <BriefcaseIcon />, points: ["Developed new features to support recruitment.", "Redesigned the Applicant Management interface."] }
     ],
     culture: [
-      { id: 1, title: "Team Dinner", image: "/images/Ayce.webp", description: "Appreciating and celebrating employee performance." },
-      { id: 2, title: "Monthly Futsal", image: "/images/Futsal.webp", description: "Organized to maintain physical fitness and well-being." },
-      { id: 3, title: "Growth Circuit", image: "/images/LGSM.webp", description: "Annual event setting goals and aligning vision." },
-      { id: 4, title: "Company Outing", image: "/images/Outing.webp", description: "Strengthening the bonds of brotherhood and teamwork." }
+      { id: 'c1', title: 'Team Dinner', image: '/images/Ayce.webp', description: 'Appreciating and celebrating employee performance.' },
+      { id: 'c2', title: 'Growth Circuit', image: '/images/Outing.webp', description: 'Strengthening the bonds of brotherhood and teamwork.' },
+      { id: 'c3', title: 'Company Outing', image: '/images/LGSM.webp', description: 'Annual event setting goals and aligning vision.' },
+      { id: 'c4', title: 'Futsal', image: '/images/Futsal.webp', description: 'Organized to maintain physical fitness and well-being.' }
     ]
   },
 ];
 
 type Experience = typeof experiences[0];
-type TabKey = 'core' | 'culture';
 
 // Component: Experience Item Row
-const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
-  const [activeTab, setActiveTab] = useState<TabKey>('core');
-
-  // Preload culture images
-  useEffect(() => {
-    exp.culture.forEach((item) => {
-      const img = new Image();
-      img.src = item.image;
-    });
-  }, [exp.culture]);
-
+const ExperienceRow = ({ exp }: { exp: Experience }) => {
+  const [activeTab, setActiveTab] = useState<'core' | 'culture'>('core');
+  
   const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.display = 'none';
   };
@@ -83,35 +74,45 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
   return (
     <motion.article
       variants={itemVariants}
-      className="w-full flex flex-col lg:flex-row gap-12 lg:gap-16 items-start pt-4 border-t border-[#1A2F24]/10 lg:border-none"
+      className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start w-full mb-32 last:mb-0 relative"
     >
-      {/* Left Column: Role Details */}
-      <div className="w-full lg:w-2/5 flex flex-col">
-        <div className="flex items-start gap-4 mb-6">
-          <div className="w-12 h-12 md:w-14 md:h-14 rounded-[14px] bg-white border border-[#1A2F24]/10 shadow-sm flex items-center justify-center p-2 shrink-0">
-            <img src={exp.logo} alt="Logo" loading="lazy" decoding="async" className="w-full h-full object-contain" onError={handleImageError} />
+      {/* Left Column: Typography & Info */}
+      <div className="w-full lg:w-2/5 flex flex-col lg:pr-12 relative z-10 pt-2">
+        <div className="flex items-center gap-5 mb-8">
+          <div className="w-16 h-16 rounded-2xl bg-white border border-[#eceae4] flex items-center justify-center p-2.5 shadow-sm overflow-hidden shrink-0 group-hover:border-neutral-500 transition-colors">
+            <img src={exp.logo} alt={`${exp.company} logo`} className="w-full h-full object-contain grayscale-[20%]" />
           </div>
-          <div className="flex flex-col pt-0">
-            <h3 className="font-overlock font-bold tracking-[0.05em] text-[25px] md:text-[32px] leading-tight text-[#1A2F24] group-hover:text-[#4A6750] transition-colors duration-500 mb-1">
+          <div className="flex flex-col gap-1">
+            <h3 className="font-sans text-3xl font-semibold tracking-tight text-[#1c1c1c] leading-none">
               {exp.role}
             </h3>
-            <span className="font-overlock font-semibold text-[13px] md:text-[14px] text-[#4A6750] leading-tight mb-2 tracking-[0.2em]">
+            <span className="font-mono text-sm tracking-tight text-[#5f5f5d]">
               {exp.company}
-            </span>
-            <span className="font-autour text-[9px] md:text-[10px] tracking-[0.15em] font-bold uppercase text-[#1A2F24]/40 mt-1">
-              {exp.period}
             </span>
           </div>
         </div>
 
-        <p className="font-karla text-[14px] md:text-[15px] lg:text-[16px] text-[#2E4C38]/80 leading-[1.65] md:leading-relaxed text-justify mb-6">
+        <div className="flex flex-col gap-1 mb-6">
+          <div className="flex items-center gap-3 text-sm font-sans text-[#5f5f5d]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#eceae4]"></span>
+            <span>{exp.period}</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm font-sans text-[#5f5f5d]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#eceae4]"></span>
+            <span>{exp.location}</span>
+          </div>
+        </div>
+
+        <p className="font-sans text-base leading-relaxed text-[#5f5f5d] mb-8">
           {exp.description}
         </p>
-          
-        {/* Scrollable tags */}
+
         <div className="flex flex-wrap gap-2">
           {exp.tags.map((tag, idx) => (
-            <span key={idx} className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-[#4A6750] px-3 py-1.5 bg-[#4A6750]/5 rounded-full border border-[#2E4C38]/10 shrink-0">
+            <span 
+              key={idx} 
+              className="px-3 py-1.5 rounded-md border border-[#eceae4] bg-[#eceae4]/30 font-mono text-[10px] text-[#5f5f5d] uppercase tracking-widest"
+            >
               {tag}
             </span>
           ))}
@@ -119,55 +120,60 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
       </div>
 
       {/* Right Column: Interactive Tabs & Cards */}
-      <div className="w-full lg:w-3/5 flex flex-col items-start overflow-hidden mt-2 lg:mt-0">
+      <div className="w-full lg:w-3/5 flex flex-col items-start overflow-hidden bg-[#eceae4]/30 border border-[#eceae4] p-4 sm:p-6 rounded-2xl backdrop-blur-sm">
         
-        {/* Navigation tabs */}
-        <div className="w-full flex gap-6 border-b border-[#1A2F24]/10 mb-4 md:mb-6 relative">
-          {(['core', 'culture'] as const).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`pb-3 text-[11px] md:text-[12px] font-karla font-bold tracking-[0.15em] uppercase relative transition-colors outline-none ${
-                activeTab === tab ? 'text-[#1A2F24]' : 'text-[#1A2F24]/30'
-              }`}
-            >
-              {tab === 'core' ? 'Contributions' : 'Culture'}
-              {activeTab === tab && (
-                <motion.div 
-                  layoutId={`underline-${exp.id}`}
-                  className="absolute left-0 right-0 bottom-[-1px] h-[2px] bg-[#4A6750]"
-                />
-              )}
-            </button>
-          ))}
+        {/* Editorial Tabs */}
+        <div className="w-full flex items-center justify-between mb-6 pb-4 border-b border-[#eceae4]/60">
+          <div className="flex items-center gap-3">
+            {(['core', 'culture'] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-sans text-xs font-semibold tracking-wider transition-all duration-200 outline-none uppercase ${
+                  activeTab === tab 
+                    ? 'bg-white text-[#1c1c1c] shadow-sm border border-[#eceae4]' 
+                    : 'bg-transparent text-[#5f5f5d] hover:text-[#1c1c1c] border border-transparent hover:bg-black/5/50'
+                }`}
+              >
+                {tab === 'core' ? 'Responsibilities' : 'Culture'}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Tab content */}
         <div className="w-full">
-          <div className="grid grid-cols-1 items-start min-h-[300px] md:min-h-[330px]">
+          <div className="grid grid-cols-1 items-start min-h-[340px]">
             <AnimatePresence mode="wait">
               
               {/* Contributions Tab */}
               {activeTab === 'core' && (
                 <motion.div
                   key="core"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3, ease: customEase }}
-                  className="col-start-1 row-start-1 flex gap-4 overflow-x-auto pb-4 pt-1 show-scrollbar snap-x snap-mandatory -mx-6 px-6 lg:mx-0 lg:px-0 w-[calc(100%+3rem)] lg:w-full"
+                  className="col-start-1 row-start-1 flex gap-5 overflow-x-auto pb-4 pt-1 show-scrollbar snap-x snap-mandatory w-full"
                 >
                   {exp.contributions.map((contrib, idx) => (
-                    <div key={idx} className="bg-white border border-[#1A2F24]/10 rounded-[1.25rem] p-6 w-[82vw] sm:w-[360px] md:w-[380px] shrink-0 snap-center flex flex-col h-[280px] md:h-[310px] shadow-sm">
-                      <h4 className="flex items-center gap-2.5 text-[15px] md:text-[16px] font-bold text-[#1A2F24] mb-3 font-overlock border-b border-[#1A2F24]/5 pb-3 tracking-wider">
-                        <span className="text-[#4A6750] bg-[#4A6750]/10 p-2 rounded-lg shrink-0">{contrib.icon}</span>
-                        {contrib.system}
-                      </h4>
-                      <div className="overflow-y-auto show-scrollbar flex-1 pr-1">
-                        <ul className="flex flex-col gap-3">
+                    <div 
+                      key={idx} 
+                      className="bg-[#f7f4ed] p-6 w-[82vw] sm:w-[320px] md:w-[350px] shrink-0 snap-center flex flex-col h-[320px] justify-between relative overflow-hidden group border-2 border-[#1c1c1c] transition-all duration-300 hover:-translate-y-1.5 hover:translate-x-1.5 hover:shadow-[-8px_8px_0_#1c1c1c]"
+                    >
+                      <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-5 pb-4 border-b border-[#1c1c1c]">
+                          <span className="text-[#1c1c1c] bg-[#eceae4] p-2.5 rounded-none border-2 border-[#1c1c1c] shrink-0">
+                            {contrib.icon}
+                          </span>
+                          <h4 className="font-sans font-medium text-lg text-[#1c1c1c] tracking-tight">
+                            {contrib.system}
+                          </h4>
+                        </div>
+                        <ul className="flex flex-col gap-3.5 font-sans">
                           {contrib.points.map((point, pIdx) => (
-                            <li key={pIdx} className="flex items-start gap-2.5 text-[13.5px] md:text-[14px] text-[#2E4C38]/80 leading-[1.6] font-karla">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#4A6750]/40 mt-2 shrink-0" />
+                            <li key={pIdx} className="flex items-start gap-3 text-sm text-[#5f5f5d] leading-relaxed">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#1c1c1c] mt-1.5 shrink-0"></span>
                               <span>{point}</span>
                             </li>
                           ))}
@@ -182,20 +188,27 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
               {activeTab === 'culture' && (
                 <motion.div
                   key="culture"
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3, ease: customEase }}
-                  className="col-start-1 row-start-1 flex gap-4 overflow-x-auto pb-4 pt-1 show-scrollbar snap-x snap-mandatory -mx-6 px-6 lg:mx-0 lg:px-0 w-[calc(100%+3rem)] lg:w-full"
+                  className="col-start-1 row-start-1 flex gap-5 overflow-x-auto pb-4 pt-1 show-scrollbar snap-x snap-mandatory w-full"
                 >
                   {exp.culture.map((item) => (
-                    <div key={item.id} className="w-[82vw] sm:w-[360px] md:w-[380px] shrink-0 snap-center rounded-[1.25rem] overflow-hidden border border-[#1A2F24]/10 bg-white shadow-sm flex flex-col h-[280px] md:h-[310px]">
-                      <div className="w-full h-[160px] md:h-[175px] bg-gray-100 overflow-hidden shrink-0">
-                        <img src={item.image} alt={item.title} loading="lazy" decoding="async" className="w-full h-full object-cover" onError={handleImageError} />
+                    <div 
+                      key={item.id} 
+                      className="w-[82vw] sm:w-[320px] md:w-[350px] shrink-0 snap-center bg-[#f7f4ed] flex flex-col h-[320px] p-2 justify-between group overflow-hidden border-2 border-[#1c1c1c] transition-all duration-300 hover:-translate-y-1.5 hover:translate-x-1.5 hover:shadow-[-8px_8px_0_#1c1c1c]"
+                    >
+                      <div className="relative w-full h-[180px] bg-[#eceae4] overflow-hidden shrink-0 border-2 border-[#1c1c1c]">
+                        <img src={item.image} alt={item.title} loading="lazy" decoding="async" className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105" onError={handleImageError} />
                       </div>
-                      <div className="p-5 flex flex-col flex-1">
-                        <h4 className="font-bold text-[15px] md:text-[16px] text-[#1A2F24] mb-1.5 font-karla">{item.title}</h4>
-                        <p className="text-[13px] md:text-[13.5px] text-[#2E4C38]/70 leading-relaxed font-karla line-clamp-2">{item.description}</p>
+                      <div className="p-4 flex flex-col flex-1">
+                        <h4 className="font-sans font-medium text-lg text-[#1c1c1c] mb-2 tracking-tight">
+                          {item.title}
+                        </h4>
+                        <p className="text-sm text-[#5f5f5d] leading-relaxed font-sans line-clamp-2">
+                          {item.description}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -204,13 +217,6 @@ const ExperienceRow = ({ exp }: { exp: Experience; index: number }) => {
 
             </AnimatePresence>
           </div>
-          
-          {/* Swipe indicator */}
-          <div className="flex justify-start items-center gap-2 text-[9px] font-karla tracking-widest text-[#1A2F24]/30 uppercase select-none mt-1">
-            <span>Swipe to explore</span>
-            <span>→</span>
-          </div>
-
         </div>
       </div>
     </motion.article>
@@ -226,23 +232,23 @@ const ExperienceSection = (): ReactElement => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-10%" }}
-      className="relative z-0 flex flex-col pt-12 pb-16 md:py-20 lg:py-24 px-6 md:px-12 lg:px-24 w-full bg-[#F9F8F4] overflow-hidden font-karla text-[#1A2F24] scroll-mt-20"
+      className="relative z-0 flex flex-col py-20 px-4 md:px-12 lg:px-24 w-full bg-[#f7f4ed] text-[#1c1c1c] min-h-[100svh] scroll-mt-24"
     >
-      <div className="w-full relative z-10 max-w-7xl mx-auto flex flex-col gap-8 lg:gap-8">
+      <div className="w-full relative z-10 max-w-7xl mx-auto flex flex-col gap-12 lg:gap-16">
         
         {/* Section header */}
-        <motion.div variants={textVariants} className="w-full flex flex-col mb-0 text-left">
-          <span className="font-overlock text-[10px] tracking-[0.25em] uppercase text-[#4A6750] font-bold mb-2">
-            Work
+        <motion.div variants={textVariants} className="w-full flex flex-col items-center text-center">
+          <span className="rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-black/5 text-[#5f5f5d] mb-6">
+            Career
           </span>
-          <h2 className="font-autour text-[35px] sm:text-[54px] lg:text-[64px] tracking-tight text-[#1A2F24] leading-[1.1]">
-            Experience
+          <h2 className="font-sans text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tighter leading-tight text-[#1c1c1c]">
+            Work Experience
           </h2>
         </motion.div>
 
-        <div className="w-full">
-          {experiences.map((exp, i) => (
-            <ExperienceRow key={exp.id} exp={exp} index={i} />
+        <div className="w-full mt-8">
+          {experiences.map((exp) => (
+            <ExperienceRow key={exp.id} exp={exp} />
           ))}
         </div>
       </div>
