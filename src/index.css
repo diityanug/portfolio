@@ -1,110 +1,60 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* FONTS */
-@font-face {
-  font-family: 'Red Hat Display';
-  src: url('/fonts/RedHatDisplay-VariableFont_wght.woff2') format('woff2'),
-       url('/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
+@theme {
+  --color-surface: #f8f8f7;
+  --color-ink: #383838;
+  --color-ink-muted: #818181;
+  --color-sun: #ffde00;
+  --color-sun-strong: #bfa800;
+  --color-sky: #6fc2ff;
+  --color-watermelon: #ff7169;
+  --color-chrome: #ece6df;
+  
+  --font-mono: "Aeonik Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
 }
 
-@font-face {
-  font-family: 'Overlock';
-  src: url('/fonts/Overlock-Regular.woff2') format('woff2'),
-       url('/fonts/Overlock-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
-@font-face {
-  font-family: 'Autour One';
-  src: url('/fonts/AutourOne-Regular.woff2') format('woff2'),
-       url('/fonts/AutourOne-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
-@font-face {
-  font-family: 'Karla';
-  src: url('/fonts/Karla-VariableFont_wght.woff2') format('woff2'),
-       url('/fonts/Karla-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* GLOBAL BASE */
-html {
-  scroll-behavior: smooth;
-}
-
-html, body {
-  background-color: #ffffff;
-  color: #1d1d1f;
-  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
-  margin: 0;
-  overflow-x: clip; 
-  overscroll-behavior-y: none;
-  scrollbar-width: none; 
-  -ms-overflow-style: none;
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
 }
 
 ::selection {
-  background-color: rgba(0, 102, 204, 0.2);
-  color: #0066cc;
+  background-color: var(--color-sun);
+  color: var(--color-ink);
 }
 
-::-webkit-scrollbar {
-  display: none; 
+/* Hide main page scrollbar only */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+html, body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* CUSTOM SCROLLBAR UTILITY */
-@media (min-width: 768px) {
-  .show-scrollbar::-webkit-scrollbar {
-    display: block;
-    height: 5px;
-    width: 5px;
-  }
-
-  .show-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .show-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.18);
-    border-radius: 9999px;
-  }
-
-  .show-scrollbar-dark::-webkit-scrollbar {
-    display: block;
-    height: 5px;
-    width: 5px;
-  }
-
-  .show-scrollbar-dark::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .show-scrollbar-dark::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 9999px;
-  }
-
-  .show-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
-  }
-
-  .show-scrollbar-dark {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  }
+/* Brutalist scrollbar for inner content (like codeblocks) */
+.brutalist-scrollbar::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+.brutalist-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-chrome);
+  border-left: 2px solid var(--color-ink);
+  border-top: 2px solid var(--color-ink);
+}
+.brutalist-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-ink);
+  border: 2px solid var(--color-ink);
+  border-right: none;
+  border-bottom: none;
+}
+.brutalist-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sky);
 }
