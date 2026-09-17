@@ -1,141 +1,97 @@
-import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, GithubLogo, LinkedinLogo, DownloadSimple } from '@phosphor-icons/react';
-import { fadeUp, TRANSITION } from '../../utils/animations';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, GithubLogo, LinkedinLogo, DownloadSimple, ArrowUp } from '@phosphor-icons/react';
 
 const socials = [
   { icon: GithubLogo,    label: 'GitHub',    href: 'https://github.com/diityanug' },
   { icon: LinkedinLogo,  label: 'LinkedIn',  href: 'https://linkedin.com/in/diityanug' },
 ];
 
-const navLinks = ['Profile', 'Skills', 'Projects', 'Experience', 'Education'];
+const navLinks = ['Profile', 'Skills', 'Experience', 'Projects', 'Education'];
+const EASE = [0.32, 0.72, 0, 1] as const;
 
-// --- Redesigned Footer — Clean, Light & High Contrast ---
 const Footer = () => {
-  const reduce = useReducedMotion();
-
   return (
-    <footer
-      id="contact"
-      className="relative bg-surface overflow-hidden -mt-8 rounded-t-[2.5rem] md:rounded-t-[3rem] z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]"
-    >
-      <div className="relative z-10 max-w-350 mx-auto px-6 md:px-12">
+    <footer id="contact" className="bg-ink text-white pt-24 md:pt-32 pb-8 px-6 md:px-12 relative z-20 rounded-t-[40px] md:rounded-t-[64px] mt-12 md:mt-20">
+      <div className="max-w-7xl mx-auto flex flex-col gap-16 md:gap-20">
+        
+        {/* Top: Massive CTA & Actions */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 lg:gap-16">
+          <div className="max-w-3xl">
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.8, ease: EASE }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white"
+            >
+              Let's Connect <br />
+              <span className="text-primary italic font-serif font-normal tracking-normal pr-4">Together</span>
+            </motion.h2>
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
+            className="flex flex-col sm:flex-row lg:flex-col gap-4 w-full lg:w-auto shrink-0"
+          >
+            <a href="mailto:diityanug13@gmail.com" className="group flex items-center justify-between gap-8 bg-white/5 hover:bg-white/15 border border-white/10 rounded-full pl-8 pr-2 py-2 transition-all duration-300 w-full sm:w-auto">
+              <span className="text-[11px] sm:text-xs font-bold tracking-widest uppercase">diityanug13@gmail.com</span>
+              <div className="w-10 h-10 rounded-full bg-white text-ink flex items-center justify-center shrink-0">
+                <ArrowUpRight size={18} weight="bold" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+              </div>
+            </a>
+            <a href="https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing" target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-8 bg-transparent hover:bg-white/5 border border-white/10 rounded-full pl-8 pr-2 py-2 transition-all duration-300 w-full sm:w-auto">
+              <span className="text-[11px] sm:text-xs font-bold tracking-widest uppercase">Download Resume</span>
+              <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0">
+                <DownloadSimple size={18} weight="bold" className="group-hover:translate-y-0.5 transition-transform duration-300" />
+              </div>
+            </a>
+          </motion.div>
+        </div>
 
-        {/* ── TOP ZONE: massive headline ── */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          variants={fadeUp}
-          className="pt-24 md:pt-40 pb-16 md:pb-24 border-b border-ink/10"
-        >
-          <div className="flex flex-col items-center text-center">
-            <span className="rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.2em] font-semibold bg-ink/5 text-ink/70 border border-ink/10 mb-8 md:mb-12">
-              Software Engineer | Frontend Developer
-            </span>
-
-            {/* Display headline */}
-            <h2 className="text-[12vw] md:text-[9vw] font-bold text-ink leading-none tracking-tight mb-12 md:mb-16 uppercase">
-              Let's Connect <br className="hidden md:block" />
-              <span className="text-primary italic">Together.</span>
-            </h2>
-
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+        {/* Bottom: Links, Socials & Copyright */}
+        <div className="w-full h-[2px] bg-white/10 rounded-full"></div>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          <p className="text-white/40 text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase order-3 md:order-1 text-center md:text-left">
+            © {new Date().getFullYear()} Aditya Nugraha
+          </p>
+          
+          <nav className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center order-2 md:order-2">
+            {navLinks.map((link) => (
               <a
-                href="mailto:diityanug13@gmail.com"
-                className="group inline-flex items-center gap-4 bg-ink hover:bg-primary rounded-full px-6 py-4 md:px-10 md:py-5 transition-all duration-500 hover:scale-105 shadow-xl hover:shadow-2xl hover:shadow-primary/20"
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors duration-300"
               >
-                <span className="text-white font-medium text-sm md:text-base tracking-wide">
-                  diityanug13@gmail.com
-                </span>
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 group-hover:rotate-45 transition-transform duration-500">
-                  <ArrowUpRight size={16} weight="bold" className="text-white" />
-                </div>
+                {link}
               </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3 order-1 md:order-3">
+            {socials.map(({ icon: Icon, label, href }) => (
               <a
-                href="https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing"
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-4 bg-white border border-ink/10 hover:bg-black/5 rounded-full px-6 py-4 md:px-10 md:py-5 transition-all duration-500 hover:scale-105 shadow-sm hover:shadow-md"
+                aria-label={label}
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/70 hover:bg-white hover:text-ink hover:border-white transition-all duration-300"
               >
-                <span className="text-ink font-bold text-sm md:text-base uppercase tracking-widest">
-                  Resume
-                </span>
-                <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center shrink-0 group-hover:-translate-y-1 transition-transform duration-500">
-                  <DownloadSimple size={16} weight="bold" className="text-ink" />
-                </div>
+                <Icon size={18} />
               </a>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* ── BOTTOM BAR ── */}
-        <motion.div
-          initial={reduce ? false : { opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ ...TRANSITION, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="py-10 flex flex-col md:flex-row items-center justify-between gap-10"
-        >
-          {/* Left: logo + nav */}
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 w-full md:w-auto">
+            ))}
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-3 group"
+              aria-label="Scroll to top"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/70 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 ml-2"
             >
-              <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-sm font-serif italic ring-1 ring-primary/20 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                D
-              </div>
-              <span className="font-bold text-base text-ink tracking-tight uppercase">
-                Aditya Nugraha
-              </span>
+              <ArrowUp size={18} />
             </button>
-
-            <nav className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">
-              {navLinks.map((link) => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  className="text-xs font-semibold uppercase tracking-widest text-steel hover:text-primary transition-colors duration-400"
-                >
-                  {link}
-                </a>
-              ))}
-            </nav>
           </div>
-
-          {/* Right: socials + copyright + scroll-to-top */}
-          <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full md:w-auto justify-center md:justify-end">
-            <div className="flex items-center gap-2">
-              {socials.map(({ icon: Icon, label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-primary hover:bg-primary/5 transition-all duration-300"
-                >
-                  <Icon size={20} weight="bold" />
-                </a>
-              ))}
-            </div>
-
-            <div className="hidden sm:block w-px h-6 bg-ink/10"></div>
-
-            <div className="flex items-center gap-6">
-              <p className="text-steel text-[11px] font-semibold tracking-widest uppercase">
-                © {new Date().getFullYear()}
-              </p>
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                aria-label="Scroll to top"
-                className="group w-12 h-12 rounded-full bg-ink/5 hover:bg-primary text-ink hover:text-white flex items-center justify-center transition-all duration-500 hover:scale-105"
-              >
-                <ArrowRight size={18} weight="bold" className="-rotate-90 group-hover:-translate-y-1 transition-transform duration-400" />
-              </button>
-            </div>
-          </div>
-        </motion.div>
+        </div>
 
       </div>
     </footer>

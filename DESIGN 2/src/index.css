@@ -32,13 +32,21 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px; /* Accounts for fixed navbar */
+  scroll-padding-top: 100px;
 }
 
 body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* Custom Scrollbar for Containers */

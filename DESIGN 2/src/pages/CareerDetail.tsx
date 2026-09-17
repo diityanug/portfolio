@@ -22,14 +22,14 @@ export default function CareerDetail() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-black/5">
         <div className="max-w-350 mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 bg-ink rounded-lg flex items-center justify-center text-white text-xs font-serif italic shadow-inner group-hover:scale-105 transition-transform duration-500">D</div>
+            <img src="/logo-static.svg" alt="Aditya Nugraha Logo" className="w-8 h-8 group-hover:scale-105 transition-transform duration-500" />
             <span className="font-bold tracking-[-0.02em] text-base text-ink uppercase hidden sm:block">Aditya Nugraha</span>
           </Link>
         </div>
       </nav>
 
       <main className="pt-24 md:pt-32 px-4 md:px-8">
-        <div className="max-w-5xl mx-auto w-full">
+        <div className="max-w-7xl mx-auto w-full">
           
           <div className="mb-16 md:mb-24">
             <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="w-full">
@@ -74,7 +74,7 @@ export default function CareerDetail() {
             {career.contributions && career.contributions.length > 0 && (
               <div>
                 <h3 className="text-2xl font-bold text-ink mb-8 tracking-tight border-b border-black/5 pb-4">Key Contributions</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                   {career.contributions.map((c: any, idx: number) => (
                     <div key={idx} className="group bg-white p-8 rounded-3xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] ring-1 ring-black/5 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 relative overflow-hidden flex flex-col h-full">
                       <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-primary/40 to-primary/80 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"></div>
@@ -99,12 +99,12 @@ export default function CareerDetail() {
             {career.culture && career.culture.length > 0 && (
               <div>
                 <h3 className="text-2xl font-bold text-ink mb-8 tracking-tight border-b border-black/5 pb-4">Culture & Activities</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                   {career.culture.map((c: any, idx: number) => (
                     <div key={idx} className="group bg-white p-5 rounded-3xl shadow-sm ring-1 ring-black/5 flex flex-col gap-5 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500">
                       <div className="w-full h-48 sm:h-56 rounded-2xl bg-black/5 overflow-hidden flex items-center justify-center relative shrink-0">
+                        <img src={c.photo} alt={c.activity} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                         <div className="absolute inset-0 bg-linear-to-tr from-primary/20 to-transparent mix-blend-overlay group-hover:opacity-100 opacity-0 transition-opacity duration-500"></div>
-                        <span className="text-xs uppercase tracking-widest text-steel font-bold z-10 group-hover:text-primary transition-colors">Photo Placeholder</span>
                       </div>
                       <div className="px-3 pb-2 flex-1">
                         <h4 className="font-bold text-ink text-xl mb-3 group-hover:text-primary transition-colors">{c.activity}</h4>

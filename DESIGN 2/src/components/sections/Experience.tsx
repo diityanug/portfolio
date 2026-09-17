@@ -28,7 +28,7 @@ const Experience = () => {
         >
           <div>
             <Eyebrow text="Track Record" />
-            <h2 className="text-[40px] md:text-[80px] font-bold text-ink tracking-[-0.03em] leading-[1]">
+            <h2 className="text-[32px] md:text-[80px] font-bold text-ink tracking-[-0.03em] leading-none">
               Professional <br className="hidden md:block" />Experience.
             </h2>
           </div>
@@ -47,9 +47,9 @@ const Experience = () => {
             >
               <Link 
                 to={item.slug ? `/career/${item.slug}` : '#'} 
-                className="block p-1.5 rounded-[2.5rem] bg-white ring-1 ring-black/5 hover:ring-primary/30 transition-all duration-700 hover:shadow-[0_20px_80px_-20px_rgba(86,69,212,0.15)] hover:-translate-y-2"
+                className="block p-1.5 rounded-10 bg-white ring-1 ring-black/5 hover:ring-primary/30 transition-all duration-700 hover:shadow-[0_20px_80px_-20px_rgba(86,69,212,0.15)] hover:-translate-y-2"
               >
-                <div className="bg-[#fcfcfc] h-full rounded-[2.125rem] p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 shadow-[inset_0_1px_1px_rgba(255,255,255,1)] relative overflow-hidden">
+                <div className="bg-[#fcfcfc] h-full rounded-8.5 p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 shadow-[inset_0_1px_1px_rgba(255,255,255,1)] relative overflow-hidden">
                   
                   {/* Decorative Gradient */}
                   <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] group-hover:bg-primary/20 transition-colors duration-700 pointer-events-none"></div>
@@ -57,7 +57,7 @@ const Experience = () => {
                   {/* Left: Logo & Role */}
                   <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 relative z-10 w-full lg:w-auto">
                     {/* Logo Box */}
-                    <div className="w-20 h-20 md:w-28 md:h-28 rounded-[1.5rem] bg-white shadow-md ring-1 ring-black/5 flex items-center justify-center p-4 group-hover:scale-105 group-hover:shadow-xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+                    <div className="w-20 h-20 md:w-28 md:h-28 rounded-6 bg-white shadow-md ring-1 ring-black/5 flex items-center justify-center p-4 group-hover:scale-105 group-hover:shadow-xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
                       {item.logo ? (
                         <img src={item.logo} alt={item.place} className="w-full h-full object-contain" />
                       ) : (
@@ -70,7 +70,7 @@ const Experience = () => {
                       <div className="inline-block px-4 py-1.5 bg-ink text-white rounded-full text-xs font-bold uppercase tracking-widest mb-4 md:mb-5">
                         {item.year}
                       </div>
-                      <h3 className="text-[32px] md:text-[44px] font-bold text-ink tracking-tight mb-2 group-hover:text-primary transition-colors duration-500 leading-none">
+                      <h3 className="text-[24px] md:text-[44px] font-bold text-ink tracking-tight mb-2 group-hover:text-primary transition-colors duration-500 leading-none">
                         {item.title}
                       </h3>
                       <p className="text-xl md:text-[22px] font-semibold text-steel">
@@ -88,7 +88,7 @@ const Experience = () => {
                     <div className="inline-flex items-center gap-3 font-bold text-sm uppercase tracking-widest text-ink group-hover:text-primary transition-colors">
                       <span className="relative">
                         View Details
-                        <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-primary scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
+                        <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-primary scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
                       </span>
                       <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white group-hover:-rotate-45 transition-all duration-500">
                         <ArrowRight size={18} weight="bold" />

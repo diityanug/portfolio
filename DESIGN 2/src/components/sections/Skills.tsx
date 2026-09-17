@@ -13,7 +13,7 @@ const Skills = () => {
           className="text-center mb-16 md:mb-32"
         >
           <Eyebrow text="Engineering Arsenal" />
-          <h2 className="text-[40px] md:text-[64px] font-bold text-ink mb-4 md:mb-6 tracking-[-0.03em] leading-tight">Technical Skills.</h2>
+          <h2 className="text-[32px] sm:text-[40px] md:text-[64px] font-bold text-ink mb-4 md:mb-6 tracking-[-0.03em] leading-tight">Technical Skills.</h2>
           <p className="text-base md:text-[19px] text-steel max-w-2xl mx-auto leading-[1.6]">A unified stack for end-to-end development, from systemic architecture to fluid, pixel-perfect interfaces.</p>
         </motion.div>
 
@@ -21,8 +21,8 @@ const Skills = () => {
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10px" }} variants={staggerContainer}
           className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6"
         >
-          <motion.div variants={scaleIn} className="md:col-span-8 p-1.5 rounded-[2.5rem] bg-black/5 ring-1 ring-black/5 group">
-            <div className="bg-card-yellow-bold h-full rounded-[2.125rem] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
+          <motion.div variants={scaleIn} className="md:col-span-8 p-1.5 rounded-10 bg-black/5 ring-1 ring-black/5 group">
+            <div className="bg-card-yellow-bold h-full rounded-8.5 p-8 md:p-12 flex flex-col justify-between relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
               <div className="absolute -bottom-12 -right-12 opacity-10 group-hover:opacity-20 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)]">
                 <TerminalWindow size={300} weight="fill" className="text-ink" />
               </div>
@@ -44,8 +44,8 @@ const Skills = () => {
             </div>
           </motion.div>
 
-          <motion.div variants={scaleIn} className="md:col-span-4 p-1.5 rounded-[2.5rem] bg-black/5 ring-1 ring-black/5 group">
-            <div className="bg-card-mint h-full rounded-[2.125rem] p-8 md:p-12 flex flex-col justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
+          <motion.div variants={scaleIn} className="md:col-span-4 p-1.5 rounded-10 bg-black/5 ring-1 ring-black/5 group">
+            <div className="bg-card-mint h-full rounded-8.5 p-8 md:p-12 flex flex-col justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
               <div>
                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm ring-1 ring-black/5 group-hover:-translate-y-1 transition-transform duration-500">
                   <Brain size={24} className="text-ink" />
@@ -64,8 +64,8 @@ const Skills = () => {
             </div>
           </motion.div>
 
-          <motion.div variants={scaleIn} className="md:col-span-6 p-1.5 rounded-[2.5rem] bg-black/5 ring-1 ring-black/5 group">
-            <div className="bg-card-peach h-full rounded-[2.125rem] p-8 md:p-12 flex flex-col justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
+          <motion.div variants={scaleIn} className="md:col-span-6 p-1.5 rounded-10 bg-black/5 ring-1 ring-black/5 group">
+            <div className="bg-card-peach h-full rounded-8.5 p-8 md:p-12 flex flex-col justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
               <div>
                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm ring-1 ring-black/5 group-hover:-translate-y-1 transition-transform duration-500">
                   <Database size={24} className="text-ink" />
@@ -83,8 +83,8 @@ const Skills = () => {
             </div>
           </motion.div>
 
-          <motion.div variants={scaleIn} className="md:col-span-6 p-1.5 rounded-[2.5rem] bg-black/5 ring-1 ring-black/5 group">
-            <div className="bg-card-lavender h-full rounded-[2.125rem] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
+          <motion.div variants={scaleIn} className="md:col-span-6 p-1.5 rounded-10 bg-black/5 ring-1 ring-black/5 group">
+            <div className="bg-card-lavender h-full rounded-8.5 p-8 md:p-12 flex flex-col justify-between relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
               <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-20 group-hover:translate-x-4 transition-all duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)]">
                 <CodeBlock size={240} weight="fill" className="text-ink" />
               </div>

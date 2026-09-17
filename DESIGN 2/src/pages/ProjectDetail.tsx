@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, Globe, GithubLogo, CheckCircle, ArrowRight } from "@phosphor-icons/react";
 import { useParams, Link } from "react-router-dom";
 import { fadeUp, scaleIn, staggerContainer, TRANSITION } from "../utils/animations";
-
+import { DATA } from "../data";
 const slideInRight = {
   hidden: { opacity: 0, x: 50 },
   visible: { opacity: 1, x: 0, transition: TRANSITION }
@@ -15,20 +15,22 @@ export default function ProjectDetail() {
 
   // Mock data based on slug.
   const project = {
-    title: slug === "ml-pipeline-engine" ? "ML Pipeline Engine" : "Premium Digital Experience",
-    subtitle: "Orchestrating high-performance machine learning workflows",
-    overview: "An end-to-end Machine Learning web application that predicts video game genres from their descriptions. Built using modern NLP techniques, served via FastAPI, and consumed by an interactive React interface.",
-    tags: ["React", "TypeScript", "FastAPI", "Python", "NLP", "PyTorch"],
-    role: "Fullstack Architect",
-    timeline: "2024 - 3 Months",
+    title: "Game Genre Classifier",
+    subtitle: "Machine Learning and NLP web app for predicting game genres based on description.",
+    overview: "A Full-Stack Machine Learning application designed to intelligently predict multiple genres and tags of a video game (e.g., Action, RPG, Horror, Strategy) based purely on its Title and Description.",
+    tags: ["React", "Tailwind CSS", "FastAPI", "Python", "Scikit-Learn", "NLTK"],
+    role: "Fullstack Machine Learning Engineer",
+    timeline: "2024 ~ 2025",
     color: "bg-card-peach",
     keyFeatures: [
-      "High-concurrency inference pipeline with <200ms latency",
-      "Interactive React dashboard for real-time predictions",
-      "Model fine-tuning on 50k+ datasets using PyTorch",
-      "Robust CI/CD deployment on AWS infrastructure"
+      "Multi-Label NLP AI (predicts 15+ complex genre categories)",
+      "Explainable AI (XAI) that highlights specific triggering keywords",
+      "Real-Time FastAPI backend with lightning-fast local network access",
+      "Fully responsive Glassmorphism-inspired React UI",
+      "Local History Log to automatically save recent predictions"
     ],
-    challenges: "The main challenge was handling the massive influx of real-time requests without degrading the inference latency. By orchestrating a robust FastAPI backend and implementing smart caching, we successfully scaled the application to handle 10k+ concurrent users."
+    challenges: "The core challenge was building a robust Multi-Label Classification architecture that accurately predicts genres without losing context. This was solved by combining TF-IDF, Complement Naive Bayes, and OneVsRestClassifier, paired with an Explainable AI (XAI) logic to give users transparency on why a genre was chosen. All wrapped in a performant React interface communicating asynchronously with FastAPI.",
+    githubLink: "https://github.com/diityanug/game-genre-classifier"
   };
 
   return (
@@ -42,7 +44,7 @@ export default function ProjectDetail() {
       >
         <div className="max-w-350 mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 bg-ink rounded-lg flex items-center justify-center text-white text-xs font-serif italic shadow-inner group-hover:scale-105 transition-transform duration-500">D</div>
+            <img src="/logo-static.svg" alt="Aditya Nugraha Logo" className="w-8 h-8 group-hover:scale-105 transition-transform duration-500" />
             <span className="font-bold tracking-[-0.02em] text-base text-ink uppercase hidden sm:block">Aditya Nugraha</span>
           </Link>
         </div>
@@ -92,20 +94,30 @@ export default function ProjectDetail() {
             </motion.div>
           </motion.div>
 
-          <motion.div 
-            initial="hidden" 
-            animate="visible" 
-            variants={scaleIn} 
-            transition={{ delay: 0.2 }} 
-            className="w-full aspect-4/3 sm:aspect-video md:aspect-21/9 bg-black/5 rounded-4xl md:rounded-[3rem] shadow-2xl overflow-hidden relative mb-20 md:mb-32 ring-1 ring-black/5 group"
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ delay: 0.2 }}
+            className="w-full mb-20 md:mb-32"
           >
-             <motion.div style={{ y }} className="absolute inset-0 bg-linear-to-br from-indigo-100 to-purple-100 mix-blend-multiply scale-110"></motion.div>
-             <div className="absolute inset-0 bg-linear-to-tr from-card-peach/60 to-transparent mix-blend-overlay"></div>
-             <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-             <div className="w-full h-full flex flex-col items-center justify-center text-ink/40 font-bold text-2xl md:text-5xl text-center px-4 z-10 relative">
-               <span className="blur-[1px]">Visual Mockup</span>
-               <span className="text-sm tracking-widest uppercase mt-4 opacity-50 blur-none">Hero Asset</span>
-             </div>
+            <h3 className="text-2xl font-bold text-ink mb-8 tracking-tight border-b border-black/5 pb-4">Project Workflow</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              {(DATA[slug || "genre-game-classifier"]?.workflow || []).map((item: any, idx: number) => (
+                <div key={idx} className="flex flex-col gap-5 group">
+                  <div className="w-full aspect-4/3 bg-black/5 rounded-3xl shadow-sm overflow-hidden relative ring-1 ring-black/5 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-primary/5 transition-all duration-500">
+                    <img src={item.image} alt={item.step} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                    <div className="absolute inset-0 bg-linear-to-br from-indigo-100/20 to-purple-100/20 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  </div>
+                  <div className="px-2">
+                    <h4 className="font-bold text-ink text-xl mb-3 group-hover:text-primary transition-colors">{item.step}</h4>
+                    <p className="text-steel text-sm md:text-base leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20">
@@ -121,10 +133,10 @@ export default function ProjectDetail() {
                 {project.overview}
               </p>
               <p className="mb-8">
-                The architecture was designed to handle high concurrency while ensuring that the inference latency remains under 200ms. By orchestrating a robust FastAPI backend with a sleek React frontend, we created a seamless end-to-end user experience.
+                The architecture relies on a custom Multi-Label Classification pipeline. Using Scikit-Learn's TF-IDF Vectorizer to normalize and extract features from text, the engine intelligently classifies complex descriptions into multiple target genres using Complement Naive Bayes and OneVsRestClassifier.
               </p>
               <p className="mb-12">
-                Deep learning models were trained on over 50,000 video game descriptions, applying state-of-the-art NLP transformers to extract contextual embeddings.
+                To elevate the user experience, an Explainable AI (XAI) feature was integrated directly into the inference layer. It isolates and highlights the exact keywords that tipped the model's confidence scores, offering users transparent, real-time insights behind the AI's reasoning.
               </p>
 
               <h2 className="text-2xl md:text-[32px] font-bold text-ink mb-6 tracking-tight mt-16">The Challenge</h2>
@@ -159,34 +171,18 @@ export default function ProjectDetail() {
                 </ul>
                 
                 <div className="flex flex-col gap-3 pt-6 border-t border-black/5">
-                  <a href="#" className="flex items-center justify-between gap-2 bg-ink text-white font-bold uppercase tracking-widest px-6 py-4 rounded-xl hover:bg-primary transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 text-xs group">
-                    <span className="flex items-center gap-2"><Globe size={18} /> Visit Site</span>
-                    <ArrowRight size={16} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                  </a>
-                  <a href="#" className="flex items-center justify-between gap-2 bg-black/5 text-ink font-bold uppercase tracking-widest px-6 py-4 rounded-xl hover:bg-black/10 transition-all duration-300 hover:shadow-sm text-xs group">
-                    <span className="flex items-center gap-2"><GithubLogo size={18} /> Source Code</span>
-                    <ArrowRight size={16} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                  </a>
+                  {project.githubLink && (
+                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-2 bg-black/5 text-ink font-bold uppercase tracking-widest px-6 py-4 rounded-xl hover:bg-black/10 transition-all duration-300 hover:shadow-sm text-xs group">
+                      <span className="flex items-center gap-2"><GithubLogo size={18} /> Source Code</span>
+                      <ArrowRight size={16} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
           </div>
           
-          {/* Next Project Teaser */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-10px" }}
-            variants={fadeUp}
-            className="mt-32 pt-20 border-t border-black/5 flex flex-col items-center text-center"
-          >
-            <span className="text-[11px] uppercase tracking-widest text-steel font-bold mb-4">Up Next</span>
-            <Link to="/project/another-slug" className="group">
-              <h2 className="text-[32px] md:text-[56px] font-bold text-ink tracking-tight group-hover:text-primary transition-colors duration-500">
-                Data Visualization Hub
-              </h2>
-            </Link>
-          </motion.div>
+
 
         </div>
       </main>
