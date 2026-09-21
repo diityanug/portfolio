@@ -6,7 +6,7 @@ export const DATA: Record<string, any> = {
     date: "2024",
     desc: "Game Genre Classifier is an end-to-end Machine Learning pipeline designed to predict video game genres based on their descriptions. The core NLP engine utilizes spaCy for deep text normalization and TF-IDF for feature extraction. The backend is served via FastAPI, featuring dynamic thresholding and a unique Explainable AI logic to extract reasoning keywords. The frontend offers a sleek, animated UI with real-time probability bars.",
     link: "https://github.com/diityanug/game-genre-classifier",
-    image: "/card.png",
+    image: "/genre_game_vector_cover.jpg",
     workflow: [
       {
         image: "/input-desc.webp",

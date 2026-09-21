@@ -1,11 +1,10 @@
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { fadeUp, staggerContainer } from '../../utils/animations';
-import Eyebrow from '../ui/Eyebrow';
 import AnimatedCharacter from '../ui/AnimatedCharacter';
 import { TerminalWindow as Terminal, GithubLogo as Github } from "@phosphor-icons/react";
 
-// --- Hero Section (Asymmetric Elite) ---
+// Hero Section
 const Hero = () => {
   const containerRef = useRef(null);
   const reduce = useReducedMotion();
@@ -23,7 +22,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="home" className="bg-[#FAFAFA] pt-32 md:pt-48 pb-20 md:pb-32 px-4 relative overflow-hidden min-h-[90svh] flex items-center">
+    <section ref={containerRef} id="home" className="bg-[#FAFAFA] pt-32 md:pt-40 pb-28 md:pb-40 px-4 relative overflow-hidden min-h-[90svh] flex items-center">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '4rem 4rem' }}></div>
       
@@ -37,9 +36,14 @@ const Hero = () => {
             style={(reduce || !isDesktop) ? {} : { y: yText, opacity: opacityText }} 
             className="lg:col-span-7 flex flex-col items-start text-left"
           >
-            <motion.h1 variants={fadeUp} className="text-[14vw] sm:text-[80px] md:text-[90px] lg:text-[120px] font-bold text-ink leading-[0.9] tracking-[-0.04em] mb-8 uppercase whitespace-nowrap">
+            <motion.h1 
+              variants={fadeUp} 
+              tabIndex={0}
+              onTouchStart={() => {}}
+              className="group text-[14vw] sm:text-[80px] md:text-[90px] lg:text-[120px] font-bold text-ink leading-[0.9] tracking-[-0.04em] mb-8 uppercase whitespace-nowrap cursor-pointer lg:cursor-default focus:outline-none"
+            >
               Software <br />
-              <span className="text-transparent [-webkit-text-stroke:2px_#1a1a1a] hover:text-primary hover:[-webkit-text-stroke:0px] transition-colors duration-500">
+              <span className="text-transparent [-webkit-text-stroke:2px_#1a1a1a] group-hover:text-primary group-hover:[-webkit-text-stroke:0px] group-focus:text-primary group-focus:[-webkit-text-stroke:0px] group-active:text-primary group-active:[-webkit-text-stroke:0px] transition-colors duration-500">
                 Engineer.
               </span>
             </motion.h1>

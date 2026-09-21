@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
 import { fadeUp, scaleIn, staggerContainer, TRANSITION } from '../../utils/animations';
-import Eyebrow from '../ui/Eyebrow';
 
 // --- Profile (Editorial) ---
 const Profile = () => {
   return (
-    <section id="profile" className="py-24 md:py-40 px-4 md:px-8 bg-[#FAFAFA] relative border-y border-black/5">
+    <section id="profile" className="pt-16 md:pt-24 pb-28 md:pb-40 px-4 md:px-8 bg-white relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)]">
       <div className="max-w-7xl mx-auto">
         <motion.div 
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10px" }} variants={staggerContainer}
@@ -31,28 +30,51 @@ const Profile = () => {
 
           {/* Right: Typography & Stack */}
           <motion.div variants={fadeUp} className="lg:col-span-7 flex flex-col pt-8 lg:pt-12">
-            <Eyebrow text="Profile" />
-            <h2 className="text-[40px] md:text-[64px] font-bold text-ink mb-10 tracking-[-0.03em] leading-[1.05] uppercase">
-              Crafting systems, <br className="hidden md:block" />
-              not just pages.
+            <h2 
+              tabIndex={0}
+              onTouchStart={() => {}}
+              className="group text-[40px] md:text-[64px] font-bold text-ink mb-10 tracking-[-0.03em] leading-[1.05] uppercase cursor-pointer lg:cursor-default focus:outline-none"
+            >
+              {/* HELLO: Solid Black -> Hollow Primary */}
+              <span className="inline-block transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-transparent group-hover:[-webkit-text-stroke:2px_#5645d4] group-focus:text-transparent group-focus:[-webkit-text-stroke:2px_#5645d4] group-active:text-transparent group-active:[-webkit-text-stroke:2px_#5645d4]">
+                HELLO
+              </span>{" "}
+              {/* THERE: Solid Steel -> Solid Black */}
+              <span className="inline-block text-steel transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] delay-75 group-hover:text-ink group-focus:text-ink group-active:text-ink">
+                THERE
+              </span>{" "}
+              {/* ~: Solid Primary -> Hollow Black, Rotate */}
+              <span className="inline-block text-primary transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] delay-100 group-hover:rotate-[20deg] group-hover:scale-110 group-hover:text-transparent group-hover:[-webkit-text-stroke:2px_#1a1a1a] group-focus:rotate-[20deg] group-focus:scale-110 group-focus:text-transparent group-focus:[-webkit-text-stroke:2px_#1a1a1a] group-active:rotate-[20deg] group-active:scale-110 group-active:text-transparent group-active:[-webkit-text-stroke:2px_#1a1a1a]">
+                ~
+              </span> <br className="hidden md:block" />
+              {/* I'M: Hollow Black -> Solid Primary */}
+              <span className="inline-block text-transparent [-webkit-text-stroke:2px_#1a1a1a] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] delay-150 group-hover:text-primary group-hover:[-webkit-text-stroke:0px] group-focus:text-primary group-focus:[-webkit-text-stroke:0px] group-active:text-primary group-active:[-webkit-text-stroke:0px]">
+                I'M
+              </span>{" "}
+              {/* ADITYA: Solid Black -> Hollow Black */}
+              <span className="inline-block transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] delay-200 group-hover:text-transparent group-hover:[-webkit-text-stroke:2px_#1a1a1a] group-focus:text-transparent group-focus:[-webkit-text-stroke:2px_#1a1a1a] group-active:text-transparent group-active:[-webkit-text-stroke:2px_#1a1a1a]">
+                ADITYA
+              </span>
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-              <div>
-                <div className="h-px w-8 bg-black/20 mb-6"></div>
-                <p className="text-steel leading-[1.7] text-base md:text-lg mb-8">
-                  Software Engineer specializing in modern web development. I focus on bridging the gap between robust, scalable architecture and flawless, intuitive user interfaces.
+            <div className="flex flex-col">
+              <div className="h-px w-12 bg-black/20 mb-8"></div>
+              <div className="text-steel leading-[1.8] text-base md:text-[17px] flex flex-col gap-6 max-w-2xl mb-12">
+                <p>
+                  A Software Engineer focused on frontend development using <strong>TypeScript</strong> and <strong>React</strong>, while also exploring backend development with Python and FastAPI. I enjoy building modern, clean, and user-friendly web applications while continuously learning and improving my skills.
+                </p>
+                <p>
+                  Outside of coding, I love playing games and spending time with sports, especially badminton and basketball. I can play other sports too, but whether I’m actually good at them is another story. I always enjoy trying new things and simply having fun with whatever I’m doing.
                 </p>
               </div>
               
-              <div>
-                <div className="h-px w-8 bg-black/20 mb-6"></div>
-                <div className="flex flex-col gap-3">
-                  <div className="text-xs font-bold uppercase tracking-widest text-ink mb-2">Core Stack</div>
-                  {['TypeScript', 'React', 'Python'].map(tech => (
-                    <div key={tech} className="flex items-center gap-3 group">
-                      <div className="w-1.5 h-1.5 bg-black/20 group-hover:bg-primary transition-colors"></div>
-                      <span className="text-sm md:text-base font-medium text-steel group-hover:text-ink transition-colors uppercase tracking-wide">
+              <div className="flex flex-col gap-4">
+                <div className="text-xs font-bold uppercase tracking-widest text-ink">Core Stack</div>
+                <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                  {['TypeScript', 'React', 'Python', 'FastAPI'].map(tech => (
+                    <div key={tech} className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-black/10 bg-white shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-300 cursor-default group">
+                      <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-primary transition-colors"></div>
+                      <span className="text-sm font-semibold text-ink tracking-wide">
                         {tech}
                       </span>
                     </div>

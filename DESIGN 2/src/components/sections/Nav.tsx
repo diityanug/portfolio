@@ -2,9 +2,8 @@ import { motion } from 'framer-motion';
 import { User, Code, Briefcase, Terminal, GraduationCap } from '@phosphor-icons/react';
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-// Removed unused TRANSITION import
 
-// --- Edge-to-Edge Fluid Nav ---
+// Edge-to-Edge Fluid Nav
 const Nav = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
@@ -79,14 +78,14 @@ const Nav = () => {
                 if (!isHome) {
                   navigate('/');
                   setTimeout(() => {
-                    document.querySelector('#footer')?.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
                 } else {
-                  document.querySelector('#footer')?.scrollIntoView({ behavior: 'smooth' });
+                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
             >
-              <span>Let's Talk</span>
+              <span>Contact</span>
             </button>
 
             {/* Mobile Nav Icons */}

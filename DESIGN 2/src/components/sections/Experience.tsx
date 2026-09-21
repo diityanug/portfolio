@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { fadeUp, scaleIn } from '../../utils/animations';
-import Eyebrow from '../ui/Eyebrow';
+import LGSinarmasLogo from '../../assets/LG_Sinarmas_Logo_Vector.svg';
 
-// --- Experience (Featured Card Layout) ---
+// Experience
 const Experience = () => {
   const items = [
     { 
@@ -13,12 +13,12 @@ const Experience = () => {
       year: "2025 - Present", 
       desc: "Smart Factory operations and Frontend Developer with React and TypeScript.",
       slug: "software-engineer-lg",
-      logo: "/LG_Sinarmas_Logo_Vector.svg"
+      logo: LGSinarmasLogo
     },
   ];
 
   return (
-    <section id="experience" className="py-24 md:py-48 px-4 bg-[#FAFAFA] border-t border-black/5 relative overflow-hidden">
+    <section id="experience" className="pt-16 md:pt-24 pb-28 md:pb-40 px-4 bg-[#FAFAFA] relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] overflow-hidden">
       <div className="max-w-300 mx-auto relative z-10">
         
         {/* Header */}
@@ -27,8 +27,7 @@ const Experience = () => {
           className="mb-16 md:mb-24 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
           <div>
-            <Eyebrow text="Track Record" />
-            <h2 className="text-[32px] md:text-[80px] font-bold text-ink tracking-[-0.03em] leading-none">
+            <h2 className="text-[40px] md:text-[80px] font-bold text-ink tracking-[-0.03em] leading-none">
               Professional <br className="hidden md:block" />Experience.
             </h2>
           </div>

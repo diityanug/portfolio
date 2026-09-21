@@ -1,25 +1,76 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowLeft, Globe, GithubLogo, CheckCircle, ArrowRight } from "@phosphor-icons/react";
 import { useParams, Link } from "react-router-dom";
 import { fadeUp, scaleIn, staggerContainer, TRANSITION } from "../utils/animations";
 import { DATA } from "../data";
+
 const slideInRight = {
   hidden: { opacity: 0, x: 50 },
   visible: { opacity: 1, x: 0, transition: TRANSITION }
 };
 
+function TimelineItem({ item, idx }: { item: any; idx: number }) {
+  const isEven = idx % 2 === 0;
+  const numString = (idx + 1).toString().padStart(2, '0');
+  
+  const ref = useRef<HTMLDivElement>(null);
+  const isActive = useInView(ref, { margin: "10000px 0px -50% 0px" });
+
+  return (
+    <motion.div 
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+      className="relative flex flex-col md:flex-row items-center justify-between mb-16 md:mb-32 w-full group"
+    >
+      {/* Content Block */}
+      <div className={`w-full md:w-[45%] pl-20 md:pl-0 relative ${isEven ? "md:text-right md:pr-16" : "md:order-2 md:text-left md:pl-16"}`}>
+        <div className={`absolute top-1/2 -translate-y-1/2 text-[120px] font-bold select-none pointer-events-none -z-10 transition-colors duration-700 ${isActive ? 'text-primary/5' : 'text-black/3'} ${isEven ? "md:right-16 md:text-right" : "md:left-16"}`}>
+          {numString}
+        </div>
+        
+        <h4 className={`font-bold text-2xl md:text-3xl mb-4 transition-colors duration-500 ${isActive ? 'text-primary' : 'text-ink'}`}>{item.step}</h4>
+        <p className={`text-base md:text-lg leading-relaxed transition-colors duration-500 ${isActive ? 'text-ink' : 'text-steel'}`}>
+          {item.desc}
+        </p>
+      </div>
+
+      {/* Center Dot */}
+      <div className={`absolute left-7 md:left-1/2 top-6 md:top-1/2 w-4 h-4 bg-white border-[3px] rounded-full -translate-x-1/2 md:-translate-y-1/2 z-10 transition-all duration-500 shadow-[0_0_0_6px_#FAFAFA] ${isActive ? 'border-primary scale-150' : 'border-black/20 scale-100'}`}></div>
+
+      {/* Image Block */}
+      <div className={`w-full md:w-[45%] pl-20 md:pl-0 mt-8 md:mt-0 ${isEven ? "md:order-2 md:pl-16" : "md:pr-16"}`}>
+        <div className={`w-full relative ring-1 rounded-3xl transition-all duration-700 bg-white ${isActive ? '-translate-y-2 shadow-[0_40px_100px_-20px_rgba(86,69,212,0.15)] ring-primary/20' : 'shadow-[0_20px_40px_-10px_rgba(0,0,0,0.05)] ring-black/5'}`}>
+          <div className="w-full aspect-video md:aspect-4/3 rounded-3xl overflow-hidden relative bg-black/5 [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
+            <img src={item.image} alt={item.step} className={`w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] mix-blend-multiply ${isActive ? 'scale-105' : 'scale-100'}`} />
+            <div className={`absolute inset-0 bg-primary/5 transition-opacity duration-700 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}></div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function ProjectDetail() {
   const { slug } = useParams();
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: timelineScroll } = useScroll({
+    target: timelineRef,
+    offset: ["start center", "end center"]
+  });
 
-  // Mock data based on slug.
   const project = {
     title: "Game Genre Classifier",
     subtitle: "Machine Learning and NLP web app for predicting game genres based on description.",
     overview: "A Full-Stack Machine Learning application designed to intelligently predict multiple genres and tags of a video game (e.g., Action, RPG, Horror, Strategy) based purely on its Title and Description.",
     tags: ["React", "Tailwind CSS", "FastAPI", "Python", "Scikit-Learn", "NLTK"],
-    role: "Fullstack Machine Learning Engineer",
+    role: "Fullstack Machine Learning",
     timeline: "2024 ~ 2025",
     color: "bg-card-peach",
     keyFeatures: [
@@ -50,7 +101,7 @@ export default function ProjectDetail() {
         </div>
       </motion.nav>
 
-      <main className="pt-24 md:pt-32 px-4 md:px-8 overflow-hidden">
+      <main className="pt-24 md:pt-32 px-4 md:px-8">
         <div className="max-w-350 mx-auto w-full">
           
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="mb-12 md:mb-20 max-w-6xl mx-auto w-full">
@@ -99,23 +150,25 @@ export default function ProjectDetail() {
             animate="visible"
             variants={fadeUp}
             transition={{ delay: 0.2 }}
-            className="w-full mb-20 md:mb-32"
+            className="w-full mb-24 md:mb-40 pt-10"
           >
-            <h3 className="text-2xl font-bold text-ink mb-8 tracking-tight border-b border-black/5 pb-4">Project Workflow</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="text-center mb-16 md:mb-24">
+              <h2 className="text-3xl md:text-5xl font-bold text-ink tracking-tight mb-6">Process Workflow</h2>
+              <p className="text-steel max-w-2xl mx-auto text-base md:text-lg">
+                A proven step-by-step process designed to transform complex workflows into scalable AI-powered systems — efficiently and strategically.
+              </p>
+            </div>
+
+            <div ref={timelineRef} className="relative max-w-5xl mx-auto">
+              <div className="absolute left-7 md:left-1/2 top-4 bottom-4 w-px bg-black/10 md:-translate-x-1/2"></div>
+
+              <motion.div
+                className="absolute left-7 md:left-1/2 top-4 bottom-4 w-0.5 bg-primary md:-translate-x-1/2 origin-top"
+                style={{ scaleY: timelineScroll }}
+              ></motion.div>
+              
               {(DATA[slug || "genre-game-classifier"]?.workflow || []).map((item: any, idx: number) => (
-                <div key={idx} className="flex flex-col gap-5 group">
-                  <div className="w-full aspect-4/3 bg-black/5 rounded-3xl shadow-sm overflow-hidden relative ring-1 ring-black/5 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-primary/5 transition-all duration-500">
-                    <img src={item.image} alt={item.step} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                    <div className="absolute inset-0 bg-linear-to-br from-indigo-100/20 to-purple-100/20 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  </div>
-                  <div className="px-2">
-                    <h4 className="font-bold text-ink text-xl mb-3 group-hover:text-primary transition-colors">{item.step}</h4>
-                    <p className="text-steel text-sm md:text-base leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                </div>
+                <TimelineItem key={idx} item={item} idx={idx} />
               ))}
             </div>
           </motion.div>
@@ -152,7 +205,7 @@ export default function ProjectDetail() {
               variants={slideInRight} 
               className="md:col-span-4"
             >
-              <div className="bg-white p-8 rounded-4xl shadow-xl shadow-black/5 ring-1 ring-black/5 sticky top-32">
+              <div className="bg-white p-6 md:p-8 rounded-4xl md:rounded-4xl shadow-xl shadow-black/5 ring-1 ring-black/5 md:sticky md:top-32">
                 <h3 className="text-lg font-bold text-ink mb-6">Key Highlights</h3>
                 <ul className="space-y-4 mb-8">
                   {project.keyFeatures.map((feature, idx) => (
@@ -172,9 +225,9 @@ export default function ProjectDetail() {
                 
                 <div className="flex flex-col gap-3 pt-6 border-t border-black/5">
                   {project.githubLink && (
-                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-2 bg-black/5 text-ink font-bold uppercase tracking-widest px-6 py-4 rounded-xl hover:bg-black/10 transition-all duration-300 hover:shadow-sm text-xs group">
-                      <span className="flex items-center gap-2"><GithubLogo size={18} /> Source Code</span>
-                      <ArrowRight size={16} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-2 bg-black/5 text-ink font-bold uppercase tracking-widest px-4 md:px-6 py-3 md:py-4 rounded-xl hover:bg-black/10 transition-all duration-300 hover:shadow-sm text-xs group">
+                      <span className="flex items-center gap-2 truncate"><GithubLogo size={18} className="shrink-0" /> <span className="truncate">Source Code</span></span>
+                      <ArrowRight size={16} className="opacity-50 shrink-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                     </a>
                   )}
                 </div>
@@ -182,8 +235,6 @@ export default function ProjectDetail() {
             </motion.div>
           </div>
           
-
-
         </div>
       </main>
     </div>
