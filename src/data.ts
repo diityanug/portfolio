@@ -101,6 +101,8 @@ export const DATA: Record<string, any> = {
 
 // Certificates
 export const CERTIFICATES = [
+  { title: "Panduan LLM untuk Developer: Dasar hingga Aplikasi Praktis", issuer: "Udemy", year: "2026", link: "https://www.udemy.com/certificate/UC-fbbe3ef3-e512-4e29-9900-754de977e6f7/" },
+  { title: "Principles of Secure Coding", issuer: "Udemy", year: "2026", link: "https://www.udemy.com/certificate/UC-1438581d-574b-4338-a428-6d9dbc1dacf8/" },
   { title: "SOLID Principles: Introducing Software Architecture & Design", issuer: "Udemy", year: "2026", link: "https://www.udemy.com/certificate/UC-6ff76bda-84e8-4650-82d7-af2298bbe167/" },
   { title: "Clean Code", issuer: "Udemy", year: "2026", link: "https://www.udemy.com/certificate/UC-f9a43bb7-cae6-402f-88c9-10ce63c25d24/" },
   { title: "Fundamentals of Software Design and Architecture Course", issuer: "Udemy", year: "2026", link: "https://www.udemy.com/certificate/UC-37fc4f6c-08ab-4881-9246-3f561902b2b3/" },
