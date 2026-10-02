@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { ArrowLeft, Globe, GithubLogo, CheckCircle, ArrowRight } from "@phosphor-icons/react";
+import { motion, useScroll, useInView } from "framer-motion";
+import { ArrowLeft, GithubLogo, CheckCircle, ArrowRight } from "@phosphor-icons/react";
 import { useParams, Link } from "react-router-dom";
-import { fadeUp, scaleIn, staggerContainer, TRANSITION } from "../utils/animations";
+import { fadeUp, staggerContainer, TRANSITION } from "../utils/animations";
 import { DATA } from "../data";
 
 const slideInRight = {
@@ -45,7 +45,7 @@ function TimelineItem({ item, idx }: { item: any; idx: number }) {
       <div className={`w-full md:w-[45%] pl-20 md:pl-0 mt-8 md:mt-0 ${isEven ? "md:order-2 md:pl-16" : "md:pr-16"}`}>
         <div className={`w-full relative ring-1 rounded-3xl transition-all duration-700 bg-white ${isActive ? '-translate-y-2 shadow-[0_40px_100px_-20px_rgba(86,69,212,0.15)] ring-primary/20' : 'shadow-[0_20px_40px_-10px_rgba(0,0,0,0.05)] ring-black/5'}`}>
           <div className="w-full aspect-video md:aspect-4/3 rounded-3xl overflow-hidden relative bg-black/5 [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
-            <img src={item.image} alt={item.step} className={`w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] mix-blend-multiply ${isActive ? 'scale-105' : 'scale-100'}`} />
+            <img src={item.image} alt={item.step} className={`w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] ${item.mixBlend ? 'mix-blend-multiply' : ''} ${isActive ? 'scale-105' : 'scale-100'}`} />
             <div className={`absolute inset-0 bg-primary/5 transition-opacity duration-700 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}></div>
           </div>
         </div>
@@ -56,8 +56,6 @@ function TimelineItem({ item, idx }: { item: any; idx: number }) {
 
 export default function ProjectDetail() {
   const { slug } = useParams();
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   
   const timelineRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: timelineScroll } = useScroll({
@@ -65,23 +63,20 @@ export default function ProjectDetail() {
     offset: ["start center", "end center"]
   });
 
-  const project = {
-    title: "Game Genre Classifier",
-    subtitle: "Machine Learning and NLP web app for predicting game genres based on description.",
-    overview: "A Full-Stack Machine Learning application designed to intelligently predict multiple genres and tags of a video game (e.g., Action, RPG, Horror, Strategy) based purely on its Title and Description.",
-    tags: ["React", "Tailwind CSS", "FastAPI", "Python", "Scikit-Learn", "NLTK"],
-    role: "Fullstack Machine Learning",
-    timeline: "2024 ~ 2025",
+  const currentSlug = slug || "genre-game-classifier";
+  const project = DATA[currentSlug] || DATA["genre-game-classifier"] || {
+    title: slug ? slug.replace(/-/g, " ") : "Project",
+    subtitle: "Project details",
+    overview: "Details for this project could not be found.",
+    tags: [],
+    role: "Developer",
+    timeline: "-",
     color: "bg-card-peach",
-    keyFeatures: [
-      "Multi-Label NLP AI (predicts 15+ complex genre categories)",
-      "Explainable AI (XAI) that highlights specific triggering keywords",
-      "Real-Time FastAPI backend with lightning-fast local network access",
-      "Fully responsive Glassmorphism-inspired React UI",
-      "Local History Log to automatically save recent predictions"
-    ],
-    challenges: "The core challenge was building a robust Multi-Label Classification architecture that accurately predicts genres without losing context. This was solved by combining TF-IDF, Complement Naive Bayes, and OneVsRestClassifier, paired with an Explainable AI (XAI) logic to give users transparency on why a genre was chosen. All wrapped in a performant React interface communicating asynchronously with FastAPI.",
-    githubLink: "https://github.com/diityanug/game-genre-classifier"
+    keyFeatures: [],
+    challenges: "",
+    overviewParagraphs: [],
+    githubLink: "",
+    workflow: []
   };
 
   return (
@@ -129,7 +124,7 @@ export default function ProjectDetail() {
               <div className="flex-2 min-w-62.5">
                 <span className="block text-[11px] uppercase tracking-widest text-steel font-bold mb-3">Tech Stack</span>
                 <div className="flex flex-wrap gap-2 mt-1">
-                  {project.tags.map((tag, i) => (
+                  {project.tags.map((tag: string, i: number) => (
                     <motion.span 
                       key={tag} 
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -153,9 +148,11 @@ export default function ProjectDetail() {
             className="w-full mb-24 md:mb-40 pt-10"
           >
             <div className="text-center mb-16 md:mb-24">
-              <h2 className="text-3xl md:text-5xl font-bold text-ink tracking-tight mb-6">Process Workflow</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-ink tracking-tight mb-6">
+                {project.workflowTitle || "Process Workflow"}
+              </h2>
               <p className="text-steel max-w-2xl mx-auto text-base md:text-lg">
-                A proven step-by-step process designed to transform complex workflows into scalable AI-powered systems — efficiently and strategically.
+                {project.workflowSubtitle || "A proven step-by-step process designed to transform complex workflows into scalable systems — efficiently and strategically."}
               </p>
             </div>
 
@@ -167,7 +164,7 @@ export default function ProjectDetail() {
                 style={{ scaleY: timelineScroll }}
               ></motion.div>
               
-              {(DATA[slug || "genre-game-classifier"]?.workflow || []).map((item: any, idx: number) => (
+              {((project.workflow || DATA[currentSlug]?.workflow || []) as any[]).map((item: any, idx: number) => (
                 <TimelineItem key={idx} item={item} idx={idx} />
               ))}
             </div>
@@ -185,17 +182,24 @@ export default function ProjectDetail() {
               <p className="mb-8 font-medium text-ink text-lg md:text-[22px] leading-[1.6]">
                 {project.overview}
               </p>
-              <p className="mb-8">
-                The architecture relies on a custom Multi-Label Classification pipeline. Using Scikit-Learn's TF-IDF Vectorizer to normalize and extract features from text, the engine intelligently classifies complex descriptions into multiple target genres using Complement Naive Bayes and OneVsRestClassifier.
-              </p>
-              <p className="mb-12">
-                To elevate the user experience, an Explainable AI (XAI) feature was integrated directly into the inference layer. It isolates and highlights the exact keywords that tipped the model's confidence scores, offering users transparent, real-time insights behind the AI's reasoning.
-              </p>
+              {project.overviewParagraphs && project.overviewParagraphs.length > 0 ? (
+                project.overviewParagraphs.map((paragraph: string, pIdx: number) => (
+                  <p key={pIdx} className="mb-8">
+                    {paragraph}
+                  </p>
+                ))
+              ) : project.desc ? (
+                <p className="mb-8">{project.desc}</p>
+              ) : null}
 
-              <h2 className="text-2xl md:text-[32px] font-bold text-ink mb-6 tracking-tight mt-16">The Challenge</h2>
-              <p className="mb-12">
-                {project.challenges}
-              </p>
+              {project.challenges && (
+                <>
+                  <h2 className="text-2xl md:text-[32px] font-bold text-ink mb-6 tracking-tight mt-16">The Challenge</h2>
+                  <p className="mb-12">
+                    {project.challenges}
+                  </p>
+                </>
+              )}
             </motion.div>
 
             <motion.div 
@@ -208,7 +212,7 @@ export default function ProjectDetail() {
               <div className="bg-white p-6 md:p-8 rounded-4xl md:rounded-4xl shadow-xl shadow-black/5 ring-1 ring-black/5 md:sticky md:top-32">
                 <h3 className="text-lg font-bold text-ink mb-6">Key Highlights</h3>
                 <ul className="space-y-4 mb-8">
-                  {project.keyFeatures.map((feature, idx) => (
+                  {(project.keyFeatures || []).map((feature: string, idx: number) => (
                     <motion.li 
                       key={idx}
                       initial={{ opacity: 0, x: 20 }}

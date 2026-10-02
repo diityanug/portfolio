@@ -7,11 +7,22 @@ import { fadeUp, scaleIn } from '../../utils/animations';
 const Projects = () => {
   const projects = [
     {
+      slug: "genre-game-classifier",
       title: "Genre Game Classifier",
       overview: "An end-to-end Machine Learning web application that predicts video game genres from their descriptions. Built using modern NLP techniques, served via FastAPI, and consumed by an interactive React interface.",
       tags: ["React", "TypeScript", "FastAPI", "Python", "NLP"],
       image: "/genre_game_vector_cover.jpg",
-      color: "bg-card-peach"
+      color: "bg-card-peach",
+      mixBlend: true
+    },
+    {
+      slug: "lenvry",
+      title: "Lenvry",
+      overview: "A comprehensive personal tracking mobile application built with React Native and Expo Router. Track fitness workouts, habit streaks, daily meals, and personal finances with an offline-first local database architecture.",
+      tags: ["React Native", "Expo", "TypeScript", "AsyncStorage", "Database", "Mobile"],
+      image: "/lenvry.webp",
+      color: "bg-card-sky",
+      mixBlend: false
     },
     // Add more projects here easily
   ];
@@ -35,7 +46,7 @@ const Projects = () => {
 
         <div className="flex flex-col gap-10 md:gap-16">
           {projects.map((project, i) => (
-            <Link to={`/project/${project.title.toLowerCase().replace(/\s+/g, '-')}`} key={i} className="block outline-none">
+            <Link to={`/project/${project.slug || project.title.toLowerCase().replace(/\s+/g, '-')}`} key={i} className="block outline-none">
               <motion.div 
                 initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10px" }} variants={scaleIn}
                 className="w-full group"
@@ -61,7 +72,7 @@ const Projects = () => {
                       <div className="inline-flex items-center gap-3 font-bold text-sm uppercase tracking-widest text-ink group-hover:text-primary transition-colors mt-auto">
                         <span className="relative">
                           Explore Case Study
-                          <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-primary scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
+                            <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-primary scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
                         </span>
                         <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white group-hover:-rotate-45 transition-all duration-500">
                           <ArrowUpRight size={18} weight="bold" />
@@ -75,7 +86,7 @@ const Projects = () => {
                         <img 
                           src={project.image} 
                           alt={project.title} 
-                          className="w-full h-full object-cover object-center mix-blend-multiply"
+                          className={`w-full h-full object-cover object-center ${project.mixBlend ? 'mix-blend-multiply' : ''}`}
                         />
                       </div>
                     </div>

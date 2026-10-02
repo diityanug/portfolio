@@ -44,7 +44,7 @@ const Profile = () => {
                 THERE
               </span>{" "}
               {/* ~: Solid Primary -> Hollow Black, Rotate */}
-              <span className="inline-block text-primary transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] delay-100 group-hover:rotate-[20deg] group-hover:scale-110 group-hover:text-transparent group-hover:[-webkit-text-stroke:2px_#1a1a1a] group-focus:rotate-[20deg] group-focus:scale-110 group-focus:text-transparent group-focus:[-webkit-text-stroke:2px_#1a1a1a] group-active:rotate-[20deg] group-active:scale-110 group-active:text-transparent group-active:[-webkit-text-stroke:2px_#1a1a1a]">
+              <span className="inline-block text-primary transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] delay-100 group-hover:rotate-20 group-hover:scale-110 group-hover:text-transparent group-hover:[-webkit-text-stroke:2px_#1a1a1a] group-focus:rotate-20 group-focus:scale-110 group-focus:text-transparent group-focus:[-webkit-text-stroke:2px_#1a1a1a] group-active:rotate-20 group-active:scale-110 group-active:text-transparent group-active:[-webkit-text-stroke:2px_#1a1a1a]">
                 ~
               </span> <br className="hidden md:block" />
               {/* I'M: Hollow Black -> Solid Primary */}

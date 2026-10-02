@@ -101,7 +101,7 @@ const Skills = () => {
                   <CodeBlock size={24} className="text-ink group-hover:text-white transition-colors" />
                 </div>
                 <h3 className="text-[24px] md:text-[28px] font-bold text-ink mb-3 md:mb-4 tracking-[-0.02em]">Process Automation</h3>
-                <p className="text-steel text-[14px] md:text-[15px] leading-[1.6] mb-8 max-w-[280px] md:max-w-[320px]">Writing efficient scripts to scrape data and eliminate manual labor.</p>
+                <p className="text-steel text-[14px] md:text-[15px] leading-[1.6] mb-8 max-w-70 md:max-w-[320px]">Writing efficient scripts to scrape data and eliminate manual labor.</p>
               </div>
               <div className="relative z-10 flex flex-wrap gap-2.5">
                  {['Selenium', 'BeautifulSoup', 'PyAutoGUI'].map(skill => (

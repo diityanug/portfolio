@@ -38,6 +38,10 @@ html {
   scrollbar-width: none;
 }
 
+section[id] {
+  scroll-margin-top: 84px;
+}
+
 html::-webkit-scrollbar {
   display: none;
 }

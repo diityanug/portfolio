@@ -13,17 +13,25 @@ const Nav = () => {
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
 
+    const scrollToTarget = () => {
+      const element = document.querySelector(targetId);
+      if (element) {
+        const navHeight = 76;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: elementPosition - navHeight,
+          behavior: 'smooth'
+        });
+      }
+    };
+
     if (!isHome) {
       navigate('/');
-      setTimeout(() => {
-        const element = document.querySelector(targetId);
-        if (element) element.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      setTimeout(scrollToTarget, 100);
       return;
     }
 
-    const element = document.querySelector(targetId);
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
+    scrollToTarget();
   };
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -47,10 +55,10 @@ const Nav = () => {
   return (
     <>
       <motion.nav 
-        className={`fixed z-50 bg-white/80 backdrop-blur-xl transition-all duration-1000 ease-in-out left-0 right-0 mx-auto border
+        className={`fixed z-50 left-0 right-0 mx-auto pt-[env(safe-area-inset-top,0px)] md:pt-0
           ${isScrolled 
-            ? 'top-4 w-[calc(100%-2rem)] md:w-[90%] max-w-5xl rounded-3xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] border-black/5' 
-            : 'top-0 w-full max-w-[100vw] rounded-none shadow-none border-transparent border-b-black/5'
+            ? 'top-0 w-full rounded-none bg-white border-b border-black/5 shadow-sm md:top-4 md:w-[90%] md:max-w-5xl md:rounded-3xl md:bg-white/80 md:backdrop-blur-xl md:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] md:border md:border-black/5 md:transition-all md:duration-700' 
+            : 'top-0 w-full max-w-[100vw] rounded-none bg-white md:bg-white/80 md:backdrop-blur-xl shadow-none border-b border-black/5 md:transition-all md:duration-700'
           }`}
         ref={dropdownRef}
       >
@@ -75,13 +83,23 @@ const Nav = () => {
             <button
               className="hidden sm:flex items-center gap-2 bg-ink text-white text-[11px] md:text-xs font-bold uppercase tracking-widest px-6 md:px-7 py-3 md:py-3.5 rounded-full hover:bg-primary transition-colors duration-500 active:scale-95 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.3)]"
               onClick={() => {
+                const scrollToContact = () => {
+                  const element = document.querySelector('#contact');
+                  if (element) {
+                    const navHeight = 76;
+                    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({
+                      top: elementPosition - navHeight,
+                      behavior: 'smooth'
+                    });
+                  }
+                };
+
                 if (!isHome) {
                   navigate('/');
-                  setTimeout(() => {
-                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
+                  setTimeout(scrollToContact, 100);
                 } else {
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                  scrollToContact();
                 }
               }}
             >
