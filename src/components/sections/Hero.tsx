@@ -48,7 +48,7 @@ const Hero = () => {
               variants={fadeUp} 
               tabIndex={0}
               onTouchStart={() => {}}
-              className="text-[12vw] sm:text-[70px] md:text-[84px] lg:text-[104px] font-bold text-ink leading-[0.95] tracking-[-0.03em] mb-8 uppercase cursor-pointer select-none focus:outline-none"
+              className="text-[min(14vw,68px)] sm:text-[70px] md:text-[84px] lg:text-[104px] font-bold text-ink leading-[0.95] tracking-[-0.03em] mb-8 uppercase cursor-pointer select-none focus:outline-none"
             >
               <JapaneseHoverText
                 japanese="こんにちは、"

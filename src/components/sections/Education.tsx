@@ -120,7 +120,7 @@ const Education = () => {
           className="mb-14 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <h2 className="text-[36px] sm:text-[48px] md:text-[64px] font-bold text-ink tracking-[-0.03em] leading-none uppercase">
-            Academic <br /> Background<span className="text-primary">.</span>
+            Academic <br /> Background.
           </h2>
           
         </motion.div>
@@ -189,7 +189,7 @@ const Education = () => {
           >
             <div>
               <h3 className="text-2xl sm:text-5xl font-bold tracking-tight text-ink">
-                Certifications<span className="text-primary">.</span>
+                Certifications.
               </h3>
             </div>
           </motion.div>

@@ -13,7 +13,7 @@ const Experience = () => {
     slug: "software-engineer-lg",
     logo: LGSinarmasLogo,
     desc: "Supporting Smart Factory operations through automated process modeling and server monitoring, while developing scalable enterprise applications using React, TypeScript, and Microfrontend Architecture.",
-    tags: ["React 19", "TypeScript", "Microfrontends", "AWS S3", "Smart Factory"],
+    tags: ["React", "TypeScript", "Microfrontends", "AWS S3"],
   };
 
   return (

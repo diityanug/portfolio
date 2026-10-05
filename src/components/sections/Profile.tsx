@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '../../utils/animations';
 
-const STACK = ['TypeScript', 'React', 'Python', 'FastAPI'];
+const STACK = [
+  { name: 'TypeScript', color: '#3b82f6' },
+  { name: 'React', color: '#61dafb' },
+  { name: 'Python', color: '#ffd43b' },
+  { name: 'FastAPI', color: '#14b8a6' },
+];
 
 const Profile = () => {
   const [filled, setFilled] = useState(false);
@@ -89,17 +94,20 @@ const Profile = () => {
             </p>
 
             <div className="mt-12">
-              <h3 className="text-sm font-medium text-[#8a8f98] mb-4">Core Stack</h3>
-              <ul className="grid grid-cols-2 sm:grid-cols-4 border-t border-l border-[#23252a]">
-                {STACK.map((tech) => (
+              <div className="flex items-center gap-4 mb-5">
+                <h3 className="text-sm font-medium text-[#8a8f98] shrink-0">Core Stack</h3>
+                <div className="h-px flex-1 bg-[#23252a]" />
+              </div>
+
+              <ul className="flex flex-wrap gap-3">
+                {STACK.map(({ name, color }) => (
                   <li
-                    key={tech}
-                    className="group border-b border-r border-[#23252a] px-4 py-5 text-base md:text-lg font-medium tracking-tight text-[#d0d6e0] transition-colors duration-200 hover:bg-[#0f1011] hover:text-[#f7f8f8] cursor-default"
+                    key={name}
+                    style={{ '--c': color } as React.CSSProperties}
+                    className="group inline-flex items-center gap-2.5 rounded-full border border-[#23252a] bg-[#0f1011] px-4 py-2.5 text-sm md:text-base font-medium tracking-tight text-[#d0d6e0] transition-all duration-300 cursor-default hover:-translate-y-0.5 hover:text-[#f7f8f8] hover:border-(--c) hover:bg-[color-mix(in_srgb,var(--c)_12%,#0f1011)]"
                   >
-                    <span className="inline-flex items-center gap-2.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#5e6ad2]/50 transition-colors group-hover:bg-[#5e6ad2]" />
-                      {tech}
-                    </span>
+                    <span className="h-2 w-2 rounded-full bg-(--c) shadow-[0_0_10px_var(--c)]" />
+                    {name}
                   </li>
                 ))}
               </ul>
@@ -107,42 +115,33 @@ const Profile = () => {
           </motion.div>
         </div>
 
-        {/* Kanan: foto setinggi kolom kiri */}
-        <motion.figure
+        {/* Kanan: foto */}
+        <motion.div
           variants={fadeUp}
-          className="lg:col-span-5 w-full max-w-sm sm:max-w-md lg:max-w-none mx-auto lg:mx-0 lg:self-stretch flex flex-col"
+          className="order-first lg:order-0 lg:col-span-5 w-full max-w-sm sm:max-w-md lg:max-w-none mx-auto lg:mx-0 lg:self-stretch flex"
         >
-          <div className="relative w-full aspect-3/4 lg:aspect-auto lg:flex-1 lg:min-h-140 overflow-hidden rounded-2xl border border-[#23252a] bg-[#07080a]">
-            <img
-              src="/Profile_pics.webp"
-              alt="Aditya Nugraha - Software Engineer"
-              className="absolute inset-0 h-full w-full object-cover object-[50%_25%] lg:object-top"
-            />
-            {/* Overlay caption hanya di desktop */}
-            <div
-              aria-hidden
-              className="hidden lg:block absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-[#010102]/90 to-transparent"
-            />
-            <figcaption className="hidden lg:flex absolute inset-x-0 bottom-0 items-end justify-between gap-4 p-6">
-              <span className="text-[#f7f8f8] font-medium tracking-tight">Aditya Nugraha</span>
-              <span className="text-sm text-[#d0d6e0] text-right leading-snug">
+          <figure className="group relative w-full flex overflow-hidden rounded-[28px] border border-[#23252a] bg-[#07080a] shadow-[0_24px_60px_-20px_rgba(94,106,210,0.35)]">
+            <div className="relative w-full aspect-3/4 lg:aspect-auto lg:min-h-120">
+              <img
+                src="/Profile_pics.webp"
+                alt="Aditya Nugraha - Software Engineer"
+                className="absolute inset-0 h-full w-full object-cover object-[50%_25%] lg:object-top"
+              />
+            </div>
+
+            {/* Label melayang */}
+            <figcaption className="absolute left-3 right-3 bottom-3 lg:left-4 lg:right-4 lg:bottom-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#010102]/60 backdrop-blur-md px-4 py-3">
+              <span className="text-sm lg:text-base font-semibold tracking-tight text-[#f7f8f8]">
+                Aditya Nugraha
+              </span>
+              <span className="text-[11px] lg:text-xs text-[#d0d6e0] text-right leading-snug">
                 Software Engineer
                 <br />
                 Frontend Developer
               </span>
             </figcaption>
-          </div>
-
-          {/* Caption di bawah foto untuk mobile/tablet */}
-          <div className="lg:hidden mt-4 flex items-baseline justify-between gap-4 border-t border-[#23252a] pt-4">
-            <span className="text-[#f7f8f8] font-medium tracking-tight">Aditya Nugraha</span>
-            <span className="text-sm text-[#8a8f98] text-right leading-snug">
-              Software Engineer
-              <br />
-              Frontend Developer
-            </span>
-          </div>
-        </motion.figure>
+          </figure>
+        </motion.div>
       </motion.div>
     </section>
   );
