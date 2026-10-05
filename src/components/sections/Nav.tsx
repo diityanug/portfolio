@@ -1,124 +1,18 @@
-import { motion } from 'framer-motion';
-import { User, Code, Briefcase, Terminal, GraduationCap } from '@phosphor-icons/react';
-import { useState, useRef, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import DesktopNav from './DesktopNav';
+import MobileNav from './MobileNav';
 
-// Edge-to-Edge Fluid Nav
+/**
+ * Main Nav Component
+ * Decoupled into DesktopNav and MobileNav for modular management.
+ */
 const Nav = () => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const isHome = location.pathname === '/';
-
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-
-    const scrollToTarget = () => {
-      const element = document.querySelector(targetId);
-      if (element) {
-        const navHeight = 76;
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: elementPosition - navHeight,
-          behavior: 'smooth'
-        });
-      }
-    };
-
-    if (!isHome) {
-      navigate('/');
-      setTimeout(scrollToTarget, 100);
-      return;
-    }
-
-    scrollToTarget();
-  };
-
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (isHome) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      navigate('/');
-    }
-  };
-
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  // Track scroll for floating effect
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <>
-      <motion.nav 
-        className={`fixed z-50 left-0 right-0 mx-auto pt-[env(safe-area-inset-top,0px)] md:pt-0
-          ${isScrolled 
-            ? 'top-0 w-full rounded-none bg-white border-b border-black/5 shadow-sm md:top-4 md:w-[90%] md:max-w-5xl md:rounded-3xl md:bg-white/80 md:backdrop-blur-xl md:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] md:border md:border-black/5 md:transition-all md:duration-700' 
-            : 'top-0 w-full max-w-[100vw] rounded-none bg-white md:bg-white/80 md:backdrop-blur-xl shadow-none border-b border-black/5 md:transition-all md:duration-700'
-          }`}
-        ref={dropdownRef}
-      >
-        <div className="max-w-350 mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between relative z-20">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-3 group" onClick={handleLogoClick}>
-            <img src="/logo-animated.svg" alt="Aditya Nugraha Logo" className="w-8 h-8 group-hover:scale-105 transition-transform duration-500" />
-            <span className="font-bold tracking-[-0.02em] text-base text-ink uppercase hidden md:block">Aditya Nugraha</span>
-          </a>
-
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8 lg:gap-10 text-[11px] lg:text-xs font-bold uppercase tracking-widest text-steel">
-            <a href="#profile" onClick={(e) => handleScroll(e, '#profile')} className="hover:text-ink transition-colors duration-300">Profile</a>
-            <a href="#skills" onClick={(e) => handleScroll(e, '#skills')} className="hover:text-ink transition-colors duration-300">Skills</a>
-            <a href="#experience" onClick={(e) => handleScroll(e, '#experience')} className="hover:text-ink transition-colors duration-300">Experience</a>
-            <a href="#projects" onClick={(e) => handleScroll(e, '#projects')} className="hover:text-ink transition-colors duration-300">Projects</a>
-            <a href="#education" onClick={(e) => handleScroll(e, '#education')} className="hover:text-ink transition-colors duration-300">Education</a>
-          </div>
-
-          {/* CTA + Mobile Toggle */}
-          <div className="flex items-center gap-3 md:gap-4">
-            <button
-              className="hidden sm:flex items-center gap-2 bg-ink text-white text-[11px] md:text-xs font-bold uppercase tracking-widest px-6 md:px-7 py-3 md:py-3.5 rounded-full hover:bg-primary transition-colors duration-500 active:scale-95 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.3)]"
-              onClick={() => {
-                const scrollToContact = () => {
-                  const element = document.querySelector('#contact');
-                  if (element) {
-                    const navHeight = 76;
-                    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-                    window.scrollTo({
-                      top: elementPosition - navHeight,
-                      behavior: 'smooth'
-                    });
-                  }
-                };
-
-                if (!isHome) {
-                  navigate('/');
-                  setTimeout(scrollToContact, 100);
-                } else {
-                  scrollToContact();
-                }
-              }}
-            >
-              <span>Contact</span>
-            </button>
-
-            {/* Mobile Nav Icons */}
-            <div className="flex md:hidden items-center gap-5 sm:gap-7 text-ink">
-              <a href="#profile" onClick={(e) => handleScroll(e, '#profile')} className="hover:text-primary active:scale-95 transition-all p-1"><User size={20} /></a>
-              <a href="#skills" onClick={(e) => handleScroll(e, '#skills')} className="hover:text-primary active:scale-95 transition-all p-1"><Code size={20} /></a>
-              <a href="#experience" onClick={(e) => handleScroll(e, '#experience')} className="hover:text-primary active:scale-95 transition-all p-1"><Briefcase size={20} /></a>
-              <a href="#projects" onClick={(e) => handleScroll(e, '#projects')} className="hover:text-primary active:scale-95 transition-all p-1"><Terminal size={20} /></a>
-              <a href="#education" onClick={(e) => handleScroll(e, '#education')} className="hover:text-primary active:scale-95 transition-all p-1"><GraduationCap size={20} /></a>
-            </div>
-          </div>
-        </div>
-      </motion.nav>
+      <DesktopNav />
+      <MobileNav />
     </>
   );
 };
 
 export default Nav;
+export { DesktopNav, MobileNav };

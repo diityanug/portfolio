@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, Briefcase, MapPin, CalendarBlank } from "@phosphor-icons/react";
+import { ArrowLeft, MapPin, CalendarBlank } from "@phosphor-icons/react";
 import { useParams, Link } from "react-router-dom";
-import { fadeUp, scaleIn, staggerContainer } from "../utils/animations";
+import { fadeUp, staggerContainer } from "../utils/animations";
 import { DATA } from "../data";
 
 export default function CareerDetail() {

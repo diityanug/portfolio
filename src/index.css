@@ -24,6 +24,8 @@
   --color-semantic-success: #1aae39;
   
   --font-sans: "Inter", -apple-system, sans-serif;
+  --font-jp-serif: "Noto Serif JP", serif;
+  --font-jp-sans: "Zen Kaku Gothic New", sans-serif;
   
   --radius-sm: 6px;
   --radius-md: 8px;

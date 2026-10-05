@@ -4,101 +4,133 @@ import { Link } from 'react-router-dom';
 import { fadeUp, scaleIn } from '../../utils/animations';
 import LGSinarmasLogo from '../../assets/LG_Sinarmas_Logo_Vector.svg';
 
-// Experience
+// Experience (Crisp Bento Canvas with Prominent LG Sinarmas Silhouette)
 const Experience = () => {
-  const items = [
-    { 
-      title: "Software Engineer", 
-      place: "LG Sinarmas", 
-      year: "2025 - Present", 
-      desc: "Smart Factory operations and Frontend Developer with React and TypeScript.",
-      slug: "software-engineer-lg",
-      logo: LGSinarmasLogo
-    },
-  ];
+  const item = {
+    title: "Software Engineer",
+    place: "LG Sinarmas",
+    year: "2025 — Present",
+    slug: "software-engineer-lg",
+    logo: LGSinarmasLogo,
+    desc: "Supporting Smart Factory operations through automated process modeling and server monitoring, while developing scalable enterprise applications using React, TypeScript, and Microfrontend Architecture.",
+    tags: ["React 19", "TypeScript", "Microfrontends", "AWS S3", "Smart Factory"],
+  };
 
   return (
-    <section id="experience" className="pt-16 md:pt-24 pb-28 md:pb-40 px-4 bg-[#FAFAFA] relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] overflow-hidden">
-      <div className="max-w-300 mx-auto relative z-10">
+    <section id="experience" className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline">
+      <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Header */}
         <motion.div 
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10px" }} variants={fadeUp} 
-          className="mb-16 md:mb-24 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-8"
+          initial="hidden" 
+          whileInView="visible" 
+          viewport={{ once: true, margin: "-10px" }} 
+          variants={fadeUp} 
+          className="mb-14 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div>
-            <h2 className="text-[40px] md:text-[80px] font-bold text-ink tracking-[-0.03em] leading-none">
+            <h2 className="text-[36px] sm:text-[48px] md:text-[64px] font-bold text-ink tracking-[-0.03em] leading-none uppercase">
               Professional <br className="hidden md:block" />Experience.
             </h2>
           </div>
-          <p className="text-steel text-base md:text-[19px] max-w-md leading-[1.6]">
-            A proven history of building scalable, enterprise-grade applications and optimizing operational workflows.
-          </p>
+          
         </motion.div>
 
-        {/* Experience Cards */}
-        <div className="flex flex-col gap-6 md:gap-10">
-          {items.map((item, i) => (
-            <motion.div 
-              key={i}
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={scaleIn}
-              className="group"
+        {/* Experience Bento Card */}
+        <div className="max-w-5xl mx-auto">
+          <motion.div 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-10px" }} 
+            variants={scaleIn}
+            className="w-full"
+          >
+            <Link 
+              to={`/career/${item.slug}`}
+              className="block outline-none h-full group"
             >
-              <Link 
-                to={item.slug ? `/career/${item.slug}` : '#'} 
-                className="block p-1.5 rounded-10 bg-white ring-1 ring-black/5 hover:ring-primary/30 transition-all duration-700 hover:shadow-[0_20px_80px_-20px_rgba(86,69,212,0.15)] hover:-translate-y-2"
-              >
-                <div className="bg-[#fcfcfc] h-full rounded-8.5 p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 shadow-[inset_0_1px_1px_rgba(255,255,255,1)] relative overflow-hidden">
+              {/* Outer Frame */}
+              <div className="p-1.5 rounded-3xl md:rounded-[36px] bg-white border border-hairline hover:border-[#BC1237]/40 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-[#BC1237]/10">
+                
+                {/* Inner Bento Canvas */}
+                <div className="bg-linear-to-br from-[#FFF5F6] via-[#FFEBEF] to-[#FED7E2]/50 rounded-[22px] md:rounded-[30px] p-7 sm:p-9 md:p-12 relative overflow-hidden border border-[#FECDD3] flex flex-col justify-between min-h-95 md:min-h-105">
                   
-                  {/* Decorative Gradient */}
-                  <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] group-hover:bg-primary/20 transition-colors duration-700 pointer-events-none"></div>
+                  {/* Subtle Ambient Radial Highlight */}
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-[#BC1237]/5 rounded-full blur-[90px] pointer-events-none group-hover:bg-[#BC1237]/10 transition-all duration-700"></div>
 
-                  {/* Left: Logo & Role */}
-                  <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 relative z-10 w-full lg:w-auto">
-                    {/* Logo Box */}
-                    <div className="w-20 h-20 md:w-28 md:h-28 rounded-6 bg-white shadow-md ring-1 ring-black/5 flex items-center justify-center p-4 group-hover:scale-105 group-hover:shadow-xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
-                      {item.logo ? (
+                  {/* Watermark Mobile: Dempet di Ujung Tepi Kanan Card */}
+                  <div className="block md:hidden absolute top-1/2 -translate-y-1/2 -right-51 w-120 rotate-90 origin-center opacity-10 pointer-events-none select-none">
+                    <img 
+                      src={item.logo} 
+                      alt="" 
+                      className="w-full h-auto object-contain filter contrast-125" 
+                    />
+                  </div>
+
+                  {/* Watermark Desktop: Sudut Kanan Bawah */}
+                  <div className="hidden md:block absolute md:-bottom-5 md:-right-2 md:w-130 opacity-25 group-hover:opacity-50 transition-all duration-700 ease-out pointer-events-none select-none">
+                    <img 
+                      src={item.logo} 
+                      alt="" 
+                      className="w-full h-auto object-contain filter contrast-125 group-hover:saturate-150 transition-all duration-700" 
+                    />
+                  </div>
+
+                  {/* Top Row: Brand Avatar + Details & Action Circle */}
+                  <div className="relative z-10 flex items-center justify-between gap-4 mb-8 sm:mb-10">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white border border-black/5 shadow-xs p-2.5 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shrink-0">
                         <img src={item.logo} alt={item.place} className="w-full h-full object-contain" />
-                      ) : (
-                        <span className="font-bold text-xl text-steel">{item.place.charAt(0)}</span>
-                      )}
-                    </div>
-                    
-                    {/* Text Details */}
-                    <div>
-                      <div className="inline-block px-4 py-1.5 bg-ink text-white rounded-full text-xs font-bold uppercase tracking-widest mb-4 md:mb-5">
-                        {item.year}
                       </div>
-                      <h3 className="text-[24px] md:text-[44px] font-bold text-ink tracking-tight mb-2 group-hover:text-primary transition-colors duration-500 leading-none">
-                        {item.title}
-                      </h3>
-                      <p className="text-xl md:text-[22px] font-semibold text-steel">
-                        {item.place}
-                      </p>
+                      
+                      <div>
+                        <h4 className="text-lg sm:text-xl font-bold text-ink tracking-tight">
+                          {item.place}
+                        </h4>
+                        <span className="text-steel text-xs sm:text-sm font-semibold">
+                          {item.year}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-ink border border-black/5 shadow-xs flex items-center justify-center group-hover:bg-ink group-hover:text-white group-hover:rotate-45 transition-all duration-300 shrink-0">
+                      <ArrowRight size={20} weight="bold" />
                     </div>
                   </div>
 
-                  {/* Right: Desc & Action */}
-                  <div className="flex flex-col lg:items-end relative z-10 w-full lg:w-1/3">
-                    <p className="text-steel text-base md:text-lg leading-[1.7] mb-8 lg:text-right">
+                  {/* Middle Row: Title & Overview */}
+                  <div className="relative z-10 max-w-2xl mb-8 sm:mb-10">
+                    <h3 className="text-[28px] sm:text-[36px] md:text-[42px] font-bold text-ink tracking-tight leading-[1.15] mb-3.5 group-hover:text-[#BC1237] transition-colors duration-300">
+                      {item.title}
+                    </h3>
+                    <p className="text-[#4a4a4a] text-[15px] sm:text-[16px] md:text-[17px] leading-[1.75] font-normal">
                       {item.desc}
                     </p>
-                    
-                    <div className="inline-flex items-center gap-3 font-bold text-sm uppercase tracking-widest text-ink group-hover:text-primary transition-colors">
-                      <span className="relative">
-                        View Details
-                        <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-primary scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
-                      </span>
-                      <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white group-hover:-rotate-45 transition-all duration-500">
-                        <ArrowRight size={18} weight="bold" />
-                      </div>
+                  </div>
+
+                  {/* Bottom Row: Tech Stack Pills & Action Link */}
+                  <div className="relative z-10 pt-6 border-t border-black/8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto">
+                    <div className="flex flex-wrap gap-2">
+                      {item.tags.map((tag) => (
+                        <span 
+                          key={tag} 
+                          className="px-3.5 py-1.5 rounded-full text-xs md:text-[13px] font-semibold bg-white/90 backdrop-blur-md border border-black/5 text-ink shadow-xs group-hover:border-black/15 transition-colors"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="inline-flex items-center gap-2 text-xs md:text-[13px] font-bold uppercase tracking-wider text-ink group-hover:text-[#BC1237] transition-colors shrink-0">
+                      <span>View Case Study</span>
+                      <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">→</span>
                     </div>
                   </div>
-                  
+
                 </div>
-              </Link>
-            </motion.div>
-          ))}
+              </div>
+            </Link>
+          </motion.div>
         </div>
 
       </div>

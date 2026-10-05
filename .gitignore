@@ -10,6 +10,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.agent
+.agents
+design-md
+DESIGN.md
+PRODUCT.md
 
 # Environment variables
 .env

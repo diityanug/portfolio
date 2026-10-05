@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // ─── Global mouse tracker ─────────────────────────────────────────────────────
 function useMouse() {

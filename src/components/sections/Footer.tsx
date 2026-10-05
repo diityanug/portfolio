@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowUpRight, GithubLogo, LinkedinLogo, DownloadSimple, ArrowUp, EnvelopeSimple } from '@phosphor-icons/react';
+import { ArrowUpRight, GithubLogo, LinkedinLogo, DownloadSimple, ArrowUp } from '@phosphor-icons/react';
 
 const socials = [
   { icon: GithubLogo,   label: 'GitHub',   href: 'https://github.com/diityanug' },
