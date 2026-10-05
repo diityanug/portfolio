@@ -15,6 +15,9 @@ dist-ssr
 design-md
 DESIGN.md
 PRODUCT.md
+skills-lock.json
+.oxlintrc.json
+.oxlintignore
 
 # Environment variables
 .env
