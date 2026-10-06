@@ -90,7 +90,7 @@ const Skills = () => {
               </div>
               
               <div className="flex flex-wrap gap-2.5">
-                {['FastAPI', 'REST APIs', 'Python', 'Haskell', 'AWS Cloud', 'AWS S3', 'DevOps'].map(skill => (
+                {['FastAPI', 'REST APIs', 'Python', 'AWS Cloud', 'AWS S3'].map(skill => (
                   <span key={skill} className="px-3.5 py-1.5 bg-white/80 backdrop-blur-md text-ink rounded-full text-xs md:text-[13px] font-semibold border border-black/5 shadow-sm">
                     {skill}
                   </span>

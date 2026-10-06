@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, MapPin, CalendarBlank } from "@phosphor-icons/react";
-import { useParams, Link } from "react-router-dom";
+import { MapPin, CalendarBlank } from "@phosphor-icons/react";
+import { useParams } from "react-router-dom";
 import { fadeUp, staggerContainer } from "../utils/animations";
 import { DATA } from "../data";
+import LogoHeader from "../components/sections/LogoHeader";
 
 export default function CareerDetail() {
   const { slug } = useParams();
@@ -18,25 +19,14 @@ export default function CareerDetail() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] selection:bg-primary/20 selection:text-primary overflow-x-hidden font-sans pb-24">
-      {/* Simple Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-black/5">
-        <div className="max-w-350 mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <img src="/logo-static.svg" alt="Aditya Nugraha Logo" className="w-8 h-8 group-hover:scale-105 transition-transform duration-500" />
-            <span className="font-bold tracking-[-0.02em] text-base text-ink uppercase hidden sm:block">Aditya Nugraha</span>
-          </Link>
-        </div>
-      </nav>
+      <LogoHeader backHash="#experience" backName="Experience" />
 
-      <main className="pt-24 md:pt-32 px-4 md:px-8">
+      <main className="pt-28 md:pt-40 px-4 md:px-8">
         <div className="max-w-7xl mx-auto w-full">
           
           <div className="mb-16 md:mb-24">
             <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="w-full">
               <motion.div variants={fadeUp}>
-                <Link to="/#experience" className="inline-flex items-center gap-2 text-steel hover:text-ink transition-colors font-semibold text-sm mb-10 md:mb-16 group">
-                  <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Home
-                </Link>
                 
                 <h1 className="text-[50px] sm:text-[72px] md:text-[96px] font-bold text-ink leading-[0.9] tracking-[-0.04em] uppercase mb-10 md:mb-14">
                   {career.title}

@@ -1,14 +1,16 @@
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fadeUp, staggerContainer } from '../../utils/animations';
 import AnimatedCharacter from '../ui/AnimatedCharacter';
 import JapaneseHoverText from '../ui/JapaneseHoverText';
-import { TerminalWindow as Terminal, GithubLogo as Github } from "@phosphor-icons/react";
+import { TerminalWindow as Terminal, EnvelopeSimple } from "@phosphor-icons/react";
 
 // Hero Section
 const Hero = () => {
   const containerRef = useRef(null);
   const reduce = useReducedMotion();
+  const navigate = useNavigate();
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
   
   const yText = useTransform(scrollYProgress, [0, 1], [0, 150]);
@@ -21,6 +23,13 @@ const Hero = () => {
     window.addEventListener('resize', checkSize);
     return () => window.removeEventListener('resize', checkSize);
   }, []);
+
+  const handleContact = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.querySelector("#contact");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+    else navigate("/contact");
+  };
 
   return (
     <section ref={containerRef} id="home" className="bg-[#FAFAFA] pt-32 md:pt-40 pb-28 md:pb-40 px-4 relative overflow-hidden min-h-[90svh] flex items-center">
@@ -71,29 +80,28 @@ const Hero = () => {
             </motion.h1>
             
             <motion.p variants={fadeUp} className="text-base sm:text-lg md:text-xl text-steel max-w-lg mb-10 font-medium leading-[1.7]">
-              Hello, I’m Aditya, a Frontend Developer passionate about building engaging web and mobile interfaces while exploring new technologies. 
+              I’m Aditya, a Frontend Developer passionate about building engaging web and mobile interfaces while exploring new technologies. 
             </motion.p>
             
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 w-full sm:w-auto">
               <a
                 href="#projects"
                 onClick={(e) => {
                   e.preventDefault();
                   document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex items-center justify-between sm:justify-center gap-4 bg-ink text-white font-bold uppercase tracking-widest px-8 py-5 rounded-none border border-ink hover:bg-white hover:text-ink transition-all duration-300 text-xs sm:text-sm w-full sm:w-auto"
+                className="group flex items-center justify-between sm:justify-center gap-4 bg-ink text-white font-bold uppercase tracking-widest px-8 py-4 sm:py-5 rounded-none border border-ink hover:bg-white hover:text-ink transition-all duration-300 text-xs sm:text-sm w-full sm:w-auto"
               >
                 <span>View Projects</span>
                 <Terminal size={18} className="transition-transform group-hover:rotate-12" />
               </a>
               <a
-                href="https://github.com/diityanug"
-                target="_blank"
-                rel="noreferrer"
-                className="group flex items-center justify-between sm:justify-center gap-4 bg-transparent text-ink border border-black/10 font-bold uppercase tracking-widest px-8 py-5 rounded-none hover:bg-ink hover:text-white hover:border-ink transition-all duration-300 text-xs sm:text-sm w-full sm:w-auto cursor-pointer"
+                href="#contact"
+                onClick={handleContact}
+                className="group flex items-center justify-between sm:justify-center gap-4 bg-transparent text-ink border border-black/10 font-bold uppercase tracking-widest px-8 py-4 sm:py-5 rounded-none hover:bg-ink hover:text-white hover:border-ink transition-all duration-300 text-xs sm:text-sm w-full sm:w-auto cursor-pointer"
               >
-                <span>GitHub</span>
-                <Github size={18} />
+                <span>Contact Me</span>
+                <EnvelopeSimple size={18} />
               </a>
             </motion.div>
           </motion.div>

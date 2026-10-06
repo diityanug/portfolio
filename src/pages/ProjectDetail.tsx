@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { motion, useScroll, useInView } from "framer-motion";
-import { ArrowLeft, GithubLogo, CheckCircle, ArrowRight } from "@phosphor-icons/react";
-import { useParams, Link } from "react-router-dom";
+import { GithubLogo, CheckCircle, ArrowRight } from "@phosphor-icons/react";
+import { useParams } from "react-router-dom";
 import { fadeUp, staggerContainer, TRANSITION } from "../utils/animations";
 import { DATA } from "../data";
+import LogoHeader from "../components/sections/LogoHeader";
 
 const slideInRight = {
   hidden: { opacity: 0, x: 50 },
@@ -81,29 +82,13 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-dvh bg-[#FAFAFA] selection:bg-primary/20 selection:text-primary overflow-x-hidden font-sans pb-24">
-      {/* Simple Nav */}
-      <motion.nav 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={TRANSITION}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-black/5"
-      >
-        <div className="max-w-350 mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <img src="/logo-static.svg" alt="Aditya Nugraha Logo" className="w-8 h-8 group-hover:scale-105 transition-transform duration-500" />
-            <span className="font-bold tracking-[-0.02em] text-base text-ink uppercase hidden sm:block">Aditya Nugraha</span>
-          </Link>
-        </div>
-      </motion.nav>
+      <LogoHeader backHash="#projects" backName="Projects" />
 
-      <main className="pt-24 md:pt-32 px-4 md:px-8">
+      <main className="pt-28 md:pt-40 px-4 md:px-8">
         <div className="max-w-350 mx-auto w-full">
           
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="mb-12 md:mb-20 max-w-6xl mx-auto w-full">
             <motion.div variants={fadeUp}>
-              <Link to="/" className="inline-flex items-center gap-2 text-steel hover:text-ink transition-colors font-semibold text-sm mb-12 md:mb-16 group">
-                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Home
-              </Link>
               <h1 className="text-5xl sm:text-7xl md:text-[100px] font-bold text-ink leading-[0.95] tracking-[-0.04em] mb-6">
                 {project.title}.
               </h1>
@@ -209,7 +194,7 @@ export default function ProjectDetail() {
               variants={slideInRight} 
               className="md:col-span-4"
             >
-              <div className="bg-white p-6 md:p-8 rounded-4xl md:rounded-4xl shadow-xl shadow-black/5 ring-1 ring-black/5 md:sticky md:top-32">
+              <div className="bg-white p-6 md:p-8 rounded-4xl md:rounded-4xl shadow-xl shadow-black/5 ring-1 ring-black/5 md:sticky md:top-36">
                 <h3 className="text-lg font-bold text-ink mb-6">Key Highlights</h3>
                 <ul className="space-y-4 mb-8">
                   {(project.keyFeatures || []).map((feature: string, idx: number) => (
