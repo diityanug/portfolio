@@ -16,7 +16,6 @@ const RIGHT_LINKS = NAV_LINKS.slice(3);
 
 const TRACKED_IDS: string[] = NAV_LINKS.map((l) => l.id);
 
-// Bawah nav: 80px (bar penuh h-20) = 16px (top-4) + 64px (pill h-16), ditambah jarak 8px.
 const SCROLL_OFFSET = 88;
 
 const scrollToSection = (selector: string, smooth: boolean) => {
@@ -52,7 +51,6 @@ const DesktopNav = () => {
   const activeNavId = NAV_LINKS.some((l) => l.id === activeId) ? activeId : null;
   const hrefFor = (id: string) => (isHome ? id : `/${id}`);
 
-  // --- Navigasi ---
   const goTo = (e: React.MouseEvent, selector: string) => {
     if (isModifiedClick(e)) return;
     e.preventDefault();
@@ -67,7 +65,7 @@ const DesktopNav = () => {
     else navigate('/');
   };
 
-  // Scroll ke target setelah Home ter-mount (dari halaman lain atau URL ber-hash).
+  // Scroll to target on Home mount
   useEffect(() => {
     if (!isHome) return;
     const fromState = (location.state as { scrollTo?: string } | null)?.scrollTo;
@@ -94,7 +92,7 @@ const DesktopNav = () => {
     };
   }, [isHome, location.pathname, location.hash, location.state, navigate, reduce]);
 
-  // --- Scroll state + scroll-spy ---
+  // Scroll state and spy
   useEffect(() => {
     let raf = 0;
 
@@ -171,13 +169,13 @@ const DesktopNav = () => {
           transition-[height] duration-500 ease-out motion-reduce:transition-none
           ${isScrolled ? 'h-16' : 'h-20'}`}
       >
-        {/* Kiri */}
+        {/* Left links */}
         <ul className={`${listClass} justify-self-end`}>{LEFT_LINKS.map(renderLink)}</ul>
 
         {/* Logo */}
         <a
           href="/"
-          aria-label="Aditya Nugraha, kembali ke atas"
+          aria-label="Home, back to top"
           onClick={handleLogoClick}
           className={`group justify-self-center block rounded-full ${focusRing}`}
         >
@@ -188,7 +186,7 @@ const DesktopNav = () => {
           />
         </a>
 
-        {/* Kanan */}
+        {/* Right links */}
         <ul className={`${listClass} justify-self-start`}>{RIGHT_LINKS.map(renderLink)}</ul>
       </div>
     </nav>

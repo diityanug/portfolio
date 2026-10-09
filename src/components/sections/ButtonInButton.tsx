@@ -1,6 +1,6 @@
 import { ArrowRight } from '@phosphor-icons/react';
 
-// --- Button-in-Button CTA ---
+// CTA Button
 const ButtonInButton = ({ text, onClick }: { text: string, onClick?: () => void }) => (
   <button onClick={onClick} className="group relative flex items-center gap-4 bg-ink text-white pl-6 pr-2 py-2 rounded-full font-medium hover:bg-black transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] shadow-[0_12px_24px_-8px_rgba(0,0,0,0.4)]">
     <span className="text-[15px]">{text}</span>
