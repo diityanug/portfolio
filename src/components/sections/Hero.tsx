@@ -1,63 +1,99 @@
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import { fadeUp, staggerContainer } from '../../utils/animations';
 import AnimatedCharacter from '../ui/AnimatedCharacter';
 import JapaneseHoverText from '../ui/JapaneseHoverText';
-import { TerminalWindow as Terminal, EnvelopeSimple } from "@phosphor-icons/react";
+import { TerminalWindow as Terminal, EnvelopeSimple } from '@phosphor-icons/react';
+
+const useMediaQuery = (query: string) => {
+  const [matches, setMatches] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = () => setMatches(mq.matches);
+    onChange();
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [query]);
+  return matches;
+};
+
+const GRID_STYLE = {
+  backgroundImage:
+    'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
+  backgroundSize: '4rem 4rem',
+} as const;
+
+const focusRing =
+  'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink/60';
+
+const btnBase =
+  'group flex w-full sm:w-auto items-center justify-between sm:justify-center gap-4 border px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors duration-300 motion-reduce:transition-none';
 
 // Hero Section
 const Hero = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const navigate = useNavigate();
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  
+  const isMd = useMediaQuery('(min-width: 768px)');
+  const isLg = useMediaQuery('(min-width: 1024px)');
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  });
+
   const yText = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const opacityText = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  const [isDesktop, setIsDesktop] = useState(true);
-  useEffect(() => {
-    const checkSize = () => setIsDesktop(window.innerWidth >= 768);
-    checkSize();
-    window.addEventListener('resize', checkSize);
-    return () => window.removeEventListener('resize', checkSize);
-  }, []);
-
-  const handleContact = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const el = document.querySelector("#contact");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    else navigate("/contact");
-  };
+  const parallax = !reduce && isMd;
 
   return (
-    <section ref={containerRef} id="home" className="bg-[#FAFAFA] pt-32 md:pt-40 pb-28 md:pb-40 px-4 relative overflow-hidden min-h-[90svh] flex items-center">
+    <section
+      ref={containerRef}
+      id="home"
+      aria-labelledby="hero-heading"
+      className="bg-[#FAFAFA] pt-32 md:pt-40 pb-28 md:pb-40 px-4 relative overflow-hidden min-h-[90svh] flex items-center"
+    >
       {/* Background Grid Pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '4rem 4rem' }}></div>
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={GRID_STYLE}
+      />
 
-      {/* Mobile-only background character */}
-      <div aria-hidden="true" className="lg:hidden absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-10">
-        <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[110vw] max-w-130 scale-125">
-          <AnimatedCharacter />
+      {/* Mobile/tablet background character */}
+      {!isLg && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-10"
+        >
+          <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[110vw] max-w-130 scale-125">
+            <AnimatedCharacter />
+          </div>
         </div>
-      </div>
-      
+      )}
+
       <div className="max-w-7xl mx-auto w-full relative z-10">
-        <motion.div 
-          initial="hidden" animate="visible" variants={staggerContainer}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center"
         >
           {/* Left Column: Typography */}
-          <motion.div 
-            style={(reduce || !isDesktop) ? {} : { y: yText, opacity: opacityText }} 
+          <motion.div
+            style={parallax ? { y: yText, opacity: opacityText } : undefined}
             className="lg:col-span-7 flex flex-col items-start text-left"
           >
-            <motion.h1 
-              variants={fadeUp} 
+            {/* Heading */}
+            <motion.h1
+              id="hero-heading"
+              aria-label="Hello, welcome."
+              variants={fadeUp}
               tabIndex={0}
               onTouchStart={() => {}}
-              className="text-[min(14vw,68px)] sm:text-[70px] md:text-[84px] lg:text-[104px] font-bold text-ink leading-[0.95] tracking-[-0.03em] mb-8 uppercase cursor-pointer select-none focus:outline-none"
+              className={`text-[min(14vw,68px)] sm:text-[70px] md:text-[84px] lg:text-[104px] font-bold text-ink leading-[0.95] tracking-[-0.03em] mb-8 uppercase select-none rounded-lg ${focusRing}`}
             >
               <JapaneseHoverText
                 japanese="こんにちは、"
@@ -78,42 +114,49 @@ const Hero = () => {
                 enClassName="text-transparent [-webkit-text-stroke:2px_#1a1a1a] font-extrabold tracking-[-0.04em]"
               />
             </motion.h1>
-            
-            <motion.p variants={fadeUp} className="text-base sm:text-lg md:text-xl text-steel max-w-lg mb-10 font-medium leading-[1.7]">
-              I’m Aditya, a Frontend Developer passionate about building engaging web and mobile interfaces while exploring new technologies. 
+
+            <motion.p
+              variants={fadeUp}
+              className="text-base sm:text-lg md:text-xl text-steel max-w-lg mb-10 font-medium leading-[1.7]"
+            >
+              I’m Aditya, a Frontend Developer passionate about building engaging web and mobile
+              interfaces while exploring new technologies.
             </motion.p>
-            
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 w-full sm:w-auto">
+
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 w-full sm:w-auto"
+            >
               <a
                 href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="group flex items-center justify-between sm:justify-center gap-4 bg-ink text-white font-bold uppercase tracking-widest px-8 py-4 sm:py-5 rounded-none border border-ink hover:bg-white hover:text-ink transition-all duration-300 text-xs sm:text-sm w-full sm:w-auto"
+                className={`${btnBase} bg-ink text-white border-ink hover:bg-white hover:text-ink ${focusRing}`}
               >
                 <span>View Projects</span>
-                <Terminal size={18} className="transition-transform group-hover:rotate-12" />
+                <Terminal
+                  size={18}
+                  aria-hidden
+                  className="transition-transform motion-reduce:transition-none group-hover:rotate-12"
+                />
               </a>
               <a
                 href="#contact"
-                onClick={handleContact}
-                className="group flex items-center justify-between sm:justify-center gap-4 bg-transparent text-ink border border-black/10 font-bold uppercase tracking-widest px-8 py-4 sm:py-5 rounded-none hover:bg-ink hover:text-white hover:border-ink transition-all duration-300 text-xs sm:text-sm w-full sm:w-auto cursor-pointer"
+                className={`${btnBase} bg-transparent text-ink border-black/10 hover:bg-ink hover:text-white hover:border-ink ${focusRing}`}
               >
                 <span>Contact Me</span>
-                <EnvelopeSimple size={18} />
+                <EnvelopeSimple size={18} aria-hidden />
               </a>
             </motion.div>
           </motion.div>
 
-          {/* Right Column: Animated Character (desktop only) */}
-          <motion.div 
-            variants={fadeUp}
-            className="lg:col-span-5 hidden lg:flex justify-center items-center relative"
-          >
-            <AnimatedCharacter />
-          </motion.div>
-
+          {isLg && (
+            <motion.div
+              aria-hidden="true"
+              variants={fadeUp}
+              className="lg:col-span-5 flex justify-center items-center relative"
+            >
+              <AnimatedCharacter />
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>

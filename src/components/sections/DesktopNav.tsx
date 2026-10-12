@@ -1,34 +1,35 @@
 import { useReducedMotion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const NAV_LINKS = [
-  { id: '#profile', label: 'Profile' },
-  { id: '#skills', label: 'Skills' },
-  { id: '#experience', label: 'Experience' },
-  { id: '#projects', label: 'Projects' },
-  { id: '#education', label: 'Education' },
-  { id: '#contact', label: 'Contact' },
+  { id: 'profile', label: 'Profile' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'education', label: 'Education' },
+  { id: 'contact', label: 'Contact' },
 ] as const;
 
 const LEFT_LINKS = NAV_LINKS.slice(0, 3);
 const RIGHT_LINKS = NAV_LINKS.slice(3);
 
-const TRACKED_IDS: string[] = NAV_LINKS.map((l) => l.id);
-
 const SCROLL_OFFSET = 88;
+const SCROLLED_THRESHOLD = 20;
+const SECTION_WAIT_MS = 1500;
 
-const scrollToSection = (selector: string, smooth: boolean) => {
-  let el: Element | null = null;
-  try {
-    el = document.querySelector(selector);
-  } catch {
-    return false;
-  }
+const scrollToSection = (id: string, smooth: boolean) => {
+  const el = document.getElementById(id);
   if (!el) return false;
   const top = el.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
   window.scrollTo({ top: Math.max(top, 0), behavior: smooth ? 'smooth' : 'auto' });
+  el.focus({ preventScroll: true });
   return true;
+};
+
+const setUrlHash = (hash: string) => {
+  const url = `${window.location.pathname}${window.location.search}${hash}`;
+  window.history.replaceState(window.history.state, '', url);
 };
 
 const isModifiedClick = (e: React.MouseEvent) =>
@@ -46,78 +47,58 @@ const DesktopNav = () => {
   const isHome = location.pathname === '/';
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeId, setActiveId] = useState<string | null>(null);
 
-  const activeNavId = NAV_LINKS.some((l) => l.id === activeId) ? activeId : null;
-  const hrefFor = (id: string) => (isHome ? id : `/${id}`);
+  const smoothRef = useRef(!reduce);
+  useEffect(() => {
+    smoothRef.current = !reduce;
+  }, [reduce]);
 
-  const goTo = (e: React.MouseEvent, selector: string) => {
+  const hrefFor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+
+  const goTo = (e: React.MouseEvent, id: string) => {
     if (isModifiedClick(e)) return;
     e.preventDefault();
-    if (isHome) scrollToSection(selector, !reduce);
-    else navigate('/', { state: { scrollTo: selector } });
+    if (isHome) {
+      if (scrollToSection(id, smoothRef.current)) setUrlHash(`#${id}`);
+    } else {
+      navigate({ pathname: '/', hash: `#${id}` });
+    }
   };
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (isModifiedClick(e)) return;
     e.preventDefault();
-    if (isHome) window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
-    else navigate('/');
+    if (isHome) {
+      window.scrollTo({ top: 0, behavior: smoothRef.current ? 'smooth' : 'auto' });
+      if (window.location.hash) setUrlHash('');
+    } else {
+      navigate('/');
+    }
   };
 
-  // Scroll to target on Home mount
   useEffect(() => {
-    if (!isHome) return;
-    const fromState = (location.state as { scrollTo?: string } | null)?.scrollTo;
-    const target = fromState ?? (location.hash || null);
-    if (!target) return;
+    if (!isHome || !location.hash) return;
+    const id = location.hash.slice(1);
 
-    let cancelled = false;
     let raf = 0;
     const start = performance.now();
 
     const tick = () => {
-      if (cancelled) return;
-      if (scrollToSection(target, !reduce)) {
-        if (fromState) navigate(location.pathname, { replace: true, state: null });
-        return;
-      }
-      if (performance.now() - start < 1500) raf = requestAnimationFrame(tick);
+      if (scrollToSection(id, smoothRef.current)) return;
+      if (performance.now() - start < SECTION_WAIT_MS) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
 
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(raf);
-    };
-  }, [isHome, location.pathname, location.hash, location.state, navigate, reduce]);
+    return () => cancelAnimationFrame(raf);
+  }, [isHome, location.hash]);
 
-  // Scroll state and spy
+  // Track scroll state for compact navbar style
   useEffect(() => {
     let raf = 0;
 
     const update = () => {
       raf = 0;
-      setIsScrolled(window.scrollY > 20);
-
-      if (!isHome) {
-        setActiveId(null);
-        return;
-      }
-
-      const threshold = SCROLL_OFFSET + window.innerHeight * 0.3;
-      let current: string | null = null;
-      let best = -Infinity;
-      for (const id of TRACKED_IDS) {
-        const el = document.querySelector(id);
-        if (!el) continue;
-        const top = el.getBoundingClientRect().top;
-        if (top <= threshold && top > best) {
-          best = top;
-          current = id;
-        }
-      }
-      setActiveId(current);
+      setIsScrolled(window.scrollY > SCROLLED_THRESHOLD);
     };
 
     const onScroll = () => {
@@ -126,32 +107,24 @@ const DesktopNav = () => {
 
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [isHome]);
+  }, []);
 
-  const renderLink = ({ id, label }: { id: string; label: string }) => {
-    const isActive = activeNavId === id;
-    return (
-      <li key={id}>
-        <a
-          href={hrefFor(id)}
-          onClick={(e) => goTo(e, id)}
-          data-label={label}
-          aria-current={isActive ? 'location' : undefined}
-          className={`flex flex-col items-center px-2.5 lg:px-3.5 py-2.5 rounded-full transition-colors duration-300
-            after:content-[attr(data-label)] after:font-bold after:h-0 after:overflow-hidden after:invisible after:pointer-events-none
-            ${focusRing} ${isActive ? 'font-bold text-ink' : 'font-medium text-steel hover:text-ink'}`}
-        >
-          {label}
-        </a>
-      </li>
-    );
-  };
+  const renderLink = ({ id, label }: { id: string; label: string }) => (
+    <li key={id}>
+      <a
+        href={hrefFor(id)}
+        onClick={(e) => goTo(e, id)}
+        className={`flex flex-col items-center px-2.5 lg:px-3.5 py-2.5 rounded-full transition-colors duration-300
+          ${focusRing} font-medium text-steel hover:text-ink`}
+      >
+        {label}
+      </a>
+    </li>
+  );
 
   return (
     <nav
@@ -169,10 +142,8 @@ const DesktopNav = () => {
           transition-[height] duration-500 ease-out motion-reduce:transition-none
           ${isScrolled ? 'h-16' : 'h-20'}`}
       >
-        {/* Left links */}
         <ul className={`${listClass} justify-self-end`}>{LEFT_LINKS.map(renderLink)}</ul>
 
-        {/* Logo */}
         <a
           href="/"
           aria-label="Home, back to top"
@@ -186,7 +157,6 @@ const DesktopNav = () => {
           />
         </a>
 
-        {/* Right links */}
         <ul className={`${listClass} justify-self-start`}>{RIGHT_LINKS.map(renderLink)}</ul>
       </div>
     </nav>

@@ -1,0 +1,77 @@
+.ac-float, .ac-legl, .ac-legr, .ac-arm, .ac-fade, .ac-blink,
+.ac-ping, .ac-rise, .ac-blob, .ac-drift, .ac-twinkle {
+  animation-duration: var(--d, 2s);
+  animation-delay: var(--dl, 0s);
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.ac-float   { animation-name: ac-float; }
+.ac-legl    { animation-name: ac-legl; }
+.ac-legr    { animation-name: ac-legr; }
+.ac-arm     { animation-name: ac-arm; }
+.ac-fade    { animation-name: ac-fade; }
+.ac-blink   { animation-name: ac-blink; }
+.ac-ping    { animation-name: ac-ping; transform-box: fill-box; transform-origin: center; }
+.ac-rise    { animation-name: ac-rise; }
+.ac-blob    { animation-name: ac-blob; opacity: var(--o0); }
+.ac-drift   { animation-name: ac-drift; }
+.ac-twinkle { animation-name: ac-twinkle; }
+
+@keyframes ac-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(var(--amp, -10px)); }
+}
+@keyframes ac-legl {
+  0%, 100% { transform: translateX(0); }
+  33% { transform: translateX(-4px); }
+  66% { transform: translateX(3px); }
+}
+@keyframes ac-legr {
+  0%, 100% { transform: translateX(0); }
+  33% { transform: translateX(4px); }
+  66% { transform: translateX(-3px); }
+}
+@keyframes ac-arm {
+  0%, 100% { transform: rotate(0deg); }
+  33% { transform: rotate(var(--r, 8deg)); }
+  66% { transform: rotate(calc(var(--r, 8deg) * -0.6)); }
+}
+@keyframes ac-fade {
+  0%, 100% { opacity: var(--o, 0.3); }
+  50% { opacity: 1; }
+}
+@keyframes ac-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes ac-ping {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+@keyframes ac-rise {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-8px); opacity: 1; }
+}
+@keyframes ac-blob {
+  0%, 100% { transform: scale(1); opacity: var(--o0); }
+  50% { transform: scale(var(--sc)); opacity: var(--o1); }
+}
+@keyframes ac-drift {
+  0%, 100% { transform: translateY(0) rotate(var(--r0)); }
+  50% { transform: translateY(-12px) rotate(var(--r1)); }
+}
+@keyframes ac-twinkle {
+  0%, 100% { transform: scale(0.5) rotate(0deg); opacity: 0.3; }
+  50% { transform: scale(1.1) rotate(180deg); opacity: 1; }
+}
+
+.ac-root[data-paused="true"] * {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ac-root * {
+    animation: none !important;
+  }
+}

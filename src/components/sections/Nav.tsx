@@ -1,17 +1,10 @@
 import DesktopNav from './DesktopNav';
 import MobileNav from './MobileNav';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-/**
- * Main Nav Component
- * Decoupled into DesktopNav and MobileNav for modular management.
- */
 const Nav = () => {
-  return (
-    <>
-      <DesktopNav />
-      <MobileNav />
-    </>
-  );
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  return isDesktop ? <DesktopNav /> : <MobileNav />;
 };
 
 export default Nav;

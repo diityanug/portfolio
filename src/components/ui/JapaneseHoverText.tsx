@@ -1,102 +1,168 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { useInView, useReducedMotion } from 'framer-motion';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface JapaneseHoverTextProps {
   japanese: string;
   english: string;
-  subRuby?: string;
   className?: string;
   jpClassName?: string;
   enClassName?: string;
-  /** Jeda (ms) sebelum teks otomatis berganti. Default 3500. */
+  /** Hold duration (ms) when full text is typed. Default 3200ms. */
   interval?: number;
-  /** Tambahan jeda (ms) hanya untuk pergantian pertama, untuk membuat baris bergantian. */
+  /** Initial offset delay (ms) for staggered multi-line choreography. */
   offset?: number;
-  /** Matikan pergantian otomatis jika false. */
+  /** Milliseconds per character when typing. Default 65ms. */
+  typeSpeed?: number;
+  /** Milliseconds per character when deleting. Default 35ms. */
+  deleteSpeed?: number;
+  /** Enable automatic cycling. Default true. */
   autoPlay?: boolean;
 }
 
-export const JapaneseHoverText: React.FC<JapaneseHoverTextProps> = ({
+type Phase = 'holding' | 'deleting' | 'paused' | 'typing';
+
+const spacer =
+  'invisible pointer-events-none col-start-1 row-start-1 py-1 leading-none whitespace-nowrap select-none';
+
+export const JapaneseHoverText = ({
   japanese,
   english,
-  subRuby: _subRuby,
   className = '',
   jpClassName = '',
   enClassName = '',
-  interval = 3500,
+  interval = 3200,
   offset = 0,
+  typeSpeed = 65,
+  deleteSpeed = 35,
   autoPlay = true,
-}) => {
-  const [showEnglish, setShowEnglish] = useState(false);
-  const reduce = useReducedMotion();
+}: JapaneseHoverTextProps) => {
+  const [currentLang, setCurrentLang] = useState<'ja' | 'en'>('ja');
+  const [displayedText, setDisplayedText] = useState(japanese);
+  const [phase, setPhase] = useState<Phase>('holding');
+  const [isHovered, setIsHovered] = useState(false);
+
+  const containerRef = useRef<HTMLButtonElement>(null);
+  const inView = useInView(containerRef, { margin: '50px' });
+  const reduceMotion = useReducedMotion();
   const isFirstCycle = useRef(true);
 
-  // Timer dijadwalkan ulang setiap showEnglish berubah,
-  // jadi klik user otomatis mereset hitungan mundur.
-  useEffect(() => {
-    if (!autoPlay || reduce) return;
-    const delay = interval + (isFirstCycle.current ? offset : 0);
-    const id = window.setTimeout(() => {
-      isFirstCycle.current = false;
-      setShowEnglish((prev) => !prev);
-    }, delay);
-    return () => window.clearTimeout(id);
-  }, [showEnglish, autoPlay, reduce, interval, offset]);
+  // Split into character arrays for safe multibyte Japanese unicode handling
+  const jaChars = useRef(Array.from(japanese));
+  const enChars = useRef(Array.from(english));
 
-  const toggle = () => {
+  useEffect(() => {
+    jaChars.current = Array.from(japanese);
+    enChars.current = Array.from(english);
+  }, [japanese, english]);
+
+  // Fast forward / toggle on user click
+  const handleToggle = useCallback(() => {
     isFirstCycle.current = false;
-    setShowEnglish((prev) => !prev);
-  };
+    if (phase === 'holding') {
+      setPhase('deleting');
+    } else if (phase === 'deleting' || phase === 'paused') {
+      const nextLang = currentLang === 'ja' ? 'en' : 'ja';
+      setCurrentLang(nextLang);
+      setDisplayedText('');
+      setPhase('typing');
+    }
+  }, [phase, currentLang]);
+
+  // Typewriter state machine
+  useEffect(() => {
+    if (!autoPlay || !inView || isHovered) return;
+
+    if (reduceMotion) {
+      // Instant transition when reduced motion is preferred
+      const timer = window.setTimeout(() => {
+        const nextLang = currentLang === 'ja' ? 'en' : 'ja';
+        setCurrentLang(nextLang);
+        setDisplayedText(nextLang === 'ja' ? japanese : english);
+      }, interval);
+      return () => clearTimeout(timer);
+    }
+
+    let timeoutId: number;
+
+    if (phase === 'holding') {
+      const delay = interval + (isFirstCycle.current ? offset : 0);
+      timeoutId = window.setTimeout(() => {
+        isFirstCycle.current = false;
+        setPhase('deleting');
+      }, delay);
+    } else if (phase === 'deleting') {
+      const chars = Array.from(displayedText);
+      if (chars.length > 0) {
+        timeoutId = window.setTimeout(() => {
+          setDisplayedText(chars.slice(0, -1).join(''));
+        }, deleteSpeed);
+      } else {
+        // Finished deleting, brief pause before typing next word
+        timeoutId = window.setTimeout(() => {
+          setCurrentLang((prev) => (prev === 'ja' ? 'en' : 'ja'));
+          setPhase('paused');
+        }, 180);
+      }
+    } else if (phase === 'paused') {
+      timeoutId = window.setTimeout(() => {
+        setPhase('typing');
+      }, 140);
+    } else if (phase === 'typing') {
+      const targetChars = currentLang === 'ja' ? jaChars.current : enChars.current;
+      const currentChars = Array.from(displayedText);
+
+      if (currentChars.length < targetChars.length) {
+        timeoutId = window.setTimeout(() => {
+          setDisplayedText(targetChars.slice(0, currentChars.length + 1).join(''));
+        }, typeSpeed);
+      } else {
+        // Finished typing word, hold for interval
+        setPhase('holding');
+      }
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [
+    autoPlay,
+    inView,
+    isHovered,
+    reduceMotion,
+    phase,
+    displayedText,
+    currentLang,
+    interval,
+    offset,
+    typeSpeed,
+    deleteSpeed,
+    japanese,
+    english,
+  ]);
+
+  const activeFontClass = currentLang === 'ja' ? 'font-jp-serif' : 'font-sans';
+  const activeStyleClass = currentLang === 'ja' ? jpClassName : enClassName;
 
   return (
-    <span
-      className={`relative inline-grid cursor-pointer select-none overflow-hidden [-webkit-tap-highlight-color:transparent] ${className}`}
-      onClick={toggle}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          toggle();
-        }
-      }}
-      tabIndex={0}
-      role="button"
-      aria-pressed={showEnglish}
+    <button
+      ref={containerRef}
+      type="button"
+      onClick={handleToggle}
+      onPointerEnter={(e) => setIsHovered(e.pointerType === 'mouse')}
+      onPointerLeave={() => setIsHovered(false)}
       aria-label={`${japanese} (${english})`}
+      className={`relative inline-grid cursor-pointer select-none text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current [-webkit-tap-highlight-color:transparent] ${className}`}
     >
-      {/* Spacer tak terlihat agar ukuran tetap stabil */}
-      <span className="invisible pointer-events-none col-start-1 row-start-1 leading-none py-1 select-none font-sans whitespace-nowrap">
-        {english}
-      </span>
-      <span className="invisible pointer-events-none col-start-1 row-start-1 leading-none py-1 select-none font-jp-serif whitespace-nowrap">
-        {japanese}
-      </span>
+      {/* Invisible spacers reserve max dimensions to prevent layout shifts */}
+      <span className={`${spacer} font-sans ${enClassName}`}>{english}</span>
+      <span className={`${spacer} font-jp-serif ${jpClassName}`}>{japanese}</span>
 
-      {/* Japanese */}
+      {/* Typewriter active text container */}
       <span
-        style={{ transitionTimingFunction: 'cubic-bezier(0.25, 1, 0.5, 1)' }}
-        className={`col-start-1 row-start-1 flex items-center transition-all duration-700 font-jp-serif py-1 will-change-transform ${
-          showEnglish
-            ? 'translate-y-[-110%] opacity-0 scale-[0.98]'
-            : 'translate-y-0 opacity-100 scale-100'
-        } ${jpClassName}`}
-        aria-hidden={showEnglish}
+        lang={currentLang}
+        className={`col-start-1 row-start-1 flex items-center py-1 whitespace-nowrap leading-none ${activeFontClass} ${activeStyleClass}`}
       >
-        {japanese}
+        <span>{displayedText}</span>
       </span>
-
-      {/* English */}
-      <span
-        style={{ transitionTimingFunction: 'cubic-bezier(0.25, 1, 0.5, 1)' }}
-        className={`col-start-1 row-start-1 flex items-center transition-all duration-700 font-sans py-1 will-change-transform ${
-          showEnglish
-            ? 'translate-y-0 opacity-100 scale-100'
-            : 'translate-y-[110%] opacity-0 scale-[0.98]'
-        } ${enClassName}`}
-        aria-hidden={!showEnglish}
-      >
-        {english}
-      </span>
-    </span>
+    </button>
   );
 };
 
