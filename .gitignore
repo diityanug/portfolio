@@ -10,8 +10,12 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
+
+# Agent & Design Reference Directories
 .agent
 .agents
+.impeccable
 design-md
 DESIGN.md
 PRODUCT.md
@@ -33,6 +37,7 @@ skills-lock.json
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#FAF9F5"/>
+  <rect x="60" y="36" width="680" height="528" rx="28" fill="#F5F0E8" stroke="#E6DFD8" stroke-width="2"/>
+
+  <text x="100" y="88" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#141413" letter-spacing="-0.5">AI Receipt Scanner</text>
+  <text x="100" y="112" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#6C6A64">Powered by Google Gemini • Structured Extraction</text>
+
+  <!-- Receipt Card Left -->
+  <rect x="100" y="142" width="250" height="384" rx="20" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
+  <rect x="124" y="168" width="202" height="32" rx="8" fill="#EFE9DE"/>
+  <text x="225" y="189" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#252523">RECEIPT CAMERA SCAN</text>
+
+  <line x1="124" y1="224" x2="326" y2="224" stroke="#E6DFD8" stroke-dasharray="4 4"/>
+  <text x="124" y="252" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700" fill="#141413">Kopi Kenangan</text>
+  <text x="124" y="272" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6C6A64">30 Oct 2026 • 14:20</text>
+
+  <text x="124" y="312" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#3D3D3A">1x Iced Americano</text>
+  <text x="326" y="312" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#141413">24.000</text>
+
+  <text x="124" y="340" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#3D3D3A">1x Almond Croissant</text>
+  <text x="326" y="340" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#141413">32.000</text>
+
+  <text x="124" y="368" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#6C6A64">PB1 Tax (10%)</text>
+  <text x="326" y="368" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#6C6A64">5.600</text>
+
+  <line x1="124" y1="392" x2="326" y2="392" stroke="#E6DFD8"/>
+  <text x="124" y="420" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#141413">Total</text>
+  <text x="326" y="420" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#CC785C">Rp 61.600</text>
+
+  <!-- Laser Scan Line -->
+  <line x1="108" y1="325" x2="342" y2="325" stroke="#CC785C" stroke-width="2.5"/>
+  <rect x="108" y="325" width="234" height="24" fill="#CC785C" fill-opacity="0.12"/>
+
+  <!-- Parsed Structured Output Right -->
+  <rect x="380" y="142" width="320" height="384" rx="20" fill="#181715"/>
+  <rect x="408" y="170" width="136" height="26" rx="13" fill="#252320"/>
+  <text x="476" y="187" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#5DB8A6">GEMINI AI EXTRACTED</text>
+
+  <text x="408" y="226" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#A09D96">MERCHANT &amp; CATEGORY</text>
+  <text x="408" y="250" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#FAF9F5">Kopi Kenangan • Food &amp; Drink</text>
+
+  <text x="408" y="294" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#A09D96">DETECTED CURRENCY &amp; AMOUNT</text>
+  <text x="408" y="322" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#CC785C">IDR 61.600</text>
+
+  <text x="408" y="366" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#A09D96">ITEMIZED BREAKDOWN</text>
+  <rect x="408" y="380" width="264" height="68" rx="12" fill="#252320"/>
+  <text x="424" y="406" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#FAF9F5">✓ 2 Items + Tax Auto-Adjusted</text>
+  <text x="424" y="430" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#A09D96">Ready to save to SQLite Wallet</text>
+
+  <rect x="408" y="468" width="264" height="38" rx="12" fill="#CC785C"/>
+  <text x="540" y="492" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#FAF9F5">Save Transaction</text>
+</svg>

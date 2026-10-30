@@ -3,11 +3,8 @@ export const DATA: Record<string, any> = {
   "genre-game-classifier": {
     title: "Genre Game Classifier",
     subtitle: "Machine Learning and NLP web app for predicting game genres based on description.",
-    status: "Completed",
-    date: "2024",
     role: "Fullstack Machine Learning",
     timeline: "2024 ~ 2025",
-    color: "bg-card-peach",
     desc: "Game Genre Classifier is an end-to-end Machine Learning pipeline designed to predict video game genres based on their descriptions. The core NLP engine utilizes spaCy for deep text normalization and TF-IDF for feature extraction. The backend is served via FastAPI, featuring dynamic thresholding and a unique Explainable AI logic to extract reasoning keywords. The frontend offers a sleek, animated UI with real-time probability bars.",
     overview: "A Full-Stack Machine Learning application designed to intelligently predict multiple genres and tags of a video game (e.g., Action, RPG, Horror, Strategy) based purely on its Title and Description.",
     tags: ["React", "Tailwind CSS", "FastAPI", "Python", "Scikit-Learn", "NLTK"],
@@ -25,9 +22,7 @@ export const DATA: Record<string, any> = {
       "The architecture relies on a custom Multi-Label Classification pipeline. Using Scikit-Learn's TF-IDF Vectorizer to normalize and extract features from text, the engine intelligently classifies complex descriptions into multiple target genres using Complement Naive Bayes and OneVsRestClassifier.",
       "To elevate the user experience, an Explainable AI (XAI) feature was integrated directly into the inference layer. It isolates and highlights the exact keywords that tipped the model's confidence scores, offering users transparent, real-time insights behind the AI's reasoning.",
     ],
-    link: "https://github.com/diityanug/game-genre-classifier",
     githubLink: "https://github.com/diityanug/game-genre-classifier",
-    image: "/genre_game_vector_cover.jpg",
     workflow: [
       {
         image: "/input-desc.webp",
@@ -49,11 +44,8 @@ export const DATA: Record<string, any> = {
   "lenvry": {
     title: "Lenvry",
     subtitle: "A personal tracking mobile app for fitness, habits, nutrition, and finances.",
-    status: "Completed",
-    date: "2025",
     role: "Mobile App Developer",
     timeline: "2026 - Still Development",
-    color: "bg-card-sky",
     desc: "Lenvry is a comprehensive personal tracking mobile application built with React Native and Expo Router. It helps you track your fitness, habits, meals, and financial transactions all in one place with an offline-first local database storage.",
     overview: "A comprehensive personal tracking mobile application built with React Native and Expo Router. Lenvry empowers users to monitor their physical workouts, build lasting habits, log daily meals, and manage personal expenses seamlessly with a dedicated local database architecture.",
     tags: ["React Native", "Expo Router", "TypeScript", "AsyncStorage", "Local Database", "Mobile"],
@@ -71,9 +63,7 @@ export const DATA: Record<string, any> = {
       "Lenvry addresses daily tracking fatigue by unifying disparate lifestyle utilities—fitness logs, habit streaks, meal entries, and expense sheets—into a cohesive mobile dashboard.",
       "Designed with an offline-first philosophy, all user data remains private and immediately responsive on device via a structured local database, backed by simple JSON export and import capabilities for effortless data portability.",
     ],
-    link: "https://github.com/diityanug/Lenvry",
     githubLink: "https://github.com/diityanug/Lenvry",
-    image: "/lenvry.webp",
     workflow: [
       {
         image: "/Fitness.webp",
@@ -102,6 +92,53 @@ export const DATA: Record<string, any> = {
       },
     ],
   },
+  "reka": {
+    title: "REKA",
+    subtitle: "Smart, private, and effortless multi-currency personal finance tracker.",
+    role: "Mobile App Developer",
+    timeline: "2026",
+    desc: "REKA (Mereka-reka / Merancang Keuangan) is a full offline personal finance and budget planning mobile app built with React Native and Expo. All accounts, sub-pockets, transactions, and allocation plans live locally on device using SQLite with WAL mode—paired with unified multi-currency (IDR & USD) tracking and an optional Google Gemini AI receipt scanner.",
+    overview: "A full offline personal finance mobile application built with React Native (Expo) and SQLite. REKA empowers users to manage multi-currency accounts (IDR & USD), organize sub-account pockets, design budget allocation plans, and automatically extract shopping receipts using Google Gemini.",
+    tags: ["React Native", "Expo", "TypeScript", "SQLite", "Google Gemini", "Mobile"],
+    workflowTitle: "App Modules & Features",
+    workflowSubtitle: "An inside look at REKA's multi-currency architecture, sub-account pockets, AI receipt scanning, and financial analytics.",
+    keyFeatures: [
+      "Unified Multi-Currency (IDR & USD) with instant native balance switcher",
+      "Cross-Currency & Internal Transfers with automatic exchange rate logging",
+      "Sub-Accounts (Pockets) & Allocation Plans (50/30/20, 4 Buckets, or Custom)",
+      "Optional AI Receipt Scanner powered by Google Gemini",
+      "Financial Health Analytics: Cash Flow Ratio, Savings Rate & Donut Charts",
+      "Full Offline SQLite (WAL mode) with JSON Backup/Restore & CSV Export",
+    ],
+    challenges: "Managing multi-currency personal finances (IDR & USD) typically suffers from distorted net worth metrics caused by fluctuating daily exchange rates, while complex splits across accounts, sub-pockets, and itemized receipts risk data inconsistency. REKA solves this with a 'Unified View, Native Balance' architecture backed by atomic SQLite transactions in WAL mode, automatic schema migrations, and structured Google Gemini extraction that reconciles items, taxes, and discounts automatically.",
+    overviewParagraphs: [
+      "REKA (derived from 'Mereka-reka / Merancang Keuangan') is crafted with a warm editorial interface and a strict full offline philosophy. Every wallet—across Bank, E-Wallet, Cash, Investment, Credit Card, and E-Money—along with sub-account pockets and budget allocation plans is stored locally on the user's device via SQLite without requiring cloud sign-ups.",
+      "To eliminate manual entry friction, REKA integrates an optional AI Receipt Scanner powered by Google Gemini that extracts merchant details, dates, currencies, line items, and tax adjustments from camera or gallery photos. Combined with one-tap Privacy Mode, JSON database backup with Undo Last Restore, and CSV export, users retain total ownership of their financial data.",
+    ],
+    githubLink: "https://github.com/diityanug/REKA",
+    workflow: [
+      {
+        image: "/reka-overview.svg",
+        step: "Unified Multi-Currency & Transfers",
+        desc: "View all IDR and USD accounts, allocation plans, and transactions in one unified feed while toggling native currency metrics (IDR | USD) without exchange-rate distortion.",
+      },
+      {
+        image: "/reka-pockets.svg",
+        step: "Sub-Accounts (Pockets) & Allocation Plans",
+        desc: "Divide any main account balance into dedicated goal pockets with progress tracking, and design structured budget plans using the 50/30/20 Rule, 4 Buckets Rule, or custom splits.",
+      },
+      {
+        image: "/reka-scanner.svg",
+        step: "Gemini AI Receipt Scanner",
+        desc: "Snap or upload shopping receipts to automatically extract merchant name, date, currency, itemized breakdown, and tax/discount adjustments powered by Google Gemini.",
+      },
+      {
+        image: "/reka-analytics.svg",
+        step: "Financial Health, Privacy & Data Ownership",
+        desc: "Monitor Cash Flow Ratio, Savings Rate, Month-over-Month trends, and category Donut Charts—complete with one-tap Privacy Mode, JSON Backup & Restore (with Undo), and CSV export.",
+      },
+    ],
+  },
 
   // Careers
   "software-engineer-lg": {
@@ -109,8 +146,6 @@ export const DATA: Record<string, any> = {
     status: "Current Role",
     date: "JUNE 2025 — PRESENT",
     desc: "Supporting Smart Factory operations through equipment modeling, server monitoring, and equipment alarm maintenance, while developing scalable internal enterprise applications using React, TypeScript, and Microfrontend Architecture.",
-    link: "#",
-    image: "/LG_Sinarmas_Logo_Vector.svg",
     contributions: [
       {
         project: "APC (Autonomous Process Control)",

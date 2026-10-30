@@ -1,23 +1,10 @@
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { fadeUp, staggerContainer } from '../../utils/animations';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import AnimatedCharacter from '../ui/AnimatedCharacter';
 import JapaneseHoverText from '../ui/JapaneseHoverText';
 import { TerminalWindow as Terminal, EnvelopeSimple } from '@phosphor-icons/react';
-
-const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
-  );
-  useEffect(() => {
-    const mq = window.matchMedia(query);
-    const onChange = () => setMatches(mq.matches);
-    onChange();
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, [query]);
-  return matches;
-};
 
 const GRID_STYLE = {
   backgroundImage:

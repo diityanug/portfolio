@@ -8,4 +8,3 @@ const Nav = () => {
 };
 
 export default Nav;
-export { DesktopNav, MobileNav };

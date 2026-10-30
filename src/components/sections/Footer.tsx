@@ -1,15 +1,29 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, GithubLogo, LinkedinLogo, ArrowUp } from '@phosphor-icons/react';
+import { ArrowUpRight, GithubLogo, LinkedinLogo, ArrowUp, FileText } from '@phosphor-icons/react';
 import JapaneseHoverText from '../ui/JapaneseHoverText';
 
-// Social links & hover colors
-const SOCIALS = [
-  { icon: GithubLogo, label: 'GitHub', href: 'https://github.com/diityanug', hoverColor: 'group-hover/tile:text-white' },
-  { icon: LinkedinLogo, label: 'LinkedIn', href: 'https://linkedin.com/in/diityanug', hoverColor: 'group-hover/tile:text-[#4DA3F0]' },
+// Quick-access tiles & hover colors
+const TILES = [
+  {
+    icon: FileText,
+    label: 'Resume',
+    href: 'https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing',
+    hoverColor: 'group-hover/tile:text-[#A99BFF]',
+  },
+  {
+    icon: GithubLogo,
+    label: 'GitHub',
+    href: 'https://github.com/diityanug',
+    hoverColor: 'group-hover/tile:text-white',
+  },
+  {
+    icon: LinkedinLogo,
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/diityanug',
+    hoverColor: 'group-hover/tile:text-[#4DA3F0]',
+  },
 ] as const;
-
-const RESUME_HOVER_COLOR = 'group-hover/tile:text-[#A99BFF]';
 
 const FOOTER_LINKS = [
   { id: 'profile', label: 'Profile' },
@@ -22,8 +36,6 @@ const FOOTER_LINKS = [
 const EASE = [0.32, 0.72, 0, 1] as const;
 
 const EMAIL = 'diityanug13@gmail.com';
-const RESUME =
-  'https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing';
 const YEAR = new Date().getFullYear();
 
 const focusRing =
@@ -51,9 +63,8 @@ const Footer = () => {
     <footer
       id="contact"
       tabIndex={-1}
-      className="bg-ink text-white pt-24 md:pt-28 pb-8 px-5 md:px-12 relative z-20 rounded-t-[40px] md:rounded-t-[80px] md:-mt-12 w-full outline-none"
+      className="bg-ink text-white pt-24 md:pt-28 pb-8 px-5 md:px-12 relative z-20 rounded-t-[40px] md:rounded-t-[80px] -mt-8 md:-mt-12 w-full outline-none"
     >
-
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -68,24 +79,24 @@ const Footer = () => {
               aria-label="Let's connect together"
               className="text-[min(10.5vw,56px)] sm:text-[64px] md:text-[84px] lg:text-[80px] xl:text-[92px] font-black uppercase leading-[0.95] tracking-[-0.03em] select-none w-full"
             >
-            <JapaneseHoverText
-              japanese="つながろう、"
-              english="LET'S CONNECT"
-              interval={3500}
-              className="w-full pr-[0.12em] outline-none"
-              jpClassName="font-normal [font-synthesis:none] text-white tracking-tight"
-              enClassName="text-white tracking-[-0.04em]"
-            />
-            <br />
-            <JapaneseHoverText
-              japanese="一緒に。"
-              english="TOGETHER"
-              interval={3500}
-              offset={700}
-              className="w-full pr-[0.12em] outline-none"
-              jpClassName="font-normal [font-synthesis:none] text-transparent [-webkit-text-stroke:2px_#ffffff] tracking-tight"
-              enClassName="text-transparent [-webkit-text-stroke:2px_#ffffff] tracking-[-0.04em]"
-            />
+              <JapaneseHoverText
+                japanese="つながろう、"
+                english="LET'S CONNECT"
+                interval={3500}
+                className="w-full pr-[0.12em] outline-none"
+                jpClassName="font-normal [font-synthesis:none] text-white tracking-tight"
+                enClassName="text-white tracking-[-0.04em]"
+              />
+              <br />
+              <JapaneseHoverText
+                japanese="一緒に。"
+                english="TOGETHER"
+                interval={3500}
+                offset={700}
+                className="w-full pr-[0.12em] outline-none"
+                jpClassName="font-normal [font-synthesis:none] text-transparent [-webkit-text-stroke:2px_#ffffff] tracking-tight"
+                enClassName="text-transparent [-webkit-text-stroke:2px_#ffffff] tracking-[-0.04em]"
+              />
             </h2>
           </div>
 
@@ -114,19 +125,7 @@ const Footer = () => {
             </a>
 
             <div className="grid grid-cols-3 gap-3">
-              <a href={RESUME} target="_blank" rel="noopener noreferrer" className={tileClass}>
-                <ArrowUpRight
-                  size={20}
-                  weight="bold"
-                  aria-hidden
-                  className={`text-white/70 transition-colors duration-300 motion-reduce:transition-none md:w-6 md:h-6 ${RESUME_HOVER_COLOR}`}
-                />
-                <span className="text-sm font-semibold">
-                  Resume
-                  <ExternalHint />
-                </span>
-              </a>
-              {SOCIALS.map(({ icon: Icon, label, href, hoverColor }) => (
+              {TILES.map(({ icon: Icon, label, href, hoverColor }) => (
                 <a
                   key={label}
                   href={href}
@@ -134,11 +133,19 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className={tileClass}
                 >
-                  <Icon
-                    weight="bold"
-                    aria-hidden
-                    className={`size-5 md:size-9 text-white/70 transition-colors duration-300 motion-reduce:transition-none ${hoverColor}`}
-                  />
+                  <div className="flex items-center justify-between gap-2">
+                    <Icon
+                      weight="bold"
+                      aria-hidden
+                      className={`size-5 md:size-6 text-white/70 transition-colors duration-300 motion-reduce:transition-none ${hoverColor}`}
+                    />
+                    <ArrowUpRight
+                      size={14}
+                      weight="bold"
+                      aria-hidden
+                      className="text-white/30 transition-[color,transform] duration-300 motion-reduce:transition-none group-hover/tile:text-white/80 group-hover/tile:translate-x-0.5 group-hover/tile:-translate-y-0.5"
+                    />
+                  </div>
                   <span className="text-sm font-semibold">
                     {label}
                     <ExternalHint />
@@ -161,10 +168,14 @@ const Footer = () => {
               <Link
                 key={id}
                 to={{ pathname: '/', hash: `#${id}` }}
-                className={`flex items-center justify-between border-t border-white/10 py-3.5 text-sm font-semibold text-white transition-colors duration-300 motion-reduce:transition-none active:text-primary hover:text-primary lg:border-0 lg:py-0 lg:text-[11px] lg:font-bold lg:uppercase lg:tracking-[0.2em] ${focusRing}`}
+                className={`group/nav flex items-center justify-between border-t border-white/10 py-3.5 text-sm font-semibold text-white/75 transition-colors duration-300 motion-reduce:transition-none last:col-span-2 lg:last:col-span-1 active:text-[#A99BFF] hover:text-[#A99BFF] lg:border-0 lg:py-0 lg:text-[11px] lg:font-bold lg:uppercase lg:tracking-[0.2em] ${focusRing}`}
               >
                 {label}
-                <ArrowUpRight size={14} aria-hidden className="text-white/40 lg:hidden" />
+                <ArrowUpRight
+                  size={14}
+                  aria-hidden
+                  className="text-white/40 transition-[color,transform] duration-300 motion-reduce:transition-none group-hover/nav:text-[#A99BFF] group-hover/nav:translate-x-0.5 group-hover/nav:-translate-y-0.5 lg:hidden"
+                />
               </Link>
             ))}
           </nav>

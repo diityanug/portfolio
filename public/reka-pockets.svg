@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#FAF9F5"/>
+  <rect x="60" y="36" width="680" height="528" rx="28" fill="#F5F0E8" stroke="#E6DFD8" stroke-width="2"/>
+  
+  <text x="100" y="88" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#141413" letter-spacing="-0.5">Sub-Accounts (Pockets) &amp; Allocation</text>
+  <text x="100" y="112" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#6C6A64">Organize funds inside a single account &amp; plan 50/30/20 budgets</text>
+
+  <!-- Pockets Section -->
+  <rect x="100" y="138" width="288" height="185" rx="22" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
+  <rect x="124" y="162" width="84" height="24" rx="8" fill="#EBF7F4"/>
+  <text x="166" y="178" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#11473B">POCKET 01</text>
+  <text x="124" y="214" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#141413">Emergency Fund</text>
+  <text x="124" y="240" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600" fill="#5DB8A6">Rp 15.000.000 / Rp 20M</text>
+  <rect x="124" y="264" width="240" height="10" rx="5" fill="#EFE9DE"/>
+  <rect x="124" y="264" width="180" height="10" rx="5" fill="#5DB8A6"/>
+  <text x="124" y="298" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#6C6A64">75% of target reached</text>
+
+  <rect x="412" y="138" width="288" height="185" rx="22" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
+  <rect x="436" y="162" width="84" height="24" rx="8" fill="#FDF0ED"/>
+  <text x="478" y="178" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#CC785C">POCKET 02</text>
+  <text x="436" y="214" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#141413">Japan Trip 2027</text>
+  <text x="436" y="240" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600" fill="#CC785C">$ 1,200.00 / $ 2,000</text>
+  <rect x="436" y="264" width="240" height="10" rx="5" fill="#EFE9DE"/>
+  <rect x="436" y="264" width="144" height="10" rx="5" fill="#CC785C"/>
+  <text x="436" y="298" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#6C6A64">60% of target reached</text>
+
+  <!-- Allocation Plan Card -->
+  <rect x="100" y="346" width="600" height="184" rx="22" fill="#181715"/>
+  <text x="132" y="384" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#E8A55A" letter-spacing="1.2">ALLOCATION PLAN • 50 / 30 / 20 RULE</text>
+  <text x="132" y="414" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#FAF9F5">Monthly Salary Allocation</text>
+
+  <!-- Stacked progress bar -->
+  <rect x="132" y="436" width="260" height="16" rx="6" fill="#CC785C"/>
+  <rect x="398" y="436" width="156" height="16" rx="6" fill="#E8A55A"/>
+  <rect x="560" y="436" width="108" height="16" rx="6" fill="#5DB8A6"/>
+
+  <text x="132" y="482" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FAF9F5">50% Needs</text>
+  <text x="132" y="502" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#A09D96">Rp 7.500.000</text>
+
+  <text x="398" y="482" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FAF9F5">30% Wants</text>
+  <text x="398" y="502" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#A09D96">Rp 4.500.000</text>
+
+  <text x="560" y="482" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FAF9F5">20% Savings</text>
+  <text x="560" y="502" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#A09D96">Rp 3.000.000</text>
+</svg>

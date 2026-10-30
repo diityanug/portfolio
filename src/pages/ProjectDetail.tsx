@@ -46,7 +46,7 @@ function TimelineItem({ item, idx }: { item: any; idx: number }) {
       <div className={`w-full md:w-[45%] pl-20 md:pl-0 mt-8 md:mt-0 ${isEven ? "md:order-2 md:pl-16" : "md:pr-16"}`}>
         <div className={`w-full relative ring-1 rounded-3xl transition-all duration-700 bg-white ${isActive ? '-translate-y-2 shadow-[0_40px_100px_-20px_rgba(86,69,212,0.15)] ring-primary/20' : 'shadow-[0_20px_40px_-10px_rgba(0,0,0,0.05)] ring-black/5'}`}>
           <div className="w-full aspect-video md:aspect-4/3 rounded-3xl overflow-hidden relative bg-black/5 [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
-            <img src={item.image} alt={item.step} className={`w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] ${item.mixBlend ? 'mix-blend-multiply' : ''} ${isActive ? 'scale-105' : 'scale-100'}`} />
+            <img src={item.image} alt={item.step} className={`w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] ${isActive ? 'scale-105' : 'scale-100'}`} />
             <div className={`absolute inset-0 bg-primary/5 transition-opacity duration-700 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}></div>
           </div>
         </div>
@@ -72,7 +72,6 @@ export default function ProjectDetail() {
     tags: [],
     role: "Developer",
     timeline: "-",
-    color: "bg-card-peach",
     keyFeatures: [],
     challenges: "",
     overviewParagraphs: [],

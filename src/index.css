@@ -10,27 +10,11 @@
 
 @theme {
   --color-primary: #5645d4;
-  --color-primary-pressed: #4534b3;
   --color-brand: #bc1237;
-  --color-brand-navy: #0a1530;
-  --color-brand-navy-deep: #070f24;
-  --color-card-peach: #ffe8d4;
-  --color-card-rose: #fde0ec;
-  --color-card-mint: #d9f3e1;
-  --color-card-lavender: #e6e0f5;
-  --color-card-sky: #dcecfa;
-  --color-card-yellow: #fef7d6;
-  --color-card-yellow-bold: #f9e79f;
   --color-canvas: #ffffff;
-  --color-surface: #f6f5f4;
-  --color-surface-soft: #fafaf9;
   --color-hairline: #e5e3df;
-  --color-hairline-soft: #ede9e4;
   --color-ink: #1a1a1a;
-  --color-charcoal: #37352f;
   --color-steel: #6b6964;
-  --color-muted: #bbb8b1;
-  --color-semantic-success: #1aae39;
 
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-jp-serif: "Noto Serif JP", serif;
@@ -67,9 +51,4 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
   }
-}
-
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgb(255 255 255 / 0.2) transparent;
 }

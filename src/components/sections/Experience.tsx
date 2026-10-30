@@ -150,7 +150,7 @@ const Experience = () => {
                     </ul>
 
                     <span className="inline-flex items-center gap-2 text-xs md:text-[13px] font-bold uppercase tracking-wider text-ink shrink-0 transition-colors duration-300 motion-reduce:transition-none group-hover:text-brand">
-                      View Case Study
+                      View Detail
                       <ArrowRight
                         size={14}
                         weight="bold"

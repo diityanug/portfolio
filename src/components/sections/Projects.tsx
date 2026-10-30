@@ -15,6 +15,7 @@ interface Project {
   frame: string;
   accent: string;
   titleHover: string;
+  featured?: boolean;
 }
 
 const PROJECTS: readonly Project[] = [
@@ -31,6 +32,7 @@ const PROJECTS: readonly Project[] = [
     frame: 'hover:border-[#F97316]/40 hover:shadow-[#F97316]/10',
     accent: 'text-[#C2410C]',
     titleHover: 'group-hover:text-[#C2410C]',
+    featured: true,
   },
   {
     slug: 'lenvry',
@@ -45,6 +47,20 @@ const PROJECTS: readonly Project[] = [
     frame: 'hover:border-[#0284C7]/40 hover:shadow-[#0284C7]/10',
     accent: 'text-[#0369A1]',
     titleHover: 'group-hover:text-[#0369A1]',
+  },
+  {
+    slug: 'reka',
+    title: 'REKA',
+    category: 'Personal Finance Mobile App',
+    overview:
+      'A smart, private, and effortless multi-currency personal finance tracker built with React Native and Expo. Features offline SQLite storage, unified IDR & USD accounts with sub-pockets, allocation plans, and an optional Google Gemini AI receipt scanner.',
+    tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Gemini AI', 'Mobile'],
+    image: '/reka-cover.png',
+    imageClass: 'w-full h-full object-contain drop-shadow-2xl',
+    canvas: 'bg-linear-to-br from-[#ECFDF5] via-[#D1FAE5] to-[#A7F3D0]/60 border-[#A7F3D0]',
+    frame: 'hover:border-[#059669]/40 hover:shadow-[#059669]/10',
+    accent: 'text-[#047857]',
+    titleHover: 'group-hover:text-[#047857]',
   },
 ];
 
@@ -94,7 +110,11 @@ const Projects = () => (
           const descId = `project-${project.slug}-desc`;
 
           return (
-            <motion.li key={project.slug} variants={scaleIn} className="h-full">
+            <motion.li
+              key={project.slug}
+              variants={scaleIn}
+              className={`h-full ${project.featured ? 'lg:col-span-2' : ''}`}
+            >
               <Link
                 to={`/project/${project.slug}`}
                 aria-labelledby={titleId}
@@ -107,12 +127,18 @@ const Projects = () => (
                 >
                   {/* Inner Canvas */}
                   <div
-                    className={`relative h-full overflow-hidden flex flex-col rounded-[22px] md:rounded-[30px] border p-7 sm:p-9 md:p-10 min-h-145 sm:min-h-160 lg:min-h-170 ${project.canvas}`}
+                    className={`relative h-full overflow-hidden flex flex-col rounded-[22px] md:rounded-[30px] border p-7 sm:p-9 md:p-10 min-h-145 sm:min-h-160 ${
+                      project.featured ? 'lg:min-h-135' : 'lg:min-h-170'
+                    } ${project.canvas}`}
                   >
                     {/* Cover as background, 1:1 */}
                     <div
                       aria-hidden="true"
-                      className="absolute -bottom-6 -right-6 sm:-bottom-10 sm:-right-10 w-[82%] sm:w-[72%] lg:w-[74%] aspect-square opacity-45 group-hover:opacity-80 transition-opacity duration-700 ease-out motion-reduce:transition-none pointer-events-none select-none mask-[linear-gradient(to_top,black_50%,transparent_92%)]"
+                      className={`absolute -bottom-6 -right-6 sm:-bottom-10 sm:-right-10 w-[82%] sm:w-[72%] ${
+                        project.featured
+                          ? 'lg:-bottom-10 lg:right-4 lg:w-[40%]'
+                          : 'lg:w-[74%]'
+                      } aspect-square opacity-45 group-hover:opacity-80 transition-opacity duration-700 ease-out motion-reduce:transition-none pointer-events-none select-none mask-[linear-gradient(to_top,black_50%,transparent_92%)]`}
                     >
                       <img
                         src={project.image}
