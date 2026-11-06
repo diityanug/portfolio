@@ -143,45 +143,49 @@ export const DATA: Record<string, any> = {
   // Careers
   "software-engineer-lg": {
     title: "Software Engineer at LG Sinarmas",
-    status: "Current Role",
+    status: "Current Work",
     date: "JUNE 2025 — PRESENT",
-    desc: "Supporting Smart Factory operations through equipment modeling, server monitoring, and equipment alarm maintenance, while developing scalable internal enterprise applications using React, TypeScript, and Microfrontend Architecture.",
+    desc: "Part of GDC Indonesia - currently working on APC modeling equipment and as a system administrator for CSR on FDC. Additionally, working on internal projects such as HRIS, LMS Management, and a Job portal.",
     contributions: [
       {
         project: "APC (Autonomous Process Control)",
         tasks: [
-          "Modeled manufacturing equipment using Factova.",
-          "Monitored server and equipment status across sites.",
-          "Investigated and resolved equipment alarms.",
+          "Modeled manufacturing equipment parameters and configurations using the Factova platform.",
+          "Engineered an automated hourly alarm extraction script to harvest, parse, and compile equipment alarms across systems for regular reporting.",
+          "Provisioned and configured server environments, including connecting Factova to Oracle Database, installing essential software dependencies, and linking Git with related repositories.",
         ],
       },
       {
         project: "FDC (Fault Detection and Classification)",
         tasks: [
-          "Managed user access within the FDC system.",
-          "Assigned and adjusted user roles based on requests.",
+          "Developed automated monitoring scripts to track disk and RAM utilization across multiple factory sites.",
+          "Helped mitigate system bottlenecks and outages through proactive multi-server resource usage monitoring.",
+          "Administered user access and managed role permissions across the FDC platform based on internal requests.",
         ],
       },
       {
         project: "HRIS (Human Resource Integrated System)",
         tasks: [
-          "Developed asset management features.",
-          "Integrated secure cloud storage modules using AWS S3.",
-          "Implemented Role-Based Access Control.",
+          "Developed the centralized Asset Management page, enabling dynamic web asset management to eliminate hardcoded resources.",
+          "Integrated AWS S3 cloud storage for secure, scalable asset uploads, caching, and fast web delivery.",
+          "Implemented Role-Based Access Control (RBAC) to enforce strict internal permission levels and secure asset access.",
         ],
       },
       {
         project: "LMS (Learning Management System)",
         tasks: [
-          "Fixed bugs to improve system stability.",
-          "Revamped the Learning Management page.",
+          "Revamped and modernized the Learning Management interface with a clean UI system for Common Code and Common Code Group management.",
+          "Standardized dynamic code configurations across modules, enabling seamless administration of system master data.",
+          "Fixed critical frontend bugs and optimized state handling to deliver a more stable and responsive user experience.",
         ],
       },
       {
         project: "Job Portal",
         tasks: [
-          "Developed new features to support recruitment.",
-          "Redesigned the Applicant Management interface.",
+          "Leading full Frontend development across core recruitment modules: Job Posting, Job Requisition, and Application Management.",
+          "Engineered new interactive features, including an Activity Log slide-over sidebar for real-time audit and tracking.",
+          "Revamped and modernized workflow modals to elevate user experience, responsiveness, and interaction flow.",
+          "Resolved complex bugs and edge cases to consistently improve system stability and performance.",
         ],
       },
     ],

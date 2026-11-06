@@ -10,8 +10,8 @@ const EXPERIENCE = {
   year: '2025 — Present',
   slug: 'software-engineer-lg',
   logo: LGSinarmasLogo,
-  desc: 'Supporting Smart Factory operations through automated process modeling and server monitoring, while developing scalable enterprise applications using React, TypeScript, and Microfrontend Architecture.',
-  tags: ['React', 'TypeScript', 'Microfrontends', 'AWS S3'],
+  desc: 'Part of GDC Indonesia - currently working on APC modeling equipment and as a system administrator for CSR on FDC. Additionally, working on internal projects such as HRIS, LMS Management, and a Job portal.',
+  tags: ['React', 'TypeScript', 'AWS S3', 'Automation', 'Oracle DB'],
 } as const;
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
@@ -137,7 +137,7 @@ const Experience = () => {
                   </div>
 
                   {/* Bottom Row: Tech Stack Pills & Action Link */}
-                  <div className="relative z-10 pt-6 border-t border-black/8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto">
+                  <div className="relative z-10 pt-6 border-t border-black/8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-4 mt-auto">
                     <ul className="flex flex-wrap gap-2">
                       {item.tags.map((tag) => (
                         <li
@@ -149,7 +149,7 @@ const Experience = () => {
                       ))}
                     </ul>
 
-                    <span className="inline-flex items-center gap-2 text-xs md:text-[13px] font-bold uppercase tracking-wider text-ink shrink-0 transition-colors duration-300 motion-reduce:transition-none group-hover:text-brand">
+                    <span className="inline-flex items-center gap-2 text-xs md:text-[13px] font-bold uppercase tracking-wider text-ink shrink-0 self-end sm:self-auto transition-colors duration-300 motion-reduce:transition-none group-hover:text-brand">
                       View Detail
                       <ArrowRight
                         size={14}
