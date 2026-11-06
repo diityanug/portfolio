@@ -2,6 +2,7 @@ import { motion, type Variants } from 'framer-motion';
 import { GraduationCap, ArrowUpRight, Certificate, Check } from '@phosphor-icons/react';
 import { fadeUp, scaleIn } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
+import BackgroundShape from '../ui/BackgroundShape';
 import { CERTIFICATES } from '../../data';
 
 interface IssuerTheme {
@@ -219,9 +220,14 @@ const Education = () => (
     id="education"
     tabIndex={-1}
     aria-labelledby="education-heading"
-    className="pt-20 md:pt-32 pb-28 md:pb-40 bg-white text-ink relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] outline-none"
+    className="pt-20 md:pt-32 pb-28 md:pb-40 bg-white text-ink relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] outline-none"
   >
-    <div className="max-w-300 mx-auto px-4 md:px-8">
+    <BackgroundShape
+      initialIndex={3}
+      strokeClassName="stroke-black/[0.055]"
+      className="-right-[28vw] top-[4vh] w-[72vw] h-[72vw] md:-right-[14vw] md:top-[6vh] md:w-[46vw] md:h-[46vw]"
+    />
+    <div className="max-w-300 mx-auto px-4 md:px-8 relative z-10">
       {/* Section Header */}
       <motion.div
         initial="hidden"

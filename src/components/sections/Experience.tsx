@@ -3,6 +3,7 @@ import { ArrowUpRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { fadeUp, scaleIn } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
+import BackgroundShape from '../ui/BackgroundShape';
 import LGSinarmasLogo from '../../assets/LG_Sinarmas_Logo_Vector.svg';
 
 const EXPERIENCE = {
@@ -21,13 +22,25 @@ const focusRing =
 const Experience = () => {
   const item = EXPERIENCE;
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+
   return (
     <section
       id="experience"
       tabIndex={-1}
       aria-labelledby="experience-heading"
-      className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
+      className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
     >
+      <BackgroundShape
+        initialIndex={1}
+        strokeClassName="stroke-[#BC1237]/[0.07]"
+        className="-right-[28vw] -top-[8vw] w-[75vw] h-[75vw] md:-right-[14vw] md:top-[4vh] md:w-[46vw] md:h-[46vw]"
+      />
+
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
@@ -44,7 +57,7 @@ const Experience = () => {
           />
         </motion.div>
 
-        {/* Experience Card */}
+        {/* Experience Bento Card */}
         <div className="max-w-md md:max-w-3xl mx-auto">
           <motion.div
             initial="hidden"
@@ -57,14 +70,31 @@ const Experience = () => {
               to={`/career/${item.slug}`}
               className={`group block h-full rounded-4xl md:rounded-[38px] ${focusRing}`}
             >
-              {/* Outer Frame — Static position, glows on hover */}
-              <div className="p-1.5 rounded-4xl md:rounded-[38px] bg-white border border-hairline shadow-sm transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none group-hover:border-[#BC1237]/60 group-hover:shadow-[0_0_50px_-6px_rgba(188,18,55,0.32)]">
+              {/* Outer Frame — Static position, glows on hover + mouse spotlight */}
+              <div
+                onMouseMove={handleMouseMove}
+                className="relative p-1.5 rounded-4xl md:rounded-[38px] bg-white border border-hairline shadow-sm transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none group-hover:border-[#BC1237]/60 group-hover:shadow-[0_0_50px_-6px_rgba(188,18,55,0.32)]"
+              >
+                {/* Outer Cursor Border Spotlight Glow */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[38px]"
+                  style={{
+                    background:
+                      'radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 35%), rgba(188, 18, 55, 0.28), transparent 70%)',
+                  }}
+                />
+
                 {/* Inner Card Canvas */}
                 <div className="relative overflow-hidden rounded-[26px] md:rounded-[32px] border border-[#FDA4AF]/80 bg-linear-to-b from-[#FFD4DF] via-[#FFE3EA] to-[#FFC4D4] px-7 py-8 sm:px-10 sm:py-11 md:px-14 md:py-12 flex flex-col items-center text-center transition-colors duration-500 group-hover:border-[#BC1237]/50">
-                  {/* Ambient hover glow overlay */}
+                  {/* Dynamic Cursor Spotlight Glow overlay */}
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.6),transparent_70%)]"
+                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-[inherit]"
+                    style={{
+                      background:
+                        'radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 35%), rgba(255, 255, 255, 0.65), transparent 75%)',
+                    }}
                   />
 
                   {/* Top Row: Plain Year Text on the Left */}

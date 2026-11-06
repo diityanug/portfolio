@@ -34,6 +34,7 @@ import { TbBrandFramerMotion } from 'react-icons/tb';
 import type { IconType } from 'react-icons';
 import { fadeUp, scaleIn, staggerContainer } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
+import BackgroundShape from '../ui/BackgroundShape';
 
 interface Skill {
   name: string;
@@ -282,9 +283,14 @@ const Skills = () => (
     id="skills"
     tabIndex={-1}
     aria-labelledby="skills-heading"
-    className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
+    className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
   >
-    <div className="max-w-7xl mx-auto">
+    <BackgroundShape
+      initialIndex={0}
+      strokeClassName="stroke-primary/[0.07]"
+      className="-right-[28vw] top-[4vh] w-[72vw] h-[72vw] md:-right-[15vw] md:top-[6vh] md:w-[48vw] md:h-[48vw]"
+    />
+    <div className="max-w-7xl mx-auto relative z-10">
       {/* Header */}
       <motion.div
         initial="hidden"

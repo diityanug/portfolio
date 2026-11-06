@@ -2,6 +2,7 @@ import { useRef, type CSSProperties } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react';
 import { fadeUp, staggerContainer } from '../../utils/animations';
+import BackgroundShape from '../ui/BackgroundShape';
 
 const STACK = [
   { name: 'TypeScript', color: '#3b82f6' },
@@ -38,6 +39,13 @@ const Profile = () => {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-60 right-[-15%] h-160 w-160 bg-[radial-gradient(circle_closest-side,rgba(94,106,210,0.12),transparent)]"
+      />
+
+      {/* Subtle wireframe background shape */}
+      <BackgroundShape
+        initialIndex={3}
+        strokeClassName="stroke-[#5e6ad2]/[0.14]"
+        className="-left-[28vw] -bottom-[10vw] w-[75vw] h-[75vw] md:-left-[16vw] md:top-[8vh] md:w-[48vw] md:h-[48vw]"
       />
 
       <motion.div

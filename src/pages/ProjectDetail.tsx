@@ -15,12 +15,111 @@ import BackgroundShape from '../components/ui/BackgroundShape';
 import Footer from '../components/sections/Footer';
 import { DATA } from '../data';
 
+interface ProjectTheme {
+  primaryHex: string;
+  shapeStroke: string;
+  badgeBg: string;
+  badgeText: string;
+  badgeBorder?: string;
+  iconText: string;
+  cardBorderHover: string;
+  cardShadowActive: string;
+  challengeCardBg: string;
+  challengeCardBorder: string;
+  challengeTitle: string;
+  challengeText: string;
+  checkIcon: string;
+  buttonHoverBg: string;
+  timelineBar: string;
+  timelineDotActive: string;
+}
+
+const PROJECT_THEMES: Record<string, ProjectTheme> = {
+  'genre-game-classifier': {
+    primaryHex: '#ea580c',
+    shapeStroke: 'stroke-[#ea580c]/[0.08]',
+    badgeBg: 'bg-[#ea580c]/10',
+    badgeText: 'text-[#c2410c]',
+    iconText: 'text-[#ea580c]',
+    cardBorderHover: 'border-[#ea580c]/40',
+    cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(234,88,12,0.15)]',
+    challengeCardBg: 'bg-linear-to-br from-[#FFF7ED] to-[#FFEDD5]/70',
+    challengeCardBorder: 'border-[#FDBA74]/80',
+    challengeTitle: 'text-[#7C2D12]',
+    challengeText: 'text-[#9A3412]/90',
+    checkIcon: 'text-[#ea580c]',
+    buttonHoverBg: 'hover:bg-[#ea580c]',
+    timelineBar: 'bg-[#ea580c]',
+    timelineDotActive: 'border-[#ea580c]',
+  },
+  lenvry: {
+    primaryHex: '#0284c7',
+    shapeStroke: 'stroke-[#0284c7]/[0.08]',
+    badgeBg: 'bg-[#0284c7]/10',
+    badgeText: 'text-[#0369a1]',
+    iconText: 'text-[#0284c7]',
+    cardBorderHover: 'border-[#0284c7]/40',
+    cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(2,132,199,0.15)]',
+    challengeCardBg: 'bg-linear-to-br from-[#F0F9FF] to-[#E0F2FE]/70',
+    challengeCardBorder: 'border-[#BAE6FD]/80',
+    challengeTitle: 'text-[#0C4A6E]',
+    challengeText: 'text-[#075985]/90',
+    checkIcon: 'text-[#0284c7]',
+    buttonHoverBg: 'hover:bg-[#0284c7]',
+    timelineBar: 'bg-[#0284c7]',
+    timelineDotActive: 'border-[#0284c7]',
+  },
+  reka: {
+    primaryHex: '#059669',
+    shapeStroke: 'stroke-[#059669]/[0.08]',
+    badgeBg: 'bg-[#059669]/10',
+    badgeText: 'text-[#047857]',
+    iconText: 'text-[#059669]',
+    cardBorderHover: 'border-[#059669]/40',
+    cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(5,150,105,0.15)]',
+    challengeCardBg: 'bg-linear-to-br from-[#ECFDF5] to-[#D1FAE5]/70',
+    challengeCardBorder: 'border-[#A7F3D0]/80',
+    challengeTitle: 'text-[#064E3B]',
+    challengeText: 'text-[#065F46]/90',
+    checkIcon: 'text-[#059669]',
+    buttonHoverBg: 'hover:bg-[#059669]',
+    timelineBar: 'bg-[#059669]',
+    timelineDotActive: 'border-[#059669]',
+  },
+};
+
+const DEFAULT_THEME: ProjectTheme = {
+  primaryHex: '#5e6ad2',
+  shapeStroke: 'stroke-primary/[0.08]',
+  badgeBg: 'bg-primary/10',
+  badgeText: 'text-primary',
+  iconText: 'text-primary',
+  cardBorderHover: 'border-primary/40',
+  cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(86,69,212,0.14)]',
+  challengeCardBg: 'bg-linear-to-br from-[#EEF2FF] to-[#E0E7FF]/60',
+  challengeCardBorder: 'border-[#C7D2FE]/80',
+  challengeTitle: 'text-[#1E1B4B]',
+  challengeText: 'text-[#312E81]/90',
+  checkIcon: 'text-primary',
+  buttonHoverBg: 'hover:bg-primary',
+  timelineBar: 'bg-primary',
+  timelineDotActive: 'border-primary',
+};
+
 const slideInRight = {
   hidden: { opacity: 0, x: 40 },
   visible: { opacity: 1, x: 0, transition: TRANSITION },
 };
 
-function TimelineItem({ item, idx }: { item: any; idx: number }) {
+function TimelineItem({
+  item,
+  idx,
+  theme,
+}: {
+  item: any;
+  idx: number;
+  theme: ProjectTheme;
+}) {
   const isEven = idx % 2 === 0;
   const numString = (idx + 1).toString().padStart(2, '0');
 
@@ -45,25 +144,27 @@ function TimelineItem({ item, idx }: { item: any; idx: number }) {
         <div
           className={`relative overflow-hidden rounded-3xl border bg-white p-6 sm:p-7 md:p-8 transition-[border-color,box-shadow] duration-500 ${
             isActive
-              ? 'border-primary/40 shadow-[0_24px_60px_-15px_rgba(86,69,212,0.14)]'
+              ? `${theme.cardBorderHover} ${theme.cardShadowActive}`
               : 'border-hairline shadow-xs'
           }`}
         >
           {/* Background Watermark Number */}
           <span
             aria-hidden="true"
-            className={`absolute right-4 top-2 text-[84px] sm:text-[96px] font-black leading-none select-none pointer-events-none transition-colors duration-500 ${
-              isActive ? 'text-primary/12' : 'text-black/[0.04]'
-            }`}
+            className="absolute right-4 top-2 text-[84px] sm:text-[96px] font-black leading-none select-none pointer-events-none transition-colors duration-500"
+            style={{
+              color: isActive
+                ? `${theme.primaryHex}20`
+                : 'rgba(0, 0, 0, 0.04)',
+            }}
           >
             {numString}
           </span>
 
           <div className="relative z-10 pr-12">
             <h4
-              className={`font-bold text-xl sm:text-2xl mb-2.5 tracking-tight transition-colors duration-500 ${
-                isActive ? 'text-primary' : 'text-ink'
-              }`}
+              className="font-bold text-xl sm:text-2xl mb-2.5 tracking-tight transition-colors duration-500"
+              style={{ color: isActive ? theme.primaryHex : '#1a1a1a' }}
             >
               {item.step}
             </h4>
@@ -77,7 +178,7 @@ function TimelineItem({ item, idx }: { item: any; idx: number }) {
       {/* Center Timeline Dot */}
       <div
         className={`absolute left-5 md:left-1/2 top-8 md:top-1/2 w-4 h-4 bg-white border-[3px] rounded-full -translate-x-1/2 md:-translate-y-1/2 z-10 transition-all duration-500 shadow-[0_0_0_6px_#FAFAFA] ${
-          isActive ? 'border-primary scale-125' : 'border-black/20 scale-100'
+          isActive ? `${theme.timelineDotActive} scale-125` : 'border-black/20 scale-100'
         }`}
       />
 
@@ -90,7 +191,7 @@ function TimelineItem({ item, idx }: { item: any; idx: number }) {
         <div
           className={`p-1.5 rounded-3xl bg-white border transition-[border-color,box-shadow] duration-500 ${
             isActive
-              ? 'border-primary/35 shadow-[0_24px_60px_-15px_rgba(86,69,212,0.16)]'
+              ? `${theme.cardBorderHover} ${theme.cardShadowActive}`
               : 'border-hairline shadow-xs'
           }`}
         >
@@ -119,6 +220,8 @@ export default function ProjectDetail() {
   });
 
   const currentSlug = slug || 'genre-game-classifier';
+  const theme = PROJECT_THEMES[currentSlug] || DEFAULT_THEME;
+
   const project = DATA[currentSlug] ||
     DATA['genre-game-classifier'] || {
       title: slug ? slug.replace(/-/g, ' ') : 'Project',
@@ -143,7 +246,7 @@ export default function ProjectDetail() {
         <section className="relative pt-24 md:pt-32 pb-20 md:pb-28 px-4 md:px-8 overflow-hidden bg-[#FAFAFA]">
           <BackgroundShape
             initialIndex={0}
-            strokeClassName="stroke-primary/[0.08]"
+            strokeClassName={theme.shapeStroke}
             className="-right-[28vw] -top-[8vw] w-[75vw] h-[75vw] md:-right-[12vw] md:top-[2vh] md:w-[48vw] md:h-[48vw]"
           />
 
@@ -171,7 +274,7 @@ export default function ProjectDetail() {
               >
                 {/* Role Card */}
                 <div className="md:col-span-3 rounded-3xl bg-white border border-hairline p-5 sm:p-6 shadow-xs flex flex-col justify-between gap-3">
-                  <div className="flex items-center gap-2 text-primary">
+                  <div className={`flex items-center gap-2 ${theme.iconText}`}>
                     <UserCircle size={20} weight="duotone" aria-hidden />
                     <span className="text-[11px] uppercase tracking-widest font-extrabold text-steel">
                       Role
@@ -184,7 +287,7 @@ export default function ProjectDetail() {
 
                 {/* Timeline Card */}
                 <div className="md:col-span-3 rounded-3xl bg-white border border-hairline p-5 sm:p-6 shadow-xs flex flex-col justify-between gap-3">
-                  <div className="flex items-center gap-2 text-primary">
+                  <div className={`flex items-center gap-2 ${theme.iconText}`}>
                     <CalendarBlank size={20} weight="duotone" aria-hidden />
                     <span className="text-[11px] uppercase tracking-widest font-extrabold text-steel">
                       Timeline
@@ -197,7 +300,7 @@ export default function ProjectDetail() {
 
                 {/* Tech Stack Card */}
                 <div className="md:col-span-6 rounded-3xl bg-white border border-hairline p-5 sm:p-6 shadow-xs flex flex-col justify-between gap-3">
-                  <div className="flex items-center gap-2 text-primary">
+                  <div className={`flex items-center gap-2 ${theme.iconText}`}>
                     <Stack size={20} weight="duotone" aria-hidden />
                     <span className="text-[11px] uppercase tracking-widest font-extrabold text-steel">
                       Tech Stack
@@ -230,7 +333,9 @@ export default function ProjectDetail() {
 
           <div className="max-w-6xl mx-auto relative z-10">
             <div className="flex items-center gap-3 mb-10 md:mb-14">
-              <span className="inline-flex items-center rounded-full bg-primary/10 px-3.5 py-1 text-xs font-extrabold uppercase tracking-widest text-primary">
+              <span
+                className={`inline-flex items-center rounded-full ${theme.badgeBg} px-3.5 py-1 text-xs font-extrabold uppercase tracking-widest ${theme.badgeText}`}
+              >
                 Architecture &amp; Context
               </span>
               <div className="h-px flex-1 bg-hairline" />
@@ -271,11 +376,15 @@ export default function ProjectDetail() {
 
                 {/* Challenge Bento Card */}
                 {project.challenges && (
-                  <div className="rounded-3xl border border-[#C7D2FE]/80 bg-linear-to-br from-[#EEF2FF] to-[#E0E7FF]/60 p-6 sm:p-8 md:p-9">
-                    <h2 className="text-xl sm:text-2xl font-bold text-[#1E1B4B] tracking-tight mb-3">
+                  <div
+                    className={`rounded-3xl border p-6 sm:p-8 md:p-9 ${theme.challengeCardBg} ${theme.challengeCardBorder}`}
+                  >
+                    <h2
+                      className={`text-xl sm:text-2xl font-bold tracking-tight mb-3 ${theme.challengeTitle}`}
+                    >
                       Challenge
                     </h2>
-                    <p className="text-[#312E81]/90 text-sm sm:text-base leading-relaxed">
+                    <p className={`text-sm sm:text-base leading-relaxed ${theme.challengeText}`}>
                       {project.challenges}
                     </p>
                   </div>
@@ -304,7 +413,7 @@ export default function ProjectDetail() {
                         >
                           <CheckCircle
                             weight="fill"
-                            className="text-primary mt-0.5 shrink-0"
+                            className={`${theme.checkIcon} mt-0.5 shrink-0`}
                             size={18}
                           />
                           <span className="leading-snug">{feature}</span>
@@ -318,7 +427,7 @@ export default function ProjectDetail() {
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-between gap-2 bg-ink text-white font-bold uppercase tracking-wider px-5 py-3.5 rounded-2xl hover:bg-primary transition-colors duration-300 text-xs group"
+                      className={`flex items-center justify-between gap-2 bg-ink text-white font-bold uppercase tracking-wider px-5 py-3.5 rounded-2xl ${theme.buttonHoverBg} transition-colors duration-300 text-xs group`}
                     >
                       <span className="flex items-center gap-2.5 truncate">
                         <GithubLogo size={18} weight="bold" className="shrink-0" />
@@ -341,13 +450,15 @@ export default function ProjectDetail() {
         <section className="relative z-10 bg-[#FAFAFA] rounded-t-[40px] md:rounded-t-[64px] -mt-8 pt-20 md:pt-28 pb-28 md:pb-36 px-4 md:px-8 border-t border-hairline overflow-hidden shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)]">
           <BackgroundShape
             initialIndex={1}
-            strokeClassName="stroke-primary/[0.07]"
+            strokeClassName={theme.shapeStroke}
             className="-right-[28vw] top-[12vh] w-[72vw] h-[72vw] md:-right-[14vw] md:top-[10vh] md:w-[46vw] md:h-[46vw]"
           />
 
           <div className="max-w-6xl mx-auto relative z-10">
             <div className="flex items-center gap-3 mb-10 md:mb-14">
-              <span className="inline-flex items-center rounded-full bg-primary/10 px-3.5 py-1 text-xs font-extrabold uppercase tracking-widest text-primary">
+              <span
+                className={`inline-flex items-center rounded-full ${theme.badgeBg} px-3.5 py-1 text-xs font-extrabold uppercase tracking-widest ${theme.badgeText}`}
+              >
                 System Walkthrough
               </span>
               <div className="h-px flex-1 bg-hairline" />
@@ -367,14 +478,14 @@ export default function ProjectDetail() {
               <div className="absolute left-5 md:left-1/2 top-4 bottom-4 w-px bg-black/10 md:-translate-x-1/2" />
 
               <motion.div
-                className="absolute left-5 md:left-1/2 top-4 bottom-4 w-0.5 bg-primary md:-translate-x-1/2 origin-top"
+                className={`absolute left-5 md:left-1/2 top-4 bottom-4 w-0.5 ${theme.timelineBar} md:-translate-x-1/2 origin-top`}
                 style={{ scaleY: timelineScroll }}
               />
 
               {(
                 (project.workflow || DATA[currentSlug]?.workflow || []) as any[]
               ).map((item: any, idx: number) => (
-                <TimelineItem key={idx} item={item} idx={idx} />
+                <TimelineItem key={idx} item={item} idx={idx} theme={theme} />
               ))}
             </div>
           </div>
