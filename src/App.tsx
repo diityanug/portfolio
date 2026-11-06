@@ -3,6 +3,7 @@ import { useLayoutEffect } from "react";
 import Home from "./pages/Home";
 import ProjectDetail from "./pages/ProjectDetail";
 import CareerDetail from "./pages/CareerDetail";
+import Nav from "./components/sections/Nav";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -16,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/project/:slug" element={<ProjectDetail />} />

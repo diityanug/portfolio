@@ -1,6 +1,7 @@
 import { motion, type Variants } from 'framer-motion';
 import { GraduationCap, ArrowUpRight, Certificate, Check } from '@phosphor-icons/react';
 import { fadeUp, scaleIn } from '../../utils/animations';
+import ScrollFillHeading from '../ui/ScrollFillHeading';
 import { CERTIFICATES } from '../../data';
 
 interface IssuerTheme {
@@ -229,12 +230,11 @@ const Education = () => (
         variants={fadeUp}
         className="mb-14 md:mb-20"
       >
-        <h2
+        <ScrollFillHeading
           id="education-heading"
-          className="text-[36px] sm:text-[48px] md:text-[64px] font-bold text-ink tracking-[-0.03em] leading-none uppercase"
-        >
-          Academic <br /> Background.
-        </h2>
+          line1="Academic"
+          line2="Background."
+        />
       </motion.div>
 
       {/* Academic Degrees */}

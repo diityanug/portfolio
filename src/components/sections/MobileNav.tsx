@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { ArrowLeft } from '@phosphor-icons/react';
 import { useHashScroll } from '../../hooks/useHashScroll';
 
 const NAV_LINKS = [
@@ -86,6 +87,12 @@ const MobileNav = () => {
   const isHome = pathname === '/';
   const reduceMotion = useReducedMotion();
 
+  // Detect slug pages
+  const isCareer = pathname.startsWith('/career/');
+  const isProject = pathname.startsWith('/project/');
+  const isSlug = isCareer || isProject;
+  const backHash = isCareer ? '#experience' : '#projects';
+
   // Scroll to section on hash link click
   useHashScroll();
 
@@ -154,7 +161,7 @@ const MobileNav = () => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     if (isHome) {
       e.preventDefault();
-      window.scrollTo({ top: 0 });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       if (window.location.hash) {
         window.history.replaceState(window.history.state, '', window.location.pathname);
       }
@@ -166,41 +173,93 @@ const MobileNav = () => {
       <nav
         aria-label="Main"
         className={`fixed top-0 left-0 right-0 w-full z-50 border-b shadow-xs transition-colors duration-300 motion-reduce:transition-none ${
-          isDark ? 'bg-ink text-white border-white/10' : 'bg-white text-ink border-black/5'
+          isDark ? 'bg-ink text-white border-white/10' : 'bg-white/80 backdrop-blur-xl text-ink border-black/5'
         }`}
       >
-        <div className="h-16 px-4 sm:px-6 flex items-center justify-between">
-          <Link
-            to="/"
-            onClick={handleLogoClick}
-            className={`group flex items-center gap-3 rounded-lg transition-[scale] motion-reduce:transition-none active:scale-95 ${focusRing}`}
-          >
-            <img
-              src="/logo-animated.svg"
-              alt=""
-              width={32}
-              height={32}
-              decoding="async"
-              className="w-8 h-8 transition-transform duration-300 motion-reduce:transition-none group-hover:scale-105"
-            />
-            <span className="font-bold tracking-[-0.02em] text-base uppercase">
-              Aditya Nugraha
-            </span>
-          </Link>
+        <div className="h-16 px-4 sm:px-6 relative flex items-center justify-between">
+          {/* Back button on slug page with fade animation */}
+          <div className="w-16 flex items-center z-20">
+            <AnimatePresence mode="wait">
+              {isSlug && (
+                <motion.div
+                  key="mobile-back"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.35, ease: EASE_OUT }}
+                >
+                  <Link
+                    to={{ pathname: '/', hash: backHash }}
+                    aria-label="Back to home section"
+                    className={`inline-flex items-center gap-1.5 h-10 px-2.5 -ml-2 rounded-full text-xs font-bold uppercase tracking-wider text-steel hover:text-ink active:scale-95 transition-all ${focusRing}`}
+                  >
+                    <ArrowLeft size={18} weight="bold" />
+                    <span>Back</span>
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-          <button
-            ref={buttonRef}
-            type="button"
-            onClick={() => setIsOpen((prev) => !prev)}
-            aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isOpen}
-            aria-controls={MENU_ID}
-            className={`w-10 h-10 flex items-center justify-center rounded-xl transition-[background-color,scale] motion-reduce:transition-none active:scale-90 ${
-              isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'
-            } ${focusRing}`}
+          {/* Logo with smooth left-to-center gliding animation */}
+          <motion.div
+            className="absolute top-1/2 -translate-y-1/2 z-10"
+            initial={false}
+            animate={{
+              left: isSlug ? '50%' : '16px',
+              x: isSlug ? '-50%' : '0%',
+            }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: 0.45, ease: EASE_OUT }
+            }
           >
-            <HamburgerIcon isOpen={isOpen} />
-          </button>
+            <Link
+              to="/"
+              onClick={handleLogoClick}
+              aria-label="Home"
+              className={`group flex items-center rounded-lg p-1 transition-[scale] motion-reduce:transition-none active:scale-95 ${focusRing}`}
+            >
+              <img
+                src="/logo-animated.svg"
+                alt=""
+                width={32}
+                height={32}
+                decoding="async"
+                className="w-8 h-8 transition-transform duration-300 motion-reduce:transition-none group-hover:scale-105"
+              />
+            </Link>
+          </motion.div>
+
+          {/* Hamburger button on home page with fade/scale animation */}
+          <div className="w-16 flex items-center justify-end z-20">
+            <AnimatePresence mode="wait">
+              {!isSlug && (
+                <motion.div
+                  key="mobile-hamburger"
+                  initial={{ opacity: 0, scale: 0.85, x: 8 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.85, x: 8 }}
+                  transition={{ duration: 0.3, ease: EASE_OUT }}
+                >
+                  <button
+                    ref={buttonRef}
+                    type="button"
+                    onClick={() => setIsOpen((prev) => !prev)}
+                    aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={isOpen}
+                    aria-controls={MENU_ID}
+                    className={`w-10 h-10 flex items-center justify-center rounded-xl transition-[background-color,scale] motion-reduce:transition-none active:scale-90 ${
+                      isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'
+                    } ${focusRing}`}
+                  >
+                    <HamburgerIcon isOpen={isOpen} />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </nav>
 

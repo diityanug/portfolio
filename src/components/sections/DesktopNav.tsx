@@ -1,6 +1,7 @@
-import { useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ArrowLeft } from '@phosphor-icons/react';
 
 const NAV_LINKS = [
   { id: 'profile', label: 'Profile' },
@@ -44,7 +45,15 @@ const DesktopNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const reduce = useReducedMotion();
-  const isHome = location.pathname === '/';
+  const { pathname } = location;
+  const isHome = pathname === '/';
+
+  // Detect slug pages
+  const isCareer = pathname.startsWith('/career/');
+  const isProject = pathname.startsWith('/project/');
+  const isSlug = isCareer || isProject;
+  const backHash = isCareer ? '#experience' : '#projects';
+  const backName = isCareer ? 'Experience' : 'Projects';
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -142,10 +151,38 @@ const DesktopNav = () => {
           transition-[height] duration-500 ease-out motion-reduce:transition-none
           ${isScrolled ? 'h-16' : 'h-20'}`}
       >
-        <ul className={`${listClass} justify-self-end`}>{LEFT_LINKS.map(renderLink)}</ul>
+        {/* Left Column: Nav links on Home (solid, original position), Back button on Slug */}
+        {isSlug ? (
+          <motion.div
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="justify-self-start"
+          >
+            <Link
+              to={{ pathname: '/', hash: backHash }}
+              className={`group inline-flex items-center gap-2 h-10 px-3 -ml-3 rounded-full text-xs lg:text-sm font-semibold text-steel hover:text-ink transition-colors duration-300 motion-reduce:transition-none ${focusRing}`}
+            >
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                aria-hidden
+                className="transition-transform duration-300 motion-reduce:transition-none group-hover:-translate-x-1"
+              />
+              <span>
+                Back<span className="hidden sm:inline"> to {backName}</span>
+              </span>
+            </Link>
+          </motion.div>
+        ) : (
+          <ul className={`${listClass} justify-self-end`}>
+            {LEFT_LINKS.map(renderLink)}
+          </ul>
+        )}
 
-        <a
-          href="/"
+        {/* Center: Animated Logo */}
+        <Link
+          to="/"
           aria-label="Home, back to top"
           onClick={handleLogoClick}
           className={`group justify-self-center block rounded-full ${focusRing}`}
@@ -155,9 +192,16 @@ const DesktopNav = () => {
             alt=""
             className="w-9 h-9 group-hover:scale-105 transition-transform duration-500"
           />
-        </a>
+        </Link>
 
-        <ul className={`${listClass} justify-self-start`}>{RIGHT_LINKS.map(renderLink)}</ul>
+        {/* Right Column: Nav links on Home (solid, original position), empty space on Slug */}
+        {isSlug ? (
+          <div aria-hidden="true" className="justify-self-end" />
+        ) : (
+          <ul className={`${listClass} justify-self-start`}>
+            {RIGHT_LINKS.map(renderLink)}
+          </ul>
+        )}
       </div>
     </nav>
   );

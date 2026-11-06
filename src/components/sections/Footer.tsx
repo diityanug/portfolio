@@ -182,7 +182,7 @@ const Footer = () => {
 
           <div className="flex items-center justify-between gap-4 border-t border-white/10 pt-5 lg:border-0 lg:pt-0 lg:contents">
             <p className="text-[11px] font-semibold tracking-[0.15em] lg:font-bold lg:tracking-[0.2em] uppercase text-white/70 lg:text-white lg:order-1">
-              © {YEAR} Aditya Nugraha
+              © {YEAR} Aditya Nugraha Irwan
             </p>
             <button
               type="button"

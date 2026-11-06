@@ -2,20 +2,22 @@ import { motion, type Variants } from 'framer-motion';
 import { ArrowUpRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { fadeUp, scaleIn } from '../../utils/animations';
+import ScrollFillHeading from '../ui/ScrollFillHeading';
 
 interface Project {
   slug: string;
   title: string;
   category: string;
-  overview: string;
   tags: readonly string[];
   image: string;
   imageClass: string;
   canvas: string;
-  frame: string;
-  accent: string;
+  frameGlow: string;
+  innerBorderHover: string;
+  categoryColor: string;
   titleHover: string;
-  featured?: boolean;
+  dividerBorder: string;
+  btnHover: string;
 }
 
 const PROJECTS: readonly Project[] = [
@@ -23,44 +25,50 @@ const PROJECTS: readonly Project[] = [
     slug: 'genre-game-classifier',
     title: 'Genre Game Classifier',
     category: 'Machine Learning Web App',
-    overview:
-      'An end-to-end Machine Learning web application that predicts video game genres from descriptions using modern NLP techniques, served via a robust FastAPI backend with an interactive React frontend.',
     tags: ['React', 'TypeScript', 'FastAPI', 'Python', 'NLP', 'Machine Learning'],
     image: '/Genre Game Cover.png',
-    imageClass: 'w-full h-full object-cover object-top rounded-2xl shadow-xl ring-1 ring-black/10',
-    canvas: 'bg-linear-to-br from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA]/60 border-[#FED7AA]',
-    frame: 'hover:border-[#F97316]/40 hover:shadow-[#F97316]/10',
-    accent: 'text-[#C2410C]',
+    imageClass:
+      'w-full max-w-56 h-32 sm:h-36 object-cover object-top rounded-xl shadow-md ring-1 ring-black/10',
+    canvas: 'bg-linear-to-b from-[#FFE8CC] via-[#FFF2E2] to-[#FFD8A8] border-[#FDBA74]/80',
+    frameGlow:
+      'group-hover:border-[#F97316]/60 group-hover:shadow-[0_0_40px_-6px_rgba(249,115,22,0.3)]',
+    innerBorderHover: 'group-hover:border-[#F97316]/50',
+    categoryColor: 'text-[#7C2D12]/85',
     titleHover: 'group-hover:text-[#C2410C]',
-    featured: true,
+    dividerBorder: 'border-[#C2410C]/12',
+    btnHover: 'group-hover:bg-[#EA580C]',
   },
   {
     slug: 'lenvry',
     title: 'Lenvry',
     category: 'Mobile Application',
-    overview:
-      'A comprehensive personal tracking mobile application built with React Native and Expo Router. Track fitness workouts, habit streaks, daily meals, and personal finances with an offline-first local database architecture.',
     tags: ['React Native', 'Expo', 'TypeScript', 'AsyncStorage', 'Database', 'Mobile'],
     image: '/Lenvrtt-removebg-preview.png',
-    imageClass: 'w-full h-full object-contain drop-shadow-2xl',
-    canvas: 'bg-linear-to-br from-[#F0F9FF] via-[#E0F2FE] to-[#BAE6FD]/60 border-[#BAE6FD]',
-    frame: 'hover:border-[#0284C7]/40 hover:shadow-[#0284C7]/10',
-    accent: 'text-[#0369A1]',
+    imageClass: 'h-32 sm:h-36 w-auto object-contain drop-shadow-lg',
+    canvas: 'bg-linear-to-b from-[#D8F1FF] via-[#E8F7FF] to-[#BAE6FD] border-[#7DD3FC]/80',
+    frameGlow:
+      'group-hover:border-[#0284C7]/60 group-hover:shadow-[0_0_40px_-6px_rgba(2,132,199,0.3)]',
+    innerBorderHover: 'group-hover:border-[#0284C7]/50',
+    categoryColor: 'text-[#0C4A6E]/85',
     titleHover: 'group-hover:text-[#0369A1]',
+    dividerBorder: 'border-[#0369A1]/12',
+    btnHover: 'group-hover:bg-[#0284C7]',
   },
   {
     slug: 'reka',
     title: 'REKA',
     category: 'Personal Finance Mobile App',
-    overview:
-      'A smart, private, and effortless multi-currency personal finance tracker built with React Native and Expo. Features offline SQLite storage, unified IDR & USD accounts with sub-pockets, allocation plans, and an optional Google Gemini AI receipt scanner.',
     tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Gemini AI', 'Mobile'],
     image: '/reka-cover.png',
-    imageClass: 'w-full h-full object-contain drop-shadow-2xl',
-    canvas: 'bg-linear-to-br from-[#ECFDF5] via-[#D1FAE5] to-[#A7F3D0]/60 border-[#A7F3D0]',
-    frame: 'hover:border-[#059669]/40 hover:shadow-[#059669]/10',
-    accent: 'text-[#047857]',
+    imageClass: 'h-32 sm:h-36 w-auto object-contain drop-shadow-lg',
+    canvas: 'bg-linear-to-b from-[#D1FAE5] via-[#E6FBF0] to-[#A7F3D0] border-[#6EE7B7]/80',
+    frameGlow:
+      'group-hover:border-[#059669]/60 group-hover:shadow-[0_0_40px_-6px_rgba(5,150,105,0.3)]',
+    innerBorderHover: 'group-hover:border-[#059669]/50',
+    categoryColor: 'text-[#064E3B]/85',
     titleHover: 'group-hover:text-[#047857]',
+    dividerBorder: 'border-[#047857]/12',
+    btnHover: 'group-hover:bg-[#059669]',
   },
 ];
 
@@ -79,7 +87,7 @@ const Projects = () => (
     aria-labelledby="projects-heading"
     className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
   >
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto relative z-10">
       {/* Section Header */}
       <motion.div
         initial="hidden"
@@ -88,107 +96,100 @@ const Projects = () => (
         variants={fadeUp}
         className="mb-14 md:mb-20"
       >
-        <h2
+        <ScrollFillHeading
           id="projects-heading"
-          className="text-[36px] sm:text-[48px] md:text-[64px] font-bold text-ink tracking-[-0.03em] leading-none uppercase"
-        >
-          Personal <br className="hidden md:block" />
-          Projects.
-        </h2>
+          line1="Personal"
+          line2="Projects."
+        />
       </motion.div>
 
-      {/* Projects Grid */}
+      {/* Uniform 3-Card Grid on Desktop, Compact Single Column on Mobile */}
       <motion.ul
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT}
         variants={STAGGER}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 items-stretch max-w-sm md:max-w-4xl lg:max-w-7xl mx-auto"
       >
         {PROJECTS.map((project) => {
           const titleId = `project-${project.slug}-title`;
-          const descId = `project-${project.slug}-desc`;
 
           return (
-            <motion.li
-              key={project.slug}
-              variants={scaleIn}
-              className={`h-full ${project.featured ? 'lg:col-span-2' : ''}`}
-            >
+            <motion.li key={project.slug} variants={scaleIn} className="h-full">
               <Link
                 to={`/project/${project.slug}`}
                 aria-labelledby={titleId}
-                aria-describedby={descId}
-                className="block h-full outline-none group focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] rounded-3xl md:rounded-[36px]"
+                className="block h-full outline-none group focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] rounded-[28px]"
               >
-                {/* Outer Frame */}
+                {/* Outer Frame — Static position, glows on hover */}
                 <div
-                  className={`h-full p-1.5 rounded-3xl md:rounded-[36px] bg-white border border-hairline shadow-sm transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none hover:shadow-2xl ${project.frame}`}
+                  className={`h-full p-1.5 rounded-[28px] bg-white border border-hairline shadow-sm transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none ${project.frameGlow}`}
                 >
-                  {/* Inner Canvas */}
+                  {/* Inner Card Canvas */}
                   <div
-                    className={`relative h-full overflow-hidden flex flex-col rounded-[22px] md:rounded-[30px] border p-7 sm:p-9 md:p-10 min-h-145 sm:min-h-160 ${
-                      project.featured ? 'lg:min-h-135' : 'lg:min-h-170'
-                    } ${project.canvas}`}
+                    className={`relative h-full overflow-hidden rounded-[22px] border p-5 sm:p-6 flex flex-col items-center justify-between text-center transition-colors duration-500 ${project.canvas} ${project.innerBorderHover}`}
                   >
-                    {/* Cover as background, 1:1 */}
+                    {/* Ambient hover glow overlay */}
                     <div
                       aria-hidden="true"
-                      className={`absolute -bottom-6 -right-6 sm:-bottom-10 sm:-right-10 w-[82%] sm:w-[72%] ${
-                        project.featured
-                          ? 'lg:-bottom-10 lg:right-4 lg:w-[40%]'
-                          : 'lg:w-[74%]'
-                      } aspect-square opacity-45 group-hover:opacity-80 transition-opacity duration-700 ease-out motion-reduce:transition-none pointer-events-none select-none mask-[linear-gradient(to_top,black_50%,transparent_92%)]`}
-                    >
-                      <img
-                        src={project.image}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        draggable={false}
-                        className={project.imageClass}
-                      />
+                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.6),transparent_70%)]"
+                    />
+
+                    {/* Top Row: Plain Category Text on the Left */}
+                    <div className="relative z-20 w-full flex items-center justify-start">
+                      <span
+                        className={`text-[10px] sm:text-[11px] font-extrabold uppercase tracking-[0.12em] ${project.categoryColor}`}
+                      >
+                        {project.category}
+                      </span>
                     </div>
 
-                    {/* Content */}
-                    <div className="relative z-10 flex flex-col gap-5 md:gap-6">
-                      <div className="flex items-start justify-between gap-4">
-                        <p className={`text-sm font-semibold pt-1 ${project.accent}`}>
-                          {project.category}
-                        </p>
-                        <span
-                          aria-hidden="true"
-                          className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-ink border border-black/5 shadow-xs flex items-center justify-center shrink-0 transition-colors duration-300 motion-reduce:transition-none group-hover:bg-ink group-hover:text-white"
-                        >
-                          <ArrowUpRight size={20} weight="bold" />
-                        </span>
+                    {/* Center Visual + Title */}
+                    <div className="relative z-20 mt-4 sm:mt-5 flex flex-col items-center w-full">
+                      <div
+                        aria-hidden="true"
+                        className="w-full flex items-center justify-center pointer-events-none select-none mask-[linear-gradient(to_bottom,black_65%,transparent_100%)]"
+                      >
+                        <img
+                          src={project.image}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          draggable={false}
+                          className={project.imageClass}
+                        />
                       </div>
 
-                      <div>
-                        <h3
-                          id={titleId}
-                          className={`text-[28px] sm:text-[36px] md:text-[42px] font-bold text-ink tracking-tight leading-[1.15] mb-3.5 transition-colors duration-300 motion-reduce:transition-none ${project.titleHover}`}
-                        >
-                          {project.title}
-                        </h3>
-                        <p
-                          id={descId}
-                          className="text-[#4a4a4a] text-[15px] sm:text-[16px] leading-[1.75] max-w-xl"
-                        >
-                          {project.overview}
-                        </p>
-                      </div>
+                      <h3
+                        id={titleId}
+                        className={`mt-2.5 text-lg sm:text-xl font-black uppercase tracking-[-0.02em] text-[#1f1c1d] leading-snug transition-colors duration-300 motion-reduce:transition-none ${project.titleHover}`}
+                      >
+                        {project.title}
+                      </h3>
+                    </div>
 
-                      <ul className="flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
-                          <li
-                            key={tag}
-                            className="px-3.5 py-1.5 rounded-full text-xs md:text-[13px] font-semibold bg-white/90 border border-black/5 text-ink shadow-xs"
-                          >
-                            {tag}
-                          </li>
-                        ))}
-                      </ul>
+                    {/* Centered Skill Pills */}
+                    <ul className="relative z-20 mt-4 flex flex-wrap items-center justify-center gap-1.5">
+                      {project.tags.map((tag) => (
+                        <li
+                          key={tag}
+                          className="rounded-full bg-white/85 border border-black/5 px-2.5 py-1 text-[11px] font-bold text-ink shadow-2xs"
+                        >
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Bottom Row: Dark Pill CTA */}
+                    <div
+                      className={`relative z-20 w-full mt-5 pt-4 border-t ${project.dividerBorder} flex items-center justify-end`}
+                    >
+                      <span
+                        className={`inline-flex items-center justify-center gap-1.5 rounded-full bg-[#231f20] px-5 py-2 text-xs font-semibold text-white shadow-sm transition-colors duration-300 motion-reduce:transition-none ${project.btnHover}`}
+                      >
+                        <span>View Detail</span>
+                        <ArrowUpRight size={14} weight="bold" aria-hidden />
+                      </span>
                     </div>
                   </div>
                 </div>

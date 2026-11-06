@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { motion } from 'framer-motion';
+import { useRef, type CSSProperties } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react';
 import { fadeUp, staggerContainer } from '../../utils/animations';
 
 const STACK = [
@@ -12,20 +13,19 @@ const STACK = [
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
 const Profile = () => {
-  const [filled, setFilled] = useState(false);
-  const focusRef = useRef<HTMLSpanElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const shouldReduce = useReducedMotion();
 
-  // Reset to outline when clicking outside
-  useEffect(() => {
-    if (!filled) return;
-    const handleOutside = (e: PointerEvent) => {
-      if (focusRef.current && !focusRef.current.contains(e.target as Node)) {
-        setFilled(false);
-      }
-    };
-    document.addEventListener('pointerdown', handleOutside);
-    return () => document.removeEventListener('pointerdown', handleOutside);
-  }, [filled]);
+  // Scroll progress for "about me." title fill
+  const { scrollYProgress: headingScroll } = useScroll({
+    target: headingRef,
+    offset: ['start 0.9', 'start 0.4'],
+  });
+
+  const titleClip = useTransform(headingScroll, [0, 1], [
+    'inset(0 100% 0 0)',
+    'inset(0 0% 0 0)',
+  ]);
 
   return (
     <section
@@ -50,22 +50,30 @@ const Profile = () => {
         {/* Left column: Bio & Stack */}
         <div className="lg:col-span-7 flex flex-col">
           <motion.h2
+            ref={headingRef}
             id="profile-heading"
             variants={fadeUp}
             className="text-[clamp(44px,10vw,64px)] sm:text-[clamp(52px,9vw,96px)] lg:text-[clamp(64px,6.5vw,104px)] font-semibold leading-[0.95] tracking-[-0.04em] text-[#f7f8f8] mb-10 lg:mb-12 uppercase"
           >
             <span className="block text-canvas">Something</span>
-            {/* Interactive text: click fills color */}
-            <span
-              ref={focusRef}
-              onClick={() => setFilled(true)}
-              className={`block w-fit cursor-pointer select-none [-webkit-tap-highlight-color:transparent] [-webkit-text-stroke-width:2px] transition-[color,-webkit-text-stroke-color] duration-300 motion-reduce:transition-none hover:text-[#5e6ad2] hover:[-webkit-text-stroke-color:#5e6ad2] ${
-                filled
-                  ? 'text-[#5e6ad2] [-webkit-text-stroke-color:#5e6ad2]'
-                  : 'text-transparent [-webkit-text-stroke-color:#f7f8f8]'
-              }`}
-            >
-              about me
+            {/* Scroll-driven text fill */}
+            <span className="relative block w-fit select-none">
+              {/* Wireframe outline base */}
+              <span
+                aria-hidden="true"
+                className="block text-transparent [-webkit-text-stroke-width:2px] [-webkit-text-stroke-color:#f7f8f8]"
+              >
+                about me.
+              </span>
+              {/* Dynamic filled layer swept across via scroll */}
+              <motion.span
+                style={shouldReduce ? undefined : { clipPath: titleClip }}
+                aria-hidden="true"
+                className="absolute inset-0 block text-[#5e6ad2] [-webkit-text-stroke-width:2px] [-webkit-text-stroke-color:#5e6ad2] will-change-[clip-path]"
+              >
+                about me.
+              </motion.span>
+              <span className="sr-only">about me.</span>
             </span>
           </motion.h2>
 
@@ -113,34 +121,80 @@ const Profile = () => {
           </motion.div>
         </div>
 
-        {/* Right column: Photo */}
+        {/* Right column: Profile Card */}
         <motion.div
           variants={fadeUp}
-          className="order-first lg:order-0 lg:col-span-5 w-full max-w-sm sm:max-w-md lg:max-w-none mx-auto lg:mx-0 lg:self-stretch flex"
+          className="order-first lg:order-0 lg:col-span-5 w-full max-w-sm sm:max-w-md lg:max-w-105 mx-auto lg:ml-auto flex"
         >
-          <figure className="relative w-full flex overflow-hidden rounded-[28px] border border-[#23252a] bg-[#07080a] shadow-[0_24px_60px_-20px_rgba(94,106,210,0.35)]">
-            <div className="relative w-full aspect-3/4 lg:aspect-auto lg:min-h-120">
+          <div className="relative w-full rounded-[38px] border border-[#23252a] bg-[#14161b] p-2.5 shadow-[0_24px_60px_-20px_rgba(94,106,210,0.35)]">
+            <div className="relative w-full aspect-3/4 min-h-120 sm:min-h-132 overflow-hidden rounded-[30px] bg-[#0a0b0e]">
+              {/* Portrait illustration anchored to bottom & lifted into top 82% so subject sits above text */}
               <img
                 src="/Profile_pics.webp"
-                alt=""
+                alt="Aditya Nugraha"
                 loading="lazy"
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover object-[50%_25%] lg:object-top"
+                className="absolute inset-x-0 top-0 h-[82%] w-full object-cover object-bottom select-none"
               />
-            </div>
 
-            {/* Floating label */}
-            <figcaption className="absolute left-3 right-3 bottom-3 lg:left-4 lg:right-4 lg:bottom-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#010102]/60 backdrop-blur-md px-4 py-3">
-              <span className="text-sm lg:text-base font-semibold tracking-tight text-[#f7f8f8]">
-                Aditya Nugraha
-              </span>
-              <span className="text-[11px] lg:text-xs text-[#d0d6e0] text-right leading-snug">
-                Software Engineer
-                <br />
-                Frontend Developer
-              </span>
-            </figcaption>
-          </figure>
+              {/* Smooth bottom fade blending the illustration bottom edge into card base */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[44%] bg-linear-to-t from-[#0a0b0e] from-42% via-[#0a0b0e]/85 via-72% to-transparent"
+              />
+
+              {/* Bottom content overlay */}
+              <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col justify-end p-6 sm:p-7">
+                <h3 className="text-2xl sm:text-[28px] font-bold tracking-[-0.02em] text-[#f7f8f8] leading-tight">
+                  Aditya Nugraha Irwan
+                </h3>
+
+                {/* Subtitle / Role */}
+                <p className="mt-2.5 flex items-center gap-2 sm:gap-2.5 whitespace-nowrap text-xs min-[380px]:text-[13px] sm:text-sm font-normal leading-relaxed text-[#b4bcd0]">
+                  <span>Software Engineer</span>
+                  <span aria-hidden="true" className="text-[#5e6ad2] select-none">
+                    |
+                  </span>
+                  <span>Frontend Development</span>
+                </p>
+
+                {/* Actions row: LinkedIn + GitHub icons on the left, Follow button on the right */}
+                <div className="mt-6 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <a
+                      href="https://linkedin.com/in/diityanug"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn (opens in new tab)"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#23252a] bg-[#14161b]/90 text-[#d0d6e0] transition-[color,border-color,background-color,transform] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:border-[#5e6ad2] hover:bg-[#5e6ad2]/15 hover:text-[#f7f8f8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5e6ad2]"
+                    >
+                      <LinkedinLogo size={22} weight="regular" aria-hidden />
+                    </a>
+
+                    <a
+                      href="https://github.com/diityanug"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="GitHub (opens in new tab)"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#23252a] bg-[#14161b]/90 text-[#d0d6e0] transition-[color,border-color,background-color,transform] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:border-[#5e6ad2] hover:bg-[#5e6ad2]/15 hover:text-[#f7f8f8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5e6ad2]"
+                    >
+                      <GithubLogo size={22} weight="regular" aria-hidden />
+                    </a>
+                  </div>
+
+                  <a
+                    href="https://www.instagram.com/diityanug"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-full bg-[#5e6ad2] px-7 py-2.5 text-sm sm:text-[15px] font-semibold tracking-tight text-[#f7f8f8] shadow-[0_8px_24px_-4px_rgba(94,106,210,0.55)] transition-[background-color,transform,box-shadow] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:bg-[#6e7ae2] hover:shadow-[0_12px_28px_-4px_rgba(94,106,210,0.7)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8f98ff]"
+                  >
+                    Follow
+                    <span className="sr-only"> on Instagram (opens in new tab)</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
     </section>

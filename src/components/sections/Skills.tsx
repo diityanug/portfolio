@@ -33,6 +33,7 @@ import {
 import { TbBrandFramerMotion } from 'react-icons/tb';
 import type { IconType } from 'react-icons';
 import { fadeUp, scaleIn, staggerContainer } from '../../utils/animations';
+import ScrollFillHeading from '../ui/ScrollFillHeading';
 
 interface Skill {
   name: string;
@@ -292,13 +293,11 @@ const Skills = () => (
         variants={fadeUp}
         className="mb-14 md:mb-20"
       >
-        <h2
+        <ScrollFillHeading
           id="skills-heading"
-          className="text-[36px] sm:text-[48px] md:text-[64px] font-bold text-ink tracking-[-0.03em] leading-none uppercase"
-        >
-          Technical <br />
-          Skills.
-        </h2>
+          line1="Technical"
+          line2="Skills."
+        />
       </motion.div>
 
       {/* Bento Grid */}

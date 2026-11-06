@@ -1,16 +1,15 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from '@phosphor-icons/react';
+import { ArrowUpRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { fadeUp, scaleIn } from '../../utils/animations';
+import ScrollFillHeading from '../ui/ScrollFillHeading';
 import LGSinarmasLogo from '../../assets/LG_Sinarmas_Logo_Vector.svg';
 
 const EXPERIENCE = {
   title: 'Software Engineer',
-  place: 'LG Sinarmas',
   year: '2025 — Present',
   slug: 'software-engineer-lg',
   logo: LGSinarmasLogo,
-  desc: 'Part of GDC Indonesia - currently working on APC modeling equipment and as a system administrator for CSR on FDC. Additionally, working on internal projects such as HRIS, LMS Management, and a Job portal.',
   tags: ['React', 'TypeScript', 'AWS S3', 'Automation', 'Oracle DB'],
 } as const;
 
@@ -38,17 +37,15 @@ const Experience = () => {
           variants={fadeUp}
           className="mb-14 md:mb-20"
         >
-          <h2
+          <ScrollFillHeading
             id="experience-heading"
-            className="text-[36px] sm:text-[48px] md:text-[64px] font-bold text-ink tracking-[-0.03em] leading-none uppercase"
-          >
-            Professional <br className="hidden md:block" />
-            Experience.
-          </h2>
+            line1="Professional"
+            line2="Experience."
+          />
         </motion.div>
 
-        {/* Experience Bento Card */}
-        <div className="max-w-5xl mx-auto">
+        {/* Experience Card */}
+        <div className="max-w-md md:max-w-3xl mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -58,105 +55,58 @@ const Experience = () => {
           >
             <Link
               to={`/career/${item.slug}`}
-              className={`group block h-full rounded-3xl md:rounded-[36px] ${focusRing}`}
+              className={`group block h-full rounded-4xl md:rounded-[38px] ${focusRing}`}
             >
-              {/* Outer Frame */}
-              <div className="p-1.5 rounded-3xl md:rounded-[36px] bg-white border border-hairline shadow-sm transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none group-hover:border-brand/40 group-hover:shadow-2xl group-hover:shadow-[#BC1237]/10">
-                {/* Inner Bento Canvas */}
-                <div className="bg-linear-to-br from-[#FFF5F6] via-[#FFEBEF] to-[#FED7E2]/50 rounded-[22px] md:rounded-[30px] p-7 sm:p-9 md:p-12 relative overflow-hidden border border-[#FECDD3] flex flex-col justify-between min-h-95 md:min-h-105">
-                  {/* Ambient glow */}
+              {/* Outer Frame — Static position, glows on hover */}
+              <div className="p-1.5 rounded-4xl md:rounded-[38px] bg-white border border-hairline shadow-sm transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none group-hover:border-[#BC1237]/60 group-hover:shadow-[0_0_50px_-6px_rgba(188,18,55,0.32)]">
+                {/* Inner Card Canvas */}
+                <div className="relative overflow-hidden rounded-[26px] md:rounded-[32px] border border-[#FDA4AF]/80 bg-linear-to-b from-[#FFD4DF] via-[#FFE3EA] to-[#FFC4D4] px-7 py-8 sm:px-10 sm:py-11 md:px-14 md:py-12 flex flex-col items-center text-center transition-colors duration-500 group-hover:border-[#BC1237]/50">
+                  {/* Ambient hover glow overlay */}
                   <div
                     aria-hidden="true"
-                    className="absolute top-0 right-0 w-96 h-96 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700 motion-reduce:transition-none bg-[radial-gradient(circle_closest-side,rgba(188,18,55,0.10),transparent)]"
+                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.6),transparent_70%)]"
                   />
 
-                  {/* Mobile watermark */}
-                  <div
-                    aria-hidden="true"
-                    className="md:hidden absolute inset-y-0 right-0 w-16 flex items-center justify-center pointer-events-none"
-                  >
+                  {/* Top Row: Plain Year Text on the Left */}
+                  <div className="relative z-20 w-full flex items-center justify-start">
+                    <span className="text-xs sm:text-[13px] font-extrabold uppercase tracking-[0.14em] text-[#4a202a]/85">
+                      {item.year}
+                    </span>
+                  </div>
+
+                  {/* Center Visual + Title */}
+                  <div className="relative z-20 mt-10 sm:mt-14 flex flex-col items-center">
                     <img
                       src={item.logo}
-                      alt=""
+                      alt="LG Sinarmas"
                       loading="lazy"
                       decoding="async"
                       draggable={false}
-                      className="w-110 max-w-none shrink-0 h-auto rotate-90 object-contain opacity-10 select-none"
+                      className="w-52 sm:w-68 md:w-76 h-auto object-contain select-none drop-shadow-[0_8px_18px_rgba(188,18,55,0.10)]"
                     />
-                  </div>
 
-                  {/* Desktop watermark */}
-                  <img
-                    src={item.logo}
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    decoding="async"
-                    draggable={false}
-                    className="hidden md:block absolute -bottom-5 -right-2 w-130 h-auto object-contain contrast-125 opacity-25 group-hover:opacity-50 pointer-events-none select-none transition-opacity duration-700 ease-out motion-reduce:transition-none"
-                  />
-
-                  {/* Top Row: Brand Avatar + Details & Action Circle */}
-                  <div className="relative z-10 flex items-center justify-between gap-4 mb-8 sm:mb-10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white border border-black/5 shadow-xs p-2.5 flex items-center justify-center shrink-0 transition-[scale] duration-300 motion-reduce:transition-none group-hover:scale-105">
-                        <img
-                          src={item.logo}
-                          alt=""
-                          width={64}
-                          height={64}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-
-                      <div>
-                        <p className="text-lg sm:text-xl font-bold text-ink tracking-tight">
-                          {item.place}
-                        </p>
-                        <span className="text-steel text-xs sm:text-sm font-semibold">
-                          {item.year}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white text-ink border border-black/5 shadow-xs flex items-center justify-center shrink-0 transition-[background-color,color,rotate] duration-300 motion-reduce:transition-none group-hover:bg-ink group-hover:text-white group-hover:rotate-45">
-                      <ArrowRight size={20} weight="bold" aria-hidden />
-                    </div>
-                  </div>
-
-                  {/* Middle Row: Title & Overview */}
-                  <div className="relative z-10 max-w-2xl mb-8 sm:mb-10">
-                    <h3 className="text-[28px] sm:text-[36px] md:text-[42px] font-bold text-ink tracking-tight leading-[1.15] mb-3.5 transition-colors duration-300 motion-reduce:transition-none group-hover:text-brand">
+                    <h3 className="mt-5 sm:mt-6 whitespace-nowrap text-[clamp(20px,6vw,28px)] sm:text-[34px] md:text-[40px] font-black uppercase tracking-[-0.02em] text-[#1f1c1d] leading-[1.08] transition-colors duration-300 motion-reduce:transition-none group-hover:text-[#BC1237]">
                       {item.title}
                     </h3>
-                    <p className="text-[#4a4a4a] text-[15px] sm:text-[16px] md:text-[17px] leading-[1.75] font-normal">
-                      {item.desc}
-                    </p>
                   </div>
 
-                  {/* Bottom Row: Tech Stack Pills & Action Link */}
-                  <div className="relative z-10 pt-6 border-t border-black/8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-4 mt-auto">
-                    <ul className="flex flex-wrap gap-2">
-                      {item.tags.map((tag) => (
-                        <li
-                          key={tag}
-                          className="px-3.5 py-1.5 rounded-full text-xs md:text-[13px] font-semibold bg-white/90 border border-black/5 text-ink shadow-xs transition-colors duration-300 motion-reduce:transition-none group-hover:border-black/15"
-                        >
-                          {tag}
-                        </li>
-                      ))}
-                    </ul>
+                  {/* Centered Skills Pills */}
+                  <ul className="relative z-20 mt-7 sm:mt-8 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 max-w-75 sm:max-w-none mx-auto">
+                    {item.tags.map((tag) => (
+                      <li
+                        key={tag}
+                        className="rounded-full bg-white/85 border border-black/5 px-4 py-1.5 text-xs sm:text-[13px] font-bold text-ink shadow-2xs"
+                      >
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
 
-                    <span className="inline-flex items-center gap-2 text-xs md:text-[13px] font-bold uppercase tracking-wider text-ink shrink-0 self-end sm:self-auto transition-colors duration-300 motion-reduce:transition-none group-hover:text-brand">
-                      View Detail
-                      <ArrowRight
-                        size={14}
-                        weight="bold"
-                        aria-hidden
-                        className="transition-[translate] duration-300 motion-reduce:transition-none group-hover:translate-x-1.5"
-                      />
+                  {/* Bottom Row: Dark Pill CTA on the Right */}
+                  <div className="relative z-20 w-full mt-10 sm:mt-12 pt-6 border-t border-[#BC1237]/12 flex items-center justify-end">
+                    <span className="inline-flex items-center justify-center gap-2 rounded-full bg-[#231f20] px-7 sm:px-8 py-3 text-xs sm:text-sm font-semibold text-white shadow-md transition-colors duration-300 motion-reduce:transition-none group-hover:bg-[#BC1237]">
+                      <span>View Detail</span>
+                      <ArrowUpRight size={16} weight="bold" aria-hidden />
                     </span>
                   </div>
                 </div>
