@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, CaretLeft, CaretRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
@@ -12,14 +12,11 @@ interface Project {
   category: string;
   tags: readonly string[];
   image: string;
-  imageClass: string;
-  canvas: string;
-  frameGlow: string;
-  spotlightBorder: string;
-  innerBorderHover: string;
+  type: 'web' | 'mobile';
+  visualBg: string;
+  visualBorder: string;
+  glowColor: string;
   categoryColor: string;
-  titleHover: string;
-  dividerBorder: string;
   btnHover: string;
 }
 
@@ -28,65 +25,68 @@ const PROJECTS: readonly Project[] = [
     slug: 'genre-game-classifier',
     title: 'Genre Game Classifier',
     category: 'Machine Learning Web App',
-    tags: ['React', 'TypeScript', 'FastAPI', 'Python', 'NLP', 'Machine Learning'],
+    tags: ['React', 'TypeScript', 'FastAPI', 'Python', 'Scikit-Learn', 'spaCy'],
     image: '/Genre Game Cover.png',
-    imageClass:
-      'w-full max-w-56 h-32 sm:h-36 object-cover object-top rounded-xl shadow-md ring-1 ring-black/10',
-    canvas: 'bg-linear-to-b from-[#FFE8CC] via-[#FFF2E2] to-[#FFD8A8] border-[#FDBA74]/80',
-    frameGlow:
-      'group-hover:border-[#F97316]/60 group-hover:shadow-[0_0_40px_-6px_rgba(249,115,22,0.3)]',
-    spotlightBorder: 'rgba(249, 115, 22, 0.3)',
-    innerBorderHover: 'group-hover:border-[#F97316]/50',
-    categoryColor: 'text-[#7C2D12]/85',
-    titleHover: 'group-hover:text-[#C2410C]',
-    dividerBorder: 'border-[#C2410C]/12',
-    btnHover: 'group-hover:bg-[#EA580C]',
+    type: 'web',
+    visualBg: 'bg-linear-to-br from-[#FFF7ED] via-[#FFEDD5]/60 to-[#FED7AA]/35',
+    visualBorder: 'border-orange-200/60',
+    glowColor: 'rgba(249, 115, 22, 0.18)',
+    categoryColor: 'text-[#C2410C]',
+    btnHover: 'hover:bg-[#EA580C]',
   },
   {
     slug: 'lenvry',
     title: 'Lenvry',
-    category: 'Mobile Application',
-    tags: ['React Native', 'Expo', 'TypeScript', 'AsyncStorage', 'Database', 'Mobile'],
+    category: 'Personal Life OS Mobile App',
+    tags: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'SQLite', 'Zod'],
     image: '/Lenvrtt-removebg-preview.png',
-    imageClass: 'h-32 sm:h-36 w-auto object-contain drop-shadow-lg',
-    canvas: 'bg-linear-to-b from-[#D8F1FF] via-[#E8F7FF] to-[#BAE6FD] border-[#7DD3FC]/80',
-    frameGlow:
-      'group-hover:border-[#0284C7]/60 group-hover:shadow-[0_0_40px_-6px_rgba(2,132,199,0.3)]',
-    spotlightBorder: 'rgba(2, 132, 199, 0.3)',
-    innerBorderHover: 'group-hover:border-[#0284C7]/50',
-    categoryColor: 'text-[#0C4A6E]/85',
-    titleHover: 'group-hover:text-[#0369A1]',
-    dividerBorder: 'border-[#0369A1]/12',
-    btnHover: 'group-hover:bg-[#0284C7]',
+    type: 'mobile',
+    visualBg: 'bg-linear-to-br from-[#F0F9FF] via-[#E0F2FE]/60 to-[#BAE6FD]/35',
+    visualBorder: 'border-sky-200/60',
+    glowColor: 'rgba(2, 132, 199, 0.18)',
+    categoryColor: 'text-[#0369A1]',
+    btnHover: 'hover:bg-[#0284C7]',
   },
   {
     slug: 'reka',
     title: 'REKA',
     category: 'Personal Finance Mobile App',
-    tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Gemini AI', 'Mobile'],
+    tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Gemini AI', 'Biometric'],
     image: '/reka-cover.png',
-    imageClass: 'h-32 sm:h-36 w-auto object-contain drop-shadow-lg',
-    canvas: 'bg-linear-to-b from-[#D1FAE5] via-[#E6FBF0] to-[#A7F3D0] border-[#6EE7B7]/80',
-    frameGlow:
-      'group-hover:border-[#059669]/60 group-hover:shadow-[0_0_40px_-6px_rgba(5,150,105,0.3)]',
-    spotlightBorder: 'rgba(5, 150, 105, 0.28)',
-    innerBorderHover: 'group-hover:border-[#059669]/50',
-    categoryColor: 'text-[#064E3B]/85',
-    titleHover: 'group-hover:text-[#047857]',
-    dividerBorder: 'border-[#047857]/12',
-    btnHover: 'group-hover:bg-[#059669]',
+    type: 'mobile',
+    visualBg: 'bg-linear-to-br from-[#ECFDF5] via-[#D1FAE5]/60 to-[#A7F3D0]/35',
+    visualBorder: 'border-emerald-200/60',
+    glowColor: 'rgba(5, 150, 105, 0.18)',
+    categoryColor: 'text-[#047857]',
+    btnHover: 'hover:bg-[#059669]',
   },
 ];
+
+const STORAGE_KEY = 'portfolio_active_project_idx';
+
+const getInitialIndex = (): number => {
+  try {
+    const saved = sessionStorage.getItem(STORAGE_KEY);
+    if (saved !== null) {
+      const parsed = parseInt(saved, 10);
+      if (!isNaN(parsed) && parsed >= 0 && parsed < PROJECTS.length) {
+        return parsed;
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return 1; // Default to center card (Lenvry)
+};
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
 const Projects = () => {
-  // Start with center item (index 1 = Lenvry)
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState<number>(getInitialIndex);
   const containerRef = useRef<HTMLDivElement>(null);
   const isScrollingByCode = useRef(false);
 
-  // Scroll center card into container view
+  // Scroll target card to horizontal center
   const scrollToCard = useCallback((index: number, smooth = true) => {
     const container = containerRef.current;
     if (!container) return;
@@ -99,7 +99,7 @@ const Projects = () => {
 
     container.scrollTo({
       left: Math.max(0, scrollTarget),
-      behavior: smooth ? 'smooth' : 'auto',
+      behavior: smooth ? 'smooth' : 'instant',
     });
 
     setTimeout(() => {
@@ -107,7 +107,7 @@ const Projects = () => {
     }, 450);
   }, []);
 
-  // Sync scroll position to detect which card is currently centered
+  // Detect which card is currently centered during scroll
   const handleScroll = useCallback(() => {
     if (isScrollingByCode.current) return;
     const container = containerRef.current;
@@ -129,43 +129,67 @@ const Projects = () => {
 
     if (closestIndex !== activeIndex) {
       setActiveIndex(closestIndex);
+      try {
+        sessionStorage.setItem(STORAGE_KEY, closestIndex.toString());
+      } catch {
+        // ignore
+      }
     }
   }, [activeIndex]);
 
-  // Center initial active card on mount
+  // Synchronous positioning on mount: sets scrollLeft BEFORE browser paints (0ms jump)
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const initIdx = getInitialIndex();
+    const card = container.children[initIdx] as HTMLElement;
+    if (card) {
+      const scrollTarget =
+        card.offsetLeft - container.offsetWidth / 2 + card.offsetWidth / 2;
+      container.scrollLeft = Math.max(0, scrollTarget);
+    }
+  }, []);
+
+  // Ensure alignment after layout stabilizes
   useEffect(() => {
-    scrollToCard(1, false);
+    const initIdx = getInitialIndex();
+    scrollToCard(initIdx, false);
   }, [scrollToCard]);
 
-  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-    e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  // Maintain center alignment on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      scrollToCard(activeIndex, false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [activeIndex, scrollToCard]);
+
+  const updateActiveIndex = (newIdx: number) => {
+    const clamped = Math.max(0, Math.min(PROJECTS.length - 1, newIdx));
+    setActiveIndex(clamped);
+    scrollToCard(clamped, true);
+    try {
+      sessionStorage.setItem(STORAGE_KEY, clamped.toString());
+    } catch {
+      // ignore
+    }
   };
 
-  const handlePrev = () => {
-    const nextIdx = Math.max(0, activeIndex - 1);
-    setActiveIndex(nextIdx);
-    scrollToCard(nextIdx);
-  };
-
-  const handleNext = () => {
-    const nextIdx = Math.min(PROJECTS.length - 1, activeIndex + 1);
-    setActiveIndex(nextIdx);
-    scrollToCard(nextIdx);
-  };
+  const handlePrev = () => updateActiveIndex(activeIndex - 1);
+  const handleNext = () => updateActiveIndex(activeIndex + 1);
 
   return (
     <section
       id="projects"
       tabIndex={-1}
       aria-labelledby="projects-heading"
-      className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
+      className="pt-20 md:pt-32 pb-24 md:pb-36 bg-[#FAFAFA] relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
     >
       <BackgroundShape
         initialIndex={2}
-        strokeClassName="stroke-primary/[0.08]"
-        className="-left-[28vw] top-[8vh] w-[72vw] h-[72vw] md:-left-[15vw] md:top-[6vh] md:w-[48vw] md:h-[48vw]"
+        strokeClassName="stroke-primary/8"
+        className="left-[-28vw] top-[8vh] w-[72vw] h-[72vw] md:left-[-15vw] md:top-[6vh] md:w-[48vw] md:h-[48vw]"
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -175,187 +199,195 @@ const Projects = () => {
           whileInView="visible"
           viewport={VIEWPORT}
           variants={fadeUp}
-          className="mb-10 md:mb-14 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6"
+          className="mb-8 md:mb-12 px-4 md:px-8"
         >
           <ScrollFillHeading
             id="projects-heading"
             line1="Personal"
             line2="Projects."
           />
-
-          {/* Carousel Slider Controls */}
-          <div className="flex items-center gap-3 self-end sm:self-auto pb-1 sm:pb-2">
-            <button
-              type="button"
-              onClick={handlePrev}
-              disabled={activeIndex === 0}
-              aria-label="Previous project"
-              className="w-11 h-11 rounded-full border border-black/10 bg-white/90 shadow-2xs flex items-center justify-center text-ink transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-ink hover:enabled:text-white hover:enabled:border-ink active:enabled:scale-95"
-            >
-              <CaretLeft size={20} weight="bold" />
-            </button>
-            <div className="flex items-center gap-1.5 px-2">
-              {PROJECTS.map((p, idx) => (
-                <button
-                  key={p.slug}
-                  type="button"
-                  onClick={() => {
-                    setActiveIndex(idx);
-                    scrollToCard(idx);
-                  }}
-                  aria-label={`Go to project ${idx + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    idx === activeIndex
-                      ? 'w-6 bg-ink'
-                      : 'w-2 bg-black/20 hover:bg-black/40'
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={handleNext}
-              disabled={activeIndex === PROJECTS.length - 1}
-              aria-label="Next project"
-              className="w-11 h-11 rounded-full border border-black/10 bg-white/90 shadow-2xs flex items-center justify-center text-ink transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-ink hover:enabled:text-white hover:enabled:border-ink active:enabled:scale-95"
-            >
-              <CaretRight size={20} weight="bold" />
-            </button>
-          </div>
         </motion.div>
 
-        {/* 3D Coverflow / Center Carousel Container */}
+        {/* Carousel Container (Native touch swipe on mobile, smooth scroll, zero jump on refresh) */}
         <div
           ref={containerRef}
           onScroll={handleScroll}
-          className="relative flex items-center gap-5 sm:gap-7 lg:gap-8 overflow-x-auto py-8 sm:py-10 px-[10vw] sm:px-[18vw] lg:px-[22vw] snap-x snap-mandatory scroll-smooth no-scrollbar"
+          className="relative flex items-center gap-3.5 sm:gap-4 lg:gap-6 overflow-x-auto py-6 sm:py-10 px-[11vw] sm:px-[18vw] lg:px-[calc((100vw-420px)/2)] snap-x snap-mandatory scroll-smooth no-scrollbar"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
           }}
         >
           {PROJECTS.map((project, idx) => {
             const isCenter = idx === activeIndex;
-            const titleId = `project-${project.slug}-title`;
 
             return (
               <div
                 key={project.slug}
                 onClick={() => {
                   if (!isCenter) {
-                    setActiveIndex(idx);
-                    scrollToCard(idx);
+                    updateActiveIndex(idx);
                   }
                 }}
-                className={`snap-center shrink-0 w-[82vw] sm:w-[380px] lg:w-[410px] transition-all duration-500 ease-out cursor-pointer ${
+                className={`snap-center shrink-0 w-[78vw] sm:w-90 lg:w-105 transition-all duration-500 ease-out select-none ${
                   isCenter
-                    ? 'scale-100 opacity-100 brightness-100 z-20'
-                    : 'scale-[0.88] sm:scale-90 opacity-40 brightness-60 hover:opacity-75 hover:brightness-85 z-10'
+                    ? 'scale-100 opacity-100 brightness-100 z-20 cursor-default'
+                    : 'scale-[0.88] sm:scale-[0.86] opacity-35 brightness-50 hover:opacity-60 hover:brightness-75 z-10 cursor-pointer'
                 }`}
                 style={{
                   transformOrigin: 'center center',
                 }}
               >
-                <Link
-                  to={`/project/${project.slug}`}
-                  aria-labelledby={titleId}
-                  tabIndex={isCenter ? 0 : -1}
-                  className="block h-full outline-none group focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] rounded-[28px]"
+                {/* Portrait Card Container (Memanjang ke Bawah) */}
+                <div
+                  className={`group relative h-full rounded-[26px] sm:rounded-4xl bg-white border transition-all duration-500 overflow-hidden flex flex-col justify-between ${
+                    isCenter
+                      ? 'border-black/10 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14)] ring-1 ring-black/5'
+                      : 'border-hairline shadow-xs'
+                  }`}
                 >
-                  {/* Outer Frame — Glows & Highlights */}
+                  {/* Top Visual Area (Spacious & Clean) */}
                   <div
-                    onMouseMove={handleCardMouseMove}
-                    className={`relative h-full p-1.5 rounded-[28px] bg-white border transition-all duration-500 ${
-                      isCenter
-                        ? `border-black/10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.14)] ${project.frameGlow}`
-                        : 'border-hairline shadow-sm'
-                    }`}
+                    className={`w-[calc(100%-16px)] sm:w-[calc(100%-20px)] mx-auto mt-2 sm:mt-2.5 rounded-[20px] sm:rounded-[26px] border ${project.visualBorder} ${project.visualBg} flex items-center justify-center p-3.5 sm:p-5 h-47.5 sm:h-56.25 lg:h-61.25 relative overflow-hidden transition-all duration-500 shrink-0`}
                   >
-                    {/* Outer Cursor Border Spotlight Glow */}
+                    {/* Ambient Glow */}
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[28px]"
+                      className="absolute inset-0 opacity-40 mix-blend-multiply pointer-events-none"
                       style={{
-                        background: `radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 35%), ${project.spotlightBorder}, transparent 70%)`,
+                        background: `radial-gradient(circle at 50% 50%, ${project.glowColor}, transparent 70%)`,
                       }}
                     />
 
-                    {/* Inner Card Canvas */}
-                    <div
-                      className={`relative h-full overflow-hidden rounded-[22px] border p-5 sm:p-6 flex flex-col items-center justify-between text-center transition-colors duration-500 ${project.canvas} ${project.innerBorderHover}`}
-                    >
-                      {/* Dynamic Cursor Spotlight Glow overlay */}
-                      <div
-                        aria-hidden="true"
-                        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-[inherit]"
-                        style={{
-                          background:
-                            'radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 35%), rgba(255,255,255,0.65), transparent 75%)',
-                        }}
-                      />
-
-                      {/* Top Row: Plain Category Text on the Left */}
-                      <div className="relative z-20 w-full flex items-center justify-start">
-                        <span
-                          className={`text-[10px] sm:text-[11px] font-extrabold uppercase tracking-[0.12em] ${project.categoryColor}`}
-                        >
-                          {project.category}
-                        </span>
-                      </div>
-
-                      {/* Center Visual + Title */}
-                      <div className="relative z-20 mt-4 sm:mt-5 flex flex-col items-center w-full">
-                        <div
-                          aria-hidden="true"
-                          className="w-full flex items-center justify-center pointer-events-none select-none mask-[linear-gradient(to_bottom,black_65%,transparent_100%)]"
-                        >
-                          <img
-                            src={project.image}
-                            alt=""
-                            loading="lazy"
-                            decoding="async"
-                            draggable={false}
-                            className={project.imageClass}
-                          />
+                    {project.type === 'web' ? (
+                      /* Web App Minimalist Browser Window Frame */
+                      <div className="relative z-10 w-full max-w-57.5 sm:max-w-67.5 rounded-xl overflow-hidden shadow-lg border border-black/10 bg-white transition-transform duration-500 group-hover:scale-[1.03]">
+                        <div className="h-5 bg-black/4 border-b border-black/5 px-2 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-black/20" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-black/20" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-black/20" />
                         </div>
-
-                        <h3
-                          id={titleId}
-                          className={`mt-2.5 text-lg sm:text-xl font-black uppercase tracking-[-0.02em] text-[#1f1c1d] leading-snug transition-colors duration-300 ${project.titleHover}`}
-                        >
-                          {project.title}
-                        </h3>
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          loading="eager"
+                          decoding="async"
+                          draggable={false}
+                          className="w-full aspect-16/10 object-cover object-top"
+                        />
                       </div>
+                    ) : (
+                      /* Mobile App Floating Phone Mockup */
+                      <div className="relative z-10 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          loading="eager"
+                          decoding="async"
+                          draggable={false}
+                          className="h-36 sm:h-44 w-auto max-w-32.5 sm:max-w-40 object-contain drop-shadow-xl"
+                        />
+                      </div>
+                    )}
+                  </div>
 
-                      {/* Centered Skill Pills */}
-                      <ul className="relative z-20 mt-4 flex flex-wrap items-center justify-center gap-1.5">
+                  {/* Bottom Content Area */}
+                  <div className="flex-1 flex flex-col justify-between p-4.5 sm:p-5 lg:p-6 pt-4 sm:pt-5">
+                    <div>
+                      {/* Category Label */}
+                      <span
+                        className={`text-[10px] sm:text-[11px] font-black uppercase tracking-[0.14em] ${project.categoryColor} mb-2 block`}
+                      >
+                        {project.category}
+                      </span>
+
+                      {/* Title */}
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-ink uppercase tracking-[-0.03em] leading-tight mb-3 group-hover:text-primary transition-colors duration-300">
+                        {project.title}
+                      </h3>
+
+                      {/* Architectural Tech Stack Tags */}
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5">
                         {project.tags.map((tag) => (
-                          <li
+                          <span
                             key={tag}
-                            className="rounded-full bg-white/85 border border-black/5 px-2.5 py-1 text-[11px] font-bold text-ink shadow-2xs"
+                            className="rounded-md bg-black/4 px-2.5 py-1 text-[11px] sm:text-xs font-medium text-ink/75"
                           >
                             {tag}
-                          </li>
+                          </span>
                         ))}
-                      </ul>
-
-                      {/* Bottom Row: Dark Pill CTA */}
-                      <div
-                        className={`relative z-20 w-full mt-5 pt-4 border-t ${project.dividerBorder} flex items-center justify-end`}
-                      >
-                        <span
-                          className={`inline-flex items-center justify-center gap-1.5 rounded-full bg-[#231f20] px-5 py-2 text-xs font-semibold text-white shadow-sm transition-colors duration-300 ${project.btnHover}`}
-                        >
-                          <span>View Detail</span>
-                          <ArrowUpRight size={14} weight="bold" aria-hidden />
-                        </span>
                       </div>
                     </div>
+
+                    {/* Bottom Action Row */}
+                    <div className="pt-3 sm:pt-3.5 border-t border-black/6 flex items-center justify-end">
+                      <Link
+                        to={`/project/${project.slug}`}
+                        tabIndex={isCenter ? 0 : -1}
+                        aria-label={`View detail for ${project.title}`}
+                        onClick={(e) => {
+                          if (!isCenter) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className={`inline-flex items-center gap-1.5 rounded-full bg-[#18181B] px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-semibold text-white shadow-sm transition-all duration-300 ${project.btnHover} hover:shadow-md ${
+                          isCenter ? 'cursor-pointer' : 'pointer-events-none'
+                        } group/btn`}
+                      >
+                        <span>View Detail</span>
+                        <ArrowUpRight
+                          size={14}
+                          weight="bold"
+                          aria-hidden
+                          className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+                        />
+                      </Link>
+                    </div>
                   </div>
-                </Link>
+                </div>
               </div>
             );
           })}
+        </div>
+
+        {/* Carousel Navigation Controls (Arrows + Dot Indicators) */}
+        <div className="mt-4 sm:mt-6 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={handlePrev}
+            disabled={activeIndex === 0}
+            aria-label="Previous project"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-black/10 bg-white/90 shadow-2xs flex items-center justify-center text-ink transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-ink hover:enabled:text-white hover:enabled:border-ink active:enabled:scale-95 cursor-pointer"
+          >
+            <CaretLeft size={18} weight="bold" />
+          </button>
+
+          <div className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-white/80 border border-black/5 shadow-2xs">
+            {PROJECTS.map((p, idx) => (
+              <button
+                key={p.slug}
+                type="button"
+                onClick={() => updateActiveIndex(idx)}
+                aria-label={`Go to project ${idx + 1}`}
+                className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === activeIndex
+                    ? 'w-5 sm:w-6 bg-ink'
+                    : 'w-1.5 sm:w-2 bg-black/20 hover:bg-black/40'
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleNext}
+            disabled={activeIndex === PROJECTS.length - 1}
+            aria-label="Next project"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-black/10 bg-white/90 shadow-2xs flex items-center justify-center text-ink transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-ink hover:enabled:text-white hover:enabled:border-ink active:enabled:scale-95 cursor-pointer"
+          >
+            <CaretRight size={18} weight="bold" />
+          </button>
         </div>
       </div>
     </section>

@@ -1,15 +1,8 @@
-import { useRef, type CSSProperties } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react';
 import { fadeUp, staggerContainer } from '../../utils/animations';
 import BackgroundShape from '../ui/BackgroundShape';
-
-const STACK = [
-  { name: 'TypeScript', color: '#3b82f6' },
-  { name: 'React', color: '#61dafb' },
-  { name: 'Python', color: '#ffd43b' },
-  { name: 'FastAPI', color: '#14b8a6' },
-] as const;
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
@@ -103,29 +96,6 @@ const Profile = () => {
               I’m actually good at them is another story. I always enjoy trying new things
               and simply having fun with whatever I’m doing.
             </p>
-
-            <div className="mt-12">
-              <div className="flex items-center gap-4 mb-5">
-                <h3 className="text-sm font-medium text-[#8a8f98] shrink-0">Core Stack</h3>
-                <div aria-hidden="true" className="h-px flex-1 bg-[#23252a]" />
-              </div>
-
-              <ul className="flex flex-wrap gap-3">
-                {STACK.map(({ name, color }) => (
-                  <li
-                    key={name}
-                    style={{ '--c': color } as CSSProperties}
-                    className="inline-flex items-center gap-2.5 rounded-full border border-[#23252a] bg-[#0f1011] px-4 py-2.5 text-sm md:text-base font-medium tracking-tight text-[#d0d6e0] cursor-default transition-[translate,color,border-color,background-color] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:text-[#f7f8f8] hover:border-(--c) hover:bg-[color-mix(in_srgb,var(--c)_12%,#0f1011)]"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="h-2 w-2 rounded-full bg-(--c) shadow-[0_0_10px_var(--c)]"
-                    />
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </motion.div>
         </div>
 

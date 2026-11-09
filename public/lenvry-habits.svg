@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="lenvryBg2" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#091312"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#0B131E"/>
+    </linearGradient>
+    <filter id="darkShadow2" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#lenvryBg2)"/>
+  <circle cx="670" cy="100" r="150" fill="#10B981" fill-opacity="0.12"/>
+  <circle cx="120" cy="500" r="150" fill="#38BDF8" fill-opacity="0.08"/>
+
+  <!-- Main App Shell -->
+  <g filter="url(#darkShadow2)">
+    <rect x="48" y="32" width="704" height="536" rx="28" fill="#0B0D13" stroke="#1E2433" stroke-width="1.5"/>
+  </g>
+
+  <!-- Header -->
+  <text x="84" y="82" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="900" fill="#F8FAFC" letter-spacing="-0.5">Daily Activities</text>
+  <text x="84" y="104" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#64748B">Build Consistency • Streaks &amp; Custom Alarm Chimes</text>
+
+  <!-- Chime Sound Button & + Add Button -->
+  <rect x="466" y="56" width="142" height="38" rx="19" fill="#141824" stroke="#262D40" stroke-width="1.2"/>
+  <text x="537" y="80" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#34D399">🔔 Chime: Zen.wav</text>
+
+  <rect x="620" y="56" width="96" height="38" rx="19" fill="#10B981"/>
+  <text x="668" y="80" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#06281E">＋ Add</text>
+
+  <!-- Date Navigator Bar -->
+  <rect x="84" y="120" width="632" height="50" rx="16" fill="#11151F" stroke="#1E2536"/>
+  <rect x="98" y="130" width="30" height="30" rx="10" fill="#161B28"/>
+  <text x="113" y="150" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="800" fill="#CBD5E1">‹</text>
+
+  <rect x="292" y="130" width="216" height="30" rx="10" fill="#161B28" stroke="#262F45"/>
+  <text x="400" y="150" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="800" fill="#F8FAFC">📅 Friday, October 2, 2026</text>
+
+  <rect x="672" y="130" width="30" height="30" rx="10" fill="#161B28"/>
+  <text x="687" y="150" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="800" fill="#CBD5E1">›</text>
+
+  <!-- Category Pills -->
+  <rect x="84" y="182" width="64" height="32" rx="16" fill="#10B981"/>
+  <text x="116" y="202" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#06281E">All</text>
+
+  <rect x="158" y="182" width="84" height="32" rx="16" fill="#11151F" stroke="#1E2536"/>
+  <text x="200" y="202" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#CBD5E1">Health</text>
+
+  <rect x="252" y="182" width="106" height="32" rx="16" fill="#11151F" stroke="#1E2536"/>
+  <text x="305" y="202" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#CBD5E1">Productivity</text>
+
+  <rect x="368" y="182" width="94" height="32" rx="16" fill="#11151F" stroke="#1E2536"/>
+  <text x="415" y="202" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#CBD5E1">Learning</text>
+
+  <rect x="472" y="182" width="110" height="32" rx="16" fill="#11151F" stroke="#1E2536"/>
+  <text x="527" y="202" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#CBD5E1">Mindfulness</text>
+
+  <!-- Daily Momentum Progress Card -->
+  <rect x="84" y="228" width="632" height="92" rx="20" fill="#11151F" stroke="#1E2536"/>
+  <rect x="106" y="246" width="36" height="36" rx="12" fill="#0D2821"/>
+  <text x="124" y="270" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16">🔥</text>
+  <text x="154" y="264" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="800" fill="#F8FAFC">Daily Momentum</text>
+  <text x="154" y="282" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#94A3B8">4 of 5 daily targets completed • 18-day streak active!</text>
+
+  <text x="628" y="266" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#94A3B8">4/5</text>
+  <rect x="638" y="248" width="56" height="26" rx="8" fill="#0D2821" stroke="#10B981" stroke-opacity="0.4"/>
+  <text x="666" y="265" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#34D399">80%</text>
+
+  <rect x="106" y="296" width="588" height="10" rx="5" fill="#1A2030"/>
+  <rect x="106" y="296" width="470" height="10" rx="5" fill="#10B981"/>
+
+  <!-- Habit List Items -->
+  <text x="84" y="346" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="800" fill="#64748B" letter-spacing="1">DAILY TARGETS (4/5)</text>
+
+  <!-- Habit 1 -->
+  <rect x="84" y="358" width="632" height="58" rx="16" fill="#11151F" stroke="#10B981" stroke-opacity="0.35"/>
+  <rect x="102" y="371" width="32" height="32" rx="10" fill="#0D2821"/>
+  <text x="118" y="392" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="900" fill="#10B981">✓</text>
+  <text x="148" y="384" font-family="Inter, system-ui, sans-serif" font-size="14.5" font-weight="800" fill="#CBD5E1">Morning Mobility &amp; Hydration</text>
+  <text x="148" y="402" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#10B981">Health <tspan fill="#64748B">• ⏰ 06:30 AM • 🔥 18d Streak</tspan></text>
+  <rect x="598" y="375" width="52" height="22" rx="6" fill="#2A161D" stroke="#F43F5E" stroke-opacity="0.4"/>
+  <text x="624" y="390" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="800" fill="#FB7185">HIGH</text>
+  <circle cx="680" cy="387" r="12" fill="#10B981"/>
+  <text x="680" y="391" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="900" fill="#06281E">✓</text>
+
+  <!-- Habit 2 -->
+  <rect x="84" y="424" width="632" height="58" rx="16" fill="#11151F" stroke="#10B981" stroke-opacity="0.35"/>
+  <rect x="102" y="437" width="32" height="32" rx="10" fill="#132238"/>
+  <text x="118" y="458" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="900" fill="#38BDF8">✓</text>
+  <text x="148" y="450" font-family="Inter, system-ui, sans-serif" font-size="14.5" font-weight="800" fill="#CBD5E1">Deep Work: Architecture &amp; Clean Code</text>
+  <text x="148" y="468" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#38BDF8">Productivity <tspan fill="#64748B">• ⏰ 09:00 AM • 🔥 12d Streak</tspan></text>
+  <circle cx="680" cy="453" r="12" fill="#10B981"/>
+  <text x="680" y="457" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="900" fill="#06281E">✓</text>
+
+  <!-- Habit 3 -->
+  <rect x="84" y="490" width="632" height="58" rx="16" fill="#11151F" stroke="#1E2536"/>
+  <rect x="102" y="503" width="32" height="32" rx="10" fill="#231934"/>
+  <text x="118" y="524" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#C084FC">📚</text>
+  <text x="148" y="516" font-family="Inter, system-ui, sans-serif" font-size="14.5" font-weight="800" fill="#F8FAFC">Study LLM Engineering Course (45m)</text>
+  <text x="148" y="534" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#C084FC">Learning <tspan fill="#64748B">• ⏰ 08:30 PM • 🔔 Marimba Alarm</tspan></text>
+  <circle cx="680" cy="519" r="12" stroke="#475569" stroke-width="2" fill="none"/>
+</svg>

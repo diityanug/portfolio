@@ -1,52 +1,82 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
-  <rect width="800" height="600" fill="#FAF9F5"/>
-  <rect x="60" y="36" width="680" height="528" rx="28" fill="#F5F0E8" stroke="#E6DFD8" stroke-width="2"/>
+  <defs>
+    <linearGradient id="rekaBg3" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FAF9F5"/>
+      <stop offset="100%" stop-color="#F5F0E8"/>
+    </linearGradient>
+    <filter id="rekaShadow3" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#141413" flood-opacity="0.08"/>
+    </filter>
+  </defs>
 
-  <text x="100" y="88" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#141413" letter-spacing="-0.5">AI Receipt Scanner</text>
-  <text x="100" y="112" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#6C6A64">Powered by Google Gemini • Structured Extraction</text>
+  <rect width="800" height="600" fill="url(#rekaBg3)"/>
+  <circle cx="690" cy="100" r="140" fill="#CC785C" fill-opacity="0.1"/>
+  <circle cx="110" cy="500" r="140" fill="#10B981" fill-opacity="0.1"/>
 
-  <!-- Receipt Card Left -->
-  <rect x="100" y="142" width="250" height="384" rx="20" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
-  <rect x="124" y="168" width="202" height="32" rx="8" fill="#EFE9DE"/>
-  <text x="225" y="189" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#252523">RECEIPT CAMERA SCAN</text>
+  <g filter="url(#rekaShadow3)">
+    <rect x="48" y="32" width="704" height="536" rx="28" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
+  </g>
 
-  <line x1="124" y1="224" x2="326" y2="224" stroke="#E6DFD8" stroke-dasharray="4 4"/>
-  <text x="124" y="252" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700" fill="#141413">Kopi Kenangan</text>
-  <text x="124" y="272" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6C6A64">30 Oct 2026 • 14:20</text>
+  <text x="88" y="82" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="800" fill="#141413" letter-spacing="-0.5">Gemini AI Receipt &amp; e-Statement Scanner</text>
+  <text x="88" y="105" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#6C6A64">Snap shopping receipts OR import Bank/E-Wallet PDF, CSV &amp; screenshot mutations</text>
 
-  <text x="124" y="312" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#3D3D3A">1x Iced Americano</text>
-  <text x="326" y="312" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#141413">24.000</text>
+  <!-- Left Card: Receipt Camera Scan -->
+  <rect x="88" y="130" width="292" height="404" rx="22" fill="#FFFFFF" stroke="#E6DFD8" stroke-width="1.5"/>
+  <rect x="110" y="152" width="248" height="30" rx="9" fill="#EFE9DE"/>
+  <text x="234" y="172" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="800" fill="#252523" letter-spacing="0.6">📷 AI RECEIPT CAMERA SCAN</text>
 
-  <text x="124" y="340" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#3D3D3A">1x Almond Croissant</text>
-  <text x="326" y="340" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#141413">32.000</text>
+  <text x="112" y="214" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="800" fill="#141413">Kopi Kenangan</text>
+  <text x="112" y="234" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6C6A64">30 Oct 2026 • Food &amp; Drink</text>
+  <line x1="112" y1="248" x2="356" y2="248" stroke="#E6DFD8" stroke-dasharray="4 4"/>
 
-  <text x="124" y="368" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#6C6A64">PB1 Tax (10%)</text>
-  <text x="326" y="368" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#6C6A64">5.600</text>
+  <text x="112" y="276" font-family="Inter, system-ui, sans-serif" font-size="12.5" fill="#3D3D3A">1x Iced Americano</text>
+  <text x="356" y="276" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#141413">24.000</text>
 
-  <line x1="124" y1="392" x2="326" y2="392" stroke="#E6DFD8"/>
-  <text x="124" y="420" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#141413">Total</text>
-  <text x="326" y="420" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#CC785C">Rp 61.600</text>
+  <text x="112" y="302" font-family="Inter, system-ui, sans-serif" font-size="12.5" fill="#3D3D3A">1x Almond Croissant</text>
+  <text x="356" y="302" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#141413">32.000</text>
+
+  <text x="112" y="328" font-family="Inter, system-ui, sans-serif" font-size="12.5" fill="#6C6A64">PB1 Tax (10% Auto-Split)</text>
+  <text x="356" y="328" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#6C6A64">5.600</text>
 
   <!-- Laser Scan Line -->
-  <line x1="108" y1="325" x2="342" y2="325" stroke="#CC785C" stroke-width="2.5"/>
-  <rect x="108" y="325" width="234" height="24" fill="#CC785C" fill-opacity="0.12"/>
+  <line x1="98" y1="290" x2="370" y2="290" stroke="#CC785C" stroke-width="2.5"/>
+  <rect x="98" y="290" width="272" height="22" fill="#CC785C" fill-opacity="0.12"/>
 
-  <!-- Parsed Structured Output Right -->
-  <rect x="380" y="142" width="320" height="384" rx="20" fill="#181715"/>
-  <rect x="408" y="170" width="136" height="26" rx="13" fill="#252320"/>
-  <text x="476" y="187" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#5DB8A6">GEMINI AI EXTRACTED</text>
+  <line x1="112" y1="354" x2="356" y2="354" stroke="#E6DFD8"/>
+  <text x="112" y="380" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="800" fill="#141413">Total Extracted</text>
+  <text x="356" y="380" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="800" fill="#CC785C">Rp 61.600</text>
 
-  <text x="408" y="226" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#A09D96">MERCHANT &amp; CATEGORY</text>
-  <text x="408" y="250" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#FAF9F5">Kopi Kenangan • Food &amp; Drink</text>
+  <rect x="112" y="402" width="244" height="52" rx="12" fill="#F5F0E8"/>
+  <text x="126" y="424" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#11473B">✓ Tax &amp; Discount Reconciled</text>
+  <text x="126" y="442" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#6C6A64">Matched Wallet: GoPay (IDR)</text>
 
-  <text x="408" y="294" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#A09D96">DETECTED CURRENCY &amp; AMOUNT</text>
-  <text x="408" y="322" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#CC785C">IDR 61.600</text>
+  <rect x="112" y="470" width="244" height="42" rx="12" fill="#CC785C"/>
+  <text x="234" y="496" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="800" fill="#FAF9F5">Save Receipt to SQLite</text>
 
-  <text x="408" y="366" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#A09D96">ITEMIZED BREAKDOWN</text>
-  <rect x="408" y="380" width="264" height="68" rx="12" fill="#252320"/>
-  <text x="424" y="406" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#FAF9F5">✓ 2 Items + Tax Auto-Adjusted</text>
-  <text x="424" y="430" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#A09D96">Ready to save to SQLite Wallet</text>
+  <!-- Right Card: Bank e-Statement PDF/CSV Mutation Scanner -->
+  <rect x="400" y="130" width="312" height="404" rx="22" fill="#181715"/>
+  <rect x="424" y="152" width="206" height="28" rx="14" fill="#252320"/>
+  <text x="527" y="170" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="800" fill="#5DB8A6" letter-spacing="0.6">📄 E-STATEMENT PDF / CSV AI</text>
 
-  <rect x="408" y="468" width="264" height="38" rx="12" fill="#CC785C"/>
-  <text x="540" y="492" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#FAF9F5">Save Transaction</text>
+  <text x="424" y="208" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="800" fill="#FAF9F5">BCA_Mutasi_Oct2026.pdf</text>
+  <text x="424" y="228" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#A09D96">Auto-Matched: BCA Main Bank (••4821)</text>
+
+  <!-- Parsed Mutation Rows -->
+  <rect x="424" y="246" width="264" height="58" rx="12" fill="#252320"/>
+  <text x="440" y="268" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#FAF9F5">QRIS Tokopedia Marketplace</text>
+  <text x="440" y="288" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#5DB8A6">✓ Ready • Shopping</text>
+  <text x="674" y="278" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="800" fill="#CC785C">-Rp 245.000</text>
+
+  <rect x="424" y="314" width="264" height="58" rx="12" fill="#252320"/>
+  <text x="440" y="336" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#FAF9F5">TRSF E-BANKING CR PT LGSM</text>
+  <text x="440" y="356" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#5DB872">✓ Ready • Salary Inflow</text>
+  <text x="674" y="346" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="800" fill="#5DB872">+Rp 12,5M</text>
+
+  <rect x="424" y="382" width="264" height="58" rx="12" fill="#252320" stroke="#E8A55A" stroke-opacity="0.4"/>
+  <text x="440" y="404" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#A09D96">Kopi Kenangan QRIS</text>
+  <text x="440" y="424" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#E8A55A">⚠ Auto-Skipped (Duplicate Found)</text>
+  <text x="674" y="414" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#6C6A64">-Rp 61.600</text>
+
+  <rect x="424" y="468" width="264" height="44" rx="12" fill="#059669"/>
+  <text x="556" y="495" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="800" fill="#FAF9F5">Import 14 Verified Mutations</text>
 </svg>

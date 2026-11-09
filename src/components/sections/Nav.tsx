@@ -1,10 +1,13 @@
 import DesktopNav from './DesktopNav';
 import MobileNav from './MobileNav';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { useLogoAnimation } from '../../hooks/useLogoAnimation';
 
 const Nav = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  return isDesktop ? <DesktopNav /> : <MobileNav />;
+  const { logoSrc } = useLogoAnimation();
+
+  return isDesktop ? <DesktopNav logoSrc={logoSrc} /> : <MobileNav logoSrc={logoSrc} />;
 };
 
 export default Nav;

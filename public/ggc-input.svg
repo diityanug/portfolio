@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF7ED"/>
+      <stop offset="50%" stop-color="#FAF9F5"/>
+      <stop offset="100%" stop-color="#FFEDD5"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1C1917" flood-opacity="0.08"/>
+    </filter>
+    <filter id="softShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#1C1917" flood-opacity="0.05"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Backdrop -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+  <circle cx="710" cy="80" r="140" fill="#FB923C" fill-opacity="0.1"/>
+  <circle cx="90" cy="520" r="160" fill="#5F7464" fill-opacity="0.08"/>
+
+  <!-- Browser Window Frame -->
+  <g filter="url(#cardShadow)">
+    <rect x="44" y="34" width="712" height="532" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="1.5"/>
+    <!-- Top Window Bar -->
+    <path d="M44 58C44 44.7452 54.7452 34 68 34H732C745.255 34 756 44.7452 756 58V86H44V58Z" fill="#FAFAF9"/>
+    <line x1="44" y1="86" x2="756" y2="86" stroke="#E7E5E4" stroke-width="1.2"/>
+
+    <!-- Window Dots -->
+    <circle cx="72" cy="60" r="6" fill="#FCA5A5"/>
+    <circle cx="92" cy="60" r="6" fill="#FCD34D"/>
+    <circle cx="112" cy="60" r="6" fill="#86EFAC"/>
+
+    <!-- App Navbar Status & Mode Switcher -->
+    <rect x="140" y="46" width="168" height="28" rx="14" fill="#ECFDF5" stroke="#A7F3D0"/>
+    <circle cx="156" cy="60" r="4.5" fill="#10B981"/>
+    <text x="168" y="64" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#065F46" letter-spacing="0.6">FASTAPI ENGINE ONLINE</text>
+
+    <!-- Minigame Button & History Button -->
+    <rect x="498" y="46" width="128" height="28" rx="14" fill="#FFF7ED" stroke="#FDBA74"/>
+    <text x="562" y="64" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#C2410C" letter-spacing="0.5">🎮 GUESS MINIGAME</text>
+
+    <rect x="636" y="46" width="96" height="28" rx="14" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text x="684" y="64" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#57534E" letter-spacing="0.8">↺ HISTORY</text>
+  </g>
+
+  <!-- Main Workspace Header -->
+  <text x="80" y="130" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#78716C" letter-spacing="1.6">INPUT DATA WORKSPACE</text>
+  <rect x="556" y="114" width="164" height="24" rx="12" fill="#F5F5F4"/>
+  <text x="638" y="130" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#57534E">✨ Typewriter Preset Active</text>
+
+  <!-- Game Title Field -->
+  <text x="80" y="172" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#78716C" letter-spacing="1">GAME TITLE (2X WEIGHTED IN NLP)</text>
+  <g filter="url(#softShadow)">
+    <rect x="80" y="184" width="640" height="58" rx="16" fill="#FAFAF9" stroke="#E7E5E4" stroke-width="1.5"/>
+    <text x="104" y="219" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#1C1917">Eternal Horizon</text>
+    <circle cx="690" cy="213" r="12" fill="#F5F5F4"/>
+    <text x="690" y="217" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#78716C">✕</text>
+  </g>
+
+  <!-- Game Description Field -->
+  <text x="80" y="276" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#78716C" letter-spacing="1">GAME SYNOPSIS &amp; DESCRIPTION</text>
+  <g filter="url(#softShadow)">
+    <rect x="80" y="288" width="640" height="176" rx="18" fill="#FAFAF9" stroke="#E7E5E4" stroke-width="1.5"/>
+    <text x="104" y="328" font-family="Inter, system-ui, sans-serif" font-size="15.5" font-weight="400" fill="#292524">Embark on an epic journey across a vast open world filled with</text>
+    <text x="104" y="356" font-family="Inter, system-ui, sans-serif" font-size="15.5" font-weight="400" fill="#292524">ancient ruins, hidden treasures, and mysterious creatures. Explore</text>
+    <text x="104" y="384" font-family="Inter, system-ui, sans-serif" font-size="15.5" font-weight="400" fill="#292524">diverse landscapes, complete challenging quests, and uncover the</text>
+    <text x="104" y="412" font-family="Inter, system-ui, sans-serif" font-size="15.5" font-weight="400" fill="#292524">secrets of a forgotten kingdom while shaping your own adventure.</text>
+
+    <!-- NLP Pipeline Badges Inside Input Footer -->
+    <rect x="104" y="430" width="118" height="22" rx="6" fill="#F0FDF4"/>
+    <text x="163" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#15803D">spaCy Lemmatizer</text>
+
+    <rect x="230" y="430" width="118" height="22" rx="6" fill="#FFF7ED"/>
+    <text x="289" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#C2410C">TF-IDF Vectorizer</text>
+
+    <text x="696" y="445" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#A8A29E">42 tokens</text>
+  </g>
+
+  <!-- Bottom Action Bar -->
+  <text x="80" y="518" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#A8A29E" letter-spacing="1">CLEAR DATA</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="468" y="486" width="252" height="52" rx="26" fill="#1C1917"/>
+    <text x="572" y="517" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#FFFFFF" letter-spacing="1.4">HOLD TO PREDICT</text>
+    <line x1="664" y1="486" x2="664" y2="538" stroke="#3F3F46" stroke-width="1"/>
+    <text x="692" y="518" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" fill="#FB923C">→</text>
+  </g>
+</svg>

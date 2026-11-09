@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="lenvryBg4" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#08101D"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#091526"/>
+    </linearGradient>
+    <filter id="darkShadow4" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#lenvryBg4)"/>
+  <circle cx="680" cy="90" r="150" fill="#38BDF8" fill-opacity="0.14"/>
+  <circle cx="110" cy="510" r="150" fill="#10B981" fill-opacity="0.08"/>
+
+  <!-- Main App Shell -->
+  <g filter="url(#darkShadow4)">
+    <rect x="48" y="32" width="704" height="536" rx="28" fill="#0B0D13" stroke="#1E2433" stroke-width="1.5"/>
+  </g>
+
+  <!-- Header -->
+  <text x="84" y="82" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="900" fill="#F8FAFC" letter-spacing="-0.5">Finance</text>
+  <text x="84" y="104" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#64748B">Multi-currency net worth, pockets, debts &amp; recurring bills</text>
+
+  <rect x="622" y="56" width="94" height="38" rx="19" fill="#38BDF8"/>
+  <text x="669" y="80" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#082F49">＋ Add</text>
+
+  <!-- Total Net Worth Hero Card -->
+  <rect x="84" y="122" width="632" height="124" rx="20" fill="#11151F" stroke="#1E2536"/>
+  <text x="108" y="152" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="800" fill="#94A3B8" letter-spacing="1.2">TOTAL NET WORTH</text>
+
+  <!-- Currency Switcher -->
+  <rect x="592" y="136" width="100" height="32" rx="10" fill="#161B28" stroke="#22293A"/>
+  <rect x="596" y="140" width="46" height="24" rx="7" fill="#38BDF8"/>
+  <text x="619" y="156" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="900" fill="#082F49">IDR</text>
+  <text x="666" y="156" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#64748B">USD</text>
+
+  <text x="108" y="194" font-family="Inter, system-ui, sans-serif" font-size="34" font-weight="900" fill="#F8FAFC">Rp 28.450.000</text>
+
+  <rect x="108" y="208" width="128" height="24" rx="8" fill="#0F293A" stroke="#38BDF8" stroke-opacity="0.35"/>
+  <text x="172" y="224" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">3 Accounts • 5 Pockets</text>
+
+  <rect x="246" y="208" width="156" height="24" rx="8" fill="#0D2821" stroke="#10B981" stroke-opacity="0.35"/>
+  <text x="324" y="224" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#34D399">Surplus +Rp 8.180.000</text>
+
+  <!-- Income & Expense Row -->
+  <rect x="84" y="258" width="308" height="74" rx="18" fill="#11151F" stroke="#1E2536"/>
+  <rect x="104" y="276" width="34" height="34" rx="10" fill="#0D2821"/>
+  <text x="121" y="298" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="900" fill="#10B981">↓</text>
+  <text x="150" y="288" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#94A3B8">INCOME (OCT 2026)</text>
+  <text x="150" y="312" font-family="Inter, system-ui, sans-serif" font-size="19" font-weight="900" fill="#10B981">+Rp 12.500.000</text>
+
+  <rect x="408" y="258" width="308" height="74" rx="18" fill="#11151F" stroke="#1E2536"/>
+  <rect x="428" y="276" width="34" height="34" rx="10" fill="#2A161D"/>
+  <text x="445" y="298" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="900" fill="#F43F5E">↑</text>
+  <text x="474" y="288" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#94A3B8">EXPENSE (OCT 2026)</text>
+  <text x="474" y="312" font-family="Inter, system-ui, sans-serif" font-size="19" font-weight="900" fill="#F43F5E">-Rp 4.320.000</text>
+
+  <!-- Bottom Grid: Accounts + Debts & Recurring Bills -->
+  <rect x="84" y="346" width="308" height="196" rx="20" fill="#11151F" stroke="#1E2536"/>
+  <line x1="84" y1="348" x2="392" y2="348" stroke="#38BDF8" stroke-width="3"/>
+  <text x="106" y="378" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="800" fill="#94A3B8" letter-spacing="0.8">MY ACCOUNTS &amp; POCKETS</text>
+
+  <rect x="106" y="392" width="264" height="62" rx="14" fill="#161B28" stroke="#22293A"/>
+  <text x="122" y="416" font-family="Inter, system-ui, sans-serif" font-size="13.5" font-weight="800" fill="#F8FAFC">BCA Main Bank <tspan font-size="11" fill="#38BDF8">• 3 Pockets</tspan></text>
+  <text x="122" y="438" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="900" fill="#38BDF8">Rp 21.200.000</text>
+
+  <rect x="106" y="464" width="264" height="62" rx="14" fill="#161B28" stroke="#22293A"/>
+  <text x="122" y="488" font-family="Inter, system-ui, sans-serif" font-size="13.5" font-weight="800" fill="#F8FAFC">GoPay &amp; Cash Wallet</text>
+  <text x="122" y="510" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="900" fill="#C084FC">Rp 7.250.000</text>
+
+  <!-- Right Card: Debts & Recurring Bills -->
+  <rect x="408" y="346" width="308" height="196" rx="20" fill="#11151F" stroke="#1E2536"/>
+  <text x="430" y="378" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="800" fill="#94A3B8" letter-spacing="0.8">DEBTS &amp; RECURRING BILLS</text>
+
+  <rect x="430" y="392" width="264" height="62" rx="14" fill="#161B28" stroke="#22293A"/>
+  <text x="446" y="416" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#F8FAFC">Receivable • Raka (Project Split)</text>
+  <text x="446" y="438" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#34D399">Owed to You: Rp 1.500.000</text>
+
+  <rect x="430" y="464" width="264" height="62" rx="14" fill="#161B28" stroke="#22293A"/>
+  <text x="446" y="488" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#F8FAFC">Recurring • Fiber Internet &amp; Cloud</text>
+  <text x="446" y="510" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#F59E0B">Due Day 15 • Rp 485.000 / mo</text>
+</svg>

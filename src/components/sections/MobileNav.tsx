@@ -79,7 +79,11 @@ const HamburgerIcon = ({ isOpen }: { isOpen: boolean }) => (
 
 type NavTheme = 'light' | 'dark';
 
-const MobileNav = () => {
+interface MobileNavProps {
+  logoSrc?: string;
+}
+
+const MobileNav = ({ logoSrc = '/logo-static.svg' }: MobileNavProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState<NavTheme>('light');
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -222,7 +226,7 @@ const MobileNav = () => {
               className={`group flex items-center rounded-lg p-1 transition-[scale] motion-reduce:transition-none active:scale-95 ${focusRing}`}
             >
               <img
-                src="/logo-animated.svg"
+                src={logoSrc}
                 alt=""
                 width={32}
                 height={32}

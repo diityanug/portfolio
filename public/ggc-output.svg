@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FAF9F5"/>
+      <stop offset="55%" stop-color="#FFF7ED"/>
+      <stop offset="100%" stop-color="#F0FDF4"/>
+    </linearGradient>
+    <filter id="cardShadow2" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1C1917" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad2)"/>
+  <circle cx="690" cy="500" r="150" fill="#5F7464" fill-opacity="0.1"/>
+  <circle cx="110" cy="90" r="130" fill="#FB923C" fill-opacity="0.1"/>
+
+  <!-- Main Card Frame -->
+  <g filter="url(#cardShadow2)">
+    <rect x="44" y="34" width="712" height="532" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="1.5"/>
+  </g>
+
+  <!-- Header Row -->
+  <text x="80" y="76" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#4B6043" letter-spacing="1.8">MATCH RESULTS • MULTI-LABEL XAI</text>
+  <text x="578" y="75" text-anchor="end" font-family="monospace" font-size="12" font-weight="600" fill="#78716C">ID:7V0UYD</text>
+  <rect x="592" y="56" width="128" height="28" rx="14" fill="#F0FDF4" stroke="#BBF7D0"/>
+  <text x="656" y="74" text-anchor="middle" font-family="monospace" font-size="11.5" font-weight="700" fill="#166534">✓ [SECURED]</text>
+  <line x1="80" y1="98" x2="720" y2="98" stroke="#F5F5F4" stroke-width="1.5"/>
+
+  <!-- Top Genre: Adventure -->
+  <text x="80" y="146" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#1C1917">Adventure</text>
+  <text x="720" y="146" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="800" fill="#4B6043">94.9%</text>
+
+  <!-- Segmented Bar -->
+  <rect x="80" y="164" width="640" height="12" rx="6" fill="#F5F5F4"/>
+  <rect x="80" y="164" width="606" height="12" rx="6" fill="#536856"/>
+
+  <!-- XAI Signal Matches Box -->
+  <rect x="80" y="194" width="640" height="168" rx="18" fill="#F9FAF8" stroke="#E4E9E2" stroke-width="1.5"/>
+  <text x="104" y="224" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="800" fill="#78716C" letter-spacing="1.4">SIGNAL MATCHES (TOP 3 TRIGGERING KEYWORDS)</text>
+  <rect x="576" y="206" width="128" height="24" rx="8" fill="#EEF2EC"/>
+  <text x="640" y="222" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#536856">LOG_PROB_XAI</text>
+
+  <!-- Keyword Chips -->
+  <rect x="104" y="238" width="90" height="32" rx="10" fill="#FFFFFF" stroke="#D6DDD4" stroke-width="1.2"/>
+  <text x="149" y="259" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#292524">horizon</text>
+
+  <rect x="204" y="238" width="88" height="32" rx="10" fill="#FFFFFF" stroke="#D6DDD4" stroke-width="1.2"/>
+  <text x="248" y="259" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#292524">eternal</text>
+
+  <rect x="302" y="238" width="118" height="32" rx="10" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="1.2"/>
+  <text x="361" y="259" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#065F46">epic journey</text>
+
+  <!-- Highlighted Quote -->
+  <text x="104" y="302" font-family="Georgia, serif" font-style="italic" font-size="14" fill="#44403C">"Embark on an <tspan font-weight="700" fill="#15803D" text-decoration="underline">epic journey</tspan> across a vast open world filled with ancient ruins,</text>
+  <text x="104" y="326" font-family="Georgia, serif" font-style="italic" font-size="14" fill="#44403C">hidden treasures, and mysterious creatures. Explore diverse landscapes and quests..."</text>
+
+  <!-- Secondary Multi-Label Genres (Dynamic Threshold Passed) -->
+  <!-- RPG -->
+  <text x="80" y="398" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="700" fill="#292524">RPG</text>
+  <text x="136" y="397" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#78716C">• Keywords: quests, kingdom, ancient</text>
+  <text x="720" y="398" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="800" fill="#57534E">91.9%</text>
+  <rect x="80" y="410" width="640" height="10" rx="5" fill="#F5F5F4"/>
+  <rect x="80" y="410" width="588" height="10" rx="5" fill="#788A7B"/>
+
+  <!-- Fantasy -->
+  <text x="80" y="454" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="700" fill="#292524">Fantasy</text>
+  <text x="166" y="453" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#78716C">• Keywords: creatures, forgotten, ruins</text>
+  <text x="720" y="454" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="800" fill="#57534E">84.9%</text>
+  <rect x="80" y="466" width="640" height="10" rx="5" fill="#F5F5F4"/>
+  <rect x="80" y="466" width="543" height="10" rx="5" fill="#94A396"/>
+
+  <!-- Open World -->
+  <text x="80" y="510" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="700" fill="#292524">Open World</text>
+  <text x="202" y="509" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#78716C">• Keywords: open world, explore, landscapes</text>
+  <text x="720" y="510" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="800" fill="#57534E">84.4%</text>
+  <rect x="80" y="522" width="640" height="10" rx="5" fill="#F5F5F4"/>
+  <rect x="80" y="522" width="540" height="10" rx="5" fill="#EA580C"/>
+</svg>

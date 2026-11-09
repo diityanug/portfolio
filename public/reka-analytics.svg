@@ -1,40 +1,66 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
-  <rect width="800" height="600" fill="#FAF9F5"/>
-  <rect x="60" y="36" width="680" height="528" rx="28" fill="#F5F0E8" stroke="#E6DFD8" stroke-width="2"/>
+  <defs>
+    <linearGradient id="rekaBg4" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FAF9F5"/>
+      <stop offset="100%" stop-color="#ECFDF5"/>
+    </linearGradient>
+    <filter id="rekaShadow4" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#141413" flood-opacity="0.08"/>
+    </filter>
+  </defs>
 
-  <text x="100" y="88" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#141413" letter-spacing="-0.5">Financial Health, Analytics &amp; Backup</text>
-  <text x="100" y="112" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#6C6A64">Savings Rate, Cash Flow Ratio, Donut Breakdown &amp; Full JSON/CSV Ownership</text>
+  <rect width="800" height="600" fill="url(#rekaBg4)"/>
+  <circle cx="690" cy="90" r="140" fill="#059669" fill-opacity="0.09"/>
+  <circle cx="110" cy="510" r="140" fill="#E8A55A" fill-opacity="0.1"/>
+
+  <g filter="url(#rekaShadow4)">
+    <rect x="48" y="32" width="704" height="536" rx="28" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
+  </g>
+
+  <text x="88" y="82" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="800" fill="#141413" letter-spacing="-0.5">Analytics, Biometric Vault &amp; A4 PDF Report</text>
+  <text x="88" y="105" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#6C6A64">Financial health ratios, Face ID / SHA-256 PIN lock &amp; formal A4 PDF statement generator</text>
 
   <!-- Left Donut & Category Card -->
-  <rect x="100" y="140" width="288" height="270" rx="22" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
-  <text x="128" y="174" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#6C6A64">CATEGORY BREAKDOWN</text>
-  
+  <rect x="88" y="128" width="296" height="278" rx="22" fill="#FFFFFF" stroke="#E6DFD8" stroke-width="1.5"/>
+  <text x="114" y="160" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#6C6A64" letter-spacing="0.8">CATEGORY BREAKDOWN</text>
+
   <!-- Donut SVG Ring -->
-  <circle cx="244" cy="264" r="64" stroke="#EFE9DE" stroke-width="22" fill="none"/>
-  <circle cx="244" cy="264" r="64" stroke="#CC785C" stroke-width="22" stroke-dasharray="180 402" stroke-linecap="round" fill="none" transform="rotate(-90 244 264)"/>
-  <circle cx="244" cy="264" r="64" stroke="#5DB8A6" stroke-width="22" stroke-dasharray="110 402" stroke-dashoffset="-195" stroke-linecap="round" fill="none" transform="rotate(-90 244 264)"/>
-  <circle cx="244" cy="264" r="64" stroke="#E8A55A" stroke-width="22" stroke-dasharray="70 402" stroke-dashoffset="-320" stroke-linecap="round" fill="none" transform="rotate(-90 244 264)"/>
-  <text x="244" y="260" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#6C6A64">SAVINGS</text>
-  <text x="244" y="280" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#141413">66.4%</text>
+  <circle cx="236" cy="252" r="62" stroke="#EFE9DE" stroke-width="22" fill="none"/>
+  <circle cx="236" cy="252" r="62" stroke="#CC785C" stroke-width="22" stroke-dasharray="175 390" stroke-linecap="round" fill="none" transform="rotate(-90 236 252)"/>
+  <circle cx="236" cy="252" r="62" stroke="#059669" stroke-width="22" stroke-dasharray="108 390" stroke-dashoffset="-190" stroke-linecap="round" fill="none" transform="rotate(-90 236 252)"/>
+  <circle cx="236" cy="252" r="62" stroke="#E8A55A" stroke-width="22" stroke-dasharray="68 390" stroke-dashoffset="-312" stroke-linecap="round" fill="none" transform="rotate(-90 236 252)"/>
+  <text x="236" y="248" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#6C6A64">SAVINGS</text>
+  <text x="236" y="268" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="800" fill="#141413">66.4%</text>
 
-  <text x="244" y="376" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#3D3D3A">Food • Bills • Transport • Invest</text>
+  <text x="236" y="356" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#3D3D3A">Food • Bills • Transport • Invest</text>
+  <text x="236" y="380" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#059669">MoM Spending -12.4% lower</text>
 
-  <!-- Right Financial Health Metrics -->
-  <rect x="412" y="140" width="288" height="126" rx="22" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
-  <text x="438" y="174" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#6C6A64">SAVINGS RATE &amp; HEALTH</text>
-  <text x="438" y="212" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="700" fill="#5DB872">+66.4% Surplus</text>
-  <text x="438" y="240" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="500" fill="#6C6A64">Month-over-Month spending -12%</text>
+  <!-- Right Column Cards: Health + Biometric Vault -->
+  <rect x="404" y="128" width="308" height="132" rx="22" fill="#FFFFFF" stroke="#E6DFD8" stroke-width="1.5"/>
+  <text x="430" y="160" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="800" fill="#6C6A64" letter-spacing="0.8">SAVINGS RATE &amp; CASH FLOW</text>
+  <text x="430" y="198" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="800" fill="#059669">+66.4% Surplus</text>
+  <rect x="430" y="216" width="256" height="10" rx="5" fill="#EFE9DE"/>
+  <rect x="430" y="216" width="174" height="10" rx="5" fill="#059669"/>
+  <text x="430" y="244" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#6C6A64">Budget Used: Rp 6,2M / Rp 10,0M</text>
 
-  <rect x="412" y="284" width="288" height="126" rx="22" fill="#FAF9F5" stroke="#E6DFD8" stroke-width="1.5"/>
-  <text x="438" y="318" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#6C6A64">MONTHLY BUDGET LIMIT</text>
-  <text x="438" y="352" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#141413">Rp 6,2M / Rp 10,0M</text>
-  <rect x="438" y="370" width="236" height="12" rx="6" fill="#EFE9DE"/>
-  <rect x="438" y="370" width="146" height="12" rx="6" fill="#5DB8A6"/>
+  <rect x="404" y="274" width="308" height="132" rx="22" fill="#FFFFFF" stroke="#E6DFD8" stroke-width="1.5"/>
+  <rect x="430" y="298" width="42" height="42" rx="12" fill="#EBF7F4"/>
+  <text x="451" y="325" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18">🔐</text>
+  <text x="486" y="314" font-family="Inter, system-ui, sans-serif" font-size="15.5" font-weight="800" fill="#141413">Biometric &amp; SHA-256 PIN</text>
+  <text x="486" y="334" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6C6A64">Face ID / Fingerprint Hardware Lock</text>
+  <rect x="430" y="354" width="122" height="30" rx="10" fill="#EBF7F4"/>
+  <text x="491" y="373" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="800" fill="#065F46">✓ Biometric Active</text>
+  <rect x="562" y="354" width="124" height="30" rx="10" fill="#F5F0E8"/>
+  <text x="624" y="373" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#252523">Salted PIN Hash</text>
 
-  <!-- Bottom Data Ownership Bar -->
-  <rect x="100" y="432" width="600" height="94" rx="22" fill="#181715"/>
-  <text x="132" y="472" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" fill="#FAF9F5">Full Offline Data Ownership</text>
-  <text x="132" y="498" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#A09D96">JSON Full Database Backup &amp; Restore (with Undo) • CSV Spreadsheet Export</text>
-  <rect x="544" y="458" width="128" height="40" rx="12" fill="#252320" stroke="#5DB8A6"/>
-  <text x="608" y="483" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#5DB8A6">Export JSON/CSV</text>
+  <!-- Bottom Formal A4 PDF & Data Ownership Bar -->
+  <rect x="88" y="424" width="624" height="112" rx="22" fill="#181715"/>
+  <text x="120" y="462" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="800" fill="#FAF9F5">Formal A4 Financial Statement PDF &amp; Full Backup</text>
+  <text x="120" y="486" font-family="Inter, system-ui, sans-serif" font-size="12.5" fill="#A09D96">Generate printable monthly/all-time A4 PDF reports • JSON Backup (with Undo) • CSV</text>
+
+  <rect x="444" y="454" width="118" height="44" rx="12" fill="#059669"/>
+  <text x="503" y="481" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#FAF9F5">📄 Export A4 PDF</text>
+
+  <rect x="572" y="454" width="116" height="44" rx="12" fill="#252320" stroke="#5DB8A6"/>
+  <text x="630" y="481" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" fill="#5DB8A6">JSON / CSV</text>
 </svg>

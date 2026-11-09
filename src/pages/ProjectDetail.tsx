@@ -10,13 +10,23 @@ import {
 } from '@phosphor-icons/react';
 import { useParams } from 'react-router-dom';
 import { fadeUp, staggerContainer, TRANSITION } from '../utils/animations';
-import Nav from '../components/sections/Nav';
 import BackgroundShape from '../components/ui/BackgroundShape';
+import CharaMascot, { type CharaName } from '../components/ui/CharaMascot';
 import Footer from '../components/sections/Footer';
 import { DATA } from '../data';
 
+const CHARA_NAMES: readonly CharaName[] = [
+  'awan',
+  'bola',
+  'kapsul',
+  'kotak',
+  'puncak',
+] as const;
+
 interface ProjectTheme {
   primaryHex: string;
+  charaColors: readonly string[];
+  charaMuted: string;
   shapeStroke: string;
   badgeBg: string;
   badgeText: string;
@@ -37,7 +47,9 @@ interface ProjectTheme {
 const PROJECT_THEMES: Record<string, ProjectTheme> = {
   'genre-game-classifier': {
     primaryHex: '#ea580c',
-    shapeStroke: 'stroke-[#ea580c]/[0.08]',
+    charaColors: ['#FB923C', '#F97316', '#F59E0B', '#EA580C', '#FDBA74'],
+    charaMuted: '#FED7AA',
+    shapeStroke: 'stroke-[#ea580c]/8',
     badgeBg: 'bg-[#ea580c]/10',
     badgeText: 'text-[#c2410c]',
     iconText: 'text-[#ea580c]',
@@ -54,7 +66,9 @@ const PROJECT_THEMES: Record<string, ProjectTheme> = {
   },
   lenvry: {
     primaryHex: '#0284c7',
-    shapeStroke: 'stroke-[#0284c7]/[0.08]',
+    charaColors: ['#38BDF8', '#0EA5E9', '#60A5FA', '#0284C7', '#7DD3FC'],
+    charaMuted: '#BAE6FD',
+    shapeStroke: 'stroke-[#0284c7]/8',
     badgeBg: 'bg-[#0284c7]/10',
     badgeText: 'text-[#0369a1]',
     iconText: 'text-[#0284c7]',
@@ -71,7 +85,9 @@ const PROJECT_THEMES: Record<string, ProjectTheme> = {
   },
   reka: {
     primaryHex: '#059669',
-    shapeStroke: 'stroke-[#059669]/[0.08]',
+    charaColors: ['#34D399', '#10B981', '#2DD4BF', '#059669', '#6EE7B7'],
+    charaMuted: '#A7F3D0',
+    shapeStroke: 'stroke-[#059669]/8',
     badgeBg: 'bg-[#059669]/10',
     badgeText: 'text-[#047857]',
     iconText: 'text-[#059669]',
@@ -90,7 +106,9 @@ const PROJECT_THEMES: Record<string, ProjectTheme> = {
 
 const DEFAULT_THEME: ProjectTheme = {
   primaryHex: '#5e6ad2',
-  shapeStroke: 'stroke-primary/[0.08]',
+  charaColors: ['#818CF8', '#6366F1', '#A78BFA', '#5E6AD2', '#C4B5FD'],
+  charaMuted: '#C7D2FE',
+  shapeStroke: 'stroke-primary/8',
   badgeBg: 'bg-primary/10',
   badgeText: 'text-primary',
   iconText: 'text-primary',
@@ -122,6 +140,8 @@ function TimelineItem({
 }) {
   const isEven = idx % 2 === 0;
   const numString = (idx + 1).toString().padStart(2, '0');
+  const charaName = CHARA_NAMES[idx % CHARA_NAMES.length];
+  const activeCharaColor = theme.charaColors[idx % theme.charaColors.length];
 
   const ref = useRef<HTMLDivElement>(null);
   const isActive = useInView(ref, { margin: '10000px 0px -45% 0px' });
@@ -154,20 +174,31 @@ function TimelineItem({
             className="absolute right-4 top-2 text-[84px] sm:text-[96px] font-black leading-none select-none pointer-events-none transition-colors duration-500"
             style={{
               color: isActive
-                ? `${theme.primaryHex}20`
-                : 'rgba(0, 0, 0, 0.04)',
+                ? `${theme.primaryHex}18`
+                : 'rgba(0, 0, 0, 0.035)',
             }}
           >
             {numString}
           </span>
 
-          <div className="relative z-10 pr-12">
-            <h4
-              className="font-bold text-xl sm:text-2xl mb-2.5 tracking-tight transition-colors duration-500"
-              style={{ color: isActive ? theme.primaryHex : '#1a1a1a' }}
-            >
-              {item.step}
-            </h4>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <h4
+                className="font-bold text-xl sm:text-2xl tracking-tight transition-colors duration-500"
+                style={{ color: isActive ? theme.primaryHex : '#1a1a1a' }}
+              >
+                {item.step}
+              </h4>
+
+              <CharaMascot
+                name={charaName}
+                color={isActive ? activeCharaColor : theme.charaMuted}
+                className={`w-15 h-18 sm:w-18 sm:h-21 shrink-0 -my-2 transition-transform duration-500 ${
+                  isActive ? 'scale-105' : 'scale-95 opacity-80'
+                }`}
+              />
+            </div>
+
             <p className="text-sm sm:text-base text-steel leading-relaxed">
               {item.desc}
             </p>
@@ -195,13 +226,13 @@ function TimelineItem({
               : 'border-hairline shadow-xs'
           }`}
         >
-          <div className="w-full aspect-video md:aspect-4/3 rounded-[18px] overflow-hidden relative bg-[#F4F4F6]">
+          <div className="w-full aspect-4/3 rounded-[18px] overflow-hidden relative bg-[#F4F4F6]">
             <img
               src={item.image}
               alt={item.step}
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
             />
           </div>
         </div>
@@ -239,7 +270,6 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-dvh bg-[#FAFAFA] selection:bg-primary/20 selection:text-primary overflow-x-hidden font-sans">
-      <Nav />
 
       <main>
         {/* SECTION 1: Hero & Metadata Bento */}
@@ -247,7 +277,7 @@ export default function ProjectDetail() {
           <BackgroundShape
             initialIndex={0}
             strokeClassName={theme.shapeStroke}
-            className="-right-[28vw] -top-[8vw] w-[75vw] h-[75vw] md:-right-[12vw] md:top-[2vh] md:w-[48vw] md:h-[48vw]"
+            className="right-[-28vw] top-[-8vw] w-[75vw] h-[75vw] md:right-[-12vw] md:top-[2vh] md:w-[48vw] md:h-[48vw]"
           />
 
           <div className="max-w-6xl mx-auto relative z-10">
@@ -328,7 +358,7 @@ export default function ProjectDetail() {
           <BackgroundShape
             initialIndex={2}
             strokeClassName="stroke-black/[0.045]"
-            className="-left-[30vw] top-[10vh] w-[70vw] h-[70vw] md:-left-[16vw] md:top-[8vh] md:w-[44vw] md:h-[44vw]"
+            className="left-[-30vw] top-[10vh] w-[70vw] h-[70vw] md:left-[-16vw] md:top-[8vh] md:w-[44vw] md:h-[44vw]"
           />
 
           <div className="max-w-6xl mx-auto relative z-10">
@@ -391,16 +421,16 @@ export default function ProjectDetail() {
                 )}
               </motion.div>
 
-              {/* Right Column: Key Highlights Sticky Card */}
+              {/* Right Column: Key Highlights Card */}
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-10px' }}
                 variants={slideInRight}
-                className="lg:col-span-5 lg:sticky lg:top-24"
+                className="lg:col-span-5"
               >
-                <div className="rounded-3xl border border-hairline bg-[#FAFAFA] p-6 sm:p-8 shadow-sm">
-                  <h3 className="text-lg sm:text-xl font-bold text-ink mb-5 tracking-tight">
+                <div className="rounded-3xl border border-hairline bg-[#FAFAFA] p-6 sm:p-8 md:p-9 shadow-sm">
+                  <h3 className="text-xl sm:text-2xl font-bold text-ink mb-4 tracking-tight">
                     Key Highlights
                   </h3>
 
@@ -451,7 +481,7 @@ export default function ProjectDetail() {
           <BackgroundShape
             initialIndex={1}
             strokeClassName={theme.shapeStroke}
-            className="-right-[28vw] top-[12vh] w-[72vw] h-[72vw] md:-right-[14vw] md:top-[10vh] md:w-[46vw] md:h-[46vw]"
+            className="right-[-28vw] top-[12vh] w-[72vw] h-[72vw] md:right-[-14vw] md:top-[10vh] md:w-[46vw] md:h-[46vw]"
           />
 
           <div className="max-w-6xl mx-auto relative z-10">

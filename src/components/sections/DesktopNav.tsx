@@ -1,5 +1,5 @@
-import { motion, useReducedMotion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useReducedMotion } from 'framer-motion';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from '@phosphor-icons/react';
 
@@ -17,7 +17,23 @@ const RIGHT_LINKS = NAV_LINKS.slice(3);
 
 const SCROLL_OFFSET = 88;
 const SCROLLED_THRESHOLD = 20;
-const SECTION_WAIT_MS = 1500;
+
+let committedPathname =
+  typeof window !== 'undefined' ? window.location.pathname : '/';
+
+const subscribeScroll = (onStoreChange: () => void) => {
+  window.addEventListener('scroll', onStoreChange, { passive: true });
+  return () => window.removeEventListener('scroll', onStoreChange);
+};
+
+const getScrolledSnapshot = () => {
+  if (window.location.pathname !== committedPathname) {
+    return window.location.pathname === '/' && window.location.hash.length > 1;
+  }
+  return window.scrollY > SCROLLED_THRESHOLD;
+};
+
+const getServerScrolledSnapshot = () => false;
 
 const scrollToSection = (id: string, smooth: boolean) => {
   const el = document.getElementById(id);
@@ -41,7 +57,11 @@ const focusRing =
 
 const listClass = 'flex items-center text-[11px] lg:text-xs uppercase tracking-widest';
 
-const DesktopNav = () => {
+interface DesktopNavProps {
+  logoSrc?: string;
+}
+
+const DesktopNav = ({ logoSrc = '/logo-static.svg' }: DesktopNavProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const reduce = useReducedMotion();
@@ -55,7 +75,15 @@ const DesktopNav = () => {
   const backHash = isCareer ? '#experience' : '#projects';
   const backName = isCareer ? 'Experience' : 'Projects';
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  const isScrolled = useSyncExternalStore(
+    subscribeScroll,
+    getScrolledSnapshot,
+    getServerScrolledSnapshot,
+  );
+
+  useEffect(() => {
+    committedPathname = pathname;
+  }, [pathname]);
 
   const smoothRef = useRef(!reduce);
   useEffect(() => {
@@ -85,49 +113,13 @@ const DesktopNav = () => {
     }
   };
 
-  useEffect(() => {
-    if (!isHome || !location.hash) return;
-    const id = location.hash.slice(1);
-
-    let raf = 0;
-    const start = performance.now();
-
-    const tick = () => {
-      if (scrollToSection(id, smoothRef.current)) return;
-      if (performance.now() - start < SECTION_WAIT_MS) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(raf);
-  }, [isHome, location.hash]);
-
-  // Track scroll state for compact navbar style
-  useEffect(() => {
-    let raf = 0;
-
-    const update = () => {
-      raf = 0;
-      setIsScrolled(window.scrollY > SCROLLED_THRESHOLD);
-    };
-
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-
   const renderLink = ({ id, label }: { id: string; label: string }) => (
     <li key={id}>
       <a
         href={hrefFor(id)}
         onClick={(e) => goTo(e, id)}
-        className={`flex flex-col items-center px-2.5 lg:px-3.5 py-2.5 rounded-full transition-colors duration-300
+        tabIndex={isSlug ? -1 : undefined}
+        className={`flex flex-col items-center px-2.5 lg:px-3.5 py-2 rounded-full transition-colors duration-300
           ${focusRing} font-medium text-steel hover:text-ink`}
       >
         {label}
@@ -138,33 +130,41 @@ const DesktopNav = () => {
   return (
     <nav
       aria-label="Main"
-      className={`hidden md:block fixed inset-x-0 mx-auto z-50 border bg-white/80 backdrop-blur-xl
-        transition-[top,width,max-width,border-radius,box-shadow,border-color] duration-500 ease-out motion-reduce:transition-none
-        ${
-          isScrolled
-            ? 'top-4 w-[92%] max-w-3xl rounded-4xl border-black/5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)]'
-            : 'top-0 w-full max-w-[100vw] rounded-none border-transparent border-b-black/5 shadow-none'
-        }`}
+      className={`hidden md:block fixed top-0 inset-x-0 z-50 pointer-events-none will-change-transform
+        transition-transform duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none
+        ${isScrolled ? 'translate-y-3.5' : 'translate-y-0'}`}
     >
+      {/* Visual background layer (childless so width/radius morphing triggers zero layout reflow on content) */}
       <div
-        className={`mx-auto max-w-350 grid grid-cols-[1fr_auto_1fr] items-center gap-x-4 lg:gap-x-8 px-6
-          transition-[height] duration-500 ease-out motion-reduce:transition-none
-          ${isScrolled ? 'h-16' : 'h-20'}`}
-      >
-        {/* Left Column: Nav links on Home (solid, original position), Back button on Slug */}
-        {isSlug ? (
-          <motion.div
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="justify-self-start"
+        aria-hidden="true"
+        className={`pointer-events-auto mx-auto h-16 w-full border backdrop-blur-xl
+          transition-[max-width,border-radius,border-color,box-shadow,background-color] duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none
+          ${
+            isScrolled
+              ? 'md:max-w-[92vw] lg:max-w-3xl rounded-4xl border-black/8 bg-white/88 shadow-[0_10px_32px_-8px_rgba(0,0,0,0.12)]'
+              : 'max-w-[100vw] rounded-none border-transparent border-b-black/6 bg-white/80 shadow-none'
+          }`}
+      />
+
+      {/* Content layer (constant max-w-3xl h-16 so links, logo, and back button never resize or jitter) */}
+      <div className="relative z-10 pointer-events-auto -mt-16 mx-auto max-w-3xl h-16 grid grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] items-center px-6">
+        {/* Left Column: Pure GPU compositor crossfade between Home links and Slug Back button */}
+        <div className="relative flex items-center h-full min-w-0">
+          <div
+            aria-hidden={!isSlug || undefined}
+            className={`absolute left-0 flex items-center will-change-[opacity,transform] transition-[opacity,transform] motion-reduce:transition-none ${
+              isSlug
+                ? 'opacity-100 translate-x-0 duration-300 delay-75 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-auto'
+                : 'opacity-0 -translate-x-3 duration-150 delay-0 ease-out pointer-events-none'
+            }`}
           >
             <Link
               to={{ pathname: '/', hash: backHash }}
-              className={`group inline-flex items-center gap-2 h-10 px-3 -ml-3 rounded-full text-xs lg:text-sm font-semibold text-steel hover:text-ink transition-colors duration-300 motion-reduce:transition-none ${focusRing}`}
+              tabIndex={isSlug ? undefined : -1}
+              className={`group inline-flex items-center gap-2 h-10 px-3 -ml-2 rounded-full text-xs lg:text-sm font-semibold text-steel hover:text-ink hover:bg-black/4 transition-colors duration-300 motion-reduce:transition-none whitespace-nowrap ${focusRing}`}
             >
               <ArrowLeft
-                size={18}
+                size={17}
                 weight="bold"
                 aria-hidden
                 className="transition-transform duration-300 motion-reduce:transition-none group-hover:-translate-x-1"
@@ -173,35 +173,49 @@ const DesktopNav = () => {
                 Back<span className="hidden sm:inline"> to {backName}</span>
               </span>
             </Link>
-          </motion.div>
-        ) : (
-          <ul className={`${listClass} justify-self-end`}>
+          </div>
+
+          <ul
+            aria-hidden={isSlug || undefined}
+            className={`${listClass} absolute right-2 lg:right-4 will-change-[opacity,transform] transition-[opacity,transform] motion-reduce:transition-none ${
+              isSlug
+                ? 'opacity-0 -translate-y-1.5 scale-[0.98] duration-150 delay-0 ease-out pointer-events-none'
+                : 'opacity-100 translate-y-0 scale-100 duration-300 delay-75 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-auto'
+            }`}
+          >
             {LEFT_LINKS.map(renderLink)}
           </ul>
-        )}
+        </div>
 
-        {/* Center: Animated Logo */}
-        <Link
-          to="/"
-          aria-label="Home, back to top"
-          onClick={handleLogoClick}
-          className={`group justify-self-center block rounded-full ${focusRing}`}
-        >
-          <img
-            src="/logo-animated.svg"
-            alt=""
-            className="w-9 h-9 group-hover:scale-105 transition-transform duration-500"
-          />
-        </Link>
+        {/* Center: Logo */}
+        <div className="flex items-center justify-center">
+          <Link
+            to="/"
+            aria-label="Home, back to top"
+            onClick={handleLogoClick}
+            className={`group block rounded-full ${focusRing}`}
+          >
+            <img
+              src={logoSrc}
+              alt=""
+              className="w-9 h-9 group-hover:scale-105 transition-transform duration-300 ease-out"
+            />
+          </Link>
+        </div>
 
-        {/* Right Column: Nav links on Home (solid, original position), empty space on Slug */}
-        {isSlug ? (
-          <div aria-hidden="true" className="justify-self-end" />
-        ) : (
-          <ul className={`${listClass} justify-self-start`}>
+        {/* Right Column: Pure GPU compositor crossfade for Right links */}
+        <div className="relative flex items-center h-full min-w-0">
+          <ul
+            aria-hidden={isSlug || undefined}
+            className={`${listClass} absolute left-2 lg:left-4 will-change-[opacity,transform] transition-[opacity,transform] motion-reduce:transition-none ${
+              isSlug
+                ? 'opacity-0 -translate-y-1.5 scale-[0.98] duration-150 delay-0 ease-out pointer-events-none'
+                : 'opacity-100 translate-y-0 scale-100 duration-300 delay-75 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-auto'
+            }`}
+          >
             {RIGHT_LINKS.map(renderLink)}
           </ul>
-        )}
+        </div>
       </div>
     </nav>
   );

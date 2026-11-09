@@ -11,6 +11,7 @@ dist
 dist-ssr
 *.local
 *.tsbuildinfo
+text.txt
 
 # Agent & Design Reference Directories
 .agent

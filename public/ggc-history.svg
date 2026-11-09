@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF7ED"/>
+      <stop offset="100%" stop-color="#F5F5F4"/>
+    </linearGradient>
+    <filter id="cardShadow3" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1C1917" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGrad3)"/>
+  <circle cx="120" cy="100" r="140" fill="#FB923C" fill-opacity="0.1"/>
+  <circle cx="680" cy="500" r="140" fill="#536856" fill-opacity="0.1"/>
+
+  <!-- Left Card: Session History Overlay -->
+  <g filter="url(#cardShadow3)">
+    <rect x="44" y="42" width="342" height="516" rx="24" fill="#FFFFFF" stroke="#E7E5E4" stroke-width="1.5"/>
+  </g>
+
+  <text x="72" y="86" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="800" fill="#1C1917">↺ Recent Data</text>
+  <rect x="282" y="66" width="76" height="26" rx="13" fill="#F5F5F4"/>
+  <text x="320" y="83" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#57534E">3 / 10 Saved</text>
+  <line x1="44" y1="108" x2="386" y2="108" stroke="#F5F5F4" stroke-width="1.5"/>
+
+  <!-- History Item 1 -->
+  <rect x="68" y="128" width="294" height="106" rx="16" fill="#FAFAF9" stroke="#E7E5E4"/>
+  <text x="86" y="156" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#1C1917">Eternal Horizon</text>
+  <rect x="268" y="138" width="78" height="24" rx="8" fill="#ECFDF5"/>
+  <text x="307" y="154" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#065F46">Adventure</text>
+  <text x="86" y="182" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#78716C">Embark on an epic journey across a vast</text>
+  <text x="86" y="200" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#78716C">open world filled with ancient ruins...</text>
+  <text x="86" y="220" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#EA580C">Click to reload prediction →</text>
+
+  <!-- History Item 2 -->
+  <rect x="68" y="248" width="294" height="106" rx="16" fill="#FAFAF9" stroke="#E7E5E4"/>
+  <text x="86" y="276" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#1C1917">Neon Protocol 2099</text>
+  <rect x="282" y="258" width="64" height="24" rx="8" fill="#EFF6FF"/>
+  <text x="314" y="274" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#1D4ED8">Sci-Fi</text>
+  <text x="86" y="302" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#78716C">Hack neural networks and battle rogue</text>
+  <text x="86" y="320" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#78716C">syndicates in a rain-soaked megacity...</text>
+  <text x="86" y="340" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#57534E">96.2% Match • Action, Cyberpunk</text>
+
+  <!-- History Item 3 -->
+  <rect x="68" y="368" width="294" height="106" rx="16" fill="#FAFAF9" stroke="#E7E5E4"/>
+  <text x="86" y="396" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#1C1917">Whispers of Blackwood</text>
+  <rect x="282" y="378" width="64" height="24" rx="8" fill="#FEF2F2"/>
+  <text x="314" y="394" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#B91C1C">Horror</text>
+  <text x="86" y="422" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#78716C">Survive psychological terror inside an</text>
+  <text x="86" y="440" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#78716C">abandoned Victorian asylum with only...</text>
+  <text x="86" y="460" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#57534E">93.8% Match • Survival, Mystery</text>
+
+  <!-- Clear Databank Footer -->
+  <rect x="68" y="492" width="294" height="44" rx="14" fill="#FEF2F2"/>
+  <text x="215" y="519" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="800" fill="#DC2626" letter-spacing="1.2">🗑 CLEAR DATABANK</text>
+
+  <!-- Right Card: Interactive "Guess the Genre" Minigame -->
+  <g filter="url(#cardShadow3)">
+    <rect x="408" y="42" width="348" height="516" rx="24" fill="#1C1917" stroke="#292524" stroke-width="1.5"/>
+  </g>
+
+  <rect x="434" y="66" width="138" height="26" rx="13" fill="#292524"/>
+  <text x="503" y="83" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="800" fill="#FB923C" letter-spacing="0.8">🎮 MINIGAME MODE</text>
+
+  <rect x="634" y="66" width="96" height="26" rx="13" fill="#14532D"/>
+  <text x="682" y="83" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="800" fill="#86EFAC">SCORE: 140</text>
+
+  <text x="434" y="128" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="800" fill="#FAFAF9">Guess the Genre</text>
+  <text x="434" y="150" font-family="Inter, system-ui, sans-serif" font-size="12.5" fill="#A8A29E">Read the mystery synopsis &amp; pick the primary genre</text>
+
+  <!-- Mystery Synopsis Box -->
+  <rect x="434" y="170" width="296" height="148" rx="18" fill="#292524" stroke="#3F3F46"/>
+  <text x="454" y="198" font-family="monospace" font-size="10.5" font-weight="700" fill="#FB923C">MYSTERY SYNOPSIS #18</text>
+  <text x="454" y="224" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#F5F5F4">"Command battalion squads across war-torn</text>
+  <text x="454" y="246" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#F5F5F4">hexagonal territories, manage supply lines,</text>
+  <text x="454" y="268" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#F5F5F4">and outmaneuver rival commanders in</text>
+  <text x="454" y="290" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#F5F5F4">turn-based tactical warfare."</text>
+
+  <!-- 6 Genre Choices Grid -->
+  <text x="434" y="346" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#A8A29E" letter-spacing="1.2">SELECT CORRECT GENRE (+10 PTS)</text>
+
+  <rect x="434" y="362" width="142" height="44" rx="12" fill="#292524" stroke="#3F3F46"/>
+  <text x="505" y="389" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#E7E5E4">Platformer</text>
+
+  <rect x="588" y="362" width="142" height="44" rx="12" fill="#14532D" stroke="#22C55E" stroke-width="2"/>
+  <text x="659" y="389" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#86EFAC">✓ Strategy</text>
+
+  <rect x="434" y="418" width="142" height="44" rx="12" fill="#292524" stroke="#3F3F46"/>
+  <text x="505" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#E7E5E4">Racing</text>
+
+  <rect x="588" y="418" width="142" height="44" rx="12" fill="#292524" stroke="#3F3F46"/>
+  <text x="659" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#E7E5E4">Horror</text>
+
+  <rect x="434" y="474" width="142" height="44" rx="12" fill="#292524" stroke="#3F3F46"/>
+  <text x="505" y="501" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#E7E5E4">Sports</text>
+
+  <rect x="588" y="474" width="142" height="44" rx="12" fill="#EA580C"/>
+  <text x="659" y="501" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#FFFFFF">Next Round →</text>
+</svg>
