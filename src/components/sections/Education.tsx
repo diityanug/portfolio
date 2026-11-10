@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   GraduationCap,
   MapPin,
@@ -148,7 +148,7 @@ const CertCard = ({ cert }: CertCardProps) => (
 const Education = () => {
   const [activeCategory, setActiveCategory] = useState<CertCategory>('Featured');
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const certsSectionRef = useRef<HTMLDivElement>(null);
+  const certsGridRef = useRef<HTMLDivElement>(null);
 
   const filteredCerts = useMemo(() => {
     if (activeCategory === 'Featured') {
@@ -160,8 +160,21 @@ const Education = () => {
     return ENRICHED_CERTIFICATES.filter((c) => c.category === activeCategory);
   }, [activeCategory]);
 
-  const initialCerts = useMemo(() => filteredCerts.slice(0, 6), [filteredCerts]);
-  const extraCerts = useMemo(() => filteredCerts.slice(6), [filteredCerts]);
+  // If 8 or fewer cards, show all cleanly without an artificial toggle
+  const initialCerts = useMemo(() => {
+    if (filteredCerts.length <= 8) {
+      return filteredCerts;
+    }
+    return filteredCerts.slice(0, 6);
+  }, [filteredCerts]);
+
+  const extraCerts = useMemo(() => {
+    if (filteredCerts.length <= 8) {
+      return [];
+    }
+    return filteredCerts.slice(6);
+  }, [filteredCerts]);
+
   const hasExtra = extraCerts.length > 0;
 
   const handleTabChange = (tab: CertCategory) => {
@@ -171,10 +184,14 @@ const Education = () => {
 
   const handleToggleExpand = () => {
     if (isExpanded) {
-      const el = certsSectionRef.current;
+      const el = certsGridRef.current;
       if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 90;
-        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        const rect = el.getBoundingClientRect();
+        // Only scroll if the top of the grid has scrolled out of view above the screen
+        if (rect.top < 90) {
+          const targetY = rect.top + window.scrollY - 100;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
       }
     }
     setIsExpanded((prev) => !prev);
@@ -335,47 +352,38 @@ const Education = () => {
           </motion.div>
 
           {/* Symmetrical 2-Column Grid Container */}
-          <div className="relative w-full">
-            {/* Initial 6-Card Symmetrical Grid (Always in DOM, never jumps) */}
+          <div ref={certsGridRef} className="relative w-full">
+            {/* Initial Grid (Always in DOM) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
               {initialCerts.map((cert) => (
                 <CertCard key={cert.title} cert={cert} />
               ))}
             </div>
 
-            {/* Hardware-Accelerated Smooth Accordion for Extra Cards */}
-            {hasExtra && (
-              <div
-                className="grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                style={{
-                  gridTemplateRows: isExpanded ? '1fr' : '0fr',
-                }}
-              >
-                <div className="overflow-hidden">
-                  <div
-                    className={`grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      isExpanded
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-0 -translate-y-2 pointer-events-none'
-                    }`}
-                  >
+            {/* Smooth Height-Animated Accordion for Extra Cards */}
+            <AnimatePresence initial={false}>
+              {isExpanded && hasExtra && (
+                <motion.div
+                  key="extra-certs-container"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{
+                    height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                    opacity: { duration: 0.2, ease: 'easeOut' },
+                  }}
+                  className="overflow-hidden"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4">
                     {extraCerts.map((cert) => (
                       <CertCard key={cert.title} cert={cert} />
                     ))}
                   </div>
-                </div>
-              </div>
-            )}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            {/* Subtle Gradient Fade when Collapsed */}
-            {!isExpanded && hasExtra && (
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -bottom-1 inset-x-0 h-24 bg-gradient-to-t from-[#f8f9fa] via-[#f8f9fa]/70 to-transparent transition-opacity duration-300"
-              />
-            )}
-
-            {/* Smooth Expand / Collapse Button */}
+            {/* Clean Expand / Collapse Button (No gradient covering cards) */}
             {hasExtra && (
               <div className="mt-8 flex justify-center relative z-20">
                 <button
@@ -386,7 +394,7 @@ const Education = () => {
                   <span>{isExpanded ? 'Show Less' : `Show All (${filteredCerts.length})`}</span>
                   <motion.span
                     animate={{ rotate: isExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="inline-flex items-center justify-center text-[#6b7280] group-hover:text-[#111111]"
                   >
                     <CaretDown size={15} weight="bold" />
