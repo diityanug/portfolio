@@ -225,21 +225,12 @@ const Education = () => {
             >
               <div className="flex flex-col h-full justify-between">
                 <div>
-                  {/* Top Row: Icon tile + Level & Year */}
-                  <div className="flex items-center justify-between gap-3 mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb] flex items-center justify-center text-[#111111] group-hover:bg-[#111111] group-hover:text-[#ffffff] group-hover:border-[#111111] transition-all duration-200 shrink-0">
-                        <GraduationCap size={20} weight="duotone" aria-hidden />
-                      </div>
-                      <div>
-                        <span className="text-xs font-semibold text-[#111111] block leading-tight">
-                          {edu.level}
-                        </span>
-                        <span className="text-[11px] text-[#6b7280]">
-                          Formal Education
-                        </span>
-                      </div>
-                    </div>
+                  {/* Top Row: Level & Year */}
+                  <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
+                    <span className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb] text-[#111111]">
+                      <GraduationCap size={16} weight="duotone" aria-hidden />
+                      {edu.level}
+                    </span>
 
                     <span className="text-xs font-medium text-[#6b7280] bg-[#f8f9fa] border border-[#e5e7eb] px-3 py-1.5 rounded-xl tabular-nums shrink-0">
                       {edu.year}
@@ -247,7 +238,7 @@ const Education = () => {
                   </div>
 
                   {/* Degree Title & Institution */}
-                  <div className="mb-6">
+                  <div>
                     <h3 className="text-xl sm:text-[22px] font-semibold text-[#111111] tracking-[-0.02em] leading-snug mb-2 md:min-h-[60px]">
                       {edu.title}
                     </h3>
@@ -261,34 +252,15 @@ const Education = () => {
                       </span>
                     </div>
                   </div>
-
-                  {/* Specialization Inset Shelf */}
-                  <div className="p-4 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb]/80 mb-6">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#898989] mb-1">
-                      Focused on
-                    </span>
-                    <span className="text-xs sm:text-sm font-semibold text-[#111111]">
-                      {edu.desc}
-                    </span>
-                  </div>
                 </div>
 
-                {/* Bottom Shelf: Status & Cumulative GPA */}
-                <div className="pt-4 border-t border-[#f0f1f3] flex items-end justify-between gap-4">
-                  <div>
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#898989] mb-1.5">
-                      Degree Status
-                    </span>
-                    <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#111111]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#10b981]" />
-                      <span>Conferred</span>
-                    </div>
-                  </div>
+                {/* Bottom Shelf: Focus & GPA */}
+                <div className="mt-8 pt-5 border-t border-[#f0f1f3] flex items-end justify-between gap-4">
+                  <p className="min-w-0 text-xs sm:text-sm font-medium text-[#111111] leading-snug">
+                    {edu.desc}
+                  </p>
 
                   <div className="text-right shrink-0">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#898989] mb-1">
-                      Cumulative GPA
-                    </span>
                     <div className="flex items-baseline justify-end gap-1">
                       <span className="text-2xl sm:text-3xl font-semibold text-[#111111] tabular-nums tracking-tight">
                         {edu.gpa}
