@@ -79,19 +79,15 @@ const Profile = () => {
             <div aria-hidden="true" className="h-px w-12 bg-[#111111] mb-8" />
 
             <p className="text-[#111111] text-lg sm:text-xl md:text-[21px] font-normal leading-[1.55] tracking-[-0.01em] max-w-2xl">
-              A Software Engineer focused on frontend and mobile development using{' '}
+              A Software Engineer focused on frontend development using{' '}
               <span className="font-medium underline decoration-[#d1d5db] underline-offset-4">
                 TypeScript
-              </span>
-              ,{' '}
+              </span>{' '}
+              and{' '}
               <span className="font-medium underline decoration-[#d1d5db] underline-offset-4">
                 React
               </span>
-              , and{' '}
-              <span className="font-medium underline decoration-[#d1d5db] underline-offset-4">
-                React Native
-              </span>
-              , while also building backend services with Python and FastAPI.
+              , while also exploring backend development with Python and FastAPI. I enjoy building modern, clean, and user-friendly web applications while continuously learning and improving my skills.
             </p>
 
             <p className="mt-6 text-[#6b7280] text-base md:text-[16px] font-normal leading-[1.7] max-w-2xl">
