@@ -99,11 +99,11 @@ const Skills = () => (
     id="skills"
     tabIndex={-1}
     aria-labelledby="skills-heading"
-    className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#FAFAFA] relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
+    className="pt-20 md:pt-32 pb-24 md:pb-36 px-4 md:px-8 bg-[#ffffff] relative z-10 overflow-hidden border-t border-[#e5e7eb] outline-none"
   >
     <BackgroundShape
       initialIndex={0}
-      strokeClassName="stroke-primary/[0.07]"
+      strokeClassName="stroke-[#111111]/[0.04]"
       className="right-[-28vw] top-[4vh] w-[72vw] h-[72vw] md:right-[-15vw] md:top-[6vh] md:w-[48vw] md:h-[48vw]"
     />
     <div className="max-w-6xl mx-auto relative z-10">
@@ -128,7 +128,7 @@ const Skills = () => (
         whileInView="visible"
         viewport={VIEWPORT}
         variants={staggerContainer}
-        className="border-t border-b border-black/8 divide-y divide-black/8"
+        className="border-t border-b border-[#e5e7eb] divide-y divide-[#e5e7eb]"
       >
         {SKILL_SPECS.map((spec) => {
           const { CategoryIcon } = spec;
@@ -145,9 +145,9 @@ const Skills = () => (
                   size={22}
                   strokeWidth={1.8}
                   aria-hidden
-                  className="text-steel/70 group-hover:text-ink transition-colors duration-300 shrink-0"
+                  className="text-[#6b7280] group-hover:text-[#111111] transition-colors duration-300 shrink-0"
                 />
-                <h3 className="text-xl sm:text-2xl md:text-[25px] font-bold text-ink tracking-tight transition-colors duration-300">
+                <h3 className="text-xl sm:text-2xl md:text-[25px] font-semibold text-[#111111] tracking-tight transition-colors duration-300">
                   {spec.title}
                 </h3>
               </div>
@@ -157,7 +157,7 @@ const Skills = () => (
                 {spec.skills.map(({ name, icon: SkillIcon, color }) => (
                   <li
                     key={name}
-                    className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs sm:text-[13px] md:text-sm font-medium bg-white border border-black/7 shadow-2xs hover:border-black/20 hover:shadow-xs text-ink transition-all duration-200 cursor-default hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs sm:text-[13px] md:text-sm font-medium bg-[#ffffff] border border-[#e5e7eb] shadow-2xs hover:border-[#111111]/30 hover:shadow-xs text-[#111111] transition-all duration-200 cursor-default hover:-translate-y-0.5"
                   >
                     <SkillIcon
                       size={17}
