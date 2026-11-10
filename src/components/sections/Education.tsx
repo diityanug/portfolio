@@ -112,13 +112,16 @@ const CertCard = ({ cert }: CertCardProps) => (
     rel="noopener noreferrer"
     className="group relative p-5 rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#d1d5db] hover:shadow-xs transition-[border-color,box-shadow] duration-200 flex flex-col justify-between gap-4 outline-none focus-visible:outline-2 focus-visible:outline-[#111111] min-h-[112px]"
   >
-    {/* Top Row: Icon + Year & External Arrow */}
+    {/* Top Row: Icon + Category & Year / Arrow (No icon box pill) */}
     <div className="flex items-center justify-between gap-2">
-      <div className="w-9 h-9 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb] flex items-center justify-center shrink-0 text-[#111111]">
-        <Certificate size={18} weight="duotone" aria-hidden />
+      <div className="flex items-center gap-2 text-[#111111]">
+        <Certificate size={18} weight="bold" className="text-[#111111] shrink-0" aria-hidden />
+        <span className="text-[11px] font-medium uppercase tracking-wider text-[#898989]">
+          {cert.category}
+        </span>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5">
         <span className="text-xs font-normal text-[#6b7280] tabular-nums">
           {cert.year}
         </span>
@@ -132,15 +135,12 @@ const CertCard = ({ cert }: CertCardProps) => (
 
     {/* Title & Issuer */}
     <div>
-      <h4 className="text-sm sm:text-[15px] font-medium text-[#111111] leading-snug line-clamp-2 mb-2">
+      <h4 className="text-sm sm:text-[15px] font-medium text-[#111111] leading-snug line-clamp-2 mb-1.5 group-hover:text-[#000000]">
         {cert.title}
       </h4>
-      <div className="flex items-center justify-between gap-2 text-xs font-normal text-[#6b7280]">
-        <span className="truncate">{cert.issuer}</span>
-        <span className="text-[11px] text-[#898989] shrink-0">
-          {cert.category}
-        </span>
-      </div>
+      <p className="text-xs font-normal text-[#6b7280] truncate">
+        {cert.issuer}
+      </p>
     </div>
   </a>
 );
@@ -187,10 +187,9 @@ const Education = () => {
       const el = certsGridRef.current;
       if (el) {
         const rect = el.getBoundingClientRect();
-        // Only scroll if the top of the grid has scrolled out of view above the screen
-        if (rect.top < 90) {
-          const targetY = rect.top + window.scrollY - 100;
-          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        // If top of grid scrolled past viewport, scroll top cleanly into view
+        if (rect.top < 80) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
     }
@@ -242,14 +241,14 @@ const Education = () => {
             >
               <div className="flex flex-col h-full justify-between">
                 <div>
-                  {/* Top Row: Level & Year */}
-                  <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
-                    <span className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb] text-[#111111]">
-                      <GraduationCap size={16} weight="duotone" aria-hidden />
-                      {edu.level}
-                    </span>
+                  {/* Top Row: Degree Level & Period (Clean divider row, zero pills) */}
+                  <div className="flex items-center justify-between gap-3 pb-4 mb-6 sm:mb-7 border-b border-[#f3f4f6]">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#6b7280]">
+                      <GraduationCap size={17} weight="bold" className="text-[#111111]" aria-hidden />
+                      <span>{edu.level}</span>
+                    </div>
 
-                    <span className="text-xs font-medium text-[#6b7280] bg-[#f8f9fa] border border-[#e5e7eb] px-3 py-1.5 rounded-xl tabular-nums shrink-0">
+                    <span className="text-xs font-medium text-[#6b7280] tabular-nums shrink-0">
                       {edu.year}
                     </span>
                   </div>
@@ -309,11 +308,11 @@ const Education = () => {
               </h3>
             </div>
 
-            {/* Category Filter Tabs (Cal.com nav-pill-group pattern) */}
+            {/* Category Filter Tabs (Clean underline tabs, zero pills) */}
             <div
               role="tablist"
               aria-label="Filter certifications by category"
-              className="flex flex-wrap items-center gap-1 p-1 rounded-xl bg-[#eef0f3] border border-[#e5e7eb]"
+              className="flex items-center gap-1 sm:gap-2 border-b border-[#e5e7eb] overflow-x-auto no-scrollbar"
             >
               {FILTER_TABS.map((tab) => {
                 const isActive = activeCategory === tab;
@@ -331,16 +330,16 @@ const Education = () => {
                     type="button"
                     aria-selected={isActive}
                     onClick={() => handleTabChange(tab)}
-                    className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 cursor-pointer outline-none focus-visible:outline-2 focus-visible:outline-[#111111] ${
+                    className={`relative pb-3 pt-1 px-3 text-xs sm:text-sm font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-[#111111] ${
                       isActive
-                        ? 'bg-[#111111] text-[#ffffff] shadow-2xs'
-                        : 'text-[#6b7280] hover:text-[#111111]'
+                        ? 'text-[#111111] font-semibold border-b-2 border-[#111111] -mb-px'
+                        : 'text-[#6b7280] hover:text-[#111111] border-b-2 border-transparent'
                     }`}
                   >
                     <span>{tab}</span>
                     <span
-                      className={`ml-1.5 text-[11px] tabular-nums ${
-                        isActive ? 'text-white/75' : 'text-[#898989]'
+                      className={`ml-1.5 text-xs tabular-nums ${
+                        isActive ? 'text-[#111111]' : 'text-[#9ca3af]'
                       }`}
                     >
                       {count}
@@ -352,7 +351,7 @@ const Education = () => {
           </motion.div>
 
           {/* Symmetrical 2-Column Grid Container */}
-          <div ref={certsGridRef} className="relative w-full">
+          <div ref={certsGridRef} className="relative w-full scroll-mt-28">
             {/* Initial Grid (Always in DOM) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
               {initialCerts.map((cert) => (
@@ -366,11 +365,21 @@ const Education = () => {
                 <motion.div
                   key="extra-certs-container"
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{
-                    height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-                    opacity: { duration: 0.2, ease: 'easeOut' },
+                  animate={{
+                    opacity: 1,
+                    height: 'auto',
+                    transition: {
+                      height: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+                      opacity: { duration: 0.3, ease: 'easeOut' },
+                    },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    height: 0,
+                    transition: {
+                      height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+                      opacity: { duration: 0.2, ease: 'easeIn' },
+                    },
                   }}
                   className="overflow-hidden"
                 >
@@ -383,22 +392,22 @@ const Education = () => {
               )}
             </AnimatePresence>
 
-            {/* Clean Expand / Collapse Button (No gradient covering cards) */}
+            {/* Clean Expand / Collapse Button (Cal.com button-secondary style, zero pills) */}
             {hasExtra && (
               <div className="mt-8 flex justify-center relative z-20">
                 <button
                   type="button"
                   onClick={handleToggleExpand}
-                  className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#ffffff] border border-[#e5e7eb] hover:bg-[#f5f5f5] hover:border-[#d1d5db] text-xs sm:text-sm font-medium text-[#111111] transition-all duration-200 cursor-pointer outline-none focus-visible:outline-2 focus-visible:outline-[#111111] shadow-2xs active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111] hover:bg-[#f8f9fa] text-xs sm:text-sm font-medium text-[#111111] transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#111111]"
                 >
                   <span>{isExpanded ? 'Show Less' : `Show All (${filteredCerts.length})`}</span>
-                  <motion.span
-                    animate={{ rotate: isExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="inline-flex items-center justify-center text-[#6b7280] group-hover:text-[#111111]"
-                  >
-                    <CaretDown size={15} weight="bold" />
-                  </motion.span>
+                  <CaretDown
+                    size={14}
+                    weight="bold"
+                    className={`text-[#6b7280] group-hover:text-[#111111] transition-transform duration-300 ${
+                      isExpanded ? 'rotate-180' : 'rotate-0'
+                    }`}
+                  />
                 </button>
               </div>
             )}

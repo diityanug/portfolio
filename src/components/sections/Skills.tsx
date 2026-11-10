@@ -149,13 +149,13 @@ const Skills = () => {
           />
         </motion.div>
 
-        {/* Clean 2x2 Architectural Grid (Cal.com DESIGN.md) */}
+        {/* Clean 2x2 Architectural Grid (Cal.com DESIGN.md - Zero Pills) */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
         >
           {SKILL_GROUPS.map((group) => {
             const CategoryIcon = group.categoryIcon;
@@ -163,33 +163,31 @@ const Skills = () => {
               <motion.div
                 key={group.id}
                 variants={groupVariants}
-                className="flex flex-col"
+                className="rounded-2xl bg-[#ffffff] border border-[#e5e7eb] p-6 sm:p-8 flex flex-col justify-between hover:border-[#111111]/30 transition-colors duration-200"
               >
-                {/* Category Header with clean hairline divider (No count numbers) */}
-                <div className="flex items-center gap-3 pb-4 mb-5 border-b border-[#e5e7eb]">
-                  <div className="w-8 h-8 rounded-lg bg-[#f8f9fa] border border-[#e5e7eb] flex items-center justify-center text-[#111111] shrink-0">
-                    <CategoryIcon size={17} strokeWidth={1.8} aria-hidden />
-                  </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-[#111111] tracking-[-0.015em]">
+                {/* Category Header with clean hairline divider (No pill container, no box) */}
+                <div className="flex items-center gap-2.5 pb-4 mb-6 border-b border-[#f3f4f6]">
+                  <CategoryIcon size={19} strokeWidth={1.8} className="text-[#111111] shrink-0" aria-hidden />
+                  <h3 className="text-base sm:text-lg font-semibold text-[#111111] tracking-tight">
                     {group.title}
                   </h3>
                 </div>
 
-                {/* Clean 2-Column Token Grid */}
-                <div className="grid grid-cols-2 gap-2.5">
+                {/* Clean Typographic 2-Column Grid (Zero Pills/Capsules) */}
+                <div className="grid grid-cols-2 gap-x-6 gap-y-3.5">
                   {group.skills.map((skill) => {
                     const Icon = skill.icon;
                     return (
                       <motion.div
                         key={skill.name}
                         variants={chipVariants}
-                        className="group flex items-center gap-3 px-3.5 py-3 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb] transition-all duration-200 hover:border-[#d1d5db] hover:bg-[#ffffff] hover:shadow-2xs"
+                        className="group flex items-center gap-3 py-1 text-[#374151] hover:text-[#111111] transition-colors"
                       >
                         <Icon
-                          className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0 transition-transform duration-300 group-hover:scale-110"
+                          className="w-4 h-4 sm:w-[18px] sm:h-[18px] shrink-0 transition-transform duration-200 group-hover:scale-110"
                           style={{ color: skill.color }}
                         />
-                        <span className="text-xs sm:text-sm font-medium text-[#374151] group-hover:text-[#111111] tracking-tight truncate transition-colors">
+                        <span className="text-xs sm:text-sm font-medium tracking-tight truncate transition-colors">
                           {skill.name}
                         </span>
                       </motion.div>
