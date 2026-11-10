@@ -1,343 +1,432 @@
-import { motion, type Variants } from 'framer-motion';
-import { GraduationCap, ArrowUpRight, Certificate, Check } from '@phosphor-icons/react';
-import { fadeUp, scaleIn } from '../../utils/animations';
+import { useState, useMemo, useRef } from 'react';
+import { motion } from 'framer-motion';
+import {
+  GraduationCap,
+  MapPin,
+  Certificate,
+  ArrowUpRight,
+  CaretDown,
+} from '@phosphor-icons/react';
+import { fadeUp, staggerContainer } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
 import BackgroundShape from '../ui/BackgroundShape';
 import { CERTIFICATES } from '../../data';
 
-interface IssuerTheme {
-  card: string;
-  hover: string;
-  tile: string;
-  watermark: string;
-  pill: string;
-  link: string;
-}
-
-const THEMES = {
-  violet: {
-    card: 'bg-linear-to-br from-[#F5F3FF] via-[#EDE9FE] to-[#DDD6FE]/60 border-[#DDD6FE]',
-    hover: 'hover:border-[#8B5CF6]/60 hover:shadow-[#8B5CF6]/15',
-    tile: 'text-[#6D28D9] group-hover:bg-[#8B5CF6] group-hover:text-white',
-    watermark: 'text-[#5B21B6]',
-    pill: 'bg-white/80 text-[#6D28D9] border-[#DDD6FE]',
-    link: 'text-[#6D28D9]',
-  },
-  sky: {
-    card: 'bg-linear-to-br from-[#F0F9FF] via-[#E0F2FE] to-[#BAE6FD]/60 border-[#BAE6FD]',
-    hover: 'hover:border-[#0EA5E9]/60 hover:shadow-[#0EA5E9]/15',
-    tile: 'text-[#0369A1] group-hover:bg-[#0EA5E9] group-hover:text-white',
-    watermark: 'text-[#075985]',
-    pill: 'bg-white/80 text-[#0369A1] border-[#BAE6FD]',
-    link: 'text-[#0369A1]',
-  },
-  emerald: {
-    card: 'bg-linear-to-br from-[#ECFDF5] via-[#D1FAE5] to-[#A7F3D0]/60 border-[#A7F3D0]',
-    hover: 'hover:border-[#10B981]/60 hover:shadow-[#10B981]/15',
-    tile: 'text-[#047857] group-hover:bg-[#10B981] group-hover:text-white',
-    watermark: 'text-[#065F46]',
-    pill: 'bg-white/80 text-[#047857] border-[#A7F3D0]',
-    link: 'text-[#047857]',
-  },
-  amber: {
-    card: 'bg-linear-to-br from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A]/60 border-[#FDE68A]',
-    hover: 'hover:border-[#F59E0B]/60 hover:shadow-[#F59E0B]/15',
-    tile: 'text-[#B45309] group-hover:bg-[#F59E0B] group-hover:text-white',
-    watermark: 'text-[#78350F]',
-    pill: 'bg-white/80 text-[#B45309] border-[#FDE68A]',
-    link: 'text-[#B45309]',
-  },
-  rose: {
-    card: 'bg-linear-to-br from-[#FFF1F2] via-[#FFE4E6] to-[#FECDD3]/60 border-[#FECDD3]',
-    hover: 'hover:border-[#F43F5E]/60 hover:shadow-[#F43F5E]/15',
-    tile: 'text-[#BE123C] group-hover:bg-[#F43F5E] group-hover:text-white',
-    watermark: 'text-[#9F1239]',
-    pill: 'bg-white/80 text-[#BE123C] border-[#FECDD3]',
-    link: 'text-[#BE123C]',
-  },
-  orange: {
-    card: 'bg-linear-to-br from-[#FFF7ED] via-[#FFEDD5] to-[#FDBA74]/60 border-[#FDBA74]',
-    hover: 'hover:border-[#F97316]/60 hover:shadow-[#F97316]/15',
-    tile: 'text-[#C2410C] group-hover:bg-[#F97316] group-hover:text-white',
-    watermark: 'text-[#9A3412]',
-    pill: 'bg-white/80 text-[#C2410C] border-[#FDBA74]',
-    link: 'text-[#C2410C]',
-  },
-} as const satisfies Record<string, IssuerTheme>;
-
-type ThemeKey = keyof typeof THEMES;
-
-// Issuer themes
-const ISSUER_THEME: ReadonlyArray<readonly [string, ThemeKey]> = [
-  ['udemy', 'violet'],
-  ['dicoding', 'sky'],
-  ['agile', 'emerald'],
-];
-
-// Fallback pool for unknown issuers (hashed)
-const FALLBACK_POOL: readonly ThemeKey[] = ['amber', 'rose', 'orange'];
-
-const getIssuerTheme = (issuer: string): IssuerTheme => {
-  const lower = issuer.toLowerCase();
-  const known = ISSUER_THEME.find(([key]) => lower.includes(key));
-  if (known) return THEMES[known[1]];
-  let hash = 0;
-  for (let i = 0; i < lower.length; i++) hash = (hash * 31 + lower.charCodeAt(i)) >>> 0;
-  return THEMES[FALLBACK_POOL[hash % FALLBACK_POOL.length]];
-};
-
-interface EducationItem {
-  level: string;
-  title: string;
-  place: string;
-  location: string;
-  year: string;
-  gpa: string;
-  desc: string;
-  theme: ThemeKey;
-}
-
-const EDUCATION: readonly EducationItem[] = [
+const EDUCATIONS = [
   {
     level: 'Postgraduate Degree',
     title: 'Master of Science in Information Technology',
-    place: 'President University',
+    school: 'President University',
     location: 'Cikarang, Indonesia',
-    year: '2023 - 2025',
+    year: '2023 — 2025',
     gpa: '3.64',
-    desc: 'Business Intelligence.',
-    theme: 'violet',
+    desc: 'Business Intelligence',
   },
   {
     level: 'Undergraduate Degree',
     title: 'Bachelor of Accounting',
-    place: 'Tadulako University',
+    school: 'Tadulako University',
     location: 'Palu, Indonesia',
-    year: '2017 - 2022',
+    year: '2017 — 2022',
     gpa: '3.71',
-    desc: 'Financial Accounting and Taxation.',
-    theme: 'orange',
+    desc: 'Financial Accounting and Taxation',
   },
+] as const;
+
+type CertCategory =
+  | 'Featured'
+  | 'Architecture & Security'
+  | 'AI, Cloud & Data'
+  | 'Engineering & Languages'
+  | 'All';
+
+interface CategorizedCertificate {
+  title: string;
+  issuer: string;
+  year: string;
+  link: string;
+  category: Exclude<CertCategory, 'Featured' | 'All'>;
+  featured: boolean;
+}
+
+const FEATURED_TITLES = new Set([
+  'Panduan LLM untuk Developer: Dasar hingga Aplikasi Praktis',
+  'Principles of Secure Coding',
+  'SOLID Principles: Introducing Software Architecture & Design',
+  'Clean Code',
+  'Fundamentals of Software Design and Architecture Course',
+  'Cloud Practitioner Essentials (Learn AWS Cloud Basic)',
+]);
+
+const categorizeCert = (title: string): Exclude<CertCategory, 'Featured' | 'All'> => {
+  const lower = title.toLowerCase();
+  if (
+    lower.includes('architecture') ||
+    lower.includes('solid') ||
+    lower.includes('clean code') ||
+    lower.includes('secure') ||
+    lower.includes('agile') ||
+    lower.includes('manajemen proyek')
+  ) {
+    return 'Architecture & Security';
+  }
+  if (
+    lower.includes('llm') ||
+    lower.includes('machine learning') ||
+    lower.includes('cloud') ||
+    lower.includes('visualisasi data') ||
+    lower.includes('devops') ||
+    lower.includes('sql')
+  ) {
+    return 'AI, Cloud & Data';
+  }
+  return 'Engineering & Languages';
+};
+
+const ENRICHED_CERTIFICATES: readonly CategorizedCertificate[] = CERTIFICATES.map(
+  (cert) => ({
+    ...cert,
+    category: categorizeCert(cert.title),
+    featured: FEATURED_TITLES.has(cert.title),
+  }),
+);
+
+const FILTER_TABS: readonly CertCategory[] = [
+  'Featured',
+  'Architecture & Security',
+  'AI, Cloud & Data',
+  'Engineering & Languages',
+  'All',
 ];
-
-const CERTS = CERTIFICATES.map((cert) => ({
-  ...cert,
-  theme: getIssuerTheme(cert.issuer),
-  href: cert.link && cert.link !== '#' ? cert.link : null,
-}));
-
-type CertItem = (typeof CERTS)[number];
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
-const STAGGER: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
+interface CertCardProps {
+  cert: CategorizedCertificate;
+}
 
-const focusRing =
-  'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink/60';
-
-const CertCard = ({ cert }: { cert: CertItem }) => {
-  const { theme, href } = cert;
-  const isLink = href !== null;
-
-  const card = (
-    <div
-      className={`relative h-full overflow-hidden rounded-3xl border p-6 sm:p-7 flex flex-col justify-between gap-8 ${theme.card} ${
-        isLink
-          ? `group transition-[translate,box-shadow,border-color] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:shadow-xl ${theme.hover}`
-          : ''
-      }`}
-    >
-      {/* Watermark */}
-      <Certificate
-        size={190}
-        weight="fill"
-        aria-hidden
-        className={`absolute -right-10 top-1/2 -translate-y-1/2 opacity-[0.07] group-hover:opacity-[0.14] group-hover:scale-105 transition-[opacity,scale] duration-500 motion-reduce:transition-none pointer-events-none ${theme.watermark}`}
-      />
-
-      {/* Header: icon & issuer */}
-      <div className="relative z-10 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3 min-w-0">
-          <div
-            className={`w-12 h-12 rounded-2xl bg-white/90 border border-black/5 shadow-sm flex items-center justify-center shrink-0 transition-colors duration-300 motion-reduce:transition-none ${theme.tile}`}
-          >
-            <Certificate size={26} weight="duotone" aria-hidden />
-          </div>
-          <span className={`text-sm font-semibold truncate ${theme.link}`}>{cert.issuer}</span>
-        </div>
-        <span className="text-xs font-semibold text-ink/70 bg-white/80 border border-black/5 px-3.5 py-1.5 rounded-full shadow-sm shrink-0">
-          {cert.year}
-        </span>
+const CertCard = ({ cert }: CertCardProps) => (
+  <a
+    href={cert.link}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative p-5 rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#d1d5db] hover:shadow-xs transition-[border-color,box-shadow] duration-200 flex flex-col justify-between gap-4 outline-none focus-visible:outline-2 focus-visible:outline-[#111111] min-h-[112px]"
+  >
+    {/* Top Row: Icon + Year & External Arrow */}
+    <div className="flex items-center justify-between gap-2">
+      <div className="w-9 h-9 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb] flex items-center justify-center shrink-0 text-[#111111]">
+        <Certificate size={18} weight="duotone" aria-hidden />
       </div>
 
-      {/* Title */}
-      <h4 className="relative z-10 text-lg sm:text-xl lg:text-[22px] font-bold text-ink leading-snug tracking-[-0.01em] lg:max-w-[90%]">
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-normal text-[#6b7280] tabular-nums">
+          {cert.year}
+        </span>
+        <ArrowUpRight
+          size={14}
+          weight="bold"
+          className="text-[#898989] group-hover:text-[#111111] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 shrink-0"
+        />
+      </div>
+    </div>
+
+    {/* Title & Issuer */}
+    <div>
+      <h4 className="text-sm sm:text-[15px] font-medium text-[#111111] leading-snug line-clamp-2 mb-2">
         {cert.title}
       </h4>
-
-      {/* Footer: action link */}
-      <div className="relative z-10 flex items-center justify-between gap-4 border-t border-black/10 pt-4">
-        <span className={`text-sm font-semibold ${isLink ? theme.link : 'text-ink/70'}`}>
-          {isLink ? 'View Certificate' : 'Completed'}
-        </span>
-        <span
-          className={`w-10 h-10 rounded-full bg-white/90 border border-black/5 shadow-sm flex items-center justify-center shrink-0 transition-colors duration-300 motion-reduce:transition-none ${theme.tile}`}
-        >
-          {isLink ? (
-            <ArrowUpRight size={18} weight="bold" aria-hidden />
-          ) : (
-            <Check size={18} weight="bold" aria-hidden />
-          )}
+      <div className="flex items-center justify-between gap-2 text-xs font-normal text-[#6b7280]">
+        <span className="truncate">{cert.issuer}</span>
+        <span className="text-[11px] text-[#898989] shrink-0">
+          {cert.category}
         </span>
       </div>
     </div>
-  );
+  </a>
+);
+
+const Education = () => {
+  const [activeCategory, setActiveCategory] = useState<CertCategory>('Featured');
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const certsSectionRef = useRef<HTMLDivElement>(null);
+
+  const filteredCerts = useMemo(() => {
+    if (activeCategory === 'Featured') {
+      return ENRICHED_CERTIFICATES.filter((c) => c.featured);
+    }
+    if (activeCategory === 'All') {
+      return ENRICHED_CERTIFICATES;
+    }
+    return ENRICHED_CERTIFICATES.filter((c) => c.category === activeCategory);
+  }, [activeCategory]);
+
+  const initialCerts = useMemo(() => filteredCerts.slice(0, 6), [filteredCerts]);
+  const extraCerts = useMemo(() => filteredCerts.slice(6), [filteredCerts]);
+  const hasExtra = extraCerts.length > 0;
+
+  const handleTabChange = (tab: CertCategory) => {
+    setActiveCategory(tab);
+    setIsExpanded(false);
+  };
+
+  const handleToggleExpand = () => {
+    if (isExpanded) {
+      const el = certsSectionRef.current;
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
+    }
+    setIsExpanded((prev) => !prev);
+  };
 
   return (
-    <motion.li variants={fadeUp} className="h-full">
-      {isLink ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Verify credential: ${cert.title} (opens in new tab)`}
-          className={`block h-full rounded-3xl ${focusRing}`}
-        >
-          {card}
-        </a>
-      ) : (
-        card
-      )}
-    </motion.li>
-  );
-};
+    <section
+      id="education"
+      tabIndex={-1}
+      aria-labelledby="education-heading"
+      className="pt-20 md:pt-28 pb-24 md:pb-32 px-4 md:px-8 bg-[#f8f9fa] relative z-10 overflow-hidden border-t border-[#e5e7eb] outline-none"
+    >
+      <BackgroundShape
+        initialIndex={3}
+        strokeClassName="stroke-[#111111]/[0.04]"
+        className="right-[-28vw] top-[10vh] w-[75vw] h-[75vw] md:right-[-12vw] md:top-[8vh] md:w-[46vw] md:h-[46vw]"
+      />
 
-const Education = () => (
-  <section
-    id="education"
-    tabIndex={-1}
-    aria-labelledby="education-heading"
-    className="pt-20 md:pt-32 pb-28 md:pb-40 bg-white text-ink relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] outline-none"
-  >
-    <BackgroundShape
-      initialIndex={3}
-      strokeClassName="stroke-black/[0.055]"
-      className="-right-[28vw] top-[4vh] w-[72vw] h-[72vw] md:-right-[14vw] md:top-[6vh] md:w-[46vw] md:h-[46vw]"
-    />
-    <div className="max-w-300 mx-auto px-4 md:px-8 relative z-10">
-      {/* Section Header */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT}
-        variants={fadeUp}
-        className="mb-14 md:mb-20"
-      >
-        <ScrollFillHeading
-          id="education-heading"
-          line1="Academic"
-          line2="Background."
-        />
-      </motion.div>
-
-      {/* Academic Degrees */}
-      <motion.ul
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT}
-        variants={STAGGER}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-20 md:mb-32"
-      >
-        {EDUCATION.map((item) => {
-          const theme = THEMES[item.theme];
-          return (
-            <motion.li
-              key={item.title}
-              variants={scaleIn}
-              className={`group relative h-full overflow-hidden rounded-3xl border p-5 sm:p-9 flex flex-col justify-between gap-6 sm:gap-10 transition-[translate,box-shadow,border-color] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:shadow-xl ${theme.card} ${theme.hover}`}
-            >
-              <GraduationCap
-                size={180}
-                weight="fill"
-                aria-hidden
-                className={`absolute -right-8 -bottom-10 sm:-right-10 sm:-bottom-12 opacity-[0.07] group-hover:opacity-[0.14] group-hover:scale-105 transition-[opacity,scale] duration-500 motion-reduce:transition-none pointer-events-none ${theme.watermark}`}
-              />
-
-              {/* Top: level + year */}
-              <div className="relative z-10 flex items-center justify-between gap-2">
-                <span
-                  className={`inline-flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-full border ${theme.pill}`}
-                >
-                  <GraduationCap size={15} weight="duotone" aria-hidden className="shrink-0" />
-                  {item.level}
-                </span>
-                <span className="text-[11px] sm:text-xs font-semibold text-ink/70 bg-white/80 border border-black/5 px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm shrink-0">
-                  {item.year}
-                </span>
-              </div>
-
-              {/* Middle: Degree & institution */}
-              <div className="relative z-10">
-                <h3 className="text-[22px] sm:text-[28px] md:text-3xl font-bold text-ink tracking-[-0.02em] leading-tight mb-2 sm:mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-sm sm:text-base font-semibold text-ink/80">{item.place}</p>
-                <p className="text-xs sm:text-sm font-medium text-ink/70 mt-0.5">{item.location}</p>
-              </div>
-
-              {/* Bottom: Focus & GPA */}
-              <div className="relative z-10 flex items-end justify-between gap-4 border-t border-black/10 pt-4 sm:pt-5">
-                <p className="min-w-0 text-[13px] sm:text-base font-semibold text-ink/80 leading-snug">
-                  {item.desc}
-                </p>
-                <p
-                  className={`shrink-0 text-[28px] sm:text-4xl font-bold tracking-tight leading-none ${theme.link}`}
-                >
-                  {item.gpa}
-                  <span className="text-xs sm:text-sm font-medium text-ink/60"> / 4.00</span>
-                </p>
-              </div>
-            </motion.li>
-          );
-        })}
-      </motion.ul>
-
-      {/* Certifications */}
-      <div className="pt-4">
-        <motion.h3
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Main Header */}
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT}
           variants={fadeUp}
-          className="mb-8 text-center md:text-left text-2xl sm:text-5xl font-bold tracking-tight text-ink"
+          className="mb-12 md:mb-20"
         >
-          Certifications.
-        </motion.h3>
+          <ScrollFillHeading
+            id="education-heading"
+            line1="Academic"
+            line2="Background."
+          />
+        </motion.div>
 
-        <div
-          role="region"
-          aria-label="Certifications list"
-          tabIndex={0}
-          className={`max-h-170 md:max-h-190 overflow-y-auto overflow-x-hidden pt-1 pb-4 pr-2 md:pr-4 -mr-2 md:-mr-4 rounded-xl ${focusRing} [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-neutral-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-neutral-300`}
+        {/* PART 1: Academic Degrees (Refined Architectural Cards) */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-20 md:mb-28"
         >
-          <motion.ul
+          {EDUCATIONS.map((edu) => (
+            <motion.div
+              key={edu.title}
+              variants={fadeUp}
+              className="group relative rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111]/30 hover:shadow-[0_16px_36px_-16px_rgba(17,17,17,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between p-6 sm:p-8"
+            >
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  {/* Top Row: Icon tile + Level & Year */}
+                  <div className="flex items-center justify-between gap-3 mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb] flex items-center justify-center text-[#111111] group-hover:bg-[#111111] group-hover:text-[#ffffff] group-hover:border-[#111111] transition-all duration-200 shrink-0">
+                        <GraduationCap size={20} weight="duotone" aria-hidden />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-[#111111] block leading-tight">
+                          {edu.level}
+                        </span>
+                        <span className="text-[11px] text-[#6b7280]">
+                          Formal Education
+                        </span>
+                      </div>
+                    </div>
+
+                    <span className="text-xs font-medium text-[#6b7280] bg-[#f8f9fa] border border-[#e5e7eb] px-3 py-1.5 rounded-xl tabular-nums shrink-0">
+                      {edu.year}
+                    </span>
+                  </div>
+
+                  {/* Degree Title & Institution */}
+                  <div className="mb-6">
+                    <h3 className="text-xl sm:text-[22px] font-semibold text-[#111111] tracking-[-0.02em] leading-snug mb-2 md:min-h-[60px]">
+                      {edu.title}
+                    </h3>
+
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-[#4b5563]">
+                      <span className="font-semibold text-[#111111]">{edu.school}</span>
+                      <span aria-hidden="true" className="text-[#d1d5db]">•</span>
+                      <span className="inline-flex items-center gap-1.5 text-[#6b7280]">
+                        <MapPin size={14} weight="duotone" className="text-[#898989] shrink-0" />
+                        <span>{edu.location}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Specialization Inset Shelf */}
+                  <div className="p-4 rounded-xl bg-[#f8f9fa] border border-[#e5e7eb]/80 mb-6">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#898989] mb-1">
+                      Focused on
+                    </span>
+                    <span className="text-xs sm:text-sm font-semibold text-[#111111]">
+                      {edu.desc}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Shelf: Status & Cumulative GPA */}
+                <div className="pt-4 border-t border-[#f0f1f3] flex items-end justify-between gap-4">
+                  <div>
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#898989] mb-1.5">
+                      Degree Status
+                    </span>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#111111]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#10b981]" />
+                      <span>Conferred</span>
+                    </div>
+                  </div>
+
+                  <div className="text-right shrink-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#898989] mb-1">
+                      Cumulative GPA
+                    </span>
+                    <div className="flex items-baseline justify-end gap-1">
+                      <span className="text-2xl sm:text-3xl font-semibold text-[#111111] tabular-nums tracking-tight">
+                        {edu.gpa}
+                      </span>
+                      <span className="text-xs font-normal text-[#6b7280]">/ 4.00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* PART 2: Certifications & Licenses */}
+        <div ref={certsSectionRef}>
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
-            variants={STAGGER}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6"
+            variants={fadeUp}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8 md:mb-10"
           >
-            {CERTS.map((cert) => (
-              <CertCard key={`${cert.issuer}-${cert.title}-${cert.year}`} cert={cert} />
-            ))}
-          </motion.ul>
+            <div>
+              <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#6b7280] block mb-2">
+                Verified Credentials
+              </span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#111111] tracking-[-0.025em]">
+                Licenses &amp; Certifications
+              </h3>
+            </div>
+
+            {/* Category Filter Tabs (Cal.com nav-pill-group pattern) */}
+            <div
+              role="tablist"
+              aria-label="Filter certifications by category"
+              className="flex flex-wrap items-center gap-1 p-1 rounded-xl bg-[#eef0f3] border border-[#e5e7eb]"
+            >
+              {FILTER_TABS.map((tab) => {
+                const isActive = activeCategory === tab;
+                const count =
+                  tab === 'Featured'
+                    ? ENRICHED_CERTIFICATES.filter((c) => c.featured).length
+                    : tab === 'All'
+                      ? ENRICHED_CERTIFICATES.length
+                      : ENRICHED_CERTIFICATES.filter((c) => c.category === tab).length;
+
+                return (
+                  <button
+                    key={tab}
+                    role="tab"
+                    type="button"
+                    aria-selected={isActive}
+                    onClick={() => handleTabChange(tab)}
+                    className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 cursor-pointer outline-none focus-visible:outline-2 focus-visible:outline-[#111111] ${
+                      isActive
+                        ? 'bg-[#111111] text-[#ffffff] shadow-2xs'
+                        : 'text-[#6b7280] hover:text-[#111111]'
+                    }`}
+                  >
+                    <span>{tab}</span>
+                    <span
+                      className={`ml-1.5 text-[11px] tabular-nums ${
+                        isActive ? 'text-white/75' : 'text-[#898989]'
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Symmetrical 2-Column Grid Container */}
+          <div className="relative w-full">
+            {/* Initial 6-Card Symmetrical Grid (Always in DOM, never jumps) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+              {initialCerts.map((cert) => (
+                <CertCard key={cert.title} cert={cert} />
+              ))}
+            </div>
+
+            {/* Hardware-Accelerated Smooth Accordion for Extra Cards */}
+            {hasExtra && (
+              <div
+                className="grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                style={{
+                  gridTemplateRows: isExpanded ? '1fr' : '0fr',
+                }}
+              >
+                <div className="overflow-hidden">
+                  <div
+                    className={`grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      isExpanded
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 -translate-y-2 pointer-events-none'
+                    }`}
+                  >
+                    {extraCerts.map((cert) => (
+                      <CertCard key={cert.title} cert={cert} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Subtle Gradient Fade when Collapsed */}
+            {!isExpanded && hasExtra && (
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-1 inset-x-0 h-24 bg-gradient-to-t from-[#f8f9fa] via-[#f8f9fa]/70 to-transparent transition-opacity duration-300"
+              />
+            )}
+
+            {/* Smooth Expand / Collapse Button */}
+            {hasExtra && (
+              <div className="mt-8 flex justify-center relative z-20">
+                <button
+                  type="button"
+                  onClick={handleToggleExpand}
+                  className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#ffffff] border border-[#e5e7eb] hover:bg-[#f5f5f5] hover:border-[#d1d5db] text-xs sm:text-sm font-medium text-[#111111] transition-all duration-200 cursor-pointer outline-none focus-visible:outline-2 focus-visible:outline-[#111111] shadow-2xs active:scale-[0.98]"
+                >
+                  <span>{isExpanded ? 'Show Less' : `Show All (${filteredCerts.length})`}</span>
+                  <motion.span
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="inline-flex items-center justify-center text-[#6b7280] group-hover:text-[#111111]"
+                  >
+                    <CaretDown size={15} weight="bold" />
+                  </motion.span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Education;
