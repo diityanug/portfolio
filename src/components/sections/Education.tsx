@@ -292,7 +292,7 @@ const Education = () => {
         </motion.div>
 
         {/* PART 2: Certifications & Licenses */}
-        <div ref={certsSectionRef}>
+        <div>
           <motion.div
             initial="hidden"
             whileInView="visible"
