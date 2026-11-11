@@ -299,8 +299,8 @@ const Projects = () => {
                         {project.title}
                       </h3>
 
-                      {/* 1-Line Recruiter Summary */}
-                      <p className="text-xs sm:text-[13px] font-normal text-[#6b7280] leading-[1.55] line-clamp-2 mb-4">
+                      {/* Short Recruiter Summary */}
+                      <p className="text-xs sm:text-[13px] font-normal text-[#6b7280] leading-[1.55] mb-4">
                         {project.summary}
                       </p>
 
