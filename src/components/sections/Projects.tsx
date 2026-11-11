@@ -28,7 +28,7 @@ const PROJECTS: readonly Project[] = [
     tags: ['React', 'TypeScript', 'FastAPI', 'Python', 'Scikit-Learn', 'spaCy'],
     image: '/Genre Game Cover.png',
     type: 'web',
-    btnHover: 'hover:bg-[#ea580c]',
+    btnHover: 'hover:bg-[#7b6ef0]',
   },
   {
     slug: 'lenvry',
@@ -38,7 +38,7 @@ const PROJECTS: readonly Project[] = [
     tags: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'SQLite', 'Zod'],
     image: '/Lenvrtt-removebg-preview.png',
     type: 'mobile',
-    btnHover: 'hover:bg-[#0284c7]',
+    btnHover: 'hover:bg-[#3b82f6]',
   },
   {
     slug: 'reka',
@@ -48,7 +48,7 @@ const PROJECTS: readonly Project[] = [
     tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Gemini AI', 'Biometric'],
     image: '/reka-cover.png',
     type: 'mobile',
-    btnHover: 'hover:bg-[#059669]',
+    btnHover: 'hover:bg-[#e8822d]',
   },
 ];
 

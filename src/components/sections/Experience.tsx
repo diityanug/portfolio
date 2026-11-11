@@ -118,7 +118,7 @@ const Experience = () => {
                   <Link
                     to={`/career/${item.slug}`}
                     aria-label={`View detail for ${item.title}`}
-                    className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-5 py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-200 hover:bg-[#242424] cursor-pointer ${focusRing}`}
+                    className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-5 py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-300 hover:bg-[#e50b14] cursor-pointer ${focusRing}`}
                   >
                     <span>View Detail</span>
                     <ArrowUpRight
