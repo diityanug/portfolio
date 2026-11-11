@@ -7,7 +7,7 @@ import {
   ArrowUpRight,
   CaretDown,
 } from '@phosphor-icons/react';
-import { fadeUp, scaleIn } from '../../utils/animations';
+import { fadeUp } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
 import BackgroundShape from '../ui/BackgroundShape';
 import { CERTIFICATES } from '../../data';
@@ -43,11 +43,6 @@ const EXTRA_CERTS = SORTED_CERTIFICATES.slice(6);
 const HAS_EXTRA = EXTRA_CERTS.length > 0;
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
-
-const STAGGER = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
 
 interface CertCardProps {
   cert: {
@@ -129,19 +124,20 @@ const Education = () => {
           />
         </motion.div>
 
-        {/* PART 1: Academic Degrees (Restored scaleIn from before redesign) */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT}
-          variants={STAGGER}
-          className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-20 md:mb-28"
-        >
-          {EDUCATIONS.map((edu) => (
+        {/* PART 1: Academic Degrees — move immediately on enter (no delay) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-20 md:mb-28">
+          {EDUCATIONS.map((edu, idx) => (
             <motion.div
               key={edu.title}
-              variants={scaleIn}
-              className="group relative rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111]/30 hover:shadow-[0_16px_36px_-16px_rgba(17,17,17,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between p-6 sm:p-8"
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '0px 0px 120px 0px' }}
+              transition={{
+                duration: 0.55,
+                ease: [0.16, 1, 0.3, 1],
+                delay: idx * 0.06,
+              }}
+              className="group relative rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111]/30 hover:shadow-[0_16px_36px_-16px_rgba(17,17,17,0.08)] transition-[border-color,box-shadow] duration-300 flex flex-col justify-between p-6 sm:p-8"
             >
               <div className="flex flex-col h-full justify-between">
                 <div>
@@ -192,7 +188,7 @@ const Education = () => {
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         {/* PART 2: Certifications (Sorted by Newest Year, 6 Initial + See All) */}
         <div>
