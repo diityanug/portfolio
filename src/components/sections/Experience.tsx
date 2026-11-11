@@ -70,8 +70,8 @@ const Experience = () => {
             >
               {/* Inner Card Surface */}
               <div className="relative overflow-hidden rounded-[18px] border border-[#f3f4f6] bg-[#f8f9fa] p-6 sm:p-8 md:p-10 flex flex-col justify-between transition-colors duration-300 group-hover:bg-[#ffffff]">
-                {/* Top Row: Period on the Right */}
-                <div className="relative z-10 w-full flex items-center justify-end border-b border-[#e5e7eb] pb-3 mb-6 sm:mb-8">
+                {/* Top Row: Period on the Left */}
+                <div className="relative z-10 w-full flex items-center justify-start border-b border-[#e5e7eb] pb-3 mb-6 sm:mb-8">
                   <span className="text-xs font-medium text-[#6b7280] tabular-nums">
                     {item.year}
                   </span>
