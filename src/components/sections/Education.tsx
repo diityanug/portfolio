@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   GraduationCap,
@@ -7,7 +7,7 @@ import {
   ArrowUpRight,
   CaretDown,
 } from '@phosphor-icons/react';
-import { fadeUp, staggerContainer } from '../../utils/animations';
+import { fadeUp } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
 import BackgroundShape from '../ui/BackgroundShape';
 import { CERTIFICATES } from '../../data';
@@ -33,76 +33,34 @@ const EDUCATIONS = [
   },
 ] as const;
 
-type CertCategory =
-  | 'Featured'
-  | 'Architecture & Security'
-  | 'AI, Cloud & Data'
-  | 'Engineering & Languages'
-  | 'All';
-
-interface CategorizedCertificate {
-  title: string;
-  issuer: string;
-  year: string;
-  link: string;
-  category: Exclude<CertCategory, 'Featured' | 'All'>;
-  featured: boolean;
-}
-
-const FEATURED_TITLES = new Set([
-  'Panduan LLM untuk Developer: Dasar hingga Aplikasi Praktis',
-  'Principles of Secure Coding',
-  'SOLID Principles: Introducing Software Architecture & Design',
-  'Clean Code',
-  'Fundamentals of Software Design and Architecture Course',
-  'Cloud Practitioner Essentials (Learn AWS Cloud Basic)',
-]);
-
-const categorizeCert = (title: string): Exclude<CertCategory, 'Featured' | 'All'> => {
-  const lower = title.toLowerCase();
-  if (
-    lower.includes('architecture') ||
-    lower.includes('solid') ||
-    lower.includes('clean code') ||
-    lower.includes('secure') ||
-    lower.includes('agile') ||
-    lower.includes('manajemen proyek')
-  ) {
-    return 'Architecture & Security';
-  }
-  if (
-    lower.includes('llm') ||
-    lower.includes('machine learning') ||
-    lower.includes('cloud') ||
-    lower.includes('visualisasi data') ||
-    lower.includes('devops') ||
-    lower.includes('sql')
-  ) {
-    return 'AI, Cloud & Data';
-  }
-  return 'Engineering & Languages';
-};
-
-const ENRICHED_CERTIFICATES: readonly CategorizedCertificate[] = CERTIFICATES.map(
-  (cert) => ({
-    ...cert,
-    category: categorizeCert(cert.title),
-    featured: FEATURED_TITLES.has(cert.title),
-  }),
+// Sort certificates by newest year first
+const SORTED_CERTIFICATES = [...CERTIFICATES].sort(
+  (a, b) => parseInt(b.year, 10) - parseInt(a.year, 10),
 );
 
-const FILTER_TABS: readonly CertCategory[] = [
-  'Featured',
-  'Architecture & Security',
-  'AI, Cloud & Data',
-  'Engineering & Languages',
-  'All',
-];
+const INITIAL_CERTS = SORTED_CERTIFICATES.slice(0, 6);
+const EXTRA_CERTS = SORTED_CERTIFICATES.slice(6);
+const HAS_EXTRA = EXTRA_CERTS.length > 0;
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
+// Immediate fade-up without delay/pause when user scrolls into section
+const cardFadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 interface CertCardProps {
-  cert: CategorizedCertificate;
+  cert: {
+    title: string;
+    issuer: string;
+    year: string;
+    link: string;
+  };
 }
 
 const CertCard = ({ cert }: CertCardProps) => (
@@ -112,13 +70,10 @@ const CertCard = ({ cert }: CertCardProps) => (
     rel="noopener noreferrer"
     className="group relative p-5 rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#d1d5db] hover:shadow-xs transition-[border-color,box-shadow] duration-200 flex flex-col justify-between gap-4 outline-none focus-visible:outline-2 focus-visible:outline-[#111111] min-h-[112px]"
   >
-    {/* Top Row: Icon + Category & Year / Arrow (No icon box pill) */}
+    {/* Top Row: Icon & Year / Arrow */}
     <div className="flex items-center justify-between gap-2">
-      <div className="flex items-center gap-2 text-[#111111]">
+      <div className="text-[#111111]">
         <Certificate size={18} weight="bold" className="text-[#111111] shrink-0" aria-hidden />
-        <span className="text-[11px] font-medium uppercase tracking-wider text-[#898989]">
-          {cert.category}
-        </span>
       </div>
 
       <div className="flex items-center gap-1.5">
@@ -146,41 +101,8 @@ const CertCard = ({ cert }: CertCardProps) => (
 );
 
 const Education = () => {
-  const [activeCategory, setActiveCategory] = useState<CertCategory>('Featured');
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const certsGridRef = useRef<HTMLDivElement>(null);
-
-  const filteredCerts = useMemo(() => {
-    if (activeCategory === 'Featured') {
-      return ENRICHED_CERTIFICATES.filter((c) => c.featured);
-    }
-    if (activeCategory === 'All') {
-      return ENRICHED_CERTIFICATES;
-    }
-    return ENRICHED_CERTIFICATES.filter((c) => c.category === activeCategory);
-  }, [activeCategory]);
-
-  // If 8 or fewer cards, show all cleanly without an artificial toggle
-  const initialCerts = useMemo(() => {
-    if (filteredCerts.length <= 8) {
-      return filteredCerts;
-    }
-    return filteredCerts.slice(0, 6);
-  }, [filteredCerts]);
-
-  const extraCerts = useMemo(() => {
-    if (filteredCerts.length <= 8) {
-      return [];
-    }
-    return filteredCerts.slice(6);
-  }, [filteredCerts]);
-
-  const hasExtra = extraCerts.length > 0;
-
-  const handleTabChange = (tab: CertCategory) => {
-    setActiveCategory(tab);
-    setIsExpanded(false);
-  };
 
   const handleToggleExpand = () => {
     if (isExpanded) {
@@ -229,18 +151,15 @@ const Education = () => {
           />
         </motion.div>
 
-        {/* PART 1: Academic Degrees (Refined Architectural Cards) */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT}
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-20 md:mb-28"
-        >
+        {/* PART 1: Academic Degrees (Immediate Fade-Up) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-20 md:mb-28">
           {EDUCATIONS.map((edu) => (
             <motion.div
               key={edu.title}
-              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-20px' }}
+              variants={cardFadeUp}
               className="group relative rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111]/30 hover:shadow-[0_16px_36px_-16px_rgba(17,17,17,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between p-6 sm:p-8"
             >
               <div className="flex flex-col h-full justify-between">
@@ -292,75 +211,34 @@ const Education = () => {
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        {/* PART 2: Certifications */}
+        {/* PART 2: Certifications (Sorted by Newest Year, 6 Initial + See All) */}
         <div>
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
             variants={fadeUp}
-            className="flex flex-col gap-6 mb-8 md:mb-10"
+            className="mb-8 md:mb-10"
           >
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#111111] tracking-[-0.025em]">
               Certifications
             </h3>
-
-            {/* Category Filter Tabs (Fixed container, zero underline, bold active, hidden scrollbar) */}
-            <div
-              role="tablist"
-              aria-label="Filter certifications by category"
-              className="flex flex-wrap items-center gap-x-5 sm:gap-x-7 gap-y-2.5"
-            >
-              {FILTER_TABS.map((tab) => {
-                const isActive = activeCategory === tab;
-                const count =
-                  tab === 'Featured'
-                    ? ENRICHED_CERTIFICATES.filter((c) => c.featured).length
-                    : tab === 'All'
-                      ? ENRICHED_CERTIFICATES.length
-                      : ENRICHED_CERTIFICATES.filter((c) => c.category === tab).length;
-
-                return (
-                  <button
-                    key={tab}
-                    role="tab"
-                    type="button"
-                    aria-selected={isActive}
-                    onClick={() => handleTabChange(tab)}
-                    className={`inline-flex items-center text-xs sm:text-sm py-1 transition-colors duration-150 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#111111] ${
-                      isActive
-                        ? 'text-[#111111] font-bold'
-                        : 'text-[#6b7280] font-normal hover:text-[#111111]'
-                    }`}
-                  >
-                    <span>{tab}</span>
-                    <span
-                      className={`ml-1.5 text-xs tabular-nums ${
-                        isActive ? 'text-[#111111] font-bold' : 'text-[#9ca3af] font-normal'
-                      }`}
-                    >
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
           </motion.div>
 
           {/* Symmetrical 2-Column Grid Container */}
           <div ref={certsGridRef} className="relative w-full scroll-mt-28">
-            {/* Initial Grid (Always in DOM) */}
+            {/* Initial Grid (Always in DOM - 6 Cards) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
-              {initialCerts.map((cert) => (
+              {INITIAL_CERTS.map((cert) => (
                 <CertCard key={cert.title} cert={cert} />
               ))}
             </div>
 
             {/* Smooth Height-Animated Accordion for Extra Cards */}
             <AnimatePresence initial={false}>
-              {isExpanded && hasExtra && (
+              {isExpanded && HAS_EXTRA && (
                 <motion.div
                   key="extra-certs-container"
                   initial={{ opacity: 0, height: 0 }}
@@ -383,7 +261,7 @@ const Education = () => {
                   className="overflow-hidden"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4">
-                    {extraCerts.map((cert) => (
+                    {EXTRA_CERTS.map((cert) => (
                       <CertCard key={cert.title} cert={cert} />
                     ))}
                   </div>
@@ -391,15 +269,15 @@ const Education = () => {
               )}
             </AnimatePresence>
 
-            {/* Clean Expand / Collapse Button (Cal.com button-secondary style, zero pills) */}
-            {hasExtra && (
+            {/* Clean Expand / Collapse Button */}
+            {HAS_EXTRA && (
               <div className="mt-8 flex justify-center relative z-20">
                 <button
                   type="button"
                   onClick={handleToggleExpand}
                   className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111] hover:bg-[#f8f9fa] text-xs sm:text-sm font-medium text-[#111111] transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#111111]"
                 >
-                  <span>{isExpanded ? 'Show Less' : `Show All (${filteredCerts.length})`}</span>
+                  <span>{isExpanded ? 'Show Less' : `Show All (${SORTED_CERTIFICATES.length})`}</span>
                   <CaretDown
                     size={14}
                     weight="bold"

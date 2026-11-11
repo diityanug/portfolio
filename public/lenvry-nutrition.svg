@@ -91,12 +91,12 @@
   <text x="428" y="366" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#94A3B8" letter-spacing="1">TODAY'S LOGGED MEALS (SQLITE)</text>
 
   <rect x="428" y="380" width="266" height="66" rx="14" fill="#161B28" stroke="#22293A"/>
-  <text x="444" y="404" font-family="Inter, system-ui, sans-serif" font-size="13.5" font-weight="800" fill="#F8FAFC">Dada Ayam Bakar &amp; Nasi Merah</text>
-  <text x="444" y="424" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#94A3B8">Lunch • 280g • <tspan fill="#38BDF8" font-weight="700">48g P</tspan> • 52g C • 11g F</text>
-  <text x="678" y="406" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="900" fill="#2DD4BF">510 kcal</text>
+  <text x="444" y="404" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#F8FAFC">Ayam Bakar &amp; Nasi</text>
+  <text x="678" y="404" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#2DD4BF">510 kcal</text>
+  <text x="444" y="426" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#94A3B8">Lunch • <tspan fill="#38BDF8" font-weight="700">48g P</tspan> • 52g C • 11g F</text>
 
   <rect x="428" y="456" width="266" height="66" rx="14" fill="#161B28" stroke="#22293A"/>
-  <text x="444" y="480" font-family="Inter, system-ui, sans-serif" font-size="13.5" font-weight="800" fill="#F8FAFC">Telur Dadar &amp; Oat Pisang</text>
-  <text x="444" y="500" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#94A3B8">Breakfast • 220g • <tspan fill="#38BDF8" font-weight="700">26g P</tspan> • 44g C • 14g F</text>
-  <text x="678" y="482" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="900" fill="#2DD4BF">410 kcal</text>
+  <text x="444" y="480" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800" fill="#F8FAFC">Telur &amp; Oatmeal</text>
+  <text x="678" y="480" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" fill="#2DD4BF">410 kcal</text>
+  <text x="444" y="502" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#94A3B8">Breakfast • <tspan fill="#38BDF8" font-weight="700">26g P</tspan> • 44g C • 14g F</text>
 </svg>
