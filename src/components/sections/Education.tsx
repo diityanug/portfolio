@@ -191,8 +191,8 @@ const Education = () => {
                   </div>
                 </div>
 
-                {/* Bottom Shelf: Focus & GPA */}
-                <div className="mt-8 pt-5 border-t border-[#f0f1f3] flex items-end justify-between gap-4">
+                {/* Bottom Shelf: Focus & GPA (Centered Alignment) */}
+                <div className="mt-8 pt-5 border-t border-[#f0f1f3] flex items-center justify-between gap-4">
                   <p className="min-w-0 text-xs sm:text-sm font-medium text-[#111111] leading-snug">
                     {edu.desc}
                   </p>
