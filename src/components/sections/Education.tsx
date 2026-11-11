@@ -189,7 +189,11 @@ const Education = () => {
         const rect = el.getBoundingClientRect();
         // If top of grid scrolled past viewport, scroll top cleanly into view
         if (rect.top < 80) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const targetY = window.scrollY + rect.top - 100;
+          window.scrollTo({
+            top: Math.max(0, targetY),
+            behavior: 'smooth',
+          });
         }
       }
     }
@@ -290,29 +294,24 @@ const Education = () => {
           ))}
         </motion.div>
 
-        {/* PART 2: Certifications & Licenses */}
+        {/* PART 2: Certifications */}
         <div>
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
             variants={fadeUp}
-            className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8 md:mb-10"
+            className="flex flex-col gap-6 mb-8 md:mb-10"
           >
-            <div>
-              <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#6b7280] block mb-2">
-                Verified Credentials
-              </span>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#111111] tracking-[-0.025em]">
-                Licenses &amp; Certifications
-              </h3>
-            </div>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#111111] tracking-[-0.025em]">
+              Certifications
+            </h3>
 
-            {/* Category Filter Tabs (Clean underline tabs, zero pills) */}
+            {/* Category Filter Tabs (Fixed container, zero underline, bold active, hidden scrollbar) */}
             <div
               role="tablist"
               aria-label="Filter certifications by category"
-              className="flex items-center gap-1 sm:gap-2 border-b border-[#e5e7eb] overflow-x-auto no-scrollbar"
+              className="flex flex-wrap items-center gap-x-5 sm:gap-x-7 gap-y-2.5"
             >
               {FILTER_TABS.map((tab) => {
                 const isActive = activeCategory === tab;
@@ -330,16 +329,16 @@ const Education = () => {
                     type="button"
                     aria-selected={isActive}
                     onClick={() => handleTabChange(tab)}
-                    className={`relative pb-3 pt-1 px-3 text-xs sm:text-sm font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-[#111111] ${
+                    className={`inline-flex items-center text-xs sm:text-sm py-1 transition-colors duration-150 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#111111] ${
                       isActive
-                        ? 'text-[#111111] font-semibold border-b-2 border-[#111111] -mb-px'
-                        : 'text-[#6b7280] hover:text-[#111111] border-b-2 border-transparent'
+                        ? 'text-[#111111] font-bold'
+                        : 'text-[#6b7280] font-normal hover:text-[#111111]'
                     }`}
                   >
                     <span>{tab}</span>
                     <span
                       className={`ml-1.5 text-xs tabular-nums ${
-                        isActive ? 'text-[#111111]' : 'text-[#9ca3af]'
+                        isActive ? 'text-[#111111] font-bold' : 'text-[#9ca3af] font-normal'
                       }`}
                     >
                       {count}
@@ -369,16 +368,16 @@ const Education = () => {
                     opacity: 1,
                     height: 'auto',
                     transition: {
-                      height: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-                      opacity: { duration: 0.3, ease: 'easeOut' },
+                      height: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+                      opacity: { duration: 0.45, ease: 'easeOut', delay: 0.05 },
                     },
                   }}
                   exit={{
                     opacity: 0,
                     height: 0,
                     transition: {
-                      height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-                      opacity: { duration: 0.2, ease: 'easeIn' },
+                      height: { duration: 0.48, ease: [0.16, 1, 0.3, 1] },
+                      opacity: { duration: 0.35, ease: 'easeInOut' },
                     },
                   }}
                   className="overflow-hidden"
@@ -404,7 +403,7 @@ const Education = () => {
                   <CaretDown
                     size={14}
                     weight="bold"
-                    className={`text-[#6b7280] group-hover:text-[#111111] transition-transform duration-300 ${
+                    className={`text-[#6b7280] group-hover:text-[#111111] transition-transform duration-500 ease-out ${
                       isExpanded ? 'rotate-180' : 'rotate-0'
                     }`}
                   />
