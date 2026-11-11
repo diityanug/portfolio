@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   GraduationCap,
   MapPin,
@@ -97,25 +97,8 @@ const CertCard = ({ cert }: CertCardProps) => (
 
 const Education = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const certsGridRef = useRef<HTMLDivElement>(null);
 
-  const handleToggleExpand = () => {
-    if (isExpanded) {
-      const el = certsGridRef.current;
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        // If top of grid scrolled past viewport, scroll top cleanly into view
-        if (rect.top < 80) {
-          const targetY = window.scrollY + rect.top - 100;
-          window.scrollTo({
-            top: Math.max(0, targetY),
-            behavior: 'smooth',
-          });
-        }
-      }
-    }
-    setIsExpanded((prev) => !prev);
-  };
+  const handleToggleExpand = () => setIsExpanded((prev) => !prev);
 
   return (
     <section
@@ -226,7 +209,7 @@ const Education = () => {
           </motion.div>
 
           {/* Symmetrical 2-Column Grid Container */}
-          <div ref={certsGridRef} className="relative w-full scroll-mt-28">
+          <div className="relative w-full">
             {/* Initial Grid (Always in DOM - 6 Cards) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
               {INITIAL_CERTS.map((cert) => (
@@ -234,38 +217,33 @@ const Education = () => {
               ))}
             </div>
 
-            {/* Smooth Height-Animated Accordion for Extra Cards */}
-            <AnimatePresence initial={false}>
-              {isExpanded && HAS_EXTRA && (
-                <motion.div
-                  key="extra-certs-container"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{
-                    opacity: 1,
-                    height: 'auto',
-                    transition: {
-                      height: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
-                      opacity: { duration: 0.45, ease: 'easeOut', delay: 0.05 },
-                    },
+            {/* Scroll-like Accordion: pure CSS grid-rows transition (always mounted, no JS layout) */}
+            {HAS_EXTRA && (
+              <div
+                aria-hidden={!isExpanded}
+                className={`grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.45,0,0.25,1)] motion-reduce:transition-none ${
+                  isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                }`}
+              >
+                <div
+                  className="min-h-0 overflow-hidden"
+                  style={{
+                    visibility: isExpanded ? 'visible' : 'hidden',
+                    transition: `visibility 0s linear ${isExpanded ? '0s' : '0.7s'}`,
                   }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                    transition: {
-                      height: { duration: 0.48, ease: [0.16, 1, 0.3, 1] },
-                      opacity: { duration: 0.35, ease: 'easeInOut' },
-                    },
-                  }}
-                  className="overflow-hidden"
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4">
+                  <div
+                    className={`grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4 transition-opacity duration-700 ease-out motion-reduce:transition-none ${
+                      isExpanded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
                     {EXTRA_CERTS.map((cert) => (
                       <CertCard key={cert.title} cert={cert} />
                     ))}
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+              </div>
+            )}
 
             {/* Clean Expand / Collapse Button */}
             {HAS_EXTRA && (
