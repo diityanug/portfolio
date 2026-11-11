@@ -7,7 +7,7 @@ import {
   ArrowUpRight,
   CaretDown,
 } from '@phosphor-icons/react';
-import { fadeUp } from '../../utils/animations';
+import { fadeUp, scaleIn } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
 import BackgroundShape from '../ui/BackgroundShape';
 import { CERTIFICATES } from '../../data';
@@ -44,14 +44,9 @@ const HAS_EXTRA = EXTRA_CERTS.length > 0;
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
-// Immediate fade-up without delay/pause when user scrolls into section
-const cardFadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
+const STAGGER = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
 };
 
 interface CertCardProps {
@@ -151,15 +146,18 @@ const Education = () => {
           />
         </motion.div>
 
-        {/* PART 1: Academic Degrees (Immediate Fade-Up) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-20 md:mb-28">
+        {/* PART 1: Academic Degrees (Restored scaleIn from before redesign) */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={STAGGER}
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-20 md:mb-28"
+        >
           {EDUCATIONS.map((edu) => (
             <motion.div
               key={edu.title}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-20px' }}
-              variants={cardFadeUp}
+              variants={scaleIn}
               className="group relative rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111]/30 hover:shadow-[0_16px_36px_-16px_rgba(17,17,17,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between p-6 sm:p-8"
             >
               <div className="flex flex-col h-full justify-between">
@@ -211,7 +209,7 @@ const Education = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* PART 2: Certifications (Sorted by Newest Year, 6 Initial + See All) */}
         <div>
