@@ -15,6 +15,8 @@ interface Project {
   tags: readonly string[];
   image: string;
   type: 'web' | 'mobile';
+  /** Hover color of the View Detail button, matched to the cover icon color */
+  btnHover: string;
 }
 
 const PROJECTS: readonly Project[] = [
@@ -26,6 +28,7 @@ const PROJECTS: readonly Project[] = [
     tags: ['React', 'TypeScript', 'FastAPI', 'Python', 'Scikit-Learn', 'spaCy'],
     image: '/Genre Game Cover.png',
     type: 'web',
+    btnHover: 'hover:bg-[#ea580c]',
   },
   {
     slug: 'lenvry',
@@ -35,6 +38,7 @@ const PROJECTS: readonly Project[] = [
     tags: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'SQLite', 'Zod'],
     image: '/Lenvrtt-removebg-preview.png',
     type: 'mobile',
+    btnHover: 'hover:bg-[#0284c7]',
   },
   {
     slug: 'reka',
@@ -44,6 +48,7 @@ const PROJECTS: readonly Project[] = [
     tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Gemini AI', 'Biometric'],
     image: '/reka-cover.png',
     type: 'mobile',
+    btnHover: 'hover:bg-[#059669]',
   },
 ];
 
@@ -321,7 +326,7 @@ const Projects = () => {
                             e.preventDefault();
                           }
                         }}
-                        className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-200 hover:bg-[#242424] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] ${
+                        className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-300 ${project.btnHover} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] ${
                           isCenter ? 'cursor-pointer' : 'pointer-events-none'
                         }`}
                       >

@@ -15,26 +15,33 @@ const NAV_LINKS = [
 const MENU_ID = 'mobile-menu';
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const EASE_IN: [number, number, number, number] = [0.4, 0, 1, 1];
+const EASE_IN_OUT: [number, number, number, number] = [0.4, 0, 0.2, 1];
 
-// Dropdown animation variants using clip-path
+// Dropdown: soft clip-path reveal on open, gentle fade + slide on close
+// (no bottom-up clipping, so the last item never gets cut off abruptly)
 const dropdownVariants: Variants = {
-  hidden: { clipPath: 'inset(0% 0% 100% 0%)', opacity: 0 },
+  hidden: { clipPath: 'inset(0% 0% 100% 0%)', opacity: 0, y: 0 },
   show: {
     clipPath: 'inset(0% 0% 0% 0%)',
     opacity: 1,
-    transition: { duration: 0.35, ease: EASE_OUT, staggerChildren: 0.05, delayChildren: 0.08 },
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: EASE_OUT,
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
   },
   exit: {
-    clipPath: 'inset(0% 0% 100% 0%)',
     opacity: 0,
-    transition: { duration: 0.25, ease: EASE_IN },
+    y: -12,
+    transition: { duration: 0.28, ease: EASE_IN_OUT },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: -10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: -8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE_OUT } },
 };
 
 const reducedDropdownVariants: Variants = {
