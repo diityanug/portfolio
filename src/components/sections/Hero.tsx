@@ -8,17 +8,16 @@ import { TerminalWindow as Terminal, EnvelopeSimple } from '@phosphor-icons/reac
 
 const GRID_STYLE = {
   backgroundImage:
-    'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
+    'linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px)',
   backgroundSize: '4rem 4rem',
 } as const;
 
 const focusRing =
-  'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink/60';
+  'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]';
 
 const btnBase =
-  'group flex w-full sm:w-auto items-center justify-between sm:justify-center gap-4 border px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-widest transition-colors duration-300 motion-reduce:transition-none';
+  'group flex w-full sm:w-auto items-center justify-between sm:justify-center gap-3.5 rounded-lg border px-6 py-3.5 sm:py-4 text-sm font-medium tracking-normal transition-colors duration-200 motion-reduce:transition-none';
 
-// Hero Section
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
@@ -40,12 +39,12 @@ const Hero = () => {
       ref={containerRef}
       id="home"
       aria-labelledby="hero-heading"
-      className="bg-[#FAFAFA] pt-32 md:pt-40 pb-28 md:pb-40 px-4 relative overflow-hidden min-h-[90svh] flex items-center"
+      className="bg-[#ffffff] pt-32 md:pt-40 pb-28 md:pb-40 px-4 md:px-8 relative overflow-hidden min-h-[90svh] flex items-center"
     >
-      {/* Background Grid Pattern */}
+      {/* Subtle Background Grid Pattern */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.45]"
         style={GRID_STYLE}
       />
 
@@ -53,7 +52,7 @@ const Hero = () => {
       {!isLg && (
         <div
           aria-hidden="true"
-          className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-10"
+          className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-15"
         >
           <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[110vw] max-w-130 scale-125">
             <AnimatedCharacter />
@@ -73,22 +72,22 @@ const Hero = () => {
             style={parallax ? { y: yText, opacity: opacityText } : undefined}
             className="lg:col-span-7 flex flex-col items-start text-left"
           >
-            {/* Heading */}
+            {/* Heading (weight 600 per Cal.com DESIGN.md) */}
             <motion.h1
               id="hero-heading"
               aria-label="Hello, welcome."
               variants={fadeUp}
               tabIndex={0}
               onTouchStart={() => {}}
-              className={`text-[min(14vw,68px)] sm:text-[70px] md:text-[84px] lg:text-[104px] font-bold text-ink leading-[0.95] tracking-[-0.03em] mb-8 uppercase select-none rounded-lg ${focusRing}`}
+              className={`text-[min(14vw,64px)] sm:text-[68px] md:text-[80px] lg:text-[96px] font-semibold text-[#111111] leading-[1.02] tracking-[-0.038em] mb-8 uppercase select-none rounded-lg ${focusRing}`}
             >
               <JapaneseHoverText
                 japanese="こんにちは、"
                 english="HELLO,"
                 interval={3500}
                 className="w-full"
-                jpClassName="text-ink tracking-tight font-extrabold"
-                enClassName="text-ink font-extrabold tracking-[-0.04em]"
+                jpClassName="text-[#111111] tracking-tight font-semibold"
+                enClassName="text-[#111111] font-semibold tracking-[-0.04em]"
               />
               <br />
               <JapaneseHoverText
@@ -97,40 +96,41 @@ const Hero = () => {
                 interval={3500}
                 offset={700}
                 className="w-full"
-                jpClassName="text-transparent [-webkit-text-stroke:2px_#1a1a1a] tracking-tight font-extrabold"
-                enClassName="text-transparent [-webkit-text-stroke:2px_#1a1a1a] font-extrabold tracking-[-0.04em]"
+                jpClassName="text-transparent [-webkit-text-stroke:1.5px_#111111] tracking-tight font-semibold"
+                enClassName="text-transparent [-webkit-text-stroke:1.5px_#111111] font-semibold tracking-[-0.04em]"
               />
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
-              className="text-base sm:text-lg md:text-xl text-steel max-w-lg mb-10 font-medium leading-[1.7]"
+              className="text-base sm:text-lg md:text-[18px] text-body max-w-lg mb-10 font-normal leading-[1.6]"
             >
               I’m Aditya, a Frontend Developer passionate about building engaging web and mobile
               interfaces while exploring new technologies.
             </motion.p>
 
+            {/* Monochrome Action Layer per Cal.com DESIGN.md */}
             <motion.div
               variants={fadeUp}
-              className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-3.5 w-full sm:w-auto"
             >
               <a
                 href="#projects"
-                className={`${btnBase} bg-ink text-white border-ink hover:bg-white hover:text-ink ${focusRing}`}
+                className={`${btnBase} bg-[#111111] text-[#ffffff] border-[#111111] hover:bg-primary-active hover:border-primary-active ${focusRing}`}
               >
                 <span>View Projects</span>
                 <Terminal
-                  size={18}
+                  size={17}
                   aria-hidden
                   className="transition-transform motion-reduce:transition-none group-hover:rotate-12"
                 />
               </a>
               <a
                 href="#contact"
-                className={`${btnBase} bg-transparent text-ink border-black/10 hover:bg-ink hover:text-white hover:border-ink ${focusRing}`}
+                className={`${btnBase} bg-[#ffffff] text-[#111111] border-[#e5e7eb] hover:bg-surface-card hover:border-[#d1d5db] ${focusRing}`}
               >
                 <span>Contact Me</span>
-                <EnvelopeSimple size={18} aria-hidden />
+                <EnvelopeSimple size={17} aria-hidden />
               </a>
             </motion.div>
           </motion.div>

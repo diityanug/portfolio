@@ -6,6 +6,9 @@ import BackgroundShape from '../ui/BackgroundShape';
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
+const RESUME_URL =
+  'https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing';
+
 const Profile = () => {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldReduce = useReducedMotion();
@@ -26,18 +29,12 @@ const Profile = () => {
       id="profile"
       tabIndex={-1}
       aria-labelledby="profile-heading"
-      className="relative z-10 bg-[#010102] border-t border-[#23252a] py-20 lg:py-32 px-4 md:px-8 overflow-hidden outline-none"
+      className="relative z-10 bg-[#f8f9fa] border-t border-[#e5e7eb] py-20 lg:py-32 px-4 md:px-8 overflow-hidden outline-none"
     >
-      {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-60 right-[-15%] h-160 w-160 bg-[radial-gradient(circle_closest-side,rgba(94,106,210,0.12),transparent)]"
-      />
-
       {/* Subtle wireframe background shape */}
       <BackgroundShape
         initialIndex={3}
-        strokeClassName="stroke-[#5e6ad2]/[0.14]"
+        strokeClassName="stroke-[#111111]/[0.04]"
         className="-left-[28vw] -bottom-[10vw] w-[75vw] h-[75vw] md:-left-[16vw] md:top-[8vh] md:w-[48vw] md:h-[48vw]"
       />
 
@@ -54,15 +51,15 @@ const Profile = () => {
             ref={headingRef}
             id="profile-heading"
             variants={fadeUp}
-            className="text-[clamp(44px,10vw,64px)] sm:text-[clamp(52px,9vw,96px)] lg:text-[clamp(64px,6.5vw,104px)] font-semibold leading-[0.95] tracking-[-0.04em] text-[#f7f8f8] mb-10 lg:mb-12 uppercase"
+            className="text-[clamp(40px,8vw,56px)] sm:text-[clamp(48px,7vw,72px)] lg:text-[clamp(56px,5.5vw,84px)] font-semibold leading-[1.02] tracking-[-0.038em] text-[#111111] mb-10 lg:mb-12 uppercase"
           >
-            <span className="block text-canvas">Something</span>
+            <span className="block text-[#111111]">Something</span>
             {/* Scroll-driven text fill */}
             <span className="relative block w-fit select-none">
               {/* Wireframe outline base */}
               <span
                 aria-hidden="true"
-                className="block text-transparent [-webkit-text-stroke-width:2px] [-webkit-text-stroke-color:#f7f8f8]"
+                className="block text-transparent [-webkit-text-stroke-width:1.5px] [-webkit-text-stroke-color:#111111]"
               >
                 about me.
               </span>
@@ -70,7 +67,7 @@ const Profile = () => {
               <motion.span
                 style={shouldReduce ? undefined : { clipPath: titleClip }}
                 aria-hidden="true"
-                className="absolute inset-0 block text-[#5e6ad2] [-webkit-text-stroke-width:2px] [-webkit-text-stroke-color:#5e6ad2] will-change-[clip-path]"
+                className="absolute inset-0 block text-[#111111] [-webkit-text-stroke-width:1.5px] [-webkit-text-stroke-color:#111111] will-change-[clip-path]"
               >
                 about me.
               </motion.span>
@@ -79,18 +76,21 @@ const Profile = () => {
           </motion.h2>
 
           <motion.div variants={fadeUp} className="flex flex-col">
-            <div aria-hidden="true" className="h-px w-12 bg-[#5e6ad2] mb-8 opacity-80" />
+            <div aria-hidden="true" className="h-px w-12 bg-[#111111] mb-8" />
 
-            <p className="text-[#f7f8f8] text-xl md:text-2xl leading-[1.45] tracking-[-0.01em] max-w-2xl">
+            <p className="text-[#111111] text-lg sm:text-xl md:text-[21px] font-normal leading-[1.55] tracking-[-0.01em] max-w-2xl">
               A Software Engineer focused on frontend development using{' '}
-              <span className="text-[#8f98ff]">TypeScript</span> and{' '}
-              <span className="text-[#8f98ff]">React</span>, while also exploring backend
-              development with Python and FastAPI. I enjoy building modern, clean, and
-              user-friendly web applications while continuously learning and improving my
-              skills.
+              <span className="font-medium underline decoration-[#d1d5db] underline-offset-4">
+                TypeScript
+              </span>{' '}
+              and{' '}
+              <span className="font-medium underline decoration-[#d1d5db] underline-offset-4">
+                React
+              </span>
+              , while also exploring backend development with Python and FastAPI. I enjoy building modern, clean, and user-friendly web applications while continuously learning and improving my skills.
             </p>
 
-            <p className="mt-6 text-[#8a8f98] text-base md:text-[17px] leading-[1.75] max-w-2xl">
+            <p className="mt-6 text-[#6b7280] text-base md:text-[16px] font-normal leading-[1.7] max-w-2xl">
               Outside of coding, I love playing games and spending time with sports,
               especially badminton and basketball. I can play other sports too, but whether
               I’m actually good at them is another story. I always enjoy trying new things
@@ -99,14 +99,13 @@ const Profile = () => {
           </motion.div>
         </div>
 
-        {/* Right column: Profile Card */}
+        {/* Right column: Profile Card (Cal.com light surface) */}
         <motion.div
           variants={fadeUp}
           className="order-first lg:order-0 lg:col-span-5 w-full max-w-sm sm:max-w-md lg:max-w-105 mx-auto lg:ml-auto flex"
         >
-          <div className="relative w-full rounded-[38px] border border-[#23252a] bg-[#14161b] p-2.5 shadow-[0_24px_60px_-20px_rgba(94,106,210,0.35)]">
-            <div className="relative w-full aspect-3/4 min-h-120 sm:min-h-132 overflow-hidden rounded-[30px] bg-[#0a0b0e]">
-              {/* Portrait illustration anchored to bottom & lifted into top 82% so subject sits above text */}
+          <div className="relative w-full rounded-3xl border border-[#e5e7eb] bg-[#ffffff] p-2.5 shadow-[0_20px_50px_-20px_rgba(17,17,17,0.08)]">
+            <div className="relative w-full aspect-3/4 min-h-120 sm:min-h-132 overflow-hidden rounded-[20px] bg-[#ffffff] border border-[#e5e7eb]/70">
               <img
                 src="/Profile_pics.webp"
                 alt="Aditya Nugraha"
@@ -115,38 +114,34 @@ const Profile = () => {
                 className="absolute inset-x-0 top-0 h-[82%] w-full object-cover object-bottom select-none"
               />
 
-              {/* Smooth bottom fade blending the illustration bottom edge into card base */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-[44%] bg-linear-to-t from-[#0a0b0e] from-42% via-[#0a0b0e]/85 via-72% to-transparent"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[46%] bg-linear-to-t from-[#ffffff] from-42% via-[#ffffff]/90 via-75% to-transparent"
               />
 
-              {/* Bottom content overlay */}
               <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col justify-end p-6 sm:p-7">
-                <h3 className="text-2xl sm:text-[28px] font-bold tracking-[-0.02em] text-[#f7f8f8] leading-tight">
+                <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-[#111111] leading-tight">
                   Aditya Nugraha Irwan
                 </h3>
 
-                {/* Subtitle / Role */}
-                <p className="mt-2.5 flex items-center gap-2 sm:gap-2.5 whitespace-nowrap text-xs min-[380px]:text-[13px] sm:text-sm font-normal leading-relaxed text-[#b4bcd0]">
+                <p className="mt-2 flex items-center gap-2 sm:gap-2.5 whitespace-nowrap text-xs sm:text-sm font-normal leading-relaxed text-[#6b7280]">
                   <span>Software Engineer</span>
-                  <span aria-hidden="true" className="text-[#5e6ad2] select-none">
+                  <span aria-hidden="true" className="text-[#d1d5db] select-none">
                     |
                   </span>
                   <span>Frontend Development</span>
                 </p>
 
-                {/* Actions row: LinkedIn + GitHub icons on the left, Follow button on the right */}
                 <div className="mt-6 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2.5">
                     <a
                       href="https://linkedin.com/in/diityanug"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn (opens in new tab)"
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#23252a] bg-[#14161b]/90 text-[#d0d6e0] transition-[color,border-color,background-color,transform] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:border-[#5e6ad2] hover:bg-[#5e6ad2]/15 hover:text-[#f7f8f8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5e6ad2]"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#f8f9fa] text-[#111111] transition-colors duration-200 hover:border-[#111111] hover:bg-[#111111] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
                     >
-                      <LinkedinLogo size={22} weight="regular" aria-hidden />
+                      <LinkedinLogo size={20} weight="regular" aria-hidden />
                     </a>
 
                     <a
@@ -154,20 +149,20 @@ const Profile = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="GitHub (opens in new tab)"
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#23252a] bg-[#14161b]/90 text-[#d0d6e0] transition-[color,border-color,background-color,transform] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:border-[#5e6ad2] hover:bg-[#5e6ad2]/15 hover:text-[#f7f8f8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5e6ad2]"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#f8f9fa] text-[#111111] transition-colors duration-200 hover:border-[#111111] hover:bg-[#111111] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
                     >
-                      <GithubLogo size={22} weight="regular" aria-hidden />
+                      <GithubLogo size={20} weight="regular" aria-hidden />
                     </a>
                   </div>
 
                   <a
-                    href="https://www.instagram.com/diityanug"
+                    href={RESUME_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-[#5e6ad2] px-7 py-2.5 text-sm sm:text-[15px] font-semibold tracking-tight text-[#f7f8f8] shadow-[0_8px_24px_-4px_rgba(94,106,210,0.55)] transition-[background-color,transform,box-shadow] duration-300 motion-reduce:transition-none hover:-translate-y-0.5 hover:bg-[#6e7ae2] hover:shadow-[0_12px_28px_-4px_rgba(94,106,210,0.7)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8f98ff]"
+                    className="inline-flex items-center justify-center rounded-xl bg-[#111111] px-5 py-2.5 text-sm font-medium text-[#ffffff] transition-colors duration-200 hover:bg-[#242424] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] shadow-2xs active:scale-[0.98]"
                   >
-                    Follow
-                    <span className="sr-only"> on Instagram (opens in new tab)</span>
+                    Resume
+                    <span className="sr-only"> (opens in new tab)</span>
                   </a>
                 </div>
               </div>

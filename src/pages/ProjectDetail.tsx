@@ -28,18 +28,7 @@ interface ProjectTheme {
   charaColors: readonly string[];
   charaMuted: string;
   shapeStroke: string;
-  badgeBg: string;
-  badgeText: string;
-  badgeBorder?: string;
-  iconText: string;
   cardBorderHover: string;
-  cardShadowActive: string;
-  challengeCardBg: string;
-  challengeCardBorder: string;
-  challengeTitle: string;
-  challengeText: string;
-  checkIcon: string;
-  buttonHoverBg: string;
   timelineBar: string;
   timelineDotActive: string;
 }
@@ -49,79 +38,39 @@ const PROJECT_THEMES: Record<string, ProjectTheme> = {
     primaryHex: '#ea580c',
     charaColors: ['#FB923C', '#F97316', '#F59E0B', '#EA580C', '#FDBA74'],
     charaMuted: '#FED7AA',
-    shapeStroke: 'stroke-[#ea580c]/8',
-    badgeBg: 'bg-[#ea580c]/10',
-    badgeText: 'text-[#c2410c]',
-    iconText: 'text-[#ea580c]',
-    cardBorderHover: 'border-[#ea580c]/40',
-    cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(234,88,12,0.15)]',
-    challengeCardBg: 'bg-linear-to-br from-[#FFF7ED] to-[#FFEDD5]/70',
-    challengeCardBorder: 'border-[#FDBA74]/80',
-    challengeTitle: 'text-[#7C2D12]',
-    challengeText: 'text-[#9A3412]/90',
-    checkIcon: 'text-[#ea580c]',
-    buttonHoverBg: 'hover:bg-[#ea580c]',
-    timelineBar: 'bg-[#ea580c]',
-    timelineDotActive: 'border-[#ea580c]',
+    shapeStroke: 'stroke-[#111111]/[0.04]',
+    cardBorderHover: 'border-[#d1d5db]',
+    timelineBar: 'bg-[#111111]',
+    timelineDotActive: 'border-[#111111]',
   },
   lenvry: {
     primaryHex: '#0284c7',
     charaColors: ['#38BDF8', '#0EA5E9', '#60A5FA', '#0284C7', '#7DD3FC'],
     charaMuted: '#BAE6FD',
-    shapeStroke: 'stroke-[#0284c7]/8',
-    badgeBg: 'bg-[#0284c7]/10',
-    badgeText: 'text-[#0369a1]',
-    iconText: 'text-[#0284c7]',
-    cardBorderHover: 'border-[#0284c7]/40',
-    cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(2,132,199,0.15)]',
-    challengeCardBg: 'bg-linear-to-br from-[#F0F9FF] to-[#E0F2FE]/70',
-    challengeCardBorder: 'border-[#BAE6FD]/80',
-    challengeTitle: 'text-[#0C4A6E]',
-    challengeText: 'text-[#075985]/90',
-    checkIcon: 'text-[#0284c7]',
-    buttonHoverBg: 'hover:bg-[#0284c7]',
-    timelineBar: 'bg-[#0284c7]',
-    timelineDotActive: 'border-[#0284c7]',
+    shapeStroke: 'stroke-[#111111]/[0.04]',
+    cardBorderHover: 'border-[#d1d5db]',
+    timelineBar: 'bg-[#111111]',
+    timelineDotActive: 'border-[#111111]',
   },
   reka: {
     primaryHex: '#059669',
     charaColors: ['#34D399', '#10B981', '#2DD4BF', '#059669', '#6EE7B7'],
     charaMuted: '#A7F3D0',
-    shapeStroke: 'stroke-[#059669]/8',
-    badgeBg: 'bg-[#059669]/10',
-    badgeText: 'text-[#047857]',
-    iconText: 'text-[#059669]',
-    cardBorderHover: 'border-[#059669]/40',
-    cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(5,150,105,0.15)]',
-    challengeCardBg: 'bg-linear-to-br from-[#ECFDF5] to-[#D1FAE5]/70',
-    challengeCardBorder: 'border-[#A7F3D0]/80',
-    challengeTitle: 'text-[#064E3B]',
-    challengeText: 'text-[#065F46]/90',
-    checkIcon: 'text-[#059669]',
-    buttonHoverBg: 'hover:bg-[#059669]',
-    timelineBar: 'bg-[#059669]',
-    timelineDotActive: 'border-[#059669]',
+    shapeStroke: 'stroke-[#111111]/[0.04]',
+    cardBorderHover: 'border-[#d1d5db]',
+    timelineBar: 'bg-[#111111]',
+    timelineDotActive: 'border-[#111111]',
   },
 };
 
 const DEFAULT_THEME: ProjectTheme = {
-  primaryHex: '#5e6ad2',
+  primaryHex: '#111111',
   charaColors: ['#818CF8', '#6366F1', '#A78BFA', '#5E6AD2', '#C4B5FD'],
-  charaMuted: '#C7D2FE',
-  shapeStroke: 'stroke-primary/8',
-  badgeBg: 'bg-primary/10',
-  badgeText: 'text-primary',
-  iconText: 'text-primary',
-  cardBorderHover: 'border-primary/40',
-  cardShadowActive: 'shadow-[0_24px_60px_-15px_rgba(86,69,212,0.14)]',
-  challengeCardBg: 'bg-linear-to-br from-[#EEF2FF] to-[#E0E7FF]/60',
-  challengeCardBorder: 'border-[#C7D2FE]/80',
-  challengeTitle: 'text-[#1E1B4B]',
-  challengeText: 'text-[#312E81]/90',
-  checkIcon: 'text-primary',
-  buttonHoverBg: 'hover:bg-primary',
-  timelineBar: 'bg-primary',
-  timelineDotActive: 'border-primary',
+  charaMuted: '#E5E7EB',
+  shapeStroke: 'stroke-[#111111]/[0.04]',
+  cardBorderHover: 'border-[#d1d5db]',
+  timelineBar: 'bg-[#111111]',
+  timelineDotActive: 'border-[#111111]',
 };
 
 const slideInRight = {
@@ -139,7 +88,6 @@ function TimelineItem({
   theme: ProjectTheme;
 }) {
   const isEven = idx % 2 === 0;
-  const numString = (idx + 1).toString().padStart(2, '0');
   const charaName = CHARA_NAMES[idx % CHARA_NAMES.length];
   const activeCharaColor = theme.charaColors[idx % theme.charaColors.length];
 
@@ -162,31 +110,13 @@ function TimelineItem({
         }`}
       >
         <div
-          className={`relative overflow-hidden rounded-3xl border bg-white p-6 sm:p-7 md:p-8 transition-[border-color,box-shadow] duration-500 ${
-            isActive
-              ? `${theme.cardBorderHover} ${theme.cardShadowActive}`
-              : 'border-hairline shadow-xs'
+          className={`relative overflow-hidden rounded-2xl border bg-surface-soft p-6 sm:p-7 md:p-8 transition-colors duration-300 ${
+            isActive ? theme.cardBorderHover : 'border-[#e5e7eb]'
           }`}
         >
-          {/* Background Watermark Number */}
-          <span
-            aria-hidden="true"
-            className="absolute right-4 top-2 text-[84px] sm:text-[96px] font-black leading-none select-none pointer-events-none transition-colors duration-500"
-            style={{
-              color: isActive
-                ? `${theme.primaryHex}18`
-                : 'rgba(0, 0, 0, 0.035)',
-            }}
-          >
-            {numString}
-          </span>
-
           <div className="relative z-10">
             <div className="flex items-center justify-between gap-3 mb-2">
-              <h4
-                className="font-bold text-xl sm:text-2xl tracking-tight transition-colors duration-500"
-                style={{ color: isActive ? theme.primaryHex : '#1a1a1a' }}
-              >
+              <h4 className="font-semibold text-xl sm:text-2xl tracking-[-0.015em] text-[#111111]">
                 {item.step}
               </h4>
 
@@ -199,7 +129,7 @@ function TimelineItem({
               />
             </div>
 
-            <p className="text-sm sm:text-base text-steel leading-relaxed">
+            <p className="text-sm sm:text-base text-[#6b7280] font-normal leading-[1.6]">
               {item.desc}
             </p>
           </div>
@@ -208,8 +138,8 @@ function TimelineItem({
 
       {/* Center Timeline Dot */}
       <div
-        className={`absolute left-5 md:left-1/2 top-8 md:top-1/2 w-4 h-4 bg-white border-[3px] rounded-full -translate-x-1/2 md:-translate-y-1/2 z-10 transition-all duration-500 shadow-[0_0_0_6px_#FAFAFA] ${
-          isActive ? `${theme.timelineDotActive} scale-125` : 'border-black/20 scale-100'
+        className={`absolute left-5 md:left-1/2 top-8 md:top-1/2 w-4 h-4 bg-[#ffffff] border-[3px] rounded-full -translate-x-1/2 md:-translate-y-1/2 z-10 transition-all duration-500 shadow-[0_0_0_6px_#ffffff] ${
+          isActive ? `${theme.timelineDotActive} scale-125` : 'border-[#d1d5db] scale-100'
         }`}
       />
 
@@ -220,13 +150,11 @@ function TimelineItem({
         }`}
       >
         <div
-          className={`p-1.5 rounded-3xl bg-white border transition-[border-color,box-shadow] duration-500 ${
-            isActive
-              ? `${theme.cardBorderHover} ${theme.cardShadowActive}`
-              : 'border-hairline shadow-xs'
+          className={`p-1.5 rounded-2xl bg-surface-soft border transition-colors duration-300 ${
+            isActive ? theme.cardBorderHover : 'border-[#e5e7eb]'
           }`}
         >
-          <div className="w-full aspect-4/3 rounded-[18px] overflow-hidden relative bg-[#F4F4F6]">
+          <div className="w-full aspect-4/3 rounded-xl overflow-hidden relative bg-surface-card">
             <img
               src={item.image}
               alt={item.step}
@@ -269,11 +197,10 @@ export default function ProjectDetail() {
     };
 
   return (
-    <div className="min-h-dvh bg-[#FAFAFA] selection:bg-primary/20 selection:text-primary overflow-x-hidden font-sans">
-
+    <div className="min-h-dvh bg-[#ffffff] text-[#111111] selection:bg-[#111111]/10 selection:text-[#111111] overflow-x-hidden font-sans">
       <main>
-        {/* SECTION 1: Hero & Metadata Bento */}
-        <section className="relative pt-24 md:pt-32 pb-20 md:pb-28 px-4 md:px-8 overflow-hidden bg-[#FAFAFA]">
+        {/* SECTION 1: Hero & Metadata Bento (Cal.com canvas) */}
+        <section className="relative pt-24 md:pt-32 pb-20 md:pb-28 px-4 md:px-8 overflow-hidden bg-[#ffffff]">
           <BackgroundShape
             initialIndex={0}
             strokeClassName={theme.shapeStroke}
@@ -288,11 +215,11 @@ export default function ProjectDetail() {
             >
               {/* Title & Subtitle */}
               <motion.div variants={fadeUp} className="mb-10 md:mb-14">
-                <h1 className="text-4xl sm:text-6xl md:text-[80px] font-black text-ink leading-[0.96] tracking-[-0.04em] uppercase mb-5">
-                  {project.title}.
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#111111] leading-[1.06] tracking-[-0.03em] mb-4">
+                  {project.title}
                 </h1>
 
-                <p className="text-lg sm:text-xl md:text-2xl text-steel font-medium tracking-tight max-w-3xl leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl text-[#6b7280] font-normal max-w-3xl leading-[1.6]">
                   {project.subtitle}
                 </p>
               </motion.div>
@@ -303,36 +230,36 @@ export default function ProjectDetail() {
                 className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5"
               >
                 {/* Role Card */}
-                <div className="md:col-span-3 rounded-3xl bg-white border border-hairline p-5 sm:p-6 shadow-xs flex flex-col justify-between gap-3">
-                  <div className={`flex items-center gap-2 ${theme.iconText}`}>
+                <div className="md:col-span-3 rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
+                  <div className="flex items-center gap-2 text-[#111111]">
                     <UserCircle size={20} weight="duotone" aria-hidden />
-                    <span className="text-[11px] uppercase tracking-widest font-extrabold text-steel">
+                    <span className="text-[11px] uppercase tracking-[0.06em] font-medium text-[#6b7280]">
                       Role
                     </span>
                   </div>
-                  <p className="text-ink font-bold text-base sm:text-lg tracking-tight">
+                  <p className="text-[#111111] font-semibold text-base sm:text-lg tracking-[-0.015em]">
                     {project.role}
                   </p>
                 </div>
 
                 {/* Timeline Card */}
-                <div className="md:col-span-3 rounded-3xl bg-white border border-hairline p-5 sm:p-6 shadow-xs flex flex-col justify-between gap-3">
-                  <div className={`flex items-center gap-2 ${theme.iconText}`}>
+                <div className="md:col-span-3 rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
+                  <div className="flex items-center gap-2 text-[#111111]">
                     <CalendarBlank size={20} weight="duotone" aria-hidden />
-                    <span className="text-[11px] uppercase tracking-widest font-extrabold text-steel">
+                    <span className="text-[11px] uppercase tracking-[0.06em] font-medium text-[#6b7280]">
                       Timeline
                     </span>
                   </div>
-                  <p className="text-ink font-bold text-base sm:text-lg tracking-tight">
+                  <p className="text-[#111111] font-semibold text-base sm:text-lg tracking-[-0.015em] tabular-nums">
                     {project.timeline}
                   </p>
                 </div>
 
                 {/* Tech Stack Card */}
-                <div className="md:col-span-6 rounded-3xl bg-white border border-hairline p-5 sm:p-6 shadow-xs flex flex-col justify-between gap-3">
-                  <div className={`flex items-center gap-2 ${theme.iconText}`}>
+                <div className="md:col-span-6 rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
+                  <div className="flex items-center gap-2 text-[#111111]">
                     <Stack size={20} weight="duotone" aria-hidden />
-                    <span className="text-[11px] uppercase tracking-widest font-extrabold text-steel">
+                    <span className="text-[11px] uppercase tracking-[0.06em] font-medium text-[#6b7280]">
                       Tech Stack
                     </span>
                   </div>
@@ -341,7 +268,7 @@ export default function ProjectDetail() {
                     {project.tags.map((tag: string) => (
                       <span
                         key={tag}
-                        className="text-xs font-bold text-ink bg-[#F4F4F7] border border-black/5 px-3 py-1 rounded-full"
+                        className="rounded-md bg-[#ffffff] border border-[#e5e7eb] px-2.5 py-1 text-xs font-normal text-body"
                       >
                         {tag}
                       </span>
@@ -353,24 +280,15 @@ export default function ProjectDetail() {
           </div>
         </section>
 
-        {/* SECTION 2: Overview, Challenge & Highlights (Segmented White Canvas) */}
-        <section className="relative z-10 bg-white rounded-t-[40px] md:rounded-t-[64px] -mt-8 py-20 md:py-28 px-4 md:px-8 border-t border-hairline overflow-hidden shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)]">
+        {/* SECTION 2: Overview, Challenge & Highlights (Cal.com surface-soft band) */}
+        <section className="relative z-10 bg-surface-soft py-20 md:py-28 px-4 md:px-8 border-t border-[#e5e7eb] overflow-hidden">
           <BackgroundShape
             initialIndex={2}
-            strokeClassName="stroke-black/[0.045]"
+            strokeClassName="stroke-[#111111]/[0.04]"
             className="left-[-30vw] top-[10vh] w-[70vw] h-[70vw] md:left-[-16vw] md:top-[8vh] md:w-[44vw] md:h-[44vw]"
           />
 
           <div className="max-w-6xl mx-auto relative z-10">
-            <div className="flex items-center gap-3 mb-10 md:mb-14">
-              <span
-                className={`inline-flex items-center rounded-full ${theme.badgeBg} px-3.5 py-1 text-xs font-extrabold uppercase tracking-widest ${theme.badgeText}`}
-              >
-                Architecture &amp; Context
-              </span>
-              <div className="h-px flex-1 bg-hairline" />
-            </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
               {/* Left Column: Overview + Challenge Cards */}
               <motion.div
@@ -381,16 +299,16 @@ export default function ProjectDetail() {
                 className="lg:col-span-7 flex flex-col gap-6"
               >
                 {/* Overview Bento Card */}
-                <div className="rounded-3xl border border-hairline bg-[#FAFAFA] p-6 sm:p-8 md:p-9">
-                  <h2 className="text-xl sm:text-2xl font-bold text-ink mb-4 tracking-tight">
+                <div className="rounded-2xl border border-[#e5e7eb] bg-[#ffffff] p-6 sm:p-8 md:p-9">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-[#111111] mb-4 tracking-[-0.015em]">
                     Project Overview
                   </h2>
-                  <p className="mb-5 font-semibold text-ink text-base sm:text-lg leading-relaxed">
+                  <p className="mb-5 font-normal text-[#111111] text-base sm:text-lg leading-[1.6]">
                     {project.overview}
                   </p>
                   {project.overviewParagraphs &&
                   project.overviewParagraphs.length > 0 ? (
-                    <div className="space-y-4 text-steel text-sm sm:text-base leading-relaxed">
+                    <div className="space-y-4 text-[#6b7280] text-sm sm:text-base font-normal leading-[1.6]">
                       {project.overviewParagraphs.map(
                         (paragraph: string, pIdx: number) => (
                           <p key={pIdx}>{paragraph}</p>
@@ -398,7 +316,7 @@ export default function ProjectDetail() {
                       )}
                     </div>
                   ) : project.desc ? (
-                    <p className="text-steel text-sm sm:text-base leading-relaxed">
+                    <p className="text-[#6b7280] text-sm sm:text-base font-normal leading-[1.6]">
                       {project.desc}
                     </p>
                   ) : null}
@@ -406,22 +324,18 @@ export default function ProjectDetail() {
 
                 {/* Challenge Bento Card */}
                 {project.challenges && (
-                  <div
-                    className={`rounded-3xl border p-6 sm:p-8 md:p-9 ${theme.challengeCardBg} ${theme.challengeCardBorder}`}
-                  >
-                    <h2
-                      className={`text-xl sm:text-2xl font-bold tracking-tight mb-3 ${theme.challengeTitle}`}
-                    >
+                  <div className="rounded-2xl border border-[#e5e7eb] bg-[#ffffff] p-6 sm:p-8 md:p-9">
+                    <h2 className="text-xl sm:text-2xl font-semibold tracking-[-0.015em] mb-3 text-[#111111]">
                       Challenge
                     </h2>
-                    <p className={`text-sm sm:text-base leading-relaxed ${theme.challengeText}`}>
+                    <p className="text-sm sm:text-base font-normal leading-[1.6] text-[#6b7280]">
                       {project.challenges}
                     </p>
                   </div>
                 )}
               </motion.div>
 
-              {/* Right Column: Key Highlights Card */}
+              {/* Right Column: Key Highlights Card (Clean Divided List) */}
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -429,24 +343,24 @@ export default function ProjectDetail() {
                 variants={slideInRight}
                 className="lg:col-span-5"
               >
-                <div className="rounded-3xl border border-hairline bg-[#FAFAFA] p-6 sm:p-8 md:p-9 shadow-sm">
-                  <h3 className="text-xl sm:text-2xl font-bold text-ink mb-4 tracking-tight">
+                <div className="rounded-2xl border border-[#e5e7eb] bg-[#ffffff] p-6 sm:p-8 md:p-9">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-[#111111] pb-4 mb-2 border-b border-[#e5e7eb] tracking-[-0.015em]">
                     Key Highlights
                   </h3>
 
-                  <ul className="space-y-3 mb-7">
+                  <ul className="divide-y divide-hairline-soft mb-7">
                     {(project.keyFeatures || []).map(
                       (feature: string, idx: number) => (
                         <li
                           key={idx}
-                          className="flex items-start gap-3 rounded-2xl bg-white border border-black/5 p-3.5 text-ink/85 text-xs sm:text-sm font-medium shadow-2xs"
+                          className="flex items-start gap-3 py-3.5 first:pt-2 last:pb-0 text-body text-xs sm:text-sm font-normal"
                         >
                           <CheckCircle
                             weight="fill"
-                            className={`${theme.checkIcon} mt-0.5 shrink-0`}
-                            size={18}
+                            className="text-[#111111] mt-1 shrink-0"
+                            size={17}
                           />
-                          <span className="leading-snug">{feature}</span>
+                          <span className="leading-[1.6]">{feature}</span>
                         </li>
                       ),
                     )}
@@ -457,10 +371,10 @@ export default function ProjectDetail() {
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center justify-between gap-2 bg-ink text-white font-bold uppercase tracking-wider px-5 py-3.5 rounded-2xl ${theme.buttonHoverBg} transition-colors duration-300 text-xs group`}
+                      className="flex items-center justify-between gap-2 bg-[#111111] text-[#ffffff] font-medium px-5 py-3.5 rounded-lg hover:bg-primary-active transition-colors duration-200 text-sm group"
                     >
                       <span className="flex items-center gap-2.5 truncate">
-                        <GithubLogo size={18} weight="bold" className="shrink-0" />
+                        <GithubLogo size={18} weight="regular" className="shrink-0" />
                         <span className="truncate">View Source Code</span>
                       </span>
                       <ArrowUpRight
@@ -476,8 +390,8 @@ export default function ProjectDetail() {
           </div>
         </section>
 
-        {/* SECTION 3: Process Workflow & Modules (Segmented Tinted Canvas) */}
-        <section className="relative z-10 bg-[#FAFAFA] rounded-t-[40px] md:rounded-t-[64px] -mt-8 pt-20 md:pt-28 pb-28 md:pb-36 px-4 md:px-8 border-t border-hairline overflow-hidden shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)]">
+        {/* SECTION 3: Process Workflow & Modules (Cal.com canvas band) */}
+        <section className="relative z-10 bg-[#ffffff] pt-20 md:pt-28 pb-28 md:pb-36 px-4 md:px-8 border-t border-[#e5e7eb] overflow-hidden">
           <BackgroundShape
             initialIndex={1}
             strokeClassName={theme.shapeStroke}
@@ -485,27 +399,18 @@ export default function ProjectDetail() {
           />
 
           <div className="max-w-6xl mx-auto relative z-10">
-            <div className="flex items-center gap-3 mb-10 md:mb-14">
-              <span
-                className={`inline-flex items-center rounded-full ${theme.badgeBg} px-3.5 py-1 text-xs font-extrabold uppercase tracking-widest ${theme.badgeText}`}
-              >
-                System Walkthrough
-              </span>
-              <div className="h-px flex-1 bg-hairline" />
-            </div>
-
             <div className="text-center mb-14 md:mb-20">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-ink tracking-tight uppercase mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#111111] tracking-tight mb-4">
                 {project.workflowTitle || 'Process Workflow'}
               </h2>
-              <p className="text-steel max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
+              <p className="text-[#6b7280] font-normal max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-[1.6]">
                 {project.workflowSubtitle ||
                   'A step-by-step breakdown of the core modules and architecture.'}
               </p>
             </div>
 
             <div ref={timelineRef} className="relative max-w-5xl mx-auto">
-              <div className="absolute left-5 md:left-1/2 top-4 bottom-4 w-px bg-black/10 md:-translate-x-1/2" />
+              <div className="absolute left-5 md:left-1/2 top-4 bottom-4 w-px bg-[#e5e7eb] md:-translate-x-1/2" />
 
               <motion.div
                 className={`absolute left-5 md:left-1/2 top-4 bottom-4 w-0.5 ${theme.timelineBar} md:-translate-x-1/2 origin-top`}

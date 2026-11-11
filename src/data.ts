@@ -2,7 +2,7 @@ export const DATA: Record<string, any> = {
   // Projects
   "genre-game-classifier": {
     title: "Genre Game Classifier",
-    subtitle: "Web app that predicts video game genres from their story description.",
+    subtitle: "Predicts video game genres from story descriptions.",
     role: "Fullstack Machine Learning",
     timeline: "2024 ~ 2025",
     desc: "A web app that reads a game's title and description, then automatically guesses its genres (like Action, RPG, or Horror) and shows which words led to that answer.",
@@ -43,7 +43,7 @@ export const DATA: Record<string, any> = {
   },
   "lenvry": {
     title: "Lenvry",
-    subtitle: "All-in-one offline mobile app for workouts, daily habits, meals, finances, and personal growth.",
+    subtitle: "Offline tracker for workouts, habits, and meals.",
     role: "Mobile App Developer",
     timeline: "2026 - Still Development",
     desc: "Lenvry combines a workout logger, habit alarm, calorie & water tracker, money manager, sticky notes, and online course tracker into one private offline app.",
@@ -95,7 +95,7 @@ export const DATA: Record<string, any> = {
   },
   "reka": {
     title: "REKA",
-    subtitle: "Private personal finance app with AI receipt & bank statement scanning.",
+    subtitle: "Private money manager with AI receipt scanning.",
     role: "Mobile App Developer",
     timeline: "2026",
     desc: "REKA helps you track IDR & USD wallets, saving pockets, budget plans, and shared loans ('talangan') offline—plus AI scanners to read shopping receipts and bank e-Statements automatically.",

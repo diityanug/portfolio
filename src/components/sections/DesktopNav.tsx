@@ -53,7 +53,7 @@ const isModifiedClick = (e: React.MouseEvent) =>
   e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
 const focusRing =
-  'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink/60';
+  'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]';
 
 const listClass = 'flex items-center text-[11px] lg:text-xs uppercase tracking-widest';
 
@@ -119,8 +119,8 @@ const DesktopNav = ({ logoSrc = '/logo-static.svg' }: DesktopNavProps) => {
         href={hrefFor(id)}
         onClick={(e) => goTo(e, id)}
         tabIndex={isSlug ? -1 : undefined}
-        className={`flex flex-col items-center px-2.5 lg:px-3.5 py-2 rounded-full transition-colors duration-300
-          ${focusRing} font-medium text-steel hover:text-ink`}
+        className={`flex flex-col items-center px-2.5 lg:px-3.5 py-2 rounded-full transition-colors duration-200
+          ${focusRing} font-medium text-[#6b7280] hover:text-[#111111]`}
       >
         {label}
       </a>
@@ -134,21 +134,21 @@ const DesktopNav = ({ logoSrc = '/logo-static.svg' }: DesktopNavProps) => {
         transition-transform duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none
         ${isScrolled ? 'translate-y-3.5' : 'translate-y-0'}`}
     >
-      {/* Visual background layer (childless so width/radius morphing triggers zero layout reflow on content) */}
+      {/* Visual background layer (Cal.com top-nav) */}
       <div
         aria-hidden="true"
         className={`pointer-events-auto mx-auto h-16 w-full border backdrop-blur-xl
           transition-[max-width,border-radius,border-color,box-shadow,background-color] duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none
           ${
             isScrolled
-              ? 'md:max-w-[92vw] lg:max-w-3xl rounded-4xl border-black/8 bg-white/88 shadow-[0_10px_32px_-8px_rgba(0,0,0,0.12)]'
-              : 'max-w-[100vw] rounded-none border-transparent border-b-black/6 bg-white/80 shadow-none'
+              ? 'md:max-w-[92vw] lg:max-w-3xl rounded-4xl border-[#e5e7eb] bg-[#ffffff]/90 shadow-[0_10px_30px_-10px_rgba(17,17,17,0.08)]'
+              : 'max-w-[100vw] rounded-none border-transparent border-b-[#e5e7eb] bg-[#ffffff]/85 shadow-none'
           }`}
       />
 
-      {/* Content layer (constant max-w-3xl h-16 so links, logo, and back button never resize or jitter) */}
+      {/* Content layer */}
       <div className="relative z-10 pointer-events-auto -mt-16 mx-auto max-w-3xl h-16 grid grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] items-center px-6">
-        {/* Left Column: Pure GPU compositor crossfade between Home links and Slug Back button */}
+        {/* Left Column */}
         <div className="relative flex items-center h-full min-w-0">
           <div
             aria-hidden={!isSlug || undefined}
@@ -161,7 +161,7 @@ const DesktopNav = ({ logoSrc = '/logo-static.svg' }: DesktopNavProps) => {
             <Link
               to={{ pathname: '/', hash: backHash }}
               tabIndex={isSlug ? undefined : -1}
-              className={`group inline-flex items-center gap-2 h-10 px-3 -ml-2 rounded-full text-xs lg:text-sm font-semibold text-steel hover:text-ink hover:bg-black/4 transition-colors duration-300 motion-reduce:transition-none whitespace-nowrap ${focusRing}`}
+              className={`group inline-flex items-center gap-2 h-10 px-3 -ml-2 rounded-full text-xs lg:text-sm font-medium text-[#6b7280] hover:text-[#111111] hover:bg-hairline-soft transition-colors duration-200 motion-reduce:transition-none whitespace-nowrap ${focusRing}`}
             >
               <ArrowLeft
                 size={17}
@@ -198,12 +198,12 @@ const DesktopNav = ({ logoSrc = '/logo-static.svg' }: DesktopNavProps) => {
             <img
               src={logoSrc}
               alt=""
-              className="w-9 h-9 group-hover:scale-105 transition-transform duration-300 ease-out"
+              className="w-9 h-9 brightness-0 opacity-90 group-hover:scale-105 transition-transform duration-300 ease-out"
             />
           </Link>
         </div>
 
-        {/* Right Column: Pure GPU compositor crossfade for Right links */}
+        {/* Right Column */}
         <div className="relative flex items-center h-full min-w-0">
           <ul
             aria-hidden={isSlug || undefined}

@@ -32,7 +32,7 @@ interface BackgroundShapeProps {
 }
 
 const BackgroundShape = ({
-  className = ' -right-[25vw] -top-[10vw] w-[75vw] h-[75vw] md:-right-[16vw] md:top-[2vh] md:w-[52vw] md:h-[52vw]',
+  className = ' right-[-25vw] top-[-10vw] w-[75vw] h-[75vw] md:right-[-16vw] md:top-[2vh] md:w-[52vw] md:h-[52vw]',
   strokeClassName = 'stroke-black/[0.055]',
   initialIndex = 0,
   intervalMs = 6500,

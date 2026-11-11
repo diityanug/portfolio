@@ -5,18 +5,17 @@ import { Link } from 'react-router-dom';
 import { fadeUp } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
 import BackgroundShape from '../ui/BackgroundShape';
+import { DATA } from '../../data';
 
 interface Project {
   slug: string;
   title: string;
   category: string;
+  summary: string;
   tags: readonly string[];
   image: string;
   type: 'web' | 'mobile';
-  visualBg: string;
-  visualBorder: string;
-  glowColor: string;
-  categoryColor: string;
+  /** Hover color of the View Detail button, matched to the cover icon color */
   btnHover: string;
 }
 
@@ -25,40 +24,31 @@ const PROJECTS: readonly Project[] = [
     slug: 'genre-game-classifier',
     title: 'Genre Game Classifier',
     category: 'Machine Learning Web App',
+    summary: DATA['genre-game-classifier'].subtitle,
     tags: ['React', 'TypeScript', 'FastAPI', 'Python', 'Scikit-Learn', 'spaCy'],
     image: '/Genre Game Cover.png',
     type: 'web',
-    visualBg: 'bg-linear-to-br from-[#FFF7ED] via-[#FFEDD5]/60 to-[#FED7AA]/35',
-    visualBorder: 'border-orange-200/60',
-    glowColor: 'rgba(249, 115, 22, 0.18)',
-    categoryColor: 'text-[#C2410C]',
-    btnHover: 'hover:bg-[#EA580C]',
+    btnHover: 'hover:bg-[#7b6ef0]',
   },
   {
     slug: 'lenvry',
     title: 'Lenvry',
     category: 'Personal Life OS Mobile App',
+    summary: DATA['lenvry'].subtitle,
     tags: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'SQLite', 'Zod'],
     image: '/Lenvrtt-removebg-preview.png',
     type: 'mobile',
-    visualBg: 'bg-linear-to-br from-[#F0F9FF] via-[#E0F2FE]/60 to-[#BAE6FD]/35',
-    visualBorder: 'border-sky-200/60',
-    glowColor: 'rgba(2, 132, 199, 0.18)',
-    categoryColor: 'text-[#0369A1]',
-    btnHover: 'hover:bg-[#0284C7]',
+    btnHover: 'hover:bg-[#3b82f6]',
   },
   {
     slug: 'reka',
     title: 'REKA',
     category: 'Personal Finance Mobile App',
+    summary: DATA['reka'].subtitle,
     tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Gemini AI', 'Biometric'],
     image: '/reka-cover.png',
     type: 'mobile',
-    visualBg: 'bg-linear-to-br from-[#ECFDF5] via-[#D1FAE5]/60 to-[#A7F3D0]/35',
-    visualBorder: 'border-emerald-200/60',
-    glowColor: 'rgba(5, 150, 105, 0.18)',
-    categoryColor: 'text-[#047857]',
-    btnHover: 'hover:bg-[#059669]',
+    btnHover: 'hover:bg-[#e8822d]',
   },
 ];
 
@@ -137,7 +127,7 @@ const Projects = () => {
     }
   }, [activeIndex]);
 
-  // Synchronous positioning on mount: sets scrollLeft BEFORE browser paints (0ms jump)
+  // Synchronous positioning on mount
   useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -184,11 +174,11 @@ const Projects = () => {
       id="projects"
       tabIndex={-1}
       aria-labelledby="projects-heading"
-      className="pt-20 md:pt-32 pb-24 md:pb-36 bg-[#FAFAFA] relative z-10 overflow-hidden rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16 shadow-[0_-20px_40px_-20px_rgba(0,0,0,0.03)] border-t border-hairline outline-none"
+      className="pt-20 md:pt-28 pb-24 md:pb-32 bg-[#ffffff] relative z-10 overflow-hidden border-t border-[#e5e7eb] outline-none"
     >
       <BackgroundShape
         initialIndex={2}
-        strokeClassName="stroke-primary/8"
+        strokeClassName="stroke-[#111111]/[0.04]"
         className="left-[-28vw] top-[8vh] w-[72vw] h-[72vw] md:left-[-15vw] md:top-[6vh] md:w-[48vw] md:h-[48vw]"
       />
 
@@ -208,11 +198,11 @@ const Projects = () => {
           />
         </motion.div>
 
-        {/* Carousel Container (Native touch swipe on mobile, smooth scroll, zero jump on refresh) */}
+        {/* Carousel Container */}
         <div
           ref={containerRef}
           onScroll={handleScroll}
-          className="relative flex items-center gap-3.5 sm:gap-4 lg:gap-6 overflow-x-auto py-6 sm:py-10 px-[11vw] sm:px-[18vw] lg:px-[calc((100vw-420px)/2)] snap-x snap-mandatory scroll-smooth no-scrollbar"
+          className="relative flex items-stretch gap-3.5 sm:gap-4 lg:gap-6 overflow-x-auto py-6 sm:py-10 px-[11vw] sm:px-[18vw] lg:px-[calc((100vw-420px)/2)] snap-x snap-mandatory scroll-smooth no-scrollbar"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -225,48 +215,50 @@ const Projects = () => {
             return (
               <div
                 key={project.slug}
+                role="group"
+                tabIndex={isCenter ? -1 : 0}
+                aria-label={
+                  isCenter
+                    ? project.title
+                    : `Select ${project.title}`
+                }
                 onClick={() => {
                   if (!isCenter) {
                     updateActiveIndex(idx);
                   }
                 }}
-                className={`snap-center shrink-0 w-[78vw] sm:w-90 lg:w-105 transition-all duration-500 ease-out select-none ${
+                onKeyDown={(e) => {
+                  if (!isCenter && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault();
+                    updateActiveIndex(idx);
+                  }
+                }}
+                className={`snap-center shrink-0 w-[78vw] sm:w-90 lg:w-105 transition-all duration-500 ease-out select-none outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111111] rounded-3xl ${
                   isCenter
-                    ? 'scale-100 opacity-100 brightness-100 z-20 cursor-default'
-                    : 'scale-[0.88] sm:scale-[0.86] opacity-35 brightness-50 hover:opacity-60 hover:brightness-75 z-10 cursor-pointer'
+                    ? 'scale-100 opacity-100 z-20 cursor-default'
+                    : 'scale-[0.88] sm:scale-[0.86] opacity-45 hover:opacity-75 z-10 cursor-pointer'
                 }`}
                 style={{
                   transformOrigin: 'center center',
                 }}
               >
-                {/* Portrait Card Container (Memanjang ke Bawah) */}
+                {/* Portrait Card Container (Cal.com DESIGN.md surface-soft / canvas) */}
                 <div
-                  className={`group relative h-full rounded-[26px] sm:rounded-4xl bg-white border transition-all duration-500 overflow-hidden flex flex-col justify-between ${
+                  className={`group relative h-full rounded-3xl border transition-all duration-500 overflow-hidden flex flex-col justify-between ${
                     isCenter
-                      ? 'border-black/10 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14)] ring-1 ring-black/5'
-                      : 'border-hairline shadow-xs'
+                      ? 'bg-[#ffffff] border-[#d1d5db] shadow-[0_20px_50px_-20px_rgba(17,17,17,0.12)]'
+                      : 'bg-[#f8f9fa] border-[#e5e7eb]'
                   }`}
                 >
-                  {/* Top Visual Area (Spacious & Clean) */}
-                  <div
-                    className={`w-[calc(100%-16px)] sm:w-[calc(100%-20px)] mx-auto mt-2 sm:mt-2.5 rounded-[20px] sm:rounded-[26px] border ${project.visualBorder} ${project.visualBg} flex items-center justify-center p-3.5 sm:p-5 h-47.5 sm:h-56.25 lg:h-61.25 relative overflow-hidden transition-all duration-500 shrink-0`}
-                  >
-                    {/* Ambient Glow */}
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 opacity-40 mix-blend-multiply pointer-events-none"
-                      style={{
-                        background: `radial-gradient(circle at 50% 50%, ${project.glowColor}, transparent 70%)`,
-                      }}
-                    />
-
+                  {/* Top Visual Area */}
+                  <div className="w-[calc(100%-16px)] sm:w-[calc(100%-20px)] mx-auto mt-2 sm:mt-2.5 rounded-[18px] border border-[#e5e7eb] bg-[#f5f5f5] flex items-center justify-center p-3.5 sm:p-5 h-47.5 sm:h-56.25 lg:h-61.25 relative overflow-hidden transition-all duration-500 shrink-0">
                     {project.type === 'web' ? (
                       /* Web App Minimalist Browser Window Frame */
-                      <div className="relative z-10 w-full max-w-57.5 sm:max-w-67.5 rounded-xl overflow-hidden shadow-lg border border-black/10 bg-white transition-transform duration-500 group-hover:scale-[1.03]">
-                        <div className="h-5 bg-black/4 border-b border-black/5 px-2 flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-black/20" />
-                          <span className="w-1.5 h-1.5 rounded-full bg-black/20" />
-                          <span className="w-1.5 h-1.5 rounded-full bg-black/20" />
+                      <div className="relative z-10 w-full max-w-57.5 sm:max-w-67.5 rounded-xl overflow-hidden border border-[#e5e7eb] bg-[#ffffff] shadow-sm transition-transform duration-500 group-hover:scale-[1.03]">
+                        <div className="h-5 bg-[#f8f9fa] border-b border-[#e5e7eb] px-2 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#d1d5db]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#d1d5db]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#d1d5db]" />
                         </div>
                         <img
                           src={project.image}
@@ -286,7 +278,7 @@ const Projects = () => {
                           loading="eager"
                           decoding="async"
                           draggable={false}
-                          className="h-36 sm:h-44 w-auto max-w-32.5 sm:max-w-40 object-contain drop-shadow-xl"
+                          className="h-36 sm:h-44 w-auto max-w-32.5 sm:max-w-40 object-contain drop-shadow-md"
                         />
                       </div>
                     )}
@@ -296,23 +288,26 @@ const Projects = () => {
                   <div className="flex-1 flex flex-col justify-between p-4.5 sm:p-5 lg:p-6 pt-4 sm:pt-5">
                     <div>
                       {/* Category Label */}
-                      <span
-                        className={`text-[10px] sm:text-[11px] font-black uppercase tracking-[0.14em] ${project.categoryColor} mb-2 block`}
-                      >
+                      <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#6b7280] mb-1.5 block">
                         {project.category}
                       </span>
 
-                      {/* Title */}
-                      <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-ink uppercase tracking-[-0.03em] leading-tight mb-3 group-hover:text-primary transition-colors duration-300">
+                      {/* Title (weight 600 per Cal.com DESIGN.md title-lg) */}
+                      <h3 className="text-lg sm:text-xl lg:text-[22px] font-semibold text-[#111111] tracking-[-0.02em] leading-snug mb-2">
                         {project.title}
                       </h3>
 
-                      {/* Architectural Tech Stack Tags */}
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5">
+                      {/* Short Recruiter Summary */}
+                      <p className="text-xs sm:text-[13px] font-normal text-[#6b7280] leading-[1.55] mb-4">
+                        {project.summary}
+                      </p>
+
+                      {/* Tech Stack Tags */}
+                      <div className="flex flex-wrap items-center gap-1.5 mb-4 sm:mb-5">
                         {project.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-md bg-black/4 px-2.5 py-1 text-[11px] sm:text-xs font-medium text-ink/75"
+                            className="rounded-md bg-[#f5f5f5] border border-[#e5e7eb] px-2.5 py-1 text-[11px] sm:text-xs font-normal text-[#374151]"
                           >
                             {tag}
                           </span>
@@ -320,8 +315,8 @@ const Projects = () => {
                       </div>
                     </div>
 
-                    {/* Bottom Action Row */}
-                    <div className="pt-3 sm:pt-3.5 border-t border-black/6 flex items-center justify-end">
+                    {/* Bottom Action Row (Cal.com #111111 primary CTA) */}
+                    <div className="pt-3.5 border-t border-[#e5e7eb] flex items-center justify-end">
                       <Link
                         to={`/project/${project.slug}`}
                         tabIndex={isCenter ? 0 : -1}
@@ -331,16 +326,16 @@ const Projects = () => {
                             e.preventDefault();
                           }
                         }}
-                        className={`inline-flex items-center gap-1.5 rounded-full bg-[#18181B] px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-semibold text-white shadow-sm transition-all duration-300 ${project.btnHover} hover:shadow-md ${
+                        className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-300 ${project.btnHover} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] ${
                           isCenter ? 'cursor-pointer' : 'pointer-events-none'
-                        } group/btn`}
+                        }`}
                       >
                         <span>View Detail</span>
                         <ArrowUpRight
                           size={14}
                           weight="bold"
                           aria-hidden
-                          className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+                          className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                         />
                       </Link>
                     </div>
@@ -351,19 +346,19 @@ const Projects = () => {
           })}
         </div>
 
-        {/* Carousel Navigation Controls (Arrows + Dot Indicators) */}
+        {/* Carousel Navigation Controls */}
         <div className="mt-4 sm:mt-6 flex items-center justify-center gap-3">
           <button
             type="button"
             onClick={handlePrev}
             disabled={activeIndex === 0}
             aria-label="Previous project"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-black/10 bg-white/90 shadow-2xs flex items-center justify-center text-ink transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-ink hover:enabled:text-white hover:enabled:border-ink active:enabled:scale-95 cursor-pointer"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#e5e7eb] bg-[#ffffff] flex items-center justify-center text-[#111111] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-[#f5f5f5] active:enabled:scale-95 cursor-pointer"
           >
             <CaretLeft size={18} weight="bold" />
           </button>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-white/80 border border-black/5 shadow-2xs">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#f8f9fa] border border-[#e5e7eb]">
             {PROJECTS.map((p, idx) => (
               <button
                 key={p.slug}
@@ -372,8 +367,8 @@ const Projects = () => {
                 aria-label={`Go to project ${idx + 1}`}
                 className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   idx === activeIndex
-                    ? 'w-5 sm:w-6 bg-ink'
-                    : 'w-1.5 sm:w-2 bg-black/20 hover:bg-black/40'
+                    ? 'w-5 sm:w-6 bg-[#111111]'
+                    : 'w-1.5 sm:w-2 bg-[#d1d5db] hover:bg-[#9ca3af]'
                 }`}
               />
             ))}
@@ -384,7 +379,7 @@ const Projects = () => {
             onClick={handleNext}
             disabled={activeIndex === PROJECTS.length - 1}
             aria-label="Next project"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-black/10 bg-white/90 shadow-2xs flex items-center justify-center text-ink transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-ink hover:enabled:text-white hover:enabled:border-ink active:enabled:scale-95 cursor-pointer"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#e5e7eb] bg-[#ffffff] flex items-center justify-center text-[#111111] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-[#f5f5f5] active:enabled:scale-95 cursor-pointer"
           >
             <CaretRight size={18} weight="bold" />
           </button>
