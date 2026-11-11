@@ -166,7 +166,7 @@ const Skills = () => {
                 className="rounded-2xl bg-[#ffffff] border border-[#e5e7eb] p-6 sm:p-8 flex flex-col justify-between hover:border-[#111111]/30 transition-colors duration-200"
               >
                 {/* Category Header with clean hairline divider (No pill container, no box) */}
-                <div className="flex items-center gap-2.5 pb-4 mb-6 border-b border-[#f3f4f6]">
+                <div className="flex items-center gap-2.5 pb-4 mb-6 border-b border-hairline-soft">
                   <CategoryIcon size={19} strokeWidth={1.8} className="text-[#111111] shrink-0" aria-hidden />
                   <h3 className="text-base sm:text-lg font-semibold text-[#111111] tracking-tight">
                     {group.title}
@@ -181,10 +181,10 @@ const Skills = () => {
                       <motion.div
                         key={skill.name}
                         variants={chipVariants}
-                        className="group flex items-center gap-3 py-1 text-[#374151] hover:text-[#111111] transition-colors"
+                        className="group flex items-center gap-3 py-1 text-body hover:text-[#111111] transition-colors"
                       >
                         <Icon
-                          className="w-4 h-4 sm:w-[18px] sm:h-[18px] shrink-0 transition-transform duration-200 group-hover:scale-110"
+                          className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0 transition-transform duration-200 group-hover:scale-110"
                           style={{ color: skill.color }}
                         />
                         <span className="text-xs sm:text-sm font-medium tracking-tight truncate transition-colors">

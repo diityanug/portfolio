@@ -247,15 +247,15 @@ const Projects = () => {
                   className={`group relative h-full rounded-3xl border transition-all duration-500 overflow-hidden flex flex-col justify-between ${
                     isCenter
                       ? 'bg-[#ffffff] border-[#d1d5db] shadow-[0_20px_50px_-20px_rgba(17,17,17,0.12)]'
-                      : 'bg-[#f8f9fa] border-[#e5e7eb]'
+                      : 'bg-surface-soft border-[#e5e7eb]'
                   }`}
                 >
                   {/* Top Visual Area */}
-                  <div className="w-[calc(100%-16px)] sm:w-[calc(100%-20px)] mx-auto mt-2 sm:mt-2.5 rounded-[18px] border border-[#e5e7eb] bg-[#f5f5f5] flex items-center justify-center p-3.5 sm:p-5 h-47.5 sm:h-56.25 lg:h-61.25 relative overflow-hidden transition-all duration-500 shrink-0">
+                  <div className="w-[calc(100%-16px)] sm:w-[calc(100%-20px)] mx-auto mt-2 sm:mt-2.5 rounded-[18px] border border-[#e5e7eb] bg-surface-card flex items-center justify-center p-3.5 sm:p-5 h-47.5 sm:h-56.25 lg:h-61.25 relative overflow-hidden transition-all duration-500 shrink-0">
                     {project.type === 'web' ? (
                       /* Web App Minimalist Browser Window Frame */
                       <div className="relative z-10 w-full max-w-57.5 sm:max-w-67.5 rounded-xl overflow-hidden border border-[#e5e7eb] bg-[#ffffff] shadow-sm transition-transform duration-500 group-hover:scale-[1.03]">
-                        <div className="h-5 bg-[#f8f9fa] border-b border-[#e5e7eb] px-2 flex items-center gap-1">
+                        <div className="h-5 bg-surface-soft border-b border-[#e5e7eb] px-2 flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#d1d5db]" />
                           <span className="w-1.5 h-1.5 rounded-full bg-[#d1d5db]" />
                           <span className="w-1.5 h-1.5 rounded-full bg-[#d1d5db]" />
@@ -307,7 +307,7 @@ const Projects = () => {
                         {project.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-md bg-[#f5f5f5] border border-[#e5e7eb] px-2.5 py-1 text-[11px] sm:text-xs font-normal text-[#374151]"
+                            className="rounded-md bg-surface-card border border-[#e5e7eb] px-2.5 py-1 text-[11px] sm:text-xs font-normal text-body"
                           >
                             {tag}
                           </span>
@@ -353,12 +353,12 @@ const Projects = () => {
             onClick={handlePrev}
             disabled={activeIndex === 0}
             aria-label="Previous project"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#e5e7eb] bg-[#ffffff] flex items-center justify-center text-[#111111] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-[#f5f5f5] active:enabled:scale-95 cursor-pointer"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#e5e7eb] bg-[#ffffff] flex items-center justify-center text-[#111111] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-surface-card active:enabled:scale-95 cursor-pointer"
           >
             <CaretLeft size={18} weight="bold" />
           </button>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#f8f9fa] border border-[#e5e7eb]">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-surface-soft border border-[#e5e7eb]">
             {PROJECTS.map((p, idx) => (
               <button
                 key={p.slug}
@@ -379,7 +379,7 @@ const Projects = () => {
             onClick={handleNext}
             disabled={activeIndex === PROJECTS.length - 1}
             aria-label="Next project"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#e5e7eb] bg-[#ffffff] flex items-center justify-center text-[#111111] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-[#f5f5f5] active:enabled:scale-95 cursor-pointer"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#e5e7eb] bg-[#ffffff] flex items-center justify-center text-[#111111] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:bg-surface-card active:enabled:scale-95 cursor-pointer"
           >
             <CaretRight size={18} weight="bold" />
           </button>
