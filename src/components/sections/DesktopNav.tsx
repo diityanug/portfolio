@@ -161,7 +161,7 @@ const DesktopNav = ({ logoSrc = '/logo-static.svg' }: DesktopNavProps) => {
             <Link
               to={{ pathname: '/', hash: backHash }}
               tabIndex={isSlug ? undefined : -1}
-              className={`group inline-flex items-center gap-2 h-10 px-3 -ml-2 rounded-full text-xs lg:text-sm font-medium text-[#6b7280] hover:text-[#111111] hover:bg-[#f3f4f6] transition-colors duration-200 motion-reduce:transition-none whitespace-nowrap ${focusRing}`}
+              className={`group inline-flex items-center gap-2 h-10 px-3 -ml-2 rounded-full text-xs lg:text-sm font-medium text-[#6b7280] hover:text-[#111111] hover:bg-hairline-soft transition-colors duration-200 motion-reduce:transition-none whitespace-nowrap ${focusRing}`}
             >
               <ArrowLeft
                 size={17}

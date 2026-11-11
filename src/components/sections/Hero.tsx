@@ -103,7 +103,7 @@ const Hero = () => {
 
             <motion.p
               variants={fadeUp}
-              className="text-base sm:text-lg md:text-[18px] text-[#374151] max-w-lg mb-10 font-normal leading-[1.6]"
+              className="text-base sm:text-lg md:text-[18px] text-body max-w-lg mb-10 font-normal leading-[1.6]"
             >
               I’m Aditya, a Frontend Developer passionate about building engaging web and mobile
               interfaces while exploring new technologies.
@@ -116,7 +116,7 @@ const Hero = () => {
             >
               <a
                 href="#projects"
-                className={`${btnBase} bg-[#111111] text-[#ffffff] border-[#111111] hover:bg-[#242424] hover:border-[#242424] ${focusRing}`}
+                className={`${btnBase} bg-[#111111] text-[#ffffff] border-[#111111] hover:bg-primary-active hover:border-primary-active ${focusRing}`}
               >
                 <span>View Projects</span>
                 <Terminal
@@ -127,7 +127,7 @@ const Hero = () => {
               </a>
               <a
                 href="#contact"
-                className={`${btnBase} bg-[#ffffff] text-[#111111] border-[#e5e7eb] hover:bg-[#f5f5f5] hover:border-[#d1d5db] ${focusRing}`}
+                className={`${btnBase} bg-[#ffffff] text-[#111111] border-[#e5e7eb] hover:bg-surface-card hover:border-[#d1d5db] ${focusRing}`}
               >
                 <span>Contact Me</span>
                 <EnvelopeSimple size={17} aria-hidden />

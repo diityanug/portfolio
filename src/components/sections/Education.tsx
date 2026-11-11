@@ -58,7 +58,7 @@ const CertCard = ({ cert }: CertCardProps) => (
     href={cert.link}
     target="_blank"
     rel="noopener noreferrer"
-    className="group relative p-5 rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#d1d5db] hover:shadow-xs transition-[border-color,box-shadow] duration-200 flex flex-col justify-between gap-4 outline-none focus-visible:outline-2 focus-visible:outline-[#111111] min-h-[112px]"
+    className="group relative p-5 rounded-2xl bg-[#ffffff] border border-[#e5e7eb] hover:border-[#d1d5db] hover:shadow-xs transition-[border-color,box-shadow] duration-200 flex flex-col justify-between gap-4 outline-none focus-visible:outline-2 focus-visible:outline-[#111111] min-h-28"
   >
     {/* Top Row: Icon & Year / Arrow */}
     <div className="flex items-center justify-between gap-2">
@@ -73,7 +73,7 @@ const CertCard = ({ cert }: CertCardProps) => (
         <ArrowUpRight
           size={14}
           weight="bold"
-          className="text-[#898989] group-hover:text-[#111111] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 shrink-0"
+          className="text-muted-soft group-hover:text-[#111111] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 shrink-0"
         />
       </div>
     </div>
@@ -100,7 +100,7 @@ const Education = () => {
       id="education"
       tabIndex={-1}
       aria-labelledby="education-heading"
-      className="pt-20 md:pt-28 pb-24 md:pb-32 px-4 md:px-8 bg-[#f8f9fa] relative z-10 overflow-hidden border-t border-[#e5e7eb] outline-none"
+      className="pt-20 md:pt-28 pb-24 md:pb-32 px-4 md:px-8 bg-surface-soft relative z-10 overflow-hidden border-t border-[#e5e7eb] outline-none"
     >
       <BackgroundShape
         initialIndex={3}
@@ -142,7 +142,7 @@ const Education = () => {
               <div className="flex flex-col h-full justify-between">
                 <div>
                   {/* Top Row: Degree Level & Period (Clean divider row, zero pills) */}
-                  <div className="flex items-center justify-between gap-3 pb-4 mb-6 sm:mb-7 border-b border-[#f3f4f6]">
+                  <div className="flex items-center justify-between gap-3 pb-4 mb-6 sm:mb-7 border-b border-hairline-soft">
                     <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#6b7280]">
                       <GraduationCap size={17} weight="bold" className="text-[#111111]" aria-hidden />
                       <span>{edu.level}</span>
@@ -155,7 +155,7 @@ const Education = () => {
 
                   {/* Degree Title & Institution */}
                   <div>
-                    <h3 className="text-xl sm:text-[22px] font-semibold text-[#111111] tracking-[-0.02em] leading-snug mb-2 md:min-h-[60px]">
+                    <h3 className="text-xl sm:text-[22px] font-semibold text-[#111111] tracking-[-0.02em] leading-snug mb-2 md:min-h-15">
                       {edu.title}
                     </h3>
 
@@ -163,7 +163,7 @@ const Education = () => {
                       <span className="font-semibold text-[#111111]">{edu.school}</span>
                       <span aria-hidden="true" className="text-[#d1d5db]">•</span>
                       <span className="inline-flex items-center gap-1.5 text-[#6b7280]">
-                        <MapPin size={14} weight="duotone" className="text-[#898989] shrink-0" />
+                        <MapPin size={14} weight="duotone" className="text-muted-soft shrink-0" />
                         <span>{edu.location}</span>
                       </span>
                     </div>
@@ -199,7 +199,7 @@ const Education = () => {
             variants={fadeUp}
             className="mb-8 md:mb-10"
           >
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#111111] tracking-[-0.025em]">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#111111] tracking-tight">
               Certifications
             </h3>
           </motion.div>
@@ -217,7 +217,7 @@ const Education = () => {
             {HAS_EXTRA && (
               <div
                 aria-hidden={!isExpanded}
-                className={`grid transition-[grid-template-rows] duration-[900ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none ${
+                className={`grid transition-[grid-template-rows] duration-900 ease-in-out motion-reduce:transition-none ${
                   isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
                 }`}
               >
@@ -230,7 +230,7 @@ const Education = () => {
                   }}
                 >
                   <div
-                    className={`grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4 will-change-[transform,opacity] transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none ${
+                    className={`grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4 will-change-[transform,opacity] transition-[opacity,transform] duration-900 ease-in-out motion-reduce:transition-none ${
                       isExpanded
                         ? 'opacity-100 translate-y-0'
                         : 'opacity-0 -translate-y-6'
@@ -250,7 +250,7 @@ const Education = () => {
                 <button
                   type="button"
                   onClick={handleToggleExpand}
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111] hover:bg-[#f8f9fa] text-xs sm:text-sm font-medium text-[#111111] transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#111111]"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#ffffff] border border-[#e5e7eb] hover:border-[#111111] hover:bg-surface-soft text-xs sm:text-sm font-medium text-[#111111] transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#111111]"
                 >
                   <span>{isExpanded ? 'Show Less' : `Show All (${SORTED_CERTIFICATES.length})`}</span>
                   <CaretDown

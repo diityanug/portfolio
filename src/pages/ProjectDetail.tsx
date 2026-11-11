@@ -110,7 +110,7 @@ function TimelineItem({
         }`}
       >
         <div
-          className={`relative overflow-hidden rounded-2xl border bg-[#f8f9fa] p-6 sm:p-7 md:p-8 transition-colors duration-300 ${
+          className={`relative overflow-hidden rounded-2xl border bg-surface-soft p-6 sm:p-7 md:p-8 transition-colors duration-300 ${
             isActive ? theme.cardBorderHover : 'border-[#e5e7eb]'
           }`}
         >
@@ -150,11 +150,11 @@ function TimelineItem({
         }`}
       >
         <div
-          className={`p-1.5 rounded-2xl bg-[#f8f9fa] border transition-colors duration-300 ${
+          className={`p-1.5 rounded-2xl bg-surface-soft border transition-colors duration-300 ${
             isActive ? theme.cardBorderHover : 'border-[#e5e7eb]'
           }`}
         >
-          <div className="w-full aspect-4/3 rounded-xl overflow-hidden relative bg-[#f5f5f5]">
+          <div className="w-full aspect-4/3 rounded-xl overflow-hidden relative bg-surface-card">
             <img
               src={item.image}
               alt={item.step}
@@ -230,7 +230,7 @@ export default function ProjectDetail() {
                 className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5"
               >
                 {/* Role Card */}
-                <div className="md:col-span-3 rounded-2xl bg-[#f8f9fa] border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
+                <div className="md:col-span-3 rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
                   <div className="flex items-center gap-2 text-[#111111]">
                     <UserCircle size={20} weight="duotone" aria-hidden />
                     <span className="text-[11px] uppercase tracking-[0.06em] font-medium text-[#6b7280]">
@@ -243,7 +243,7 @@ export default function ProjectDetail() {
                 </div>
 
                 {/* Timeline Card */}
-                <div className="md:col-span-3 rounded-2xl bg-[#f8f9fa] border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
+                <div className="md:col-span-3 rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
                   <div className="flex items-center gap-2 text-[#111111]">
                     <CalendarBlank size={20} weight="duotone" aria-hidden />
                     <span className="text-[11px] uppercase tracking-[0.06em] font-medium text-[#6b7280]">
@@ -256,7 +256,7 @@ export default function ProjectDetail() {
                 </div>
 
                 {/* Tech Stack Card */}
-                <div className="md:col-span-6 rounded-2xl bg-[#f8f9fa] border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
+                <div className="md:col-span-6 rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex flex-col justify-between gap-3">
                   <div className="flex items-center gap-2 text-[#111111]">
                     <Stack size={20} weight="duotone" aria-hidden />
                     <span className="text-[11px] uppercase tracking-[0.06em] font-medium text-[#6b7280]">
@@ -268,7 +268,7 @@ export default function ProjectDetail() {
                     {project.tags.map((tag: string) => (
                       <span
                         key={tag}
-                        className="rounded-md bg-[#ffffff] border border-[#e5e7eb] px-2.5 py-1 text-xs font-normal text-[#374151]"
+                        className="rounded-md bg-[#ffffff] border border-[#e5e7eb] px-2.5 py-1 text-xs font-normal text-body"
                       >
                         {tag}
                       </span>
@@ -281,7 +281,7 @@ export default function ProjectDetail() {
         </section>
 
         {/* SECTION 2: Overview, Challenge & Highlights (Cal.com surface-soft band) */}
-        <section className="relative z-10 bg-[#f8f9fa] py-20 md:py-28 px-4 md:px-8 border-t border-[#e5e7eb] overflow-hidden">
+        <section className="relative z-10 bg-surface-soft py-20 md:py-28 px-4 md:px-8 border-t border-[#e5e7eb] overflow-hidden">
           <BackgroundShape
             initialIndex={2}
             strokeClassName="stroke-[#111111]/[0.04]"
@@ -348,12 +348,12 @@ export default function ProjectDetail() {
                     Key Highlights
                   </h3>
 
-                  <ul className="divide-y divide-[#f3f4f6] mb-7">
+                  <ul className="divide-y divide-hairline-soft mb-7">
                     {(project.keyFeatures || []).map(
                       (feature: string, idx: number) => (
                         <li
                           key={idx}
-                          className="flex items-start gap-3 py-3.5 first:pt-2 last:pb-0 text-[#374151] text-xs sm:text-sm font-normal"
+                          className="flex items-start gap-3 py-3.5 first:pt-2 last:pb-0 text-body text-xs sm:text-sm font-normal"
                         >
                           <CheckCircle
                             weight="fill"
@@ -371,7 +371,7 @@ export default function ProjectDetail() {
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-between gap-2 bg-[#111111] text-[#ffffff] font-medium px-5 py-3.5 rounded-lg hover:bg-[#242424] transition-colors duration-200 text-sm group"
+                      className="flex items-center justify-between gap-2 bg-[#111111] text-[#ffffff] font-medium px-5 py-3.5 rounded-lg hover:bg-primary-active transition-colors duration-200 text-sm group"
                     >
                       <span className="flex items-center gap-2.5 truncate">
                         <GithubLogo size={18} weight="regular" className="shrink-0" />
@@ -400,7 +400,7 @@ export default function ProjectDetail() {
 
           <div className="max-w-6xl mx-auto relative z-10">
             <div className="text-center mb-14 md:mb-20">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#111111] tracking-[-0.025em] mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#111111] tracking-tight mb-4">
                 {project.workflowTitle || 'Process Workflow'}
               </h2>
               <p className="text-[#6b7280] font-normal max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-[1.6]">

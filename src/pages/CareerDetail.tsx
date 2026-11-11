@@ -63,7 +63,7 @@ export default function CareerDetail() {
               >
                 {/* Left Column: Status & Period Tiles */}
                 <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                  <div className="rounded-2xl bg-[#f8f9fa] border border-[#e5e7eb] p-5 sm:p-6 flex items-center gap-4">
+                  <div className="rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex items-center gap-4">
                     <div className="w-11 h-11 rounded-xl bg-[#ffffff] border border-[#e5e7eb] flex items-center justify-center shrink-0 text-[#111111]">
                       <MapPin size={20} weight="duotone" aria-hidden />
                     </div>
@@ -77,7 +77,7 @@ export default function CareerDetail() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl bg-[#f8f9fa] border border-[#e5e7eb] p-5 sm:p-6 flex items-center gap-4">
+                  <div className="rounded-2xl bg-surface-soft border border-[#e5e7eb] p-5 sm:p-6 flex items-center gap-4">
                     <div className="w-11 h-11 rounded-xl bg-[#ffffff] border border-[#e5e7eb] flex items-center justify-center shrink-0 text-[#111111]">
                       <CalendarBlank size={20} weight="duotone" aria-hidden />
                     </div>
@@ -93,7 +93,7 @@ export default function CareerDetail() {
                 </div>
 
                 {/* Right Column: Role Overview Card */}
-                <div className="lg:col-span-8 rounded-2xl border border-[#e5e7eb] bg-[#f8f9fa] p-6 sm:p-8 md:p-9 flex flex-col justify-center relative overflow-hidden">
+                <div className="lg:col-span-8 rounded-2xl border border-[#e5e7eb] bg-surface-soft p-6 sm:p-8 md:p-9 flex flex-col justify-center relative overflow-hidden">
                   <div className="flex items-center gap-2 text-[#6b7280] mb-3">
                     <Briefcase size={18} weight="duotone" aria-hidden />
                     <h2 className="text-xs font-medium uppercase tracking-[0.06em]">
@@ -111,7 +111,7 @@ export default function CareerDetail() {
 
         {/* SECTION 2: Key Contributions (Cal.com surface-soft band + Clean Divided List) */}
         {career.contributions && career.contributions.length > 0 && (
-          <section className="relative z-10 bg-[#f8f9fa] py-20 md:py-28 px-4 md:px-8 border-t border-[#e5e7eb] overflow-hidden">
+          <section className="relative z-10 bg-surface-soft py-20 md:py-28 px-4 md:px-8 border-t border-[#e5e7eb] overflow-hidden">
             <BackgroundShape
               initialIndex={3}
               strokeClassName="stroke-[#111111]/[0.04]"
@@ -119,7 +119,7 @@ export default function CareerDetail() {
             />
 
             <div className="max-w-6xl mx-auto relative z-10">
-              <h2 className="text-2xl sm:text-4xl font-semibold text-[#111111] tracking-[-0.025em] mb-10 md:mb-14">
+              <h2 className="text-2xl sm:text-4xl font-semibold text-[#111111] tracking-tight mb-10 md:mb-14">
                 Key Contributions
               </h2>
 
@@ -139,11 +139,11 @@ export default function CareerDetail() {
                       {c.project}
                     </h3>
 
-                    <ul className="flex flex-col divide-y divide-[#f3f4f6] list-none p-0">
+                    <ul className="flex flex-col divide-y divide-hairline-soft list-none p-0">
                       {c.tasks.map((task: string, tIdx: number) => (
                         <li
                           key={tIdx}
-                          className="flex gap-3 items-start py-3.5 first:pt-2 last:pb-0 text-[#374151] text-xs sm:text-sm font-normal leading-[1.6]"
+                          className="flex gap-3 items-start py-3.5 first:pt-2 last:pb-0 text-body text-xs sm:text-sm font-normal leading-[1.6]"
                         >
                           <CheckCircle
                             weight="fill"
@@ -171,7 +171,7 @@ export default function CareerDetail() {
             />
 
             <div className="max-w-6xl mx-auto relative z-10">
-              <h2 className="text-2xl sm:text-4xl font-semibold text-[#111111] tracking-[-0.025em] mb-10 md:mb-14">
+              <h2 className="text-2xl sm:text-4xl font-semibold text-[#111111] tracking-tight mb-10 md:mb-14">
                 Culture &amp; Activities
               </h2>
 
@@ -185,9 +185,9 @@ export default function CareerDetail() {
                 {career.culture.map((c: any, idx: number) => (
                   <div
                     key={idx}
-                    className="group p-3 rounded-2xl bg-[#f8f9fa] border border-[#e5e7eb] transition-colors duration-200 hover:border-[#d1d5db] flex flex-col gap-3.5"
+                    className="group p-3 rounded-2xl bg-surface-soft border border-[#e5e7eb] transition-colors duration-200 hover:border-[#d1d5db] flex flex-col gap-3.5"
                   >
-                    <div className="w-full h-44 sm:h-48 rounded-xl bg-[#f5f5f5] border border-[#e5e7eb] overflow-hidden relative shrink-0">
+                    <div className="w-full h-44 sm:h-48 rounded-xl bg-surface-card border border-[#e5e7eb] overflow-hidden relative shrink-0">
                       <img
                         src={c.photo}
                         alt={c.activity}

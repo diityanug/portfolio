@@ -31,7 +31,7 @@ const Experience = () => {
       id="experience"
       tabIndex={-1}
       aria-labelledby="experience-heading"
-      className="pt-20 md:pt-28 pb-24 md:pb-32 px-4 md:px-8 bg-[#f8f9fa] relative z-10 overflow-hidden border-t border-[#e5e7eb] outline-none"
+      className="pt-20 md:pt-28 pb-24 md:pb-32 px-4 md:px-8 bg-surface-soft relative z-10 overflow-hidden border-t border-[#e5e7eb] outline-none"
     >
       <BackgroundShape
         initialIndex={1}
@@ -68,7 +68,7 @@ const Experience = () => {
               className="group block h-full rounded-3xl relative p-1.5 bg-[#ffffff] border border-[#e5e7eb] shadow-[0_12px_36px_-16px_rgba(17,17,17,0.06)] transition-[border-color,box-shadow] duration-300 motion-reduce:transition-none hover:border-[#d1d5db] hover:shadow-[0_20px_48px_-16px_rgba(17,17,17,0.10)]"
             >
               {/* Inner Card Surface */}
-              <div className="relative overflow-hidden rounded-[18px] border border-[#f3f4f6] bg-[#f8f9fa] p-6 sm:p-8 md:p-10 flex flex-col justify-between transition-colors duration-300 group-hover:bg-[#ffffff]">
+              <div className="relative overflow-hidden rounded-[18px] border border-hairline-soft bg-surface-soft p-6 sm:p-8 md:p-10 flex flex-col justify-between transition-colors duration-300 group-hover:bg-[#ffffff]">
                 {/* Top Row: Period on the Left */}
                 <div className="relative z-10 w-full flex items-center justify-start border-b border-[#e5e7eb] pb-3 mb-6 sm:mb-8">
                   <span className="text-xs font-medium text-[#6b7280] tabular-nums">
@@ -89,14 +89,14 @@ const Experience = () => {
                       className="w-44 sm:w-52 h-auto object-contain select-none"
                     />
 
-                    <h3 className="text-2xl sm:text-3xl font-semibold text-[#111111] tracking-[-0.025em] leading-tight">
+                    <h3 className="text-2xl sm:text-3xl font-semibold text-[#111111] tracking-tight leading-tight">
                       {item.title}
                     </h3>
                   </div>
 
                   {/* Right Column: Scope Summary + Tech Stack Tags */}
                   <div className="md:col-span-7 flex flex-col justify-center gap-4">
-                    <p className="text-sm sm:text-base font-normal text-[#374151] leading-[1.6]">
+                    <p className="text-sm sm:text-base font-normal text-body leading-[1.6]">
                       {item.summary}
                     </p>
 
@@ -104,7 +104,7 @@ const Experience = () => {
                       {item.tags.map((tag) => (
                         <li
                           key={tag}
-                          className="rounded-md bg-[#ffffff] border border-[#e5e7eb] px-2.5 py-1 text-xs font-normal text-[#374151] shadow-2xs"
+                          className="rounded-md bg-[#ffffff] border border-[#e5e7eb] px-2.5 py-1 text-xs font-normal text-body shadow-2xs"
                         >
                           {tag}
                         </li>
