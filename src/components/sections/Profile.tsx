@@ -29,13 +29,13 @@ const Profile = () => {
       id="profile"
       tabIndex={-1}
       aria-labelledby="profile-heading"
-      className="relative z-10 bg-[#f8f9fa] border-t border-[#e5e7eb] py-20 lg:py-32 px-4 md:px-8 overflow-hidden outline-none"
+      className="relative z-10 bg-surface-soft border-t border-[#e5e7eb] py-20 lg:py-32 px-4 md:px-8 overflow-hidden outline-none"
     >
       {/* Subtle wireframe background shape */}
       <BackgroundShape
         initialIndex={3}
         strokeClassName="stroke-[#111111]/[0.04]"
-        className="-left-[28vw] -bottom-[10vw] w-[75vw] h-[75vw] md:-left-[16vw] md:top-[8vh] md:w-[48vw] md:h-[48vw]"
+        className="left-[-28vw] bottom-[-10vw] w-[75vw] h-[75vw] md:left-[-16vw] md:top-[8vh] md:w-[48vw] md:h-[48vw]"
       />
 
       <motion.div
@@ -139,7 +139,7 @@ const Profile = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn (opens in new tab)"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#f8f9fa] text-[#111111] transition-colors duration-200 hover:border-[#111111] hover:bg-[#111111] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-surface-soft text-[#111111] transition-colors duration-200 hover:border-[#111111] hover:bg-[#111111] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
                     >
                       <LinkedinLogo size={20} weight="regular" aria-hidden />
                     </a>
@@ -149,7 +149,7 @@ const Profile = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="GitHub (opens in new tab)"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#f8f9fa] text-[#111111] transition-colors duration-200 hover:border-[#111111] hover:bg-[#111111] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-surface-soft text-[#111111] transition-colors duration-200 hover:border-[#111111] hover:bg-[#111111] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
                     >
                       <GithubLogo size={20} weight="regular" aria-hidden />
                     </a>
@@ -159,7 +159,7 @@ const Profile = () => {
                     href={RESUME_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-xl bg-[#111111] px-5 py-2.5 text-sm font-medium text-[#ffffff] transition-colors duration-200 hover:bg-[#242424] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] shadow-2xs active:scale-[0.98]"
+                    className="inline-flex items-center justify-center rounded-xl bg-[#111111] px-5 py-2.5 text-sm font-medium text-[#ffffff] transition-colors duration-200 hover:bg-primary-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] shadow-2xs active:scale-[0.98]"
                   >
                     Resume
                     <span className="sr-only"> (opens in new tab)</span>

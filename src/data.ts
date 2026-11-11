@@ -97,7 +97,7 @@ export const DATA: Record<string, any> = {
     title: "REKA",
     subtitle: "Private money manager with AI receipt scanning.",
     role: "Mobile App Developer",
-    timeline: "2026",
+    timeline: "2026 - Still Development",
     desc: "REKA helps you track IDR & USD wallets, saving pockets, budget plans, and shared loans ('talangan') offline—plus AI scanners to read shopping receipts and bank e-Statements automatically.",
     overview: "A private, offline-first money manager for IDR and USD. Organize saving pockets, track shared expenses ('talangan'), lock your app with biometrics, and scan receipts or bank statements using Google Gemini AI.",
     tags: ["React Native", "Expo", "TypeScript", "SQLite", "Google Gemini", "Biometric Auth", "PDF Export"],

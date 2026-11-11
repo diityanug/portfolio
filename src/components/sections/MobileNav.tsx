@@ -221,7 +221,7 @@ const MobileNav = ({ logoSrc = '/logo-static.svg' }: MobileNavProps) => {
                     aria-label={isOpen ? 'Close menu' : 'Open menu'}
                     aria-expanded={isOpen}
                     aria-controls={MENU_ID}
-                    className={`w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[#f3f4f6] transition-[background-color,scale] motion-reduce:transition-none active:scale-90 ${focusRing}`}
+                    className={`w-10 h-10 flex items-center justify-center rounded-xl hover:bg-hairline-soft transition-[background-color,scale] motion-reduce:transition-none active:scale-90 ${focusRing}`}
                   >
                     <HamburgerIcon isOpen={isOpen} />
                   </button>
@@ -268,7 +268,7 @@ const MobileNav = ({ logoSrc = '/logo-static.svg' }: MobileNavProps) => {
                     <Link
                       to={{ pathname: '/', hash: `#${id}` }}
                       onClick={close}
-                      className={`block text-xs font-medium uppercase tracking-widest text-[#6b7280] hover:text-[#111111] transition-colors motion-reduce:transition-none py-3 border-b border-[#f3f4f6] ${focusRing}`}
+                      className={`block text-xs font-medium uppercase tracking-widest text-[#6b7280] hover:text-[#111111] transition-colors motion-reduce:transition-none py-3 border-b border-hairline-soft ${focusRing}`}
                     >
                       {label}
                     </Link>
@@ -279,7 +279,7 @@ const MobileNav = ({ logoSrc = '/logo-static.svg' }: MobileNavProps) => {
                   <Link
                     to={{ pathname: '/', hash: '#contact' }}
                     onClick={close}
-                    className={`flex w-full items-center justify-center bg-[#111111] text-[#ffffff] text-xs font-medium uppercase tracking-widest py-3.5 rounded-lg transition-[background-color,scale] duration-200 motion-reduce:transition-none hover:bg-[#242424] active:scale-95 ${focusRing}`}
+                    className={`flex w-full items-center justify-center bg-[#111111] text-[#ffffff] text-xs font-medium uppercase tracking-widest py-3.5 rounded-lg transition-[background-color,scale] duration-200 motion-reduce:transition-none hover:bg-primary-active active:scale-95 ${focusRing}`}
                   >
                     Contact
                   </Link>
