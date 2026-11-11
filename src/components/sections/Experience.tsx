@@ -64,9 +64,8 @@ const Experience = () => {
             variants={scaleIn}
             className="w-full"
           >
-            <Link
-              to={`/career/${item.slug}`}
-              className={`group block h-full rounded-3xl relative p-1.5 bg-[#ffffff] border border-[#e5e7eb] shadow-[0_12px_36px_-16px_rgba(17,17,17,0.06)] transition-[border-color,box-shadow] duration-300 motion-reduce:transition-none hover:border-[#d1d5db] hover:shadow-[0_20px_48px_-16px_rgba(17,17,17,0.10)] ${focusRing}`}
+            <div
+              className="group block h-full rounded-3xl relative p-1.5 bg-[#ffffff] border border-[#e5e7eb] shadow-[0_12px_36px_-16px_rgba(17,17,17,0.06)] transition-[border-color,box-shadow] duration-300 motion-reduce:transition-none hover:border-[#d1d5db] hover:shadow-[0_20px_48px_-16px_rgba(17,17,17,0.10)]"
             >
               {/* Inner Card Surface */}
               <div className="relative overflow-hidden rounded-[18px] border border-[#f3f4f6] bg-[#f8f9fa] p-6 sm:p-8 md:p-10 flex flex-col justify-between transition-colors duration-300 group-hover:bg-[#ffffff]">
@@ -116,7 +115,11 @@ const Experience = () => {
 
                 {/* Bottom Row: View Detail Action on the Right */}
                 <div className="relative z-10 mt-8 pt-5 border-t border-[#e5e7eb] flex items-center justify-end w-full">
-                  <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-5 py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-200 group-hover:bg-[#242424]">
+                  <Link
+                    to={`/career/${item.slug}`}
+                    aria-label={`View detail for ${item.title}`}
+                    className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-5 py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-200 hover:bg-[#242424] cursor-pointer ${focusRing}`}
+                  >
                     <span>View Detail</span>
                     <ArrowUpRight
                       size={14}
@@ -124,10 +127,10 @@ const Experience = () => {
                       aria-hidden
                       className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     />
-                  </span>
+                  </Link>
                 </div>
               </div>
-            </Link>
+            </div>
           </motion.div>
         </div>
       </div>

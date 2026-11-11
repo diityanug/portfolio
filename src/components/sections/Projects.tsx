@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, CaretLeft, CaretRight } from '@phosphor-icons/react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fadeUp } from '../../utils/animations';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
 import BackgroundShape from '../ui/BackgroundShape';
@@ -70,7 +70,6 @@ const Projects = () => {
   const [activeIndex, setActiveIndex] = useState<number>(getInitialIndex);
   const containerRef = useRef<HTMLDivElement>(null);
   const isScrollingByCode = useRef(false);
-  const navigate = useNavigate();
 
   // Scroll target card to horizontal center
   const scrollToCard = useCallback((index: number, smooth = true) => {
@@ -211,34 +210,28 @@ const Projects = () => {
             return (
               <div
                 key={project.slug}
-                role={isCenter ? 'link' : 'button'}
-                tabIndex={0}
+                role="group"
+                tabIndex={isCenter ? -1 : 0}
                 aria-label={
                   isCenter
-                    ? `View detail for ${project.title}`
+                    ? project.title
                     : `Select ${project.title}`
                 }
                 onClick={() => {
-                  if (isCenter) {
-                    navigate(`/project/${project.slug}`);
-                  } else {
+                  if (!isCenter) {
                     updateActiveIndex(idx);
                   }
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
+                  if (!isCenter && (e.key === 'Enter' || e.key === ' ')) {
                     e.preventDefault();
-                    if (isCenter) {
-                      navigate(`/project/${project.slug}`);
-                    } else {
-                      updateActiveIndex(idx);
-                    }
+                    updateActiveIndex(idx);
                   }
                 }}
-                className={`snap-center shrink-0 w-[78vw] sm:w-90 lg:w-105 transition-all duration-500 ease-out select-none cursor-pointer outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111111] rounded-3xl ${
+                className={`snap-center shrink-0 w-[78vw] sm:w-90 lg:w-105 transition-all duration-500 ease-out select-none outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111111] rounded-3xl ${
                   isCenter
-                    ? 'scale-100 opacity-100 z-20'
-                    : 'scale-[0.88] sm:scale-[0.86] opacity-45 hover:opacity-75 z-10'
+                    ? 'scale-100 opacity-100 z-20 cursor-default'
+                    : 'scale-[0.88] sm:scale-[0.86] opacity-45 hover:opacity-75 z-10 cursor-pointer'
                 }`}
                 style={{
                   transformOrigin: 'center center',
@@ -319,7 +312,19 @@ const Projects = () => {
 
                     {/* Bottom Action Row (Cal.com #111111 primary CTA) */}
                     <div className="pt-3.5 border-t border-[#e5e7eb] flex items-center justify-end">
-                      <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-200 group-hover:bg-[#242424]">
+                      <Link
+                        to={`/project/${project.slug}`}
+                        tabIndex={isCenter ? 0 : -1}
+                        aria-label={`View detail for ${project.title}`}
+                        onClick={(e) => {
+                          if (!isCenter) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-medium text-[#ffffff] transition-colors duration-200 hover:bg-[#242424] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111] ${
+                          isCenter ? 'cursor-pointer' : 'pointer-events-none'
+                        }`}
+                      >
                         <span>View Detail</span>
                         <ArrowUpRight
                           size={14}
@@ -327,7 +332,7 @@ const Projects = () => {
                           aria-hidden
                           className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                         />
-                      </span>
+                      </Link>
                     </div>
                   </div>
                 </div>
