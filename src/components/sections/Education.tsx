@@ -217,24 +217,27 @@ const Education = () => {
               ))}
             </div>
 
-            {/* Scroll-like Accordion: pure CSS grid-rows transition (always mounted, no JS layout) */}
+            {/* Scroll-like Accordion: CSS grid-rows transition (always mounted, GPU-friendly content) */}
             {HAS_EXTRA && (
               <div
                 aria-hidden={!isExpanded}
-                className={`grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.45,0,0.25,1)] motion-reduce:transition-none ${
+                className={`grid transition-[grid-template-rows] duration-[900ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none ${
                   isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
                 }`}
               >
                 <div
                   className="min-h-0 overflow-hidden"
                   style={{
+                    contain: 'layout paint',
                     visibility: isExpanded ? 'visible' : 'hidden',
-                    transition: `visibility 0s linear ${isExpanded ? '0s' : '0.7s'}`,
+                    transition: `visibility 0s linear ${isExpanded ? '0s' : '0.9s'}`,
                   }}
                 >
                   <div
-                    className={`grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4 transition-opacity duration-700 ease-out motion-reduce:transition-none ${
-                      isExpanded ? 'opacity-100' : 'opacity-0'
+                    className={`grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-3.5 sm:pt-4 will-change-[transform,opacity] transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none ${
+                      isExpanded
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 -translate-y-6'
                     }`}
                   >
                     {EXTRA_CERTS.map((cert) => (
