@@ -3,6 +3,7 @@ import { useLayoutEffect } from "react";
 import Home from "./pages/Home";
 import ProjectDetail from "./pages/ProjectDetail";
 import CareerDetail from "./pages/CareerDetail";
+import AdminDashboard from "./pages/AdminDashboard";
 import Nav from "./components/sections/Nav";
 
 const SCROLL_OFFSET = 88;
@@ -27,16 +28,28 @@ const ScrollToTop = () => {
   return null;
 };
 
-function App() {
+const AppShell = () => {
+  const { pathname } = useLocation();
+  const isAdminRoute = pathname.startsWith("/admin");
+
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/project/:slug" element={<ProjectDetail />} />
         <Route path="/career/:slug" element={<CareerDetail />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
       <ScrollToTop />
-      <Nav />
+      {!isAdminRoute && <Nav />}
+    </>
+  );
+};
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
     </BrowserRouter>
   );
 }

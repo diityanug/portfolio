@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react';
+import { GithubLogo, LinkedinLogo, WhatsappLogo } from '@phosphor-icons/react';
 import { fadeUp, staggerContainer } from '../../utils/animations';
 import BackgroundShape from '../ui/BackgroundShape';
 
 const VIEWPORT = { once: true, margin: '-10px' } as const;
 
-const RESUME_URL =
-  'https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing';
+const RESUME_URL = '/cv';
+const WA_URL = '/wa';
 
 const Profile = () => {
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -135,7 +135,7 @@ const Profile = () => {
                 <div className="mt-6 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2.5">
                     <a
-                      href="https://linkedin.com/in/diityanug"
+                      href="/in"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn (opens in new tab)"
@@ -145,13 +145,23 @@ const Profile = () => {
                     </a>
 
                     <a
-                      href="https://github.com/diityanug"
+                      href="/gh"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="GitHub (opens in new tab)"
                       className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-surface-soft text-[#111111] transition-colors duration-200 hover:border-[#111111] hover:bg-[#111111] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111111]"
                     >
                       <GithubLogo size={20} weight="regular" aria-hidden />
+                    </a>
+
+                    <a
+                      href={WA_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="WhatsApp (opens in new tab)"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e7eb] bg-surface-soft text-[#111111] transition-colors duration-200 hover:border-[#25D366] hover:bg-[#25D366] hover:text-[#ffffff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+                    >
+                      <WhatsappLogo size={20} weight="regular" aria-hidden />
                     </a>
                   </div>
 

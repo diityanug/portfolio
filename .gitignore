@@ -13,6 +13,10 @@ dist-ssr
 *.tsbuildinfo
 text.txt
 scripts
+*.exe
+*.db
+*.db-shm
+*.db-wal
 
 # Agent & Design Reference Directories
 .agent
