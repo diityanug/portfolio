@@ -391,7 +391,7 @@ export default function AdminDashboard() {
             <div>
               <label
                 htmlFor="admin-secret"
-                className="block text-xs font-medium text-[#374151] mb-1.5"
+                className="block text-xs font-medium text-body mb-1.5"
               >
                 Admin Secret
               </label>
@@ -420,7 +420,7 @@ export default function AdminDashboard() {
             <button
               type="submit"
               disabled={isLoading}
-              className={`inline-flex items-center justify-center gap-2 rounded-xl bg-[#111111] px-4 py-2.5 text-sm font-medium text-[#ffffff] hover:bg-[#242424] disabled:opacity-60 transition-colors cursor-pointer ${FOCUS_RING}`}
+              className={`inline-flex items-center justify-center gap-2 rounded-xl bg-[#111111] px-4 py-2.5 text-sm font-medium text-[#ffffff] hover:bg-primary-active disabled:opacity-60 transition-colors cursor-pointer ${FOCUS_RING}`}
             >
               {isLoading ? (
                 <>
@@ -438,7 +438,7 @@ export default function AdminDashboard() {
         </div>
 
         <footer className="text-center">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-[#898989]">
+          <p className="text-[11px] uppercase tracking-[0.16em] text-muted-soft">
             Aditya Nugraha · Portfolio Admin Console
           </p>
         </footer>
@@ -494,7 +494,7 @@ export default function AdminDashboard() {
             <button
               type="button"
               onClick={handleLockSession}
-              className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-3 py-1.5 text-xs font-medium text-[#ffffff] hover:bg-[#242424] cursor-pointer transition-colors ${FOCUS_RING}`}
+              className={`inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-3 py-1.5 text-xs font-medium text-[#ffffff] hover:bg-primary-active cursor-pointer transition-colors ${FOCUS_RING}`}
             >
               <SignOut size={14} />
               <span>Lock</span>
@@ -559,7 +559,7 @@ export default function AdminDashboard() {
               <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#6b7280]">
                 Total Clicks
               </p>
-              <p className="mt-2 text-3xl font-semibold tabular-nums tracking-[-0.025em] text-[#111111]">
+              <p className="mt-2 text-3xl font-semibold tabular-nums tracking-tight text-[#111111]">
                 {overallClicks}
               </p>
               <p className="mt-1 text-xs text-[#6b7280]">Across {allLinks.length} shortlinks</p>
@@ -569,7 +569,7 @@ export default function AdminDashboard() {
               <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#6b7280]">
                 {selectedSlug ? `Logs (/${selectedSlug})` : 'Tracked Logs'}
               </p>
-              <p className="mt-2 text-3xl font-semibold tabular-nums tracking-[-0.025em] text-[#111111]">
+              <p className="mt-2 text-3xl font-semibold tabular-nums tracking-tight text-[#111111]">
                 {analytics?.logged_clicks ?? 0}
               </p>
               <p className="mt-1 text-xs text-[#6b7280]">With device &amp; referer source</p>
@@ -583,7 +583,7 @@ export default function AdminDashboard() {
               <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#6b7280]">
                 Inbox Messages
               </p>
-              <p className="mt-2 text-3xl font-semibold tabular-nums tracking-[-0.025em] text-[#111111]">
+              <p className="mt-2 text-3xl font-semibold tabular-nums tracking-tight text-[#111111]">
                 {messages.length}
               </p>
               <p className="mt-1 text-xs text-[#6b7280]">Click to view contact submissions</p>
@@ -615,7 +615,7 @@ export default function AdminDashboard() {
                         <button
                           type="button"
                           onClick={() => setSelectedSlug('')}
-                          className="inline-flex items-center gap-1 rounded-lg border border-[#e5e7eb] bg-surface-soft px-2.5 py-1.5 text-xs font-medium text-[#374151] hover:border-[#111111] hover:text-[#111111] cursor-pointer transition-colors"
+                          className="inline-flex items-center gap-1 rounded-lg border border-[#e5e7eb] bg-surface-soft px-2.5 py-1.5 text-xs font-medium text-body hover:border-[#111111] hover:text-[#111111] cursor-pointer transition-colors"
                         >
                           <span>/{selectedSlug}</span>
                           <X size={12} weight="bold" />
@@ -627,7 +627,7 @@ export default function AdminDashboard() {
                           setShowNewLinkForm((v) => !v);
                           setCreateLinkError('');
                         }}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-3 py-1.5 text-xs font-medium text-[#ffffff] hover:bg-[#242424] cursor-pointer transition-colors"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-[#111111] px-3 py-1.5 text-xs font-medium text-[#ffffff] hover:bg-primary-active cursor-pointer transition-colors"
                       >
                         <Plus size={13} weight="bold" />
                         <span>{showNewLinkForm ? 'Cancel' : 'New link'}</span>
@@ -644,7 +644,7 @@ export default function AdminDashboard() {
                         <div>
                           <label
                             htmlFor="new-slug"
-                            className="block text-xs font-medium text-[#374151] mb-1"
+                            className="block text-xs font-medium text-body mb-1"
                           >
                             Slug
                           </label>
@@ -661,7 +661,7 @@ export default function AdminDashboard() {
                         <div className="sm:col-span-2">
                           <label
                             htmlFor="new-target"
-                            className="block text-xs font-medium text-[#374151] mb-1"
+                            className="block text-xs font-medium text-body mb-1"
                           >
                             Target URL
                           </label>
@@ -685,7 +685,7 @@ export default function AdminDashboard() {
                         <button
                           type="submit"
                           disabled={createLinkStatus === 'submitting'}
-                          className="rounded-lg bg-[#111111] px-4 py-2 text-xs font-medium text-[#ffffff] hover:bg-[#242424] disabled:opacity-60 cursor-pointer"
+                          className="rounded-lg bg-[#111111] px-4 py-2 text-xs font-medium text-[#ffffff] hover:bg-primary-active disabled:opacity-60 cursor-pointer"
                         >
                           {createLinkStatus === 'submitting' ? 'Saving...' : 'Save link'}
                         </button>
@@ -693,7 +693,7 @@ export default function AdminDashboard() {
                     </form>
                   )}
 
-                  <ul className="mt-2 divide-y divide-[#f3f4f6]">
+                  <ul className="mt-2 divide-y divide-hairline-soft">
                     {allLinks.map((link) => {
                       const isSelected = selectedSlug === link.slug;
                       const barPercent =
@@ -762,7 +762,7 @@ export default function AdminDashboard() {
                             </div>
                           </div>
 
-                          <div className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-[#f3f4f6]">
+                          <div className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-hairline-soft">
                             <div
                               className="h-full rounded-full bg-[#111111] transition-all duration-300"
                               style={{ width: `${barPercent}%` }}
@@ -806,7 +806,7 @@ export default function AdminDashboard() {
                                   {item.clicks} ({pct}%)
                                 </span>
                               </div>
-                              <div className="h-1 w-full overflow-hidden rounded-full bg-[#f3f4f6]">
+                              <div className="h-1 w-full overflow-hidden rounded-full bg-hairline-soft">
                                 <div
                                   className="h-full rounded-full bg-[#111111]"
                                   style={{ width: `${pct}%` }}
@@ -849,7 +849,7 @@ export default function AdminDashboard() {
                                   {item.clicks} ({pct}%)
                                 </span>
                               </div>
-                              <div className="h-1 w-full overflow-hidden rounded-full bg-[#f3f4f6]">
+                              <div className="h-1 w-full overflow-hidden rounded-full bg-hairline-soft">
                                 <div
                                   className="h-full rounded-full bg-[#111111]"
                                   style={{ width: `${pct}%` }}
@@ -903,17 +903,17 @@ export default function AdminDashboard() {
                           <th className="py-3 font-medium text-right">Time</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#f3f4f6]">
+                      <tbody className="divide-y divide-hairline-soft">
                         {analytics?.recent_clicks.map((entry) => (
                           <tr key={entry.id} className="hover:bg-surface-soft/70 transition-colors">
                             <td className="py-3 pr-4 font-mono font-semibold text-[#111111] whitespace-nowrap">
                               /{entry.slug}
                             </td>
-                            <td className="py-3 pr-4 text-[#374151] whitespace-nowrap">
+                            <td className="py-3 pr-4 text-body whitespace-nowrap">
                               {entry.referer_source}
                             </td>
                             <td className="py-3 pr-4 whitespace-nowrap">
-                              <span className="inline-flex items-center gap-1.5 text-[#374151]">
+                              <span className="inline-flex items-center gap-1.5 text-body">
                                 <DeviceIcon type={entry.device_type} />
                                 {entry.device_type}
                               </span>
@@ -975,7 +975,7 @@ export default function AdminDashboard() {
                   No messages match &ldquo;{inboxQuery}&rdquo;.
                 </p>
               ) : (
-                <div className="divide-y divide-[#f3f4f6]">
+                <div className="divide-y divide-hairline-soft">
                   {filteredMessages.map((msg) => (
                     <article key={msg.id} className="py-5 first:pt-4 last:pb-1">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -990,12 +990,12 @@ export default function AdminDashboard() {
                           </a>
                         </div>
 
-                        <span className="font-mono text-[11px] tabular-nums text-[#898989]">
+                        <span className="font-mono text-[11px] tabular-nums text-muted-soft">
                           {formatTimestamp(msg.created_at)}
                         </span>
                       </div>
 
-                      <p className="mt-2.5 whitespace-pre-wrap text-sm leading-relaxed text-[#374151] max-w-3xl">
+                      <p className="mt-2.5 whitespace-pre-wrap text-sm leading-relaxed text-body max-w-3xl">
                         {msg.content}
                       </p>
                     </article>
@@ -1008,7 +1008,7 @@ export default function AdminDashboard() {
       </main>
 
       <footer className="border-t border-[#e5e7eb] bg-[#ffffff] px-4 sm:px-8 py-5">
-        <div className="mx-auto max-w-6xl flex flex-wrap items-center justify-between gap-2 text-[11px] uppercase tracking-[0.14em] text-[#898989]">
+        <div className="mx-auto max-w-6xl flex flex-wrap items-center justify-between gap-2 text-[11px] uppercase tracking-[0.14em] text-muted-soft">
           <span>Aditya Nugraha · Portfolio Admin Console</span>
           <Link to="/" className="hover:text-[#111111] transition-colors">
             View Portfolio

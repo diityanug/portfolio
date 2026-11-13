@@ -71,7 +71,7 @@ export default function Contact() {
               initial="hidden"
               whileInView="visible"
               viewport={VIEWPORT}
-              className="text-[#374151] text-base sm:text-lg leading-relaxed max-w-md"
+              className="text-body text-base sm:text-lg leading-relaxed max-w-md"
             >
               Have an open role, a freelance collaboration, or simply want to connect? Leave a message below and it will be sent directly to my inbox.
             </motion.p>
@@ -157,7 +157,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="mt-2 inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#111111] px-6 py-3.5 text-sm font-medium text-[#ffffff] transition-all duration-200 hover:bg-[#242424] active:scale-[0.99] disabled:opacity-60 cursor-pointer shadow-sm"
+                  className="mt-2 inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#111111] px-6 py-3.5 text-sm font-medium text-[#ffffff] transition-all duration-200 hover:bg-primary-active active:scale-[0.99] disabled:opacity-60 cursor-pointer shadow-sm"
                 >
                   {status === 'loading' ? (
                     <>
