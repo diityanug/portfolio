@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { ArrowUp, ArrowUpRight } from '@phosphor-icons/react';
 
 const SOCIALS = [
-  { label: 'LINKEDIN', href: 'https://linkedin.com/in/diityanug' },
-  { label: 'GITHUB', href: 'https://github.com/diityanug' },
-  { label: 'RESUME', href: 'https://drive.google.com/file/d/1ZEeBS8w4b7iTEp52l0HBhRG-ADgdc1jt/view?usp=sharing' },
+  { label: 'LINKEDIN', href: '/in' },
+  { label: 'GITHUB', href: '/gh' },
+  { label: 'WHATSAPP', href: '/wa' },
+  { label: 'RESUME', href: '/cv' },
 ] as const;
 
 const FOOTER_LINKS = [
@@ -38,7 +39,7 @@ const Footer = () => {
 
   return (
     <footer
-      id="contact"
+      id="footer"
       tabIndex={-1}
       className="bg-surface-dark text-[#ffffff] pt-12 sm:pt-16 md:pt-12 pb-6 sm:pb-8 md:pb-6 px-5 sm:px-8 md:px-12 relative z-20 w-full outline-none border-t border-white/10 overflow-hidden"
     >

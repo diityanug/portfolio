@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "dist",
+  "regions": ["sin1"],
+  "rewrites": [
+    {
+      "source": "/api/((?!index).*)",
+      "destination": "/api/index?_route=/api/$1"
+    },
+    {
+      "source": "/to/([^/]+)",
+      "destination": "/api/index?_route=/to/$1"
+    },
+    {
+      "source": "/(wa|cv|resume|in|linkedin|gh|github|game|lenvry|reka)",
+      "destination": "/api/index?_route=/$1"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
