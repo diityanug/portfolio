@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, CaretLeft, CaretRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { fadeUp } from '../../utils/animations';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ScrollFillHeading from '../ui/ScrollFillHeading';
 import BackgroundShape from '../ui/BackgroundShape';
 import { DATA } from '../../data';
@@ -81,41 +82,128 @@ const getCardCenterLeft = (container: HTMLElement, index: number): number | null
 
 const Projects = () => {
   const [activeIndex, setActiveIndex] = useState<number>(getInitialIndex);
+  const activeIndexRef = useRef<number>(activeIndex);
+  activeIndexRef.current = activeIndex;
+
   const containerRef = useRef<HTMLDivElement>(null);
+  const cardVisualRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isScrollingByCode = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const scrollRafRef = useRef<number | null>(null);
+  const touchStartScrollLeft = useRef<number>(0);
+  const lastWindowWidth = useRef<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 0,
+  );
+
   const shouldReduce = useReducedMotion();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isMobile = !isDesktop;
+
+  // Real-time 1:1 scroll interpolation for mobile cards (no 500ms CSS delay)
+  const syncMobileCardVisuals = useCallback((): number | null => {
+    const container = containerRef.current;
+    if (!container) return null;
+
+    if (!isMobile) {
+      cardVisualRefs.current.forEach((el) => {
+        if (!el) return;
+        el.style.transform = '';
+        el.style.opacity = '';
+      });
+      return null;
+    }
+
+    const containerCenter = container.scrollLeft + container.clientWidth / 2;
+    const firstChild = container.children[0] as HTMLElement | undefined;
+    const secondChild = container.children[1] as HTMLElement | undefined;
+    const stepDistance =
+      firstChild && secondChild
+        ? Math.max(1, secondChild.offsetLeft - firstChild.offsetLeft)
+        : Math.max(1, firstChild?.offsetWidth ?? container.clientWidth * 0.78);
+
+    const minScale = window.innerWidth >= 640 ? 0.86 : 0.88;
+    const minOpacity = 0.45;
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    Array.from(container.children).forEach((child, idx) => {
+      const slotEl = child as HTMLElement;
+      const visualEl = cardVisualRefs.current[idx];
+      const childCenter = slotEl.offsetLeft + slotEl.offsetWidth / 2;
+      const distance = Math.abs(containerCenter - childCenter);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = idx;
+      }
+
+      if (!visualEl) return;
+
+      if (shouldReduce) {
+        visualEl.style.transform = 'scale3d(1, 1, 1)';
+        visualEl.style.opacity = distance < stepDistance * 0.5 ? '1' : `${minOpacity}`;
+        return;
+      }
+
+      const normalized = Math.max(0, Math.min(1, 1 - distance / stepDistance));
+      const progress = 0.5 - 0.5 * Math.cos(normalized * Math.PI);
+
+      const scale = minScale + (1 - minScale) * progress;
+      const opacity = minOpacity + (1 - minOpacity) * progress;
+
+      visualEl.style.transform = `scale3d(${scale.toFixed(4)}, ${scale.toFixed(4)}, 1)`;
+      visualEl.style.opacity = opacity.toFixed(3);
+    });
+
+    return closestIndex;
+  }, [isMobile, shouldReduce]);
 
   const stopScrollAnimation = useCallback(() => {
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-    const container = containerRef.current;
-    if (container) {
-      container.style.scrollSnapType = '';
-    }
-    isScrollingByCode.current = false;
-  }, []);
-
-  useEffect(() => stopScrollAnimation, [stopScrollAnimation]);
-
-  const snapCenterImmediate = useCallback((index: number) => {
-    const container = containerRef.current;
-    if (!container) return;
-    const targetLeft = getCardCenterLeft(container, index);
-    if (targetLeft === null) return;
-
-    isScrollingByCode.current = true;
-    container.style.scrollSnapType = 'none';
-    container.scrollLeft = targetLeft;
-    requestAnimationFrame(() => {
-      if (containerRef.current && rafRef.current === null) {
-        containerRef.current.style.scrollSnapType = '';
-        isScrollingByCode.current = false;
+    if (isScrollingByCode.current) {
+      const container = containerRef.current;
+      if (container) {
+        container.style.scrollSnapType = '';
       }
-    });
+      isScrollingByCode.current = false;
+    }
   }, []);
+
+  useEffect(() => {
+    return () => {
+      stopScrollAnimation();
+      if (scrollRafRef.current !== null) {
+        cancelAnimationFrame(scrollRafRef.current);
+        scrollRafRef.current = null;
+      }
+    };
+  }, [stopScrollAnimation]);
+
+  const snapCenterImmediate = useCallback(
+    (index: number) => {
+      const container = containerRef.current;
+      if (!container) return;
+      const targetLeft = getCardCenterLeft(container, index);
+      if (targetLeft === null) return;
+
+      isScrollingByCode.current = true;
+      container.style.scrollSnapType = 'none';
+      container.scrollLeft = targetLeft;
+      syncMobileCardVisuals();
+      requestAnimationFrame(() => {
+        if (containerRef.current && rafRef.current === null) {
+          containerRef.current.style.scrollSnapType = '';
+          isScrollingByCode.current = false;
+          syncMobileCardVisuals();
+        }
+      });
+    },
+    [syncMobileCardVisuals],
+  );
 
   // Scroll target card to horizontal center with synchronized easing
   const scrollToCard = useCallback(
@@ -141,6 +229,7 @@ const Projects = () => {
       if (Math.abs(distance) < 0.5) {
         container.scrollLeft = targetLeft;
         isScrollingByCode.current = false;
+        syncMobileCardVisuals();
         return;
       }
 
@@ -157,12 +246,14 @@ const Projects = () => {
 
         if (!containerRef.current) return;
         containerRef.current.scrollLeft = startLeft + distance * eased;
+        syncMobileCardVisuals();
 
         if (progress < 1) {
           rafRef.current = requestAnimationFrame(step);
         } else {
           rafRef.current = null;
           containerRef.current.scrollLeft = targetLeft;
+          syncMobileCardVisuals();
           requestAnimationFrame(() => {
             if (containerRef.current && rafRef.current === null) {
               containerRef.current.style.scrollSnapType = '';
@@ -174,48 +265,68 @@ const Projects = () => {
 
       rafRef.current = requestAnimationFrame(step);
     },
-    [shouldReduce, snapCenterImmediate],
+    [shouldReduce, snapCenterImmediate, syncMobileCardVisuals],
   );
 
-  // Detect which card is currently centered during manual scroll
+  // Detect which card is currently centered and interpolate visuals during scroll
   const handleScroll = useCallback(() => {
-    if (isScrollingByCode.current) return;
-    const container = containerRef.current;
-    if (!container) return;
+    if (scrollRafRef.current !== null) return;
 
-    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
-    let closestIndex = 0;
-    let minDistance = Infinity;
+    scrollRafRef.current = requestAnimationFrame(() => {
+      scrollRafRef.current = null;
+      const container = containerRef.current;
+      if (!container) return;
 
-    Array.from(container.children).forEach((child, idx) => {
-      const el = child as HTMLElement;
-      const childCenter = el.offsetLeft + el.offsetWidth / 2;
-      const distance = Math.abs(containerCenter - childCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = idx;
+      const mobileClosest = syncMobileCardVisuals();
+
+      if (isScrollingByCode.current) return;
+
+      let closestIndex = mobileClosest;
+      if (closestIndex === null) {
+        const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+        let minDistance = Infinity;
+        closestIndex = 0;
+
+        Array.from(container.children).forEach((child, idx) => {
+          const el = child as HTMLElement;
+          const childCenter = el.offsetLeft + el.offsetWidth / 2;
+          const distance = Math.abs(containerCenter - childCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = idx;
+          }
+        });
+      }
+
+      if (closestIndex !== activeIndexRef.current) {
+        activeIndexRef.current = closestIndex;
+        setActiveIndex(closestIndex);
+        try {
+          sessionStorage.setItem(STORAGE_KEY, closestIndex.toString());
+        } catch {
+          // ignore
+        }
       }
     });
+  }, [syncMobileCardVisuals]);
 
-    if (closestIndex !== activeIndex) {
-      setActiveIndex(closestIndex);
-      try {
-        sessionStorage.setItem(STORAGE_KEY, closestIndex.toString());
-      } catch {
-        // ignore
-      }
-    }
-  }, [activeIndex]);
-
-  // Synchronous positioning on mount
+  // Synchronous positioning on mount & mode changes
   useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const targetLeft = getCardCenterLeft(container, getInitialIndex());
+    const targetLeft = getCardCenterLeft(container, activeIndexRef.current);
     if (targetLeft !== null) {
       container.scrollLeft = targetLeft;
     }
-  }, []);
+    syncMobileCardVisuals();
+  }, [syncMobileCardVisuals]);
+
+  // Keep mobile inline transforms synced across state re-renders without resetting scrollLeft
+  useLayoutEffect(() => {
+    if (isMobile) {
+      syncMobileCardVisuals();
+    }
+  }, [activeIndex, isMobile, syncMobileCardVisuals]);
 
   // Ensure alignment once after layout stabilizes
   useEffect(() => {
@@ -225,17 +336,21 @@ const Projects = () => {
     return () => cancelAnimationFrame(raf);
   }, [snapCenterImmediate]);
 
-  // Maintain center alignment on window resize
+  // Maintain center alignment only when horizontal viewport width actually changes
   useEffect(() => {
     const handleResize = () => {
-      scrollToCard(activeIndex, false);
+      const currentWidth = window.innerWidth;
+      if (currentWidth === lastWindowWidth.current) return;
+      lastWindowWidth.current = currentWidth;
+      scrollToCard(activeIndexRef.current, false);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [activeIndex, scrollToCard]);
+  }, [scrollToCard]);
 
   const updateActiveIndex = (newIdx: number) => {
     const clamped = Math.max(0, Math.min(PROJECTS.length - 1, newIdx));
+    activeIndexRef.current = clamped;
     setActiveIndex(clamped);
     scrollToCard(clamped, true);
     try {
@@ -281,13 +396,18 @@ const Projects = () => {
         <div
           ref={containerRef}
           onScroll={handleScroll}
-          onTouchStart={stopScrollAnimation}
+          onTouchStart={() => {
+            stopScrollAnimation();
+            if (containerRef.current) {
+              touchStartScrollLeft.current = containerRef.current.scrollLeft;
+            }
+          }}
           onWheel={(e) => {
             if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
               stopScrollAnimation();
             }
           }}
-          className="relative flex items-stretch gap-3.5 sm:gap-4 lg:gap-6 overflow-x-auto py-6 sm:py-10 px-[calc((100%-78vw)/2)] sm:px-[calc((100%-360px)/2)] lg:px-[calc((100%-420px)/2)] snap-x snap-mandatory no-scrollbar"
+          className="relative flex items-stretch gap-3.5 sm:gap-4 lg:gap-6 overflow-x-auto overscroll-x-contain py-6 sm:py-10 px-[calc((100%-78vw)/2)] sm:px-[calc((100%-360px)/2)] lg:px-[calc((100%-420px)/2)] snap-x snap-mandatory no-scrollbar"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -315,6 +435,14 @@ const Projects = () => {
                 }}
                 onClick={() => {
                   if (!isCenter) {
+                    const container = containerRef.current;
+                    if (
+                      isMobile &&
+                      container &&
+                      Math.abs(container.scrollLeft - touchStartScrollLeft.current) > 4
+                    ) {
+                      return;
+                    }
                     updateActiveIndex(idx);
                   }
                 }}
@@ -324,23 +452,33 @@ const Projects = () => {
                     updateActiveIndex(idx);
                   }
                 }}
-                className={`snap-center shrink-0 w-[78vw] sm:w-90 lg:w-105 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform select-none outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111111] rounded-3xl ${
+                className={`snap-center max-md:snap-always shrink-0 w-[78vw] sm:w-90 lg:w-105 select-none outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111111] rounded-3xl ${
                   isCenter
-                    ? 'scale-100 opacity-100 z-20 cursor-default'
-                    : 'scale-[0.88] sm:scale-[0.86] opacity-45 hover:opacity-75 z-10 cursor-pointer'
+                    ? 'z-20 cursor-default'
+                    : 'z-10 cursor-pointer'
                 }`}
-                style={{
-                  transformOrigin: 'center center',
-                }}
               >
-                {/* Portrait Card Container (Cal.com DESIGN.md surface-soft / canvas) */}
                 <div
-                  className={`group relative h-full rounded-3xl border transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden flex flex-col justify-between ${
+                  ref={(el) => {
+                    cardVisualRefs.current[idx] = el;
+                  }}
+                  className={`h-full rounded-3xl will-change-[transform,opacity] md:transition-[transform,opacity] md:duration-500 md:ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     isCenter
-                      ? 'bg-[#ffffff] border-[#d1d5db] shadow-[0_20px_50px_-20px_rgba(17,17,17,0.12)]'
-                      : 'bg-surface-soft border-[#e5e7eb]'
+                      ? 'md:scale-100 md:opacity-100'
+                      : 'md:scale-[0.86] md:opacity-45 md:hover:opacity-75'
                   }`}
+                  style={{
+                    transformOrigin: 'center center',
+                  }}
                 >
+                  {/* Portrait Card Container (Cal.com DESIGN.md surface-soft / canvas) */}
+                  <div
+                    className={`group relative h-full rounded-3xl border transition-colors duration-200 md:transition-[background-color,border-color,box-shadow] md:duration-500 md:ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden flex flex-col justify-between max-md:shadow-[0_20px_50px_-20px_rgba(17,17,17,0.12)] ${
+                      isCenter
+                        ? 'bg-[#ffffff] border-[#d1d5db] md:shadow-[0_20px_50px_-20px_rgba(17,17,17,0.12)]'
+                        : 'bg-surface-soft border-[#e5e7eb]'
+                    }`}
+                  >
                   {/* Top Visual Area */}
                   <div className="w-[calc(100%-16px)] sm:w-[calc(100%-20px)] mx-auto mt-2 sm:mt-2.5 rounded-[18px] border border-[#e5e7eb] bg-surface-card flex items-center justify-center p-3.5 sm:p-5 h-47.5 sm:h-56.25 lg:h-61.25 relative overflow-hidden shrink-0">
                     {project.type === 'web' ? (
@@ -430,6 +568,7 @@ const Projects = () => {
                         />
                       </Link>
                     </div>
+                  </div>
                   </div>
                 </div>
               </div>
