@@ -61,10 +61,24 @@ export default function Contact() {
           <div className="lg:col-span-5 flex flex-col">
             <ScrollFillHeading
               id="contact-heading"
-              line1="GET IN"
-              line2="TOUCH."
-              className="mb-8"
+              line1="Get In"
+              line2="Touch."
+              className="mb-6"
             />
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEWPORT}
+              aria-label="またね - See ya"
+              className="flex items-center gap-3.5 mb-6 select-none"
+            >
+              <span aria-hidden="true" className="h-px w-10 bg-[#111111]" />
+              <span className="font-serif font-medium text-lg sm:text-xl tracking-[0.22em] text-muted">
+                またね
+              </span>
+            </motion.div>
 
             <motion.p
               variants={fadeUp}

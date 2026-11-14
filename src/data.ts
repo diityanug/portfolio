@@ -183,7 +183,7 @@ export const DATA: Record<string, any> = {
       {
         project: "Job Portal",
         tasks: [
-          "Leading full Frontend development across core recruitment modules: Job Posting, Job Requisition, and Application Management.",
+          "Part of Frontend development across core recruitment modules: Job Posting, Job Requisition, and Application Management.",
           "Engineered new interactive features, including an Activity Log slide-over sidebar for real-time audit and tracking.",
           "Revamped and modernized workflow modals to elevate user experience, responsiveness, and interaction flow.",
           "Resolved complex bugs and edge cases to consistently improve system stability and performance.",
